@@ -30,7 +30,7 @@ class AuthManager {
     }
 
      // MARK: - 新規登録
-    func createUser(email: String, password: String, name: String, complition: @escaping (Bool, String) -> Void ) {
+    func createUser(email: String, password: String, name: String, complition: @escaping (Bool, String) -> Void ) async {
 
         let trimmingName = name.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmingName.isEmpty {
@@ -38,20 +38,16 @@ class AuthManager {
             return
         }
 
-        auth.createUser(withEmail: email, password: password) { result, error in
-            if error == nil {
-                if let uid = result?.user.uid {
-                    //let uid = result.user.uid
-                    //try await createdUserToFirestore(userName: name, email: email, uid: uid)
-                    complition(true, "アカウント登録成功")
-                } else {
-                    complition(false, "不明なエラー")
-                }
-            } else {
-                self.setErrorMessage(error)
-                complition(false, self.errMessage)
-            }
+        do {
+            let result = try await Auth.auth().createUser(withEmail: email, password: password)
+            let uid = result.user.uid
+            //try await createdUserToFirestore(userName: name, email: email, uid: uid)
+            complition(true, "アカウント登録成功")
+        } catch {
+            self.setErrorMessage(error)
+            complition(false, self.errMessage)
         }
+
     }
 
     private func setErrorMessage(_ error:Error?){

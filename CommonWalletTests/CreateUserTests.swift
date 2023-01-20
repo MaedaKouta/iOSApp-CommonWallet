@@ -24,113 +24,70 @@ final class CreateUserTests: XCTestCase {
     }
 
     // 毎回アカウント登録するわけにはいかないのでコメントアウト
-    func test_アカウント登録が成功すること() {
-        let expect = expectation(description: "test_アカウント登録が成功すること")
+    func test_アカウント登録が成功すること() async {
 
-        let mailAdress = "test@testmail.com"
+        let mailAdress = "test2@testmail.com"
         let password = "000000"
         let name = "test"
         var isSuccess = Bool()
 
-        authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
+        await authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
             isSuccess = isCreateUserSuccess
-            expect.fulfill()
         })
-
-        waitForExpectations(timeout: 10) { error in
-            if let error = error {
-                XCTFail("expectationのタイムアウトエラー : \(error)")
-            }
-        }
 
         XCTAssertEqual(isSuccess, true)
     }
 
-    func test_アカウント登録のエラーが返ってくること_既にアカウント存在() {
-        let expect = expectation(description: "test_アカウント登録のエラーが返ってくること_既にアカウント存在")
+    func test_アカウント登録のエラーが返ってくること_既にアカウント存在() async {
 
         let mailAdress = "test@testmail.com"
         let password = "000000"
         let name = "test"
         var isSuccess = Bool()
 
-        authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
+        await authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
             isSuccess = isCreateUserSuccess
-            expect.fulfill()
         })
-
-        waitForExpectations(timeout: 10) { error in
-            if let error = error {
-                XCTFail("expectationのタイムアウトエラー : \(error)")
-            }
-        }
 
         XCTAssertEqual(isSuccess, false)
     }
 
-    func test_アカウント登録のエラーが返ってくること_アドレス形式ミス() {
-
-        let expect = expectation(description: "test_ログインのエラーが返ってくること_アドレス形式ミス")
+    func test_アカウント登録のエラーが返ってくること_アドレス形式ミス() async {
         let mailAdress = "aaa"
         let password = "000000"
         let name = "test"
         var isSuccess = Bool()
 
-        authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
+        await authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
             isSuccess = isCreateUserSuccess
-            expect.fulfill()
         })
-
-        waitForExpectations(timeout: 10) { error in
-            if let error = error {
-                XCTFail("expectationのタイムアウトエラー : \(error)")
-            }
-        }
 
         XCTAssertEqual(isSuccess, false)
     }
 
-    func test_アカウント登録のエラーが返ってくること_パスワード短い() {
-
-        let expect = expectation(description: "test_アカウント登録のエラーが返ってくること_パスワード短い")
+    func test_アカウント登録のエラーが返ってくること_パスワード短い() async {
 
         let mailAdress = "test@testmail.com"
         let password = "0"
         let name = "test"
         var isSuccess = Bool()
 
-        authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
+        await authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
             isSuccess = isCreateUserSuccess
-            expect.fulfill()
         })
-
-        waitForExpectations(timeout: 10) { error in
-            if let error = error {
-                XCTFail("expectationのタイムアウトエラー : \(error)")
-            }
-        }
 
         XCTAssertEqual(isSuccess, false)
     }
 
-    func test_アカウント登録のエラーが返ってくること_名前が空() {
-
-        let expect = expectation(description: "test_アカウント登録のエラーが返ってくること_名前がnull")
+    func test_アカウント登録のエラーが返ってくること_名前が空() async {
         let mailAdress = "test@testmail.com"
         let password = "000000"
         let name = ""
         var isSuccess = Bool()
 
-        authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
+        await authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
             isSuccess = isCreateUserSuccess
-            expect.fulfill()
         })
-
-        waitForExpectations(timeout: 10) { error in
-            if let error = error {
-                XCTFail("expectationのタイムアウトエラー : \(error)")
-            }
-        }
 
         XCTAssertEqual(isSuccess, false)
     }

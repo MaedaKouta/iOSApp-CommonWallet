@@ -24,10 +24,10 @@ struct CreateUserView: View {
 
             Button(action: {
 
-                authManager.createUser(email: mailAdress, password: password, name: name, complition: { isSuccess, message in
-                    isSecondView = isSuccess
-                    print("認証状況：", isSuccess, message)
-                })
+//                authManager.createUser(email: mailAdress, password: password, name: name, complition: { isSuccess, message in
+//                    isSecondView = isSuccess
+//                    print("認証状況：", isSuccess, message)
+//                })
             }) {
                 Text("アカウント登録").fontWeight(.bold).font(.largeTitle)
             }
