@@ -19,6 +19,7 @@
 		87EE8D79297A16E4005CCB6F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 87EE8D78297A16E4005CCB6F /* FirebaseFirestore */; };
 		87EE8D7B297A176E005CCB6F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87EE8D7A297A176E005CCB6F /* GoogleService-Info.plist */; };
 		87EE8D7D297A1790005CCB6F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D7C297A1790005CCB6F /* AppDelegate.swift */; };
+		87EE8D80297A1920005CCB6F /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = 87EE8D7F297A1920005CCB6F /* ViewInspector */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -68,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87EE8D80297A1920005CCB6F /* ViewInspector in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,6 +180,9 @@
 				87EE8D58297A136A005CCB6F /* PBXTargetDependency */,
 			);
 			name = CommonWalletTests;
+			packageProductDependencies = (
+				87EE8D7F297A1920005CCB6F /* ViewInspector */,
+			);
 			productName = CommonWalletTests;
 			productReference = 87EE8D56297A136A005CCB6F /* CommonWalletTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -234,6 +239,7 @@
 			mainGroup = 87EE8D3D297A1369005CCB6F;
 			packageReferences = (
 				87EE8D73297A16E3005CCB6F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				87EE8D7E297A1920005CCB6F /* XCRemoteSwiftPackageReference "ViewInspector" */,
 			);
 			productRefGroup = 87EE8D47297A1369005CCB6F /* Products */;
 			projectDirPath = "";
@@ -615,6 +621,14 @@
 				kind = branch;
 			};
 		};
+		87EE8D7E297A1920005CCB6F /* XCRemoteSwiftPackageReference "ViewInspector" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nalexn/ViewInspector";
+			requirement = {
+				branch = 0.9.6;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -632,6 +646,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 87EE8D73297A16E3005CCB6F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseFirestore;
+		};
+		87EE8D7F297A1920005CCB6F /* ViewInspector */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87EE8D7E297A1920005CCB6F /* XCRemoteSwiftPackageReference "ViewInspector" */;
+			productName = ViewInspector;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
