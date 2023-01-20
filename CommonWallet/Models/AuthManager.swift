@@ -13,14 +13,12 @@ import FirebaseFirestore
 class AuthManager {
 
     private static let shared = AuthManager()
-    private let auth = Auth.auth()
-    private let db = Firestore.firestore()
     private var errMessage: String = ""
 
-    // MARK: - ログイン with email/password
+    // MARK: - ログイン処理 with email/password
     func login(email:String, password:String, complition: @escaping (Bool, String) -> Void ) async {
         do {
-            let result = try await Auth.auth().signIn(withEmail: email, password: password)
+            try await Auth.auth().signIn(withEmail: email, password: password)
             complition(true, "ログイン成功")
         } catch {
             self.setErrorMessage(error)
@@ -29,9 +27,10 @@ class AuthManager {
         }
     }
 
-     // MARK: - 新規登録
+     // MARK: - アカウント登録
     func createUser(email: String, password: String, name: String, complition: @escaping (Bool, String) -> Void ) async {
 
+        let fireStoreUserManager = FireStoreUserManager()
         let trimmingName = name.trimmingCharacters(in: .whitespacesAndNewlines)
         if trimmingName.isEmpty {
             complition(false, "名前が空白です")
@@ -41,9 +40,10 @@ class AuthManager {
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             let uid = result.user.uid
-            //try await createdUserToFirestore(userName: name, email: email, uid: uid)
+            try await fireStoreUserManager.createUser(userName: name, email: email, uid: uid)
             complition(true, "アカウント登録成功")
         } catch {
+            print(error)
             self.setErrorMessage(error)
             complition(false, self.errMessage)
         }
@@ -72,20 +72,5 @@ class AuthManager {
             }
         }
     }
-
-//    private func createdUserToFirestore(userName: String, email: String, uid: String) async throws {
-//        guard let token = UserDefaults.standard.string(forKey: "token") else { return }
-//        let user: Dictionary<String, Any> = ["userName": userName,
-//                                             "uid": uid,
-//                                             "createdAt": Timestamp(),
-//                                             "email": email,
-//                                             "token": token]
-//        do{
-//            try await db.collection("Users").document(uid).setData(user)
-//            print("Userデータの送信に成功しました")
-//        }catch{
-//            print("Userデータの送信に失敗しました")
-//        }
-//    }
 
 }

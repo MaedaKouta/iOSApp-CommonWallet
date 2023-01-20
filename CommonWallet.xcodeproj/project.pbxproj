@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8732B457297A4DCF0011313D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8732B456297A4DCF0011313D /* FirebaseAnalytics */; };
 		87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6B297A1A8300184A7C /* AuthManager.swift */; };
 		87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6B297A1A8300184A7C /* AuthManager.swift */; };
 		87830E70297A1AB900184A7C /* LoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6E297A1AB900184A7C /* LoginTests.swift */; };
@@ -20,8 +21,8 @@
 		87830E7E297A201F00184A7C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7C297A201F00184A7C /* LoginView.swift */; };
 		87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7F297A20DB00184A7C /* CreateUserView.swift */; };
 		87830E81297A20DB00184A7C /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7F297A20DB00184A7C /* CreateUserView.swift */; };
-		87830E83297A234F00184A7C /* CreateUserToFireStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E82297A234F00184A7C /* CreateUserToFireStore.swift */; };
-		87830E84297A234F00184A7C /* CreateUserToFireStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E82297A234F00184A7C /* CreateUserToFireStore.swift */; };
+		87830E83297A234F00184A7C /* FireStoreUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E82297A234F00184A7C /* FireStoreUserManager.swift */; };
+		87830E84297A234F00184A7C /* FireStoreUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E82297A234F00184A7C /* FireStoreUserManager.swift */; };
 		87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */; };
 		87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D4B297A1369005CCB6F /* ContentView.swift */; };
 		87EE8D4E297A136A005CCB6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87EE8D4D297A136A005CCB6F /* Assets.xcassets */; };
@@ -60,7 +61,7 @@
 		87830E71297A1ACB00184A7C /* CreateUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTests.swift; sourceTree = "<group>"; };
 		87830E7C297A201F00184A7C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		87830E7F297A20DB00184A7C /* CreateUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserView.swift; sourceTree = "<group>"; };
-		87830E82297A234F00184A7C /* CreateUserToFireStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserToFireStore.swift; sourceTree = "<group>"; };
+		87830E82297A234F00184A7C /* FireStoreUserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreUserManager.swift; sourceTree = "<group>"; };
 		87EE8D46297A1369005CCB6F /* CommonWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CommonWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletApp.swift; sourceTree = "<group>"; };
 		87EE8D4B297A1369005CCB6F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -92,6 +93,7 @@
 			files = (
 				87EE8D80297A1920005CCB6F /* ViewInspector in Frameworks */,
 				87830E78297A1C1900184A7C /* FirebaseAuth in Frameworks */,
+				8732B457297A4DCF0011313D /* FirebaseAnalytics in Frameworks */,
 				87830E7A297A1C2600184A7C /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -110,7 +112,7 @@
 			isa = PBXGroup;
 			children = (
 				87830E6B297A1A8300184A7C /* AuthManager.swift */,
-				87830E82297A234F00184A7C /* CreateUserToFireStore.swift */,
+				87830E82297A234F00184A7C /* FireStoreUserManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -237,6 +239,7 @@
 				87EE8D7F297A1920005CCB6F /* ViewInspector */,
 				87830E77297A1C1900184A7C /* FirebaseAuth */,
 				87830E79297A1C2600184A7C /* FirebaseFirestore */,
+				8732B456297A4DCF0011313D /* FirebaseAnalytics */,
 			);
 			productName = CommonWalletTests;
 			productReference = 87EE8D56297A136A005CCB6F /* CommonWalletTests.xctest */;
@@ -344,7 +347,7 @@
 				87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */,
 				87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */,
 				87830E7D297A201F00184A7C /* LoginView.swift in Sources */,
-				87830E83297A234F00184A7C /* CreateUserToFireStore.swift in Sources */,
+				87830E83297A234F00184A7C /* FireStoreUserManager.swift in Sources */,
 				87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,7 +363,7 @@
 				87830E75297A1BA100184A7C /* CommonWalletApp.swift in Sources */,
 				87830E74297A1B9E00184A7C /* AppDelegate.swift in Sources */,
 				87830E7E297A201F00184A7C /* LoginView.swift in Sources */,
-				87830E84297A234F00184A7C /* CreateUserToFireStore.swift in Sources */,
+				87830E84297A234F00184A7C /* FireStoreUserManager.swift in Sources */,
 				87830E81297A20DB00184A7C /* CreateUserView.swift in Sources */,
 				87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */,
 			);
@@ -700,6 +703,11 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		8732B456297A4DCF0011313D /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87EE8D73297A16E3005CCB6F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
 		87830E77297A1C1900184A7C /* FirebaseAuth */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 87EE8D73297A16E3005CCB6F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;

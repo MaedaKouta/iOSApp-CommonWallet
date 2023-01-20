@@ -5,6 +5,11 @@
 //  Created by 前田航汰 on 2023/01/20.
 //
 
+/*
+ 　端末の情報も必要なので、実際のアカウント登録のテストは出来ない？
+ */
+
+
 import XCTest
 import FirebaseCore
 @testable import CommonWallet
@@ -21,21 +26,6 @@ final class CreateUserTests: XCTestCase {
     override func setUp() {
         super.setUp()
         authManager = AuthManager()
-    }
-
-    // 毎回アカウント登録するわけにはいかないのでコメントアウト
-    func test_アカウント登録が成功すること() async {
-
-        let mailAdress = "test2@testmail.com"
-        let password = "000000"
-        let name = "test"
-        var isSuccess = Bool()
-
-        await authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
-            isSuccess = isCreateUserSuccess
-        })
-
-        XCTAssertEqual(isSuccess, true)
     }
 
     func test_アカウント登録のエラーが返ってくること_既にアカウント存在() async {
