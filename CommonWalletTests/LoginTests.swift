@@ -23,86 +23,54 @@ final class LoginTests: XCTestCase {
         authManager = AuthManager()
     }
 
-    func test_ログインが成功すること() {
-        let expect = expectation(description: "test_ログインが成功すること")
+    func test_ログインが成功すること() async {
 
         let mailAdress = "test@testmail.com"
         let password = "000000"
         var isSuccess = Bool()
 
-        authManager.login(email: mailAdress, password: password, complition: { isLoginSuccess, message in
+        await authManager.login(email: mailAdress, password: password, complition: { isLoginSuccess, message in
             isSuccess = isLoginSuccess
-            expect.fulfill()
         })
-
-        waitForExpectations(timeout: 10) { error in
-            if let error = error {
-                XCTFail("expectationのタイムアウトエラー : \(error)")
-            }
-        }
 
         XCTAssertEqual(isSuccess, true)
     }
 
-    func test_ログインのエラーが返ってくること_パスワードミス() {
-
-        let expect = expectation(description: "test_ログインのエラーが返ってくること_パスワードミス")
+    func test_ログインのエラーが返ってくること_パスワードミス() async {
         let mailAdress = "test@testmail.com"
         let password = "111111"
         var isSuccess = Bool()
 
-        authManager.login(email: mailAdress, password: password, complition: { isLoginSuccess, message in
+        await authManager.login(email: mailAdress, password: password, complition: { isLoginSuccess, message in
             isSuccess = isLoginSuccess
-            expect.fulfill()
         })
-
-        waitForExpectations(timeout: 10) { error in
-            if let error = error {
-                XCTFail("expectationのタイムアウトエラー : \(error)")
-            }
-        }
 
         XCTAssertEqual(isSuccess, false)
     }
 
-    func test_ログインのエラーが返ってくること_メールアドレスミス() {
+    func test_ログインのエラーが返ってくること_メールアドレスミス() async {
 
-        let expect = expectation(description: "test_ログインのエラーが返ってくること_メールアドレスミス")
         let mailAdress = "test.miss@testmail.com"
         let password = "000000"
         var isSuccess = Bool()
 
-        authManager.login(email: mailAdress, password: password, complition: { isLoginSuccess, message in
+        await authManager.login(email: mailAdress, password: password, complition: { isLoginSuccess, message in
             isSuccess = isLoginSuccess
-            expect.fulfill()
         })
 
-        waitForExpectations(timeout: 10) { error in
-            if let error = error {
-                XCTFail("expectationのタイムアウトエラー : \(error)")
-            }
-        }
 
         XCTAssertEqual(isSuccess, false)
     }
 
-    func test_ログインのエラーが返ってくること_パスワード＆メールアドレスミス() {
+    func test_ログインのエラーが返ってくること_パスワード＆メールアドレスミス() async {
 
-        let expect = expectation(description: "test_ログインのエラーが返ってくること_パスワード＆メールアドレスミス")
         let mailAdress = "test.miss@testmail.com"
         let password = "111111"
         var isSuccess = Bool()
 
-        authManager.login(email: mailAdress, password: password, complition: { isLoginSuccess, message in
+        await authManager.login(email: mailAdress, password: password, complition: { isLoginSuccess, message in
             isSuccess = isLoginSuccess
-            expect.fulfill()
         })
-
-        waitForExpectations(timeout: 10) { error in
-            if let error = error {
-                XCTFail("expectationのタイムアウトエラー : \(error)")
-            }
-        }
 
         XCTAssertEqual(isSuccess, false)
     }

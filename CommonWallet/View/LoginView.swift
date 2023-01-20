@@ -22,11 +22,10 @@ struct LoginView: View {
             TextField("パスワード", text: $password)
 
             Button(action: {
-
-                authManager.login(email: mailAdress, password: password, complition: { isSuccess, message in
-                    isSecondView = isSuccess
-                    print("認証状況：", isSuccess, message)
-                })
+//                authManager.login(email: mailAdress, password: password, complition: { isSuccess, message in
+//                    isSecondView = isSuccess
+//                    print("認証状況：", isSuccess, message)
+//                })
             }) {
                 Text("ログイン").fontWeight(.bold).font(.largeTitle)
             }

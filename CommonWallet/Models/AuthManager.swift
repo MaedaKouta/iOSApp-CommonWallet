@@ -14,22 +14,18 @@ class AuthManager {
 
     private static let shared = AuthManager()
     private let auth = Auth.auth()
+    private let db = Firestore.firestore()
     private var errMessage: String = ""
 
     // MARK: - ログイン with email/password
-    func login(email:String, password:String, complition: @escaping (Bool, String) -> Void ) {
-        auth.signIn(withEmail: email, password: password) { result, error in
-            if error == nil {
-                if result?.user != nil {
-                    complition(true, "ログイン成功")
-                } else {
-                    complition(false, "不明なエラー")
-                }
-            } else {
-                self.setErrorMessage(error)
-                print(self.errMessage)
-                complition(false, self.errMessage)
-            }
+    func login(email:String, password:String, complition: @escaping (Bool, String) -> Void ) async {
+        do {
+            let result = try await Auth.auth().signIn(withEmail: email, password: password)
+            complition(true, "ログイン成功")
+        } catch {
+            self.setErrorMessage(error)
+            print(self.errMessage)
+            complition(false, self.errMessage)
         }
     }
 
@@ -44,7 +40,9 @@ class AuthManager {
 
         auth.createUser(withEmail: email, password: password) { result, error in
             if error == nil {
-                if result?.user != nil {
+                if let uid = result?.user.uid {
+                    //let uid = result.user.uid
+                    //try await createdUserToFirestore(userName: name, email: email, uid: uid)
                     complition(true, "アカウント登録成功")
                 } else {
                     complition(false, "不明なエラー")
@@ -70,10 +68,28 @@ class AuthManager {
                     self.errMessage = "メールアドレス、またはパスワードが間違っています"
                 case .userDisabled:
                     self.errMessage = "このユーザーアカウントは無効化されています"
+                case .networkError:
+                    self.errMessage = "ネットワークエラーが発生しました。"
                 default:
                     self.errMessage = "予期せぬエラーが発生しました。\nしばらく時間を置いてから再度お試しください。"
                 }
             }
         }
     }
+
+//    private func createdUserToFirestore(userName: String, email: String, uid: String) async throws {
+//        guard let token = UserDefaults.standard.string(forKey: "token") else { return }
+//        let user: Dictionary<String, Any> = ["userName": userName,
+//                                             "uid": uid,
+//                                             "createdAt": Timestamp(),
+//                                             "email": email,
+//                                             "token": token]
+//        do{
+//            try await db.collection("Users").document(uid).setData(user)
+//            print("Userデータの送信に成功しました")
+//        }catch{
+//            print("Userデータの送信に失敗しました")
+//        }
+//    }
+
 }
