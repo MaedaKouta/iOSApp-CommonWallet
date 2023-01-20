@@ -14,6 +14,12 @@
 		87EE8D5B297A136A005CCB6F /* CommonWalletTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D5A297A136A005CCB6F /* CommonWalletTests.swift */; };
 		87EE8D65297A136A005CCB6F /* CommonWalletUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D64297A136A005CCB6F /* CommonWalletUITests.swift */; };
 		87EE8D67297A136A005CCB6F /* CommonWalletUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D66297A136A005CCB6F /* CommonWalletUITestsLaunchTests.swift */; };
+		87EE8D75297A16E4005CCB6F /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 87EE8D74297A16E4005CCB6F /* FirebaseAnalytics */; };
+		87EE8D77297A16E4005CCB6F /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 87EE8D76297A16E4005CCB6F /* FirebaseAuth */; };
+		87EE8D79297A16E4005CCB6F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 87EE8D78297A16E4005CCB6F /* FirebaseFirestore */; };
+		87EE8D7B297A176E005CCB6F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 87EE8D7A297A176E005CCB6F /* GoogleService-Info.plist */; };
+		87EE8D7D297A1790005CCB6F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D7C297A1790005CCB6F /* AppDelegate.swift */; };
+		87EE8D80297A1920005CCB6F /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = 87EE8D7F297A1920005CCB6F /* ViewInspector */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -44,6 +50,8 @@
 		87EE8D60297A136A005CCB6F /* CommonWalletUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CommonWalletUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		87EE8D64297A136A005CCB6F /* CommonWalletUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletUITests.swift; sourceTree = "<group>"; };
 		87EE8D66297A136A005CCB6F /* CommonWalletUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		87EE8D7A297A176E005CCB6F /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../../../../../Desktop/GoogleService-Info.plist"; sourceTree = "<group>"; };
+		87EE8D7C297A1790005CCB6F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,6 +59,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87EE8D75297A16E4005CCB6F /* FirebaseAnalytics in Frameworks */,
+				87EE8D77297A16E4005CCB6F /* FirebaseAuth in Frameworks */,
+				87EE8D79297A16E4005CCB6F /* FirebaseFirestore in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -58,6 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87EE8D80297A1920005CCB6F /* ViewInspector in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -95,7 +107,9 @@
 			isa = PBXGroup;
 			children = (
 				87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */,
-				87EE8D4B297A1369005CCB6F /* ContentView.swift */,
+				87EE8D7C297A1790005CCB6F /* AppDelegate.swift */,
+				87EE8D7A297A176E005CCB6F /* GoogleService-Info.plist */,
+				87EE8D81297A1947005CCB6F /* View */,
 				87EE8D4D297A136A005CCB6F /* Assets.xcassets */,
 				87EE8D4F297A136A005CCB6F /* Preview Content */,
 			);
@@ -127,6 +141,14 @@
 			path = CommonWalletUITests;
 			sourceTree = "<group>";
 		};
+		87EE8D81297A1947005CCB6F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				87EE8D4B297A1369005CCB6F /* ContentView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -143,6 +165,11 @@
 			dependencies = (
 			);
 			name = CommonWallet;
+			packageProductDependencies = (
+				87EE8D74297A16E4005CCB6F /* FirebaseAnalytics */,
+				87EE8D76297A16E4005CCB6F /* FirebaseAuth */,
+				87EE8D78297A16E4005CCB6F /* FirebaseFirestore */,
+			);
 			productName = CommonWallet;
 			productReference = 87EE8D46297A1369005CCB6F /* CommonWallet.app */;
 			productType = "com.apple.product-type.application";
@@ -161,6 +188,9 @@
 				87EE8D58297A136A005CCB6F /* PBXTargetDependency */,
 			);
 			name = CommonWalletTests;
+			packageProductDependencies = (
+				87EE8D7F297A1920005CCB6F /* ViewInspector */,
+			);
 			productName = CommonWalletTests;
 			productReference = 87EE8D56297A136A005CCB6F /* CommonWalletTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -215,6 +245,10 @@
 				Base,
 			);
 			mainGroup = 87EE8D3D297A1369005CCB6F;
+			packageReferences = (
+				87EE8D73297A16E3005CCB6F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				87EE8D7E297A1920005CCB6F /* XCRemoteSwiftPackageReference "ViewInspector" */,
+			);
 			productRefGroup = 87EE8D47297A1369005CCB6F /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -233,6 +267,7 @@
 			files = (
 				87EE8D51297A136A005CCB6F /* Preview Assets.xcassets in Resources */,
 				87EE8D4E297A136A005CCB6F /* Assets.xcassets in Resources */,
+				87EE8D7B297A176E005CCB6F /* GoogleService-Info.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,6 +292,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				87EE8D7D297A1790005CCB6F /* AppDelegate.swift in Sources */,
 				87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */,
 				87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */,
 			);
@@ -583,6 +619,48 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		87EE8D73297A16E3005CCB6F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+		87EE8D7E297A1920005CCB6F /* XCRemoteSwiftPackageReference "ViewInspector" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/nalexn/ViewInspector";
+			requirement = {
+				branch = 0.9.6;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		87EE8D74297A16E4005CCB6F /* FirebaseAnalytics */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87EE8D73297A16E3005CCB6F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAnalytics;
+		};
+		87EE8D76297A16E4005CCB6F /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87EE8D73297A16E3005CCB6F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		87EE8D78297A16E4005CCB6F /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87EE8D73297A16E3005CCB6F /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		87EE8D7F297A1920005CCB6F /* ViewInspector */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 87EE8D7E297A1920005CCB6F /* XCRemoteSwiftPackageReference "ViewInspector" */;
+			productName = ViewInspector;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 87EE8D3E297A1369005CCB6F /* Project object */;
 }
