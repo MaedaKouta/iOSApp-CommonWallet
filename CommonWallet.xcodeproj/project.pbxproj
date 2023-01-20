@@ -16,6 +16,10 @@
 		87830E78297A1C1900184A7C /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 87830E77297A1C1900184A7C /* FirebaseAuth */; };
 		87830E7A297A1C2600184A7C /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 87830E79297A1C2600184A7C /* FirebaseFirestore */; };
 		87830E7B297A1C6A00184A7C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D4B297A1369005CCB6F /* ContentView.swift */; };
+		87830E7D297A201F00184A7C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7C297A201F00184A7C /* LoginView.swift */; };
+		87830E7E297A201F00184A7C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7C297A201F00184A7C /* LoginView.swift */; };
+		87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7F297A20DB00184A7C /* CreateUserView.swift */; };
+		87830E81297A20DB00184A7C /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7F297A20DB00184A7C /* CreateUserView.swift */; };
 		87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */; };
 		87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D4B297A1369005CCB6F /* ContentView.swift */; };
 		87EE8D4E297A136A005CCB6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87EE8D4D297A136A005CCB6F /* Assets.xcassets */; };
@@ -52,6 +56,8 @@
 		87830E6B297A1A8300184A7C /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		87830E6E297A1AB900184A7C /* LoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTests.swift; sourceTree = "<group>"; };
 		87830E71297A1ACB00184A7C /* CreateUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTests.swift; sourceTree = "<group>"; };
+		87830E7C297A201F00184A7C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
+		87830E7F297A20DB00184A7C /* CreateUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserView.swift; sourceTree = "<group>"; };
 		87EE8D46297A1369005CCB6F /* CommonWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CommonWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletApp.swift; sourceTree = "<group>"; };
 		87EE8D4B297A1369005CCB6F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -178,6 +184,8 @@
 			isa = PBXGroup;
 			children = (
 				87EE8D4B297A1369005CCB6F /* ContentView.swift */,
+				87830E7F297A20DB00184A7C /* CreateUserView.swift */,
+				87830E7C297A201F00184A7C /* LoginView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -328,8 +336,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				87EE8D7D297A1790005CCB6F /* AppDelegate.swift in Sources */,
+				87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */,
 				87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */,
 				87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */,
+				87830E7D297A201F00184A7C /* LoginView.swift in Sources */,
 				87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -344,6 +354,8 @@
 				87830E73297A1ACB00184A7C /* CreateUserTests.swift in Sources */,
 				87830E75297A1BA100184A7C /* CommonWalletApp.swift in Sources */,
 				87830E74297A1B9E00184A7C /* AppDelegate.swift in Sources */,
+				87830E7E297A201F00184A7C /* LoginView.swift in Sources */,
+				87830E81297A20DB00184A7C /* CreateUserView.swift in Sources */,
 				87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
