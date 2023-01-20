@@ -109,7 +109,7 @@
 				87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */,
 				87EE8D7C297A1790005CCB6F /* AppDelegate.swift */,
 				87EE8D7A297A176E005CCB6F /* GoogleService-Info.plist */,
-				87EE8D4B297A1369005CCB6F /* ContentView.swift */,
+				87EE8D81297A1947005CCB6F /* View */,
 				87EE8D4D297A136A005CCB6F /* Assets.xcassets */,
 				87EE8D4F297A136A005CCB6F /* Preview Content */,
 			);
@@ -139,6 +139,14 @@
 				87EE8D66297A136A005CCB6F /* CommonWalletUITestsLaunchTests.swift */,
 			);
 			path = CommonWalletUITests;
+			sourceTree = "<group>";
+		};
+		87EE8D81297A1947005CCB6F /* View */ = {
+			isa = PBXGroup;
+			children = (
+				87EE8D4B297A1369005CCB6F /* ContentView.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
