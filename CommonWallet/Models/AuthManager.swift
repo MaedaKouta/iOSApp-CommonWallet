@@ -14,31 +14,27 @@ class AuthManager {
 
     private static let shared = AuthManager()
     private let db = Firestore.firestore()
-    private let errorMessageManager = ErrorMessageManager()
 
     // MARK: - サインイン処理
-    func signIn(email:String, password:String, complition: @escaping (Bool, String) -> Void ) async {
+    func signIn(email:String, password:String) async throws {
         do {
             try await Auth.auth().signIn(withEmail: email, password: password)
-            complition(true, "ログイン成功")
         } catch {
-            let errorMessage = errorMessageManager.getAuthErrorMessage(error)
-            complition(false, errorMessage)
+            throw FirebaseErrorType.Auth(error as NSError)
         }
     }
 
     // MARK: - サインアウト処理
-    func signOut(complition: @escaping (Bool, String) -> Void ) async {
+    func signOut() async throws {
         do {
             try Auth.auth().signOut()
-            complition(true, "サインアウト成功")
         } catch {
-            complition(false, "サインアウトで不明なエラー")
+            throw FirebaseErrorType.Auth(error as NSError)
         }
     }
 
      // MARK: - アカウント登録処理
-    func createUser(email: String, password: String, name: String, complition: @escaping (Bool, String) -> Void ) async {
+    func createUser(email: String, password: String, name: String) async throws {
 
         var uid = String()
 
@@ -47,17 +43,14 @@ class AuthManager {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             uid = result.user.uid
         } catch {
-            let errorMessage = errorMessageManager.getAuthErrorMessage(error)
-            complition(false, errorMessage)
+            throw FirebaseErrorType.Auth(error as NSError)
         }
 
         // FireStoreへのアカウント情報追加
         do {
             try await createUserToFireStore(userName: name, email: email, uid: uid)
-            complition(true, "アカウント登録成功")
         } catch {
-            let errorMessage = errorMessageManager.getFirestoreErrorMessage(error)
-            complition(false, errorMessage)
+            throw FirebaseErrorType.FireStore(error as NSError)
         }
     }
 
@@ -75,27 +68,24 @@ class AuthManager {
     }
 
     // MARK: - アカウント削除処理
-    func deleteUser(complition: @escaping (Bool, String) -> Void ) async {
+    func deleteUser() async throws {
 
         guard let uid = Auth.auth().currentUser?.uid else {
-            complition(false, "uidが見つからないため、アカウント削除失敗")
-            return
+            throw FirebaseErrorType.other("uidが見つからない")
         }
 
         // ①FireStoreのユーザデータ削除。この順番でないとFireStoreのユーザデータが削除できない
         do {
             try await deleteUserFromFireStore(uid: uid)
         } catch {
-            let errorMessage = errorMessageManager.getFirestoreErrorMessage(error)
-            complition(false, errorMessage)
+            throw FirebaseErrorType.FireStore(error as NSError)
         }
 
         // ②FirebaseAuthのユーザデータ削除。この順番でないとFireStoreのユーザデータが削除できない
         do {
             try await Auth.auth().currentUser?.delete()
         } catch {
-            let errorMessage = errorMessageManager.getFirestoreErrorMessage(error)
-            complition(false, errorMessage)
+            throw FirebaseErrorType.Auth(error as NSError)
         }
     }
 
@@ -103,7 +93,6 @@ class AuthManager {
     private func deleteUserFromFireStore(uid: String) async throws {
         do {
             try await db.collection("Users").document(uid).delete()
-            print("FireStoreへのUserデータ削除に成功")
         } catch {
             throw error
         }

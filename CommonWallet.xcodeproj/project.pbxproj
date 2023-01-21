@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		872652F3297B92A8002C76D6 /* ErrorMessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F2297B92A8002C76D6 /* ErrorMessageManager.swift */; };
 		872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F5297BB8AB002C76D6 /* SignInViewModel.swift */; };
+		872652F8297BBDAB002C76D6 /* FirebaseErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F7297BBDAB002C76D6 /* FirebaseErrorType.swift */; };
+		872652F9297BBEB4002C76D6 /* FirebaseErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F7297BBDAB002C76D6 /* FirebaseErrorType.swift */; };
 		8732B457297A4DCF0011313D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8732B456297A4DCF0011313D /* FirebaseAnalytics */; };
 		87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6B297A1A8300184A7C /* AuthManager.swift */; };
 		87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6B297A1A8300184A7C /* AuthManager.swift */; };
@@ -58,6 +60,7 @@
 /* Begin PBXFileReference section */
 		872652F2297B92A8002C76D6 /* ErrorMessageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessageManager.swift; sourceTree = "<group>"; };
 		872652F5297BB8AB002C76D6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		872652F7297BBDAB002C76D6 /* FirebaseErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseErrorType.swift; sourceTree = "<group>"; };
 		87830E6B297A1A8300184A7C /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		87830E6E297A1AB900184A7C /* LoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTests.swift; sourceTree = "<group>"; };
 		87830E71297A1ACB00184A7C /* CreateUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTests.swift; sourceTree = "<group>"; };
@@ -120,6 +123,7 @@
 		87830E6A297A1A6000184A7C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				872652F7297BBDAB002C76D6 /* FirebaseErrorType.swift */,
 				87830E6B297A1A8300184A7C /* AuthManager.swift */,
 				872652F2297B92A8002C76D6 /* ErrorMessageManager.swift */,
 			);
@@ -356,6 +360,7 @@
 				87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */,
 				87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */,
 				872652F3297B92A8002C76D6 /* ErrorMessageManager.swift in Sources */,
+				872652F8297BBDAB002C76D6 /* FirebaseErrorType.swift in Sources */,
 				872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */,
 				87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */,
 				87830E7D297A201F00184A7C /* SignInView.swift in Sources */,
@@ -376,6 +381,7 @@
 				87830E7E297A201F00184A7C /* SignInView.swift in Sources */,
 				87830E81297A20DB00184A7C /* CreateUserView.swift in Sources */,
 				87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */,
+				872652F9297BBEB4002C76D6 /* FirebaseErrorType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
