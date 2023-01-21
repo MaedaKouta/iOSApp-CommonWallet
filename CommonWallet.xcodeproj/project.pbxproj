@@ -28,6 +28,8 @@
 		87830E7E297A201F00184A7C /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7C297A201F00184A7C /* SignInView.swift */; };
 		87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7F297A20DB00184A7C /* CreateUserView.swift */; };
 		87830E81297A20DB00184A7C /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7F297A20DB00184A7C /* CreateUserView.swift */; };
+		87CA8FB7297BF73800248187 /* CreateUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */; };
+		87CA8FB9297BF76A00248187 /* CreateUserViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CA8FB8297BF76A00248187 /* CreateUserViewModelTests.swift */; };
 		87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */; };
 		87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D4B297A1369005CCB6F /* ContentView.swift */; };
 		87EE8D4E297A136A005CCB6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87EE8D4D297A136A005CCB6F /* Assets.xcassets */; };
@@ -69,6 +71,8 @@
 		87830E71297A1ACB00184A7C /* CreateUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTests.swift; sourceTree = "<group>"; };
 		87830E7C297A201F00184A7C /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		87830E7F297A20DB00184A7C /* CreateUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserView.swift; sourceTree = "<group>"; };
+		87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewModel.swift; sourceTree = "<group>"; };
+		87CA8FB8297BF76A00248187 /* CreateUserViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewModelTests.swift; sourceTree = "<group>"; };
 		87EE8D46297A1369005CCB6F /* CommonWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CommonWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletApp.swift; sourceTree = "<group>"; };
 		87EE8D4B297A1369005CCB6F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -118,6 +122,7 @@
 			isa = PBXGroup;
 			children = (
 				872652F5297BB8AB002C76D6 /* SignInViewModel.swift */,
+				87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -125,8 +130,8 @@
 		877CB907297BEB360005CBD1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				87830E71297A1ACB00184A7C /* CreateUserTests.swift */,
 				87830E6E297A1AB900184A7C /* SignInTests.swift */,
+				87830E71297A1ACB00184A7C /* CreateUserTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -135,6 +140,7 @@
 			isa = PBXGroup;
 			children = (
 				877CB905297BEB2F0005CBD1 /* SignInViewModelTests.swift */,
+				87CA8FB8297BF76A00248187 /* CreateUserViewModelTests.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -381,6 +387,7 @@
 				872652F8297BBDAB002C76D6 /* FirebaseErrorType.swift in Sources */,
 				872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */,
 				87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */,
+				87CA8FB7297BF73800248187 /* CreateUserViewModel.swift in Sources */,
 				87830E7D297A201F00184A7C /* SignInView.swift in Sources */,
 				87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */,
 			);
@@ -399,6 +406,7 @@
 				87830E81297A20DB00184A7C /* CreateUserView.swift in Sources */,
 				877CB904297BE9C90005CBD1 /* SignInViewModel.swift in Sources */,
 				87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */,
+				87CA8FB9297BF76A00248187 /* CreateUserViewModelTests.swift in Sources */,
 				877CB903297BE9C60005CBD1 /* ErrorMessageManager.swift in Sources */,
 				877CB906297BEB2F0005CBD1 /* SignInViewModelTests.swift in Sources */,
 				872652F9297BBEB4002C76D6 /* FirebaseErrorType.swift in Sources */,

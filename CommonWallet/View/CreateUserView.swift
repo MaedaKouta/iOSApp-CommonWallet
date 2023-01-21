@@ -8,12 +8,14 @@
 import SwiftUI
 
 struct CreateUserView: View {
+
+    @ObservedObject var createUserViewModel = CreateUserViewModel()
+
     @State var name = ""
     @State var mailAdress = ""
     @State var password = ""
     @State private var isSecondView: Bool = false
     @Binding var isShow: Bool
-    let authManager = AuthManager()
 
     var body: some View {
         VStack {
@@ -25,10 +27,10 @@ struct CreateUserView: View {
             Button(action: {
 
                 Task {
-//                    await authManager.createUser(email: mailAdress, password: password, name: name, complition: { isSuccess, message in
-//                        isSecondView = isSuccess
-//                        print("認証状況：", isSuccess, message)
-//                    })
+                    await createUserViewModel.createUser(email: mailAdress, password: password, name: name, complition: { isSuccess, message in
+                        isSecondView = isSuccess
+                        print(isSuccess, message)
+                    })
                 }
                 
             }) {

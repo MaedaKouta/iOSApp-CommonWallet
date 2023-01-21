@@ -11,6 +11,7 @@ import FirebaseAuth
 @testable import CommonWallet
 
 final class SignInViewModelTests: XCTestCase {
+
     private var signInViewModel: SignInViewModel!
 
     class override func setUp() {
