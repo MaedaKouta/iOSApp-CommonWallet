@@ -8,7 +8,10 @@
 import SwiftUI
 import FirebaseAuth
 
-struct LoginView: View {
+struct SignInView: View {
+
+    @ObservedObject var signInViewModel = SignInViewModel()
+
     @State var mailAdress = ""
     @State var password = ""
     @State private var isSecondView: Bool = false
@@ -23,9 +26,8 @@ struct LoginView: View {
 
             Button(action: {
                 Task {
-                    await authManager.signIn(email: mailAdress, password: password, complition: { isSuccess, message in
-                        isSecondView = isSuccess
-                        print("認証状況：", isSuccess, message)
+                    await signInViewModel.signIn(email: mailAdress, password: password, complition:{ isSuccess, message in
+                        print(isSuccess, message)
                     })
                 }
             }) {
@@ -59,8 +61,8 @@ struct LoginView: View {
 
 }
 
-struct LoginView_Previews: PreviewProvider {
+struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        SignInView()
     }
 }

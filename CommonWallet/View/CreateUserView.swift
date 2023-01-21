@@ -25,10 +25,10 @@ struct CreateUserView: View {
             Button(action: {
 
                 Task {
-                    await authManager.createUser(email: mailAdress, password: password, name: name, complition: { isSuccess, message in
-                        isSecondView = isSuccess
-                        print("認証状況：", isSuccess, message)
-                    })
+//                    await authManager.createUser(email: mailAdress, password: password, name: name, complition: { isSuccess, message in
+//                        isSecondView = isSuccess
+//                        print("認証状況：", isSuccess, message)
+//                    })
                 }
                 
             }) {
