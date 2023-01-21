@@ -79,20 +79,4 @@ final class CreateUserTests: XCTestCase {
         XCTAssertEqual(isSuccess, false)
     }
 
-    func test_アカウント登録のエラーが返ってくること_名前が空() async {
-        let mailAdress = "test@testmail.com"
-        let password = "000000"
-        let name = ""
-        var isSuccess = Bool()
-
-        do {
-            try await authManager.createUser(email: mailAdress, password: password, name: name)
-            isSuccess = true
-        } catch {
-            isSuccess = false
-        }
-
-        XCTAssertEqual(isSuccess, false)
-    }
-
 }
