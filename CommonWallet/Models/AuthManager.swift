@@ -55,6 +55,27 @@ class AuthManager {
             self.setErrorMessage(error)
             complition(false, self.errMessage)
         }
+    }
+
+    // MARK: - アカウント削除
+    func deleteUser() async -> Bool {
+
+        let fireStoreUserManager = FireStoreUserManager()
+        guard let uid = Auth.auth().currentUser?.uid else {
+            print("uidが見つからない")
+            return false
+        }
+
+        do {
+            // FireStoreのユーザデータ削除
+            try await fireStoreUserManager.deleteUser(uid: uid)
+
+            // FirebaseAuthのユーザデータ削除
+            try await Auth.auth().currentUser?.delete()
+            return true
+        } catch {
+            return false
+        }
 
     }
 
@@ -73,7 +94,7 @@ class AuthManager {
                 case .userDisabled:
                     self.errMessage = "このユーザーアカウントは無効化されています"
                 case .networkError:
-                    self.errMessage = "ネットワークエラーが発生しました。"
+                    self.errMessage = "ネットワークエラーが発生しました。
                 default:
                     self.errMessage = "予期せぬエラーが発生しました。\nしばらく時間を置いてから再度お試しください。"
                 }

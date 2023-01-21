@@ -27,4 +27,14 @@ class FireStoreUserManager {
         }
     }
 
+    func deleteUser(uid: String) async throws {
+
+        do {
+            try await db.collection("Users").document(uid).delete()
+            print("Userデータの削除に成功しました")
+        } catch {
+            print("Userデータの削除に失敗しました")
+        }
+    }
+
 }
