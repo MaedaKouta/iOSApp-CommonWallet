@@ -12,6 +12,8 @@
 		872652F8297BBDAB002C76D6 /* FirebaseErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F7297BBDAB002C76D6 /* FirebaseErrorType.swift */; };
 		872652F9297BBEB4002C76D6 /* FirebaseErrorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F7297BBDAB002C76D6 /* FirebaseErrorType.swift */; };
 		8732B457297A4DCF0011313D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8732B456297A4DCF0011313D /* FirebaseAnalytics */; };
+		877CB903297BE9C60005CBD1 /* ErrorMessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F2297B92A8002C76D6 /* ErrorMessageManager.swift */; };
+		877CB904297BE9C90005CBD1 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F5297BB8AB002C76D6 /* SignInViewModel.swift */; };
 		87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6B297A1A8300184A7C /* AuthManager.swift */; };
 		87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6B297A1A8300184A7C /* AuthManager.swift */; };
 		87830E70297A1AB900184A7C /* SignInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6E297A1AB900184A7C /* SignInTests.swift */; };
@@ -380,7 +382,9 @@
 				87830E74297A1B9E00184A7C /* AppDelegate.swift in Sources */,
 				87830E7E297A201F00184A7C /* SignInView.swift in Sources */,
 				87830E81297A20DB00184A7C /* CreateUserView.swift in Sources */,
+				877CB904297BE9C90005CBD1 /* SignInViewModel.swift in Sources */,
 				87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */,
+				877CB903297BE9C60005CBD1 /* ErrorMessageManager.swift in Sources */,
 				872652F9297BBEB4002C76D6 /* FirebaseErrorType.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

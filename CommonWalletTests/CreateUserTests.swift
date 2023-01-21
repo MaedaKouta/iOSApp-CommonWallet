@@ -35,9 +35,13 @@ final class CreateUserTests: XCTestCase {
         let name = "test"
         var isSuccess = Bool()
 
-        await authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
-            isSuccess = isCreateUserSuccess
-        })
+        do {
+            try await authManager.createUser(email: mailAdress, password: password, name: name)
+            isSuccess = true
+        } catch {
+            isSuccess = false
+        }
+
 
         XCTAssertEqual(isSuccess, false)
     }
@@ -48,9 +52,12 @@ final class CreateUserTests: XCTestCase {
         let name = "test"
         var isSuccess = Bool()
 
-        await authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
-            isSuccess = isCreateUserSuccess
-        })
+        do {
+            try await authManager.createUser(email: mailAdress, password: password, name: name)
+            isSuccess = true
+        } catch {
+            isSuccess = false
+        }
 
         XCTAssertEqual(isSuccess, false)
     }
@@ -62,9 +69,12 @@ final class CreateUserTests: XCTestCase {
         let name = "test"
         var isSuccess = Bool()
 
-        await authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
-            isSuccess = isCreateUserSuccess
-        })
+        do {
+            try await authManager.createUser(email: mailAdress, password: password, name: name)
+            isSuccess = true
+        } catch {
+            isSuccess = false
+        }
 
         XCTAssertEqual(isSuccess, false)
     }
@@ -75,9 +85,12 @@ final class CreateUserTests: XCTestCase {
         let name = ""
         var isSuccess = Bool()
 
-        await authManager.createUser(email: mailAdress, password: password, name: name, complition: { isCreateUserSuccess, message in
-            isSuccess = isCreateUserSuccess
-        })
+        do {
+            try await authManager.createUser(email: mailAdress, password: password, name: name)
+            isSuccess = true
+        } catch {
+            isSuccess = false
+        }
 
         XCTAssertEqual(isSuccess, false)
     }

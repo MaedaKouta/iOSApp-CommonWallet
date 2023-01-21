@@ -23,54 +23,66 @@ final class SignInTests: XCTestCase {
         authManager = AuthManager()
     }
 
-    func test_ログインが成功すること() async {
+    // XCTAssertThrowsでtry awaitが使えないため、不自然なテストになっている。
+    func test_サインインが成功すること() async {
 
         let mailAdress = "test@testmail.com"
         let password = "000000"
         var isSuccess = Bool()
 
-        await authManager.login(email: mailAdress, password: password, complition: { isLoginSuccess, message in
-            isSuccess = isLoginSuccess
-        })
+        do {
+            try await authManager.signIn(email: mailAdress, password: password)
+            isSuccess = true
+        } catch {
+            isSuccess = false
+        }
 
         XCTAssertEqual(isSuccess, true)
     }
 
-    func test_ログインのエラーが返ってくること_パスワードミス() async {
+    func test_サインインのエラーが返ってくること_パスワードミス() async {
         let mailAdress = "test@testmail.com"
         let password = "111111"
         var isSuccess = Bool()
 
-        await authManager.login(email: mailAdress, password: password, complition: { isLoginSuccess, message in
-            isSuccess = isLoginSuccess
-        })
+        do {
+            try await authManager.signIn(email: mailAdress, password: password)
+            isSuccess = true
+        } catch {
+            isSuccess = false
+        }
 
         XCTAssertEqual(isSuccess, false)
     }
 
-    func test_ログインのエラーが返ってくること_メールアドレスミス() async {
+    func test_サインインのエラーが返ってくること_メールアドレスミス() async {
 
         let mailAdress = "test.miss@testmail.com"
         let password = "000000"
         var isSuccess = Bool()
 
-        await authManager.login(email: mailAdress, password: password, complition: { isLoginSuccess, message in
-            isSuccess = isLoginSuccess
-        })
-
+        do {
+            try await authManager.signIn(email: mailAdress, password: password)
+            isSuccess = true
+        } catch {
+            isSuccess = false
+        }
 
         XCTAssertEqual(isSuccess, false)
     }
 
-    func test_ログインのエラーが返ってくること_パスワード＆メールアドレスミス() async {
+    func test_サインインのエラーが返ってくること_パスワード＆メールアドレスミス() async {
 
         let mailAdress = "test.miss@testmail.com"
         let password = "111111"
         var isSuccess = Bool()
 
-        await authManager.login(email: mailAdress, password: password, complition: { isLoginSuccess, message in
-            isSuccess = isLoginSuccess
-        })
+        do {
+            try await authManager.signIn(email: mailAdress, password: password)
+            isSuccess = true
+        } catch {
+            isSuccess = false
+        }
 
         XCTAssertEqual(isSuccess, false)
     }
