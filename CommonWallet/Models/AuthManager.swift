@@ -13,61 +13,99 @@ import FirebaseFirestore
 class AuthManager {
 
     private static let shared = AuthManager()
-    private var errMessage: String = ""
+    private let db = Firestore.firestore()
+    private let errorMessageManager = ErrorMessageManager()
 
-    // MARK: - ログイン処理 with email/password
-    func login(email:String, password:String, complition: @escaping (Bool, String) -> Void ) async {
+    // MARK: - サインイン処理
+    func signIn(email:String, password:String, complition: @escaping (Bool, String) -> Void ) async {
         do {
             try await Auth.auth().signIn(withEmail: email, password: password)
             complition(true, "ログイン成功")
         } catch {
-            self.setErrorMessage(error)
-            complition(false, self.errMessage)
+            let errorMessage = errorMessageManager.getAuthErrorMessage(error)
+            complition(false, errorMessage)
         }
     }
 
-     // MARK: - アカウント登録
+    // MARK: - サインアウト処理
+    func signOut(complition: @escaping (Bool, String) -> Void ) async {
+        do {
+            try Auth.auth().signOut()
+            complition(true, "サインアウト成功")
+        } catch {
+            complition(false, "サインアウトで不明なエラー")
+        }
+    }
+
+     // MARK: - アカウント登録処理
     func createUser(email: String, password: String, name: String, complition: @escaping (Bool, String) -> Void ) async {
 
-        let fireStoreUserManager = FireStoreUserManager()
-        let trimmingName = name.trimmingCharacters(in: .whitespacesAndNewlines)
-        if trimmingName.isEmpty {
-            complition(false, "名前が空白です")
+        var uid = String()
+
+        // FirebaseAuthへのアカウント登録
+        do {
+            let result = try await Auth.auth().createUser(withEmail: email, password: password)
+            uid = result.user.uid
+        } catch {
+            let errorMessage = errorMessageManager.getAuthErrorMessage(error)
+            complition(false, errorMessage)
+        }
+
+        // FireStoreへのアカウント情報追加
+        do {
+            try await createUserToFireStore(userName: name, email: email, uid: uid)
+            complition(true, "アカウント登録成功")
+        } catch {
+            let errorMessage = errorMessageManager.getFirestoreErrorMessage(error)
+            complition(false, errorMessage)
+        }
+    }
+
+    // アカウント登録時に、FireStoreにもUserデータを保存
+    private func createUserToFireStore(userName: String, email: String, uid: String) async throws {
+        let user: Dictionary<String, Any> = ["userName": userName,
+                                             "uid": uid,
+                                             "createdAt": Timestamp(),
+                                             "email": email]
+        do {
+            try await db.collection("Users").document(uid).setData(user)
+        } catch {
+            throw error
+        }
+    }
+
+    // MARK: - アカウント削除処理
+    func deleteUser(complition: @escaping (Bool, String) -> Void ) async {
+
+        guard let uid = Auth.auth().currentUser?.uid else {
+            complition(false, "uidが見つからないため、アカウント削除失敗")
             return
         }
 
+        // ①FireStoreのユーザデータ削除。この順番でないとFireStoreのユーザデータが削除できない
         do {
-            let result = try await Auth.auth().createUser(withEmail: email, password: password)
-            let uid = result.user.uid
-            try await fireStoreUserManager.createUser(userName: name, email: email, uid: uid)
-            complition(true, "アカウント登録成功")
+            try await deleteUserFromFireStore(uid: uid)
         } catch {
-            self.setErrorMessage(error)
-            complition(false, self.errMessage)
+            let errorMessage = errorMessageManager.getFirestoreErrorMessage(error)
+            complition(false, errorMessage)
         }
 
+        // ②FirebaseAuthのユーザデータ削除。この順番でないとFireStoreのユーザデータが削除できない
+        do {
+            try await Auth.auth().currentUser?.delete()
+        } catch {
+            let errorMessage = errorMessageManager.getFirestoreErrorMessage(error)
+            complition(false, errorMessage)
+        }
     }
 
-    private func setErrorMessage(_ error:Error?){
-        if let error = error as NSError? {
-            if let errorCode = AuthErrorCode.Code(rawValue: error.code) {
-                switch errorCode {
-                case .invalidEmail:
-                    self.errMessage = "メールアドレスの形式が違います。"
-                case .emailAlreadyInUse:
-                    self.errMessage = "このメールアドレスはすでに使われています。"
-                case .weakPassword:
-                      self.errMessage = "パスワードが弱すぎます。"
-                case .userNotFound, .wrongPassword:
-                    self.errMessage = "メールアドレス、またはパスワードが間違っています"
-                case .userDisabled:
-                    self.errMessage = "このユーザーアカウントは無効化されています"
-                case .networkError:
-                    self.errMessage = "ネットワークエラーが発生しました。"
-                default:
-                    self.errMessage = "予期せぬエラーが発生しました。\nしばらく時間を置いてから再度お試しください。"
-                }
-            }
+    // アカウント削除時に、FireStoreからもUserデータを削除
+    private func deleteUserFromFireStore(uid: String) async throws {
+        do {
+            try await db.collection("Users").document(uid).delete()
+            print("FireStoreへのUserデータ削除に成功")
+        } catch {
+            throw error
         }
     }
 

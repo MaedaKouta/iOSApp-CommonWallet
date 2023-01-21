@@ -23,7 +23,7 @@ struct LoginView: View {
 
             Button(action: {
                 Task {
-                    await authManager.login(email: mailAdress, password: password, complition: { isSuccess, message in
+                    await authManager.signIn(email: mailAdress, password: password, complition: { isSuccess, message in
                         isSecondView = isSuccess
                         print("認証状況：", isSuccess, message)
                     })
