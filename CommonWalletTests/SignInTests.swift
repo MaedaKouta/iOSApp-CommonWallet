@@ -9,7 +9,7 @@ import XCTest
 import FirebaseCore
 @testable import CommonWallet
 
-final class LoginTests: XCTestCase {
+final class SignInTests: XCTestCase {
 
     private var authManager: AuthManager!
 

@@ -14,7 +14,7 @@
 		8732B457297A4DCF0011313D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8732B456297A4DCF0011313D /* FirebaseAnalytics */; };
 		87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6B297A1A8300184A7C /* AuthManager.swift */; };
 		87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6B297A1A8300184A7C /* AuthManager.swift */; };
-		87830E70297A1AB900184A7C /* LoginTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6E297A1AB900184A7C /* LoginTests.swift */; };
+		87830E70297A1AB900184A7C /* SignInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6E297A1AB900184A7C /* SignInTests.swift */; };
 		87830E73297A1ACB00184A7C /* CreateUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E71297A1ACB00184A7C /* CreateUserTests.swift */; };
 		87830E74297A1B9E00184A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D7C297A1790005CCB6F /* AppDelegate.swift */; };
 		87830E75297A1BA100184A7C /* CommonWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */; };
@@ -62,7 +62,7 @@
 		872652F5297BB8AB002C76D6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		872652F7297BBDAB002C76D6 /* FirebaseErrorType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseErrorType.swift; sourceTree = "<group>"; };
 		87830E6B297A1A8300184A7C /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
-		87830E6E297A1AB900184A7C /* LoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTests.swift; sourceTree = "<group>"; };
+		87830E6E297A1AB900184A7C /* SignInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTests.swift; sourceTree = "<group>"; };
 		87830E71297A1ACB00184A7C /* CreateUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTests.swift; sourceTree = "<group>"; };
 		87830E7C297A201F00184A7C /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		87830E7F297A20DB00184A7C /* CreateUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserView.swift; sourceTree = "<group>"; };
@@ -186,7 +186,7 @@
 			children = (
 				87EE8D5A297A136A005CCB6F /* CommonWalletTests.swift */,
 				87830E71297A1ACB00184A7C /* CreateUserTests.swift */,
-				87830E6E297A1AB900184A7C /* LoginTests.swift */,
+				87830E6E297A1AB900184A7C /* SignInTests.swift */,
 			);
 			path = CommonWalletTests;
 			sourceTree = "<group>";
@@ -372,7 +372,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				87830E70297A1AB900184A7C /* LoginTests.swift in Sources */,
+				87830E70297A1AB900184A7C /* SignInTests.swift in Sources */,
 				87EE8D5B297A136A005CCB6F /* CommonWalletTests.swift in Sources */,
 				87830E7B297A1C6A00184A7C /* ContentView.swift in Sources */,
 				87830E73297A1ACB00184A7C /* CreateUserTests.swift in Sources */,
