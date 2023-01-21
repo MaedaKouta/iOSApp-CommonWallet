@@ -8,7 +8,7 @@
 import SwiftUI
 import FirebaseAuth
 
-struct LoginView: View {
+struct SignInView: View {
     @State var mailAdress = ""
     @State var password = ""
     @State private var isSecondView: Bool = false
@@ -59,8 +59,8 @@ struct LoginView: View {
 
 }
 
-struct LoginView_Previews: PreviewProvider {
+struct SignInView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView()
+        SignInView()
     }
 }
