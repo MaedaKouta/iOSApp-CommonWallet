@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		872652F3297B92A8002C76D6 /* ErrorMessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F2297B92A8002C76D6 /* ErrorMessageManager.swift */; };
 		8732B457297A4DCF0011313D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8732B456297A4DCF0011313D /* FirebaseAnalytics */; };
 		87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6B297A1A8300184A7C /* AuthManager.swift */; };
 		87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6B297A1A8300184A7C /* AuthManager.swift */; };
@@ -21,8 +22,6 @@
 		87830E7E297A201F00184A7C /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7C297A201F00184A7C /* LoginView.swift */; };
 		87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7F297A20DB00184A7C /* CreateUserView.swift */; };
 		87830E81297A20DB00184A7C /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7F297A20DB00184A7C /* CreateUserView.swift */; };
-		87830E83297A234F00184A7C /* FireStoreUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E82297A234F00184A7C /* FireStoreUserManager.swift */; };
-		87830E84297A234F00184A7C /* FireStoreUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E82297A234F00184A7C /* FireStoreUserManager.swift */; };
 		87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */; };
 		87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D4B297A1369005CCB6F /* ContentView.swift */; };
 		87EE8D4E297A136A005CCB6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87EE8D4D297A136A005CCB6F /* Assets.xcassets */; };
@@ -56,12 +55,12 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		872652F2297B92A8002C76D6 /* ErrorMessageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ErrorMessageManager.swift; sourceTree = "<group>"; };
 		87830E6B297A1A8300184A7C /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		87830E6E297A1AB900184A7C /* LoginTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginTests.swift; sourceTree = "<group>"; };
 		87830E71297A1ACB00184A7C /* CreateUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTests.swift; sourceTree = "<group>"; };
 		87830E7C297A201F00184A7C /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		87830E7F297A20DB00184A7C /* CreateUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserView.swift; sourceTree = "<group>"; };
-		87830E82297A234F00184A7C /* FireStoreUserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreUserManager.swift; sourceTree = "<group>"; };
 		87EE8D46297A1369005CCB6F /* CommonWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CommonWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletApp.swift; sourceTree = "<group>"; };
 		87EE8D4B297A1369005CCB6F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -112,7 +111,7 @@
 			isa = PBXGroup;
 			children = (
 				87830E6B297A1A8300184A7C /* AuthManager.swift */,
-				87830E82297A234F00184A7C /* FireStoreUserManager.swift */,
+				872652F2297B92A8002C76D6 /* ErrorMessageManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -345,9 +344,9 @@
 				87EE8D7D297A1790005CCB6F /* AppDelegate.swift in Sources */,
 				87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */,
 				87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */,
+				872652F3297B92A8002C76D6 /* ErrorMessageManager.swift in Sources */,
 				87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */,
 				87830E7D297A201F00184A7C /* LoginView.swift in Sources */,
-				87830E83297A234F00184A7C /* FireStoreUserManager.swift in Sources */,
 				87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -363,7 +362,6 @@
 				87830E75297A1BA100184A7C /* CommonWalletApp.swift in Sources */,
 				87830E74297A1B9E00184A7C /* AppDelegate.swift in Sources */,
 				87830E7E297A201F00184A7C /* LoginView.swift in Sources */,
-				87830E84297A234F00184A7C /* FireStoreUserManager.swift in Sources */,
 				87830E81297A20DB00184A7C /* CreateUserView.swift in Sources */,
 				87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */,
 			);
