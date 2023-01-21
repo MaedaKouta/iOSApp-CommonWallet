@@ -15,14 +15,24 @@ class AuthManager {
     private static let shared = AuthManager()
     private var errMessage: String = ""
 
-    // MARK: - ログイン処理 with email/password
-    func login(email:String, password:String, complition: @escaping (Bool, String) -> Void ) async {
+    // MARK: - サインイン処理 with email/password
+    func signIn(email:String, password:String, complition: @escaping (Bool, String) -> Void ) async {
         do {
             try await Auth.auth().signIn(withEmail: email, password: password)
             complition(true, "ログイン成功")
         } catch {
             self.setErrorMessage(error)
             complition(false, self.errMessage)
+        }
+    }
+
+    // MARK: - サインアウト
+    func signOut() async -> Bool {
+        do {
+            try Auth.auth().signOut()
+            return true
+        } catch {
+            return false
         }
     }
 
