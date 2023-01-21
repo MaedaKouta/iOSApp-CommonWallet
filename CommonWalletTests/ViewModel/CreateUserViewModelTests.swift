@@ -38,7 +38,7 @@ final class CreateUserViewModelTests: XCTestCase {
 
     func test_CreateUserが既に使われてるメールアドレスで失敗してメッセージが返ってくること() async {
         let mailAdress = "test@testmail.com"
-        let password = "0"
+        let password = "000000"
         let name = "test"
 
         await createUserViewModel.createUser(email: mailAdress, password: password, name: name, complition: { isSuccess, message in
