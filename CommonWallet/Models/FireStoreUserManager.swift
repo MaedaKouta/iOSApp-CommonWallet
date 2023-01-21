@@ -15,7 +15,6 @@ class FireStoreUserManager {
 
     func createUser(userName: String, email: String, uid: String) async throws {
 
-        //guard let token = UserDefaults.standard.string(forKey: "token") else { return }
         let user: Dictionary<String, Any> = ["userName": userName,
                                              "uid": uid,
                                              "createdAt": Timestamp(),

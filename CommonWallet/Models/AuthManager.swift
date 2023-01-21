@@ -22,7 +22,6 @@ class AuthManager {
             complition(true, "ログイン成功")
         } catch {
             self.setErrorMessage(error)
-            print(self.errMessage)
             complition(false, self.errMessage)
         }
     }
@@ -43,7 +42,6 @@ class AuthManager {
             try await fireStoreUserManager.createUser(userName: name, email: email, uid: uid)
             complition(true, "アカウント登録成功")
         } catch {
-            print(error)
             self.setErrorMessage(error)
             complition(false, self.errMessage)
         }
