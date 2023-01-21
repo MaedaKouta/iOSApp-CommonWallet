@@ -12,27 +12,51 @@ import FirebaseAuth
 
 final class CreateUserViewModelTests: XCTestCase {
 
-    override func setUpWithError() throws {
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+    private var createUserViewModel: CreateUserViewModel!
+
+    class override func setUp() {
+        super.setUp()
+        FirebaseApp.configure()
     }
 
-    override func tearDownWithError() throws {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
+    override func setUp() {
+        super.setUp()
+        createUserViewModel = CreateUserViewModel()
     }
 
-    func testExample() throws {
-        // This is an example of a functional test case.
-        // Use XCTAssert and related functions to verify your tests produce the correct results.
-        // Any test you write for XCTest can be annotated as throws and async.
-        // Mark your test throws to produce an unexpected failure when your test encounters an uncaught error.
-        // Mark your test async to allow awaiting for asynchronous code to complete. Check the results with assertions afterwards.
+    // MARK: - CreateUser関数
+    func test_CreateUserがメール形式ミスで失敗してメッセージが返ってくること() async {
+        let mailAdress = "test"
+        let password = "000000"
+        let name = "テスト"
+
+        await createUserViewModel.createUser(email: mailAdress, password: password, name: name, complition: { isSuccess, message in
+            XCTAssertEqual(isSuccess, false)
+            XCTAssertEqual(message, "メールアドレスの形式が違います。")
+        })
     }
 
-    func testPerformanceExample() throws {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
+    func test_CreateUserが既に使われてるメールアドレスで失敗してメッセージが返ってくること() async {
+        let mailAdress = "test@testmail.com"
+        let password = "0"
+        let name = "test"
+
+        await createUserViewModel.createUser(email: mailAdress, password: password, name: name, complition: { isSuccess, message in
+            XCTAssertEqual(isSuccess, false)
+            XCTAssertEqual(message, "このメールアドレスはすでに使われています。")
+        })
     }
+
+    func test_CreateUserがパスワード脆弱で失敗してメッセージが返ってくること() async {
+        let mailAdress = "test@testmail.com"
+        let password = "0"
+        let name = "test"
+
+        await createUserViewModel.createUser(email: mailAdress, password: password, name: name, complition: { isSuccess, message in
+            XCTAssertEqual(isSuccess, false)
+            XCTAssertEqual(message, "パスワードが弱すぎます。")
+        })
+    }
+
 
 }

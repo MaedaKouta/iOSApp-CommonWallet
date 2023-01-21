@@ -130,8 +130,8 @@
 		877CB907297BEB360005CBD1 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				87830E71297A1ACB00184A7C /* CreateUserTests.swift */,
 				87830E6E297A1AB900184A7C /* SignInTests.swift */,
+				87830E71297A1ACB00184A7C /* CreateUserTests.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
