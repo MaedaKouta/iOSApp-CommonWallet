@@ -16,7 +16,6 @@ struct SignInView: View {
     @State var password = ""
     @State private var isSecondView: Bool = false
     @State private var isCreateUserView: Bool = false
-    let authManager = AuthManager()
 
     var body: some View {
         VStack {
