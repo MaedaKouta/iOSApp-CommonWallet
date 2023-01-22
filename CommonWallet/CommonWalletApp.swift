@@ -14,7 +14,8 @@ struct CommonWalletApp: App {
 
     var body: some Scene {
         WindowGroup {
-            SignInView()
+            LaunchScreen()
         }
     }
+
 }
