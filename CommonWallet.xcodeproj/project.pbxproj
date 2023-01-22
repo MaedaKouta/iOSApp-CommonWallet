@@ -145,14 +145,14 @@
 			path = Extentions;
 			sourceTree = "<group>";
 		};
-		874EF942297D0D8100C94233 /* Util */ = {
+		874EF942297D0D8100C94233 /* Utils */ = {
 			isa = PBXGroup;
 			children = (
 				874EF940297D08B100C94233 /* User.swift */,
 				874EF93E297D04DF00C94233 /* UserDefaultsKey.swift */,
 				874EF93B297CFC3900C94233 /* UserDefaultsManager.swift */,
 			);
-			path = Util;
+			path = Utils;
 			sourceTree = "<group>";
 		};
 		874EF943297D0F3700C94233 /* Firebase */ = {
@@ -187,7 +187,7 @@
 			isa = PBXGroup;
 			children = (
 				874EF943297D0F3700C94233 /* Firebase */,
-				874EF942297D0D8100C94233 /* Util */,
+				874EF942297D0D8100C94233 /* Utils */,
 				874EF935297CBD1C00C94233 /* LaunchStatus.swift */,
 				874EF937297CBEC800C94233 /* UserSignedStatus.swift */,
 			);
