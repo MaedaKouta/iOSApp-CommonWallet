@@ -15,7 +15,7 @@ class FireStoreUserManager {
     private let db = Firestore.firestore()
     private var userDefaultsManager = UserDefaultsManager()
 
-    func createUserToFireStore(userName: String, email: String, uid: String) async throws {
+    func createUser(userName: String, email: String, uid: String) async throws {
         let user: Dictionary<String, Any> = ["userName": userName,
                                              "uid": uid,
                                              "createdAt": Timestamp(),
@@ -27,7 +27,7 @@ class FireStoreUserManager {
         }
     }
 
-    func deleteUserFromFireStore(uid: String) async throws {
+    func deleteUser(uid: String) async throws {
         do {
             try await db.collection("Users").document(uid).delete()
         } catch {
@@ -35,8 +35,8 @@ class FireStoreUserManager {
         }
     }
 
-    // User情報がUserDefaultsに上書き
-    func fetcheUserDataToUserDefaults(uid: String) async throws {
+    // User情報の読み込み
+    func fetchUser(uid: String) async throws -> User {
         do {
             let data = try await db.collection("Users").document(uid).getDocument().data()
             guard let userName = data?["userName"] as? String,
@@ -46,7 +46,7 @@ class FireStoreUserManager {
                 throw NSError(domain: "fetcheUserDataでNillが取得されたエラー", code: 0)
             }
             let user = User(userName: userName, mailAdress: mailAdress, uid: uid)
-            self.userDefaultsManager.setUser(user: user)
+            return user
         } catch {
             throw error
         }

@@ -32,12 +32,14 @@ class AuthManager {
 
         do {
             // firestoreからデータを取得して、UserDefaultに上書きする
-            try await fireStoreUserManager.fetcheUserDataToUserDefaults(uid: uid)
+            let user: User = try await fireStoreUserManager.fetchUser(uid: uid)
+            userDefaultsManager.setUser(user: user)
         } catch {
             throw FirebaseErrorType.FireStore(error as NSError)
         }
 
         userDefaultsManager.isSignedIn = true
+
     }
 
     // MARK: - サインアウト処理
@@ -58,7 +60,8 @@ class AuthManager {
         // サインアウトと同時に、UserDefaultsの情報も削除する処理
         do {
             // firestoreからデータを取得して、UserDefaultに上書きする
-            try await fireStoreUserManager.fetcheUserDataToUserDefaults(uid: uid)
+            let user: User = try await fireStoreUserManager.fetchUser(uid: uid)
+            userDefaultsManager.setUser(user: user)
         } catch {
             throw FirebaseErrorType.FireStore(error as NSError)
         }
@@ -82,15 +85,17 @@ class AuthManager {
 
         // FireStoreへのアカウント情報追加
         do {
-            try await fireStoreUserManager.createUserToFireStore(userName: name, email: email, uid: uid)
+            try await fireStoreUserManager.createUser(userName: name, email: email, uid: uid)
 
             // アカウント登録と同時に、UserDefaultsの情報も追加する処理
-            try await fireStoreUserManager.fetcheUserDataToUserDefaults(uid: uid)
+            let user: User = try await fireStoreUserManager.fetchUser(uid: uid)
+            userDefaultsManager.setUser(user: user)
         } catch {
             throw FirebaseErrorType.FireStore(error as NSError)
         }
 
         userDefaultsManager.isSignedIn = true
+
     }
 
     // MARK: - アカウント削除処理
@@ -102,9 +107,10 @@ class AuthManager {
 
         // ①FireStoreのユーザデータ削除。この順番でないとFireStoreのユーザデータが削除できない
         do {
-            try await fireStoreUserManager.deleteUserFromFireStore(uid: uid)
+            try await fireStoreUserManager.deleteUser(uid: uid)
             // アカウント削除と同時に、UserDefaultsの情報も削除する処理
-            try await fireStoreUserManager.fetcheUserDataToUserDefaults(uid: uid)
+            let user: User = try await fireStoreUserManager.fetchUser(uid: uid)
+            userDefaultsManager.setUser(user: user)
         } catch {
             throw FirebaseErrorType.FireStore(error as NSError)
         }
