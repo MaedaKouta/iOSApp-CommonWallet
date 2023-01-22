@@ -5,6 +5,7 @@
 //  Created by 前田航汰 on 2023/01/22.
 //
 // 参考: https://thwork.net/2021/11/29/swift_app_launch/
+// Info.plistに書く方法もあるが、Firebaseの初期データ取得を行うために、今回は行わないことにした。
 
 import SwiftUI
 
