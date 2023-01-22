@@ -17,6 +17,12 @@ struct UserDefaultsManager {
         UserDefaults.standard.set(user.mailAdress, forKey: userDefaultsKey.mailAdress)
     }
 
+    mutating func clearUser() {
+        UserDefaults.standard.set("", forKey: userDefaultsKey.uid)
+        UserDefaults.standard.set("", forKey: userDefaultsKey.userName)
+        UserDefaults.standard.set("", forKey: userDefaultsKey.mailAdress)
+    }
+
     mutating func getUser() -> User? {
         guard let userName = UserDefaults.standard.string(forKey: userDefaultsKey.userName),
               let mailAdress = UserDefaults.standard.string(forKey: userDefaultsKey.mailAdress),

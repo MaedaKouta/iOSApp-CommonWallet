@@ -7,17 +7,16 @@
 
 import SwiftUI
 
-enum LaunchStatus {
+enum LaunchStatusType {
     case FirstLaunch
     case NewVersionLaunch
     case Launched
 }
 
-class LaunchStatusUtil {
-    static let launchedVersionKey = "launchedVersion"
-    @AppStorage(launchedVersionKey) static var launchedVersion = ""
+class LaunchStatus {
+    @AppStorage(UserDefaultsKey().launchedVersion) static var launchedVersion = ""
 
-    static var launchStatus: LaunchStatus {
+    static var launchStatus: LaunchStatusType {
         get{
             let version = Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? ""
             let launchedVersion = self.launchedVersion

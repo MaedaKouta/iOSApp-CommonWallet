@@ -9,6 +9,12 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 
+enum FirebaseErrorType: Error {
+    case FireStore(NSError)
+    case Auth(NSError)
+    case other(String)
+}
+
 class FirebaseErrorManager {
 
     func getAuthErrorMessage(_ error:Error?) -> String {

@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 import FirebaseAuth
 
-class UserStatusUtil {
+class UserSignedStatus {
 
     static var isSignedIn: Bool {
         get{
