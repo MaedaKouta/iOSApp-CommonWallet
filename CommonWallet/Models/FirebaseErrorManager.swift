@@ -9,7 +9,7 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 
-class ErrorMessageManager {
+class FirebaseErrorManager {
 
     func getAuthErrorMessage(_ error:Error?) -> String {
         if let error = error as NSError? {
