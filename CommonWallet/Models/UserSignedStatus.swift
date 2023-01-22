@@ -9,17 +9,19 @@ import Foundation
 import Firebase
 import FirebaseAuth
 
-class UserSignedStatus {
-
-    static var isSignedIn: Bool {
-        get{
-            if let uid = Auth.auth().currentUser?.uid {
-                print("ログイン済みのアカウントが起動/uid:",uid)
-                return true
-            } else {
-                return false
-            }
-        }
-    }
-
-}
+//class UserSignedStatus {
+//
+//    let isSignedInUserDefaults = UserDefaultsManager().isSignedIn
+//
+//    static var isSignedIn: Bool {
+//        get{
+//            if let uid = Auth.auth().currentUser?.uid && isSignedInUserDefaults==true {
+//                print("ログイン済みのアカウントが起動/uid:", uid)
+//                return true
+//            } else {
+//                return false
+//            }
+//        }
+//    }
+//
+//}

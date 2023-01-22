@@ -47,15 +47,6 @@ struct SignInView: View {
             }
         }
         .padding()
-
-        .onAppear {
-            print("here")
-            // uidが存在するならMainViewへ移動
-            if let uid = Auth.auth().currentUser?.uid {
-                print("uid:",uid)
-                isSecondView = true
-            }
-        }
     }
 
 }

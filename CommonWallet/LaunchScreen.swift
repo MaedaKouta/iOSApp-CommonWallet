@@ -12,14 +12,15 @@ import SwiftUI
 struct LaunchScreen: View {
 
     @Environment(\.managedObjectContext) private var viewContext
-    @State var isSignInView = false
-    @State var isContentView = false
+    @State private var isSignInView = false
+    @State private var isContentView = false
+    private let userDefaultsManager = UserDefaultsManager()
 
     var body: some View {
         Text("")
             .padding()
             .onAppear {
-                if UserStatusUtil.isSignedIn {
+                if userDefaultsManager.isSignedIn == true {
                     // サインインがすでにされている処理分岐
                     isContentView = true
                 } else {
@@ -27,7 +28,7 @@ struct LaunchScreen: View {
                     // とりあえず、チュートリアル画面作成していないため、サインイン画面に全て流す
                     isSignInView = true
 
-                    switch LaunchStatusUtil.launchStatus {
+                    switch LaunchStatus.launchStatus {
                     case .FirstLaunch :
                         // 初回起動
                         return
@@ -41,10 +42,10 @@ struct LaunchScreen: View {
 
                 }
             }
-            .sheet(isPresented: self.$isSignInView){
+            .fullScreenCover(isPresented: self.$isSignInView){
                 SignInView()
             }
-            .sheet(isPresented: self.$isContentView){
+            .fullScreenCover(isPresented: self.$isContentView){
                 ContentView()
             }
     }
