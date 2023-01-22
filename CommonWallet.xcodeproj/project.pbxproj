@@ -19,6 +19,7 @@
 		874EF93A297CC8B200C94233 /* FireStoreUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF939297CC8B200C94233 /* FireStoreUserManager.swift */; };
 		874EF93C297CFC3900C94233 /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF93B297CFC3900C94233 /* UserDefaultsManager.swift */; };
 		874EF93F297D04DF00C94233 /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF93E297D04DF00C94233 /* UserDefaultsKey.swift */; };
+		874EF941297D08B100C94233 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF940297D08B100C94233 /* User.swift */; };
 		877CB903297BE9C60005CBD1 /* ErrorMessageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F2297B92A8002C76D6 /* ErrorMessageManager.swift */; };
 		877CB904297BE9C90005CBD1 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F5297BB8AB002C76D6 /* SignInViewModel.swift */; };
 		877CB906297BEB2F0005CBD1 /* SignInViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877CB905297BEB2F0005CBD1 /* SignInViewModelTests.swift */; };
@@ -78,6 +79,7 @@
 		874EF939297CC8B200C94233 /* FireStoreUserManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreUserManager.swift; sourceTree = "<group>"; };
 		874EF93B297CFC3900C94233 /* UserDefaultsManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManager.swift; sourceTree = "<group>"; };
 		874EF93E297D04DF00C94233 /* UserDefaultsKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsKey.swift; sourceTree = "<group>"; };
+		874EF940297D08B100C94233 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		877CB905297BEB2F0005CBD1 /* SignInViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModelTests.swift; sourceTree = "<group>"; };
 		87830E6B297A1A8300184A7C /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		87830E6E297A1AB900184A7C /* SignInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTests.swift; sourceTree = "<group>"; };
@@ -142,7 +144,6 @@
 		874EF93D297D040000C94233 /* Extentions */ = {
 			isa = PBXGroup;
 			children = (
-				874EF93B297CFC3900C94233 /* UserDefaultsManager.swift */,
 			);
 			path = Extentions;
 			sourceTree = "<group>";
@@ -175,6 +176,8 @@
 				872652F2297B92A8002C76D6 /* ErrorMessageManager.swift */,
 				872652F7297BBDAB002C76D6 /* FirebaseErrorType.swift */,
 				874EF93E297D04DF00C94233 /* UserDefaultsKey.swift */,
+				874EF93B297CFC3900C94233 /* UserDefaultsManager.swift */,
+				874EF940297D08B100C94233 /* User.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -413,6 +416,7 @@
 				874EF934297CBB5700C94233 /* LaunchScreen.swift in Sources */,
 				87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */,
 				874EF938297CBEC800C94233 /* UserStatusUtil.swift in Sources */,
+				874EF941297D08B100C94233 /* User.swift in Sources */,
 				872652F3297B92A8002C76D6 /* ErrorMessageManager.swift in Sources */,
 				872652F8297BBDAB002C76D6 /* FirebaseErrorType.swift in Sources */,
 				872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */,

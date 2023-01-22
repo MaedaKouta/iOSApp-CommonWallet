@@ -12,13 +12,15 @@ import Foundation
  */
 struct UserDefaultsKey {
 
-    // ユーザー情報関係
+    // サインイン情報
     let isSignedIn = "isSignedIn"
-    let userNameKey = "userName"
-    let mailAdress = "mailAdress"
-    let userCreatedAt = "userCreatedAt"
 
-    // 端末情報関係
-    let launchedVersionKey = "launchedVersion"
+    // ユーザー情報
+    let uid = "uid"
+    let userName = "userName"
+    let mailAdress = "mailAdress"
+
+    // バージョン情報
+    let launchedVersion = "launchedVersion"
 
 }
