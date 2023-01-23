@@ -26,13 +26,11 @@ struct ContentView: View {
 
             Button(action: {
                 Task {
-//                    await authManager.signOut(complition: { isSuccess, message in
-//                        if isSuccess {
-//                            print("サインアウト成功！", message)
-//                        } else {
-//                            print("サインアウト失敗", message)
-//                        }
-//                    })
+                    do {
+                        try await authManager.signOut()
+                    } catch {
+                        print("サインアウト失敗", error)
+                    }
                 }
             }) {
                 Text("サインアウト")
@@ -40,13 +38,11 @@ struct ContentView: View {
 
             Button(action: {
                 Task {
-//                    await authManager.deleteUser(complition: { isSuccess, message in
-//                        if isSuccess {
-//                            print("アカウント削除成功！", message)
-//                        } else {
-//                            print("アカウント削除失敗", message)
-//                        }
-//                    })
+                    do {
+                        try await authManager.deleteUser()
+                    } catch {
+                        print("アカウント削除失敗", error)
+                    }
                 }
             }) {
                 Text("アカウント削除")
@@ -62,7 +58,6 @@ struct ContentView: View {
                 } catch {
                     print("adfdafadfaf")
                 }
-                //self.userDefaultsManager.setUser(user: user)
             }
         }
     }

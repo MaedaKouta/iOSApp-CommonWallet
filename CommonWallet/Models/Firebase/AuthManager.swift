@@ -19,22 +19,55 @@ class AuthManager {
 
     // MARK: - サインイン処理
     func signIn(email:String, password:String) async throws {
+
+        var uid = String()
+
         do {
             // 通信して認証を行う
-            try await Auth.auth().signIn(withEmail: email, password: password)
+            let result = try await Auth.auth().signIn(withEmail: email, password: password)
+            uid = result.user.uid
         } catch {
             throw FirebaseErrorType.Auth(error as NSError)
         }
+
+        do {
+            // firestoreからデータを取得して、UserDefaultに上書きする
+            let user: User = try await fireStoreUserManager.fetchUser(uid: uid)
+            userDefaultsManager.setUser(user: user)
+        } catch {
+            throw FirebaseErrorType.FireStore(error as NSError)
+        }
+
+        userDefaultsManager.isSignedIn = true
+
     }
 
     // MARK: - サインアウト処理
     func signOut() async throws {
+
+        guard let uid = Auth.auth().currentUser?.uid else {
+            throw NSError(domain: "サインインができていません。", code: 0)
+        }
+
         // Authのサインアウト処理
         do {
             try Auth.auth().signOut()
+            userDefaultsManager.clearUser()
         } catch {
             throw FirebaseErrorType.Auth(error as NSError)
         }
+
+        // サインアウトと同時に、UserDefaultsの情報も削除する処理
+        do {
+            // firestoreからデータを取得して、UserDefaultに上書きする
+            let user: User = try await fireStoreUserManager.fetchUser(uid: uid)
+            userDefaultsManager.setUser(user: user)
+        } catch {
+            throw FirebaseErrorType.FireStore(error as NSError)
+        }
+
+        userDefaultsManager.isSignedIn = false
+
     }
 
      // MARK: - アカウント登録処理
@@ -54,9 +87,15 @@ class AuthManager {
         do {
             try await fireStoreUserManager.createUser(userName: name, email: email, uid: uid)
 
+            // アカウント登録と同時に、UserDefaultsの情報も追加する処理
+            let user: User = try await fireStoreUserManager.fetchUser(uid: uid)
+            userDefaultsManager.setUser(user: user)
         } catch {
             throw FirebaseErrorType.FireStore(error as NSError)
         }
+
+        userDefaultsManager.isSignedIn = true
+
     }
 
     // MARK: - アカウント削除処理
@@ -69,6 +108,9 @@ class AuthManager {
         // ①FireStoreのユーザデータ削除。この順番でないとFireStoreのユーザデータが削除できない
         do {
             try await fireStoreUserManager.deleteUser(uid: uid)
+            // アカウント削除と同時に、UserDefaultsの情報も削除する処理
+            let user: User = try await fireStoreUserManager.fetchUser(uid: uid)
+            userDefaultsManager.setUser(user: user)
         } catch {
             throw FirebaseErrorType.FireStore(error as NSError)
         }
@@ -76,9 +118,12 @@ class AuthManager {
         // ②FirebaseAuthのユーザデータ削除。この順番でないとFireStoreのユーザデータが削除できない
         do {
             try await Auth.auth().currentUser?.delete()
+            userDefaultsManager.clearUser()
         } catch {
             throw FirebaseErrorType.Auth(error as NSError)
         }
+
+        userDefaultsManager.isSignedIn = false
     }
 
 }
