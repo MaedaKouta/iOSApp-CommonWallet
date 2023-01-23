@@ -14,17 +14,19 @@ struct SettingView: View {
                 List {
 
                     Section {
-                        HStack {
-                            Image("SampleIcon")
-                                .resizable()
-                                .scaledToFill()
-                                .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
-                                .frame(width: 45, height: 45)
-                            VStack {
-                                Text("名前")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                Text("メールアドレス")
-                                    .frame(maxWidth: .infinity, alignment: .leading)
+                        NavigationLink(destination: AccountView() ) {
+                            HStack {
+                                Image("SampleIcon")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
+                                    .frame(width: 45, height: 45)
+                                VStack {
+                                    Text("名前")
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                    Text("メールアドレス")
+                                        .frame(maxWidth: .infinity, alignment: .leading)
+                                }
                             }
                         }
                     } header: {
@@ -32,6 +34,7 @@ struct SettingView: View {
                     }
 
                     Section {
+                        Text("共有番号")
                         Text("パートナー")
                     } header: {
                         Text("パートナー登録")
