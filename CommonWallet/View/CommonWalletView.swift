@@ -31,7 +31,7 @@ struct CommonWalletView: View {
                     }
                     .sheet(isPresented: self.$isAccountView) {
                         // trueになれば下からふわっと表示
-                        AccountView()
+                        SettingView()
                     }
 
                 }.padding()
