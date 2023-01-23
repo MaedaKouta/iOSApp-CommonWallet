@@ -9,6 +9,7 @@ import SwiftUI
 
 struct CommonWalletView: View {
 
+    @State var isAccountView = false
 
     var body: some View {
         ZStack {
