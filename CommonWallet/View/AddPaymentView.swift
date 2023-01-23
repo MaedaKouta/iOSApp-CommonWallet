@@ -33,6 +33,14 @@ struct AddPaymentView: View {
 
             Button ( action: {
                 // 画面をもとに戻す
+                // 後でViewmodelに書く
+                Task {
+                    do {
+                        try await FireStorePaymentManager().createPayment(userUid: "gTcI80NEXAPyfoHewHmZq23sc3E2", title: "トイレットペーパ", memo: "頼まれていたやつです", cost: 5500, isMyPayment: true, isFinished: false)
+                    } catch {
+                        print(error)
+                    }
+                }
             }) {
                 Text("登録")
             }
