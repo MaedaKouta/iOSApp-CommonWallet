@@ -9,19 +9,31 @@ import SwiftUI
 
 struct CommonWalletView: View {
 
+    @State var isAccountView = false
 
     var body: some View {
         ZStack {
-
             // 背景色
             Color.white.ignoresSafeArea()
 
             VStack {
-
                 // ユーザー情報系
                 HStack {
-                    Image(systemName: "globe")
-                        .frame(maxWidth: .infinity, alignment: .trailing)
+                    Button ( action: {
+                        isAccountView = true
+                    }) {
+                        Image("SampleIcon")
+                            .resizable()
+                            .scaledToFill()
+                            .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
+                            .frame(width: 30, height: 30)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                    }
+                    .sheet(isPresented: self.$isAccountView) {
+                        // trueになれば下からふわっと表示
+                        SettingView()
+                    }
+
                 }.padding()
 
                 // パートナーとの差額表示（四角いViewで柔らかい感じに）
@@ -65,7 +77,6 @@ struct CommonWalletView: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 })
             }
-            
         }
     }
 }
