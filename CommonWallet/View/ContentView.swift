@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ContentView: View {
     let authManager = AuthManager()
+    @State var fireStoreUserManager = FireStoreUserManager()
+    @State var user: User?
 
     var body: some View {
         VStack {
@@ -17,15 +20,17 @@ struct ContentView: View {
                 .foregroundColor(.accentColor)
             Text("Hello, world!")
 
+            Text(user?.uid ?? "")
+            Text(user?.userName ?? "")
+            Text(user?.mailAdress ?? "")
+
             Button(action: {
                 Task {
-//                    await authManager.signOut(complition: { isSuccess, message in
-//                        if isSuccess {
-//                            print("サインアウト成功！", message)
-//                        } else {
-//                            print("サインアウト失敗", message)
-//                        }
-//                    })
+                    do {
+                        try await authManager.signOut()
+                    } catch {
+                        print("サインアウト失敗", error)
+                    }
                 }
             }) {
                 Text("サインアウト")
@@ -33,21 +38,28 @@ struct ContentView: View {
 
             Button(action: {
                 Task {
-//                    await authManager.deleteUser(complition: { isSuccess, message in
-//                        if isSuccess {
-//                            print("アカウント削除成功！", message)
-//                        } else {
-//                            print("アカウント削除失敗", message)
-//                        }
-//                    })
+                    do {
+                        try await authManager.deleteUser()
+                    } catch {
+                        print("アカウント削除失敗", error)
+                    }
                 }
             }) {
                 Text("アカウント削除")
             }
 
-            
         }
         .padding()
+        .onAppear {
+            Task {
+                let uid = Auth.auth().currentUser!.uid
+                fireStoreUserManager.fetchUser2(uid: uid, completion: { userr, error in
+                    if let user = userr {
+                        self.user = user
+                    }
+                })
+            }
+        }
     }
 }
 

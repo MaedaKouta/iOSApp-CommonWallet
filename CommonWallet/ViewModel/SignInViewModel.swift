@@ -9,7 +9,7 @@ import Foundation
 
 class SignInViewModel: ObservableObject {
     let authManager = AuthManager()
-    let errorMessageManegar = ErrorMessageManager()
+    let errorMessageManegar = FirebaseErrorManager()
 
     func signIn(email: String, password: String, complition: @escaping (Bool, String) -> Void) async {
         do {

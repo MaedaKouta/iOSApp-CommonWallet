@@ -9,7 +9,7 @@ import Foundation
 
 class CreateUserViewModel: ObservableObject {
     let authManager = AuthManager()
-    let errorMessageManegar = ErrorMessageManager()
+    let errorMessageManegar = FirebaseErrorManager()
 
     func createUser(email: String, password: String, name: String, complition: @escaping (Bool, String) -> Void) async {
         do {

@@ -36,7 +36,7 @@ struct CreateUserView: View {
             }) {
                 Text("アカウント登録").fontWeight(.bold).font(.largeTitle)
             }
-            .sheet(isPresented: self.$isSecondView) {
+            .fullScreenCover(isPresented: self.$isSecondView) {
                 // trueになれば下からふわっと表示
                 ContentView()
             }
