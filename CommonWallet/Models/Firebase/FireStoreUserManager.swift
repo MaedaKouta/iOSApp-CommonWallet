@@ -40,7 +40,7 @@ class FireStoreUserManager {
         do {
             let data = try await db.collection("Users").document(uid).getDocument().data()
             guard let userName = data?["userName"] as? String,
-                  let mailAdress = data?["userName"] as? String,
+                  let mailAdress = data?["email"] as? String,
                   let uid = data?["uid"] as? String
             else {
                 throw NSError(domain: "fetcheUserDataでNillが取得されたエラー", code: 0)

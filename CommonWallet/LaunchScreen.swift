@@ -8,21 +8,32 @@
 // Info.plistに書く方法もあるが、Firebaseの初期データ取得を行うために、今回は行わないことにした。
 
 import SwiftUI
+import FirebaseAuth
 
 struct LaunchScreen: View {
 
     @Environment(\.managedObjectContext) private var viewContext
     @State private var isSignInView = false
     @State private var isContentView = false
-    private let userDefaultsManager = UserDefaultsManager()
+    @State private var userDefaultsManager = UserDefaultsManager()
+    @State private var fireStoreUserManager = FireStoreUserManager()
 
     var body: some View {
         Text("")
             .padding()
             .onAppear {
-                if userDefaultsManager.isSignedIn == true {
+                if let uid = Auth.auth().currentUser?.uid {
+
                     // サインインがすでにされている処理分岐
-                    isContentView = true
+                    Task {
+                        do {
+                            let user = try await fireStoreUserManager.fetchUser(uid: uid)
+                            isContentView = true
+                        } catch {
+                            // 一旦例外処理をprint文にしておく
+                            print("LaunchScreenのサインインチェックでエラー", error)
+                        }
+                    }
                 } else {
                     // サインインがされていない処理分岐
                     // とりあえず、チュートリアル画面作成していないため、サインイン画面に全て流す

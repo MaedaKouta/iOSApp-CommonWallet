@@ -6,9 +6,12 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ContentView: View {
     let authManager = AuthManager()
+    @State var fireStoreUserManager = FireStoreUserManager()
+    @State var user: User?
 
     var body: some View {
         VStack {
@@ -16,6 +19,10 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundColor(.accentColor)
             Text("Hello, world!")
+
+            Text(user?.uid ?? "")
+            Text(user?.userName ?? "")
+            Text(user?.mailAdress ?? "")
 
             Button(action: {
                 Task {
@@ -45,9 +52,19 @@ struct ContentView: View {
                 Text("アカウント削除")
             }
 
-            
         }
         .padding()
+        .onAppear {
+            Task {
+                do {
+                    let uid = Auth.auth().currentUser!.uid
+                    user = try await fireStoreUserManager.fetchUser(uid: uid)
+                } catch {
+                    print("adfdafadfaf")
+                }
+                //self.userDefaultsManager.setUser(user: user)
+            }
+        }
     }
 }
 
