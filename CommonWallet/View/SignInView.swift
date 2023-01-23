@@ -32,8 +32,7 @@ struct SignInView: View {
             }) {
                 Text("ログイン").fontWeight(.bold).font(.largeTitle)
             }
-            .sheet(isPresented: self.$isSecondView) {
-                // trueになれば下からふわっと表示
+            .fullScreenCover(isPresented: self.$isSecondView) {
                 ContentView()
             }
 
@@ -42,7 +41,7 @@ struct SignInView: View {
             } label: {
                 Text("アカウント登録はこちら")
             }
-            .sheet(isPresented: $isCreateUserView) {
+            .fullScreenCover(isPresented: $isCreateUserView) {
                 CreateUserView(isShow: $isCreateUserView)
             }
         }
