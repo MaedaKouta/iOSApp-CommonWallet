@@ -52,12 +52,12 @@ struct ContentView: View {
         .padding()
         .onAppear {
             Task {
-                do {
-                    let uid = Auth.auth().currentUser!.uid
-                    user = try await fireStoreUserManager.fetchUser(uid: uid)
-                } catch {
-                    print("adfdafadfaf")
-                }
+                let uid = Auth.auth().currentUser!.uid
+                fireStoreUserManager.fetchUser2(uid: uid, completion: { userr, error in
+                    if let user = userr {
+                        self.user = user
+                    }
+                })
             }
         }
     }

@@ -21,6 +21,7 @@ class AuthManager {
     func signIn(email:String, password:String) async throws {
 
         var uid = String()
+        var fireStoreError: Error!
 
         do {
             // 通信して認証を行う
@@ -30,12 +31,16 @@ class AuthManager {
             throw FirebaseErrorType.Auth(error as NSError)
         }
 
-        do {
-            // firestoreからデータを取得して、UserDefaultに上書きする
-            let user: User = try await fireStoreUserManager.fetchUser(uid: uid)
-            userDefaultsManager.setUser(user: user)
-        } catch {
-            throw FirebaseErrorType.FireStore(error as NSError)
+        // サインインと同時に、UserDefaultsの情報も追加する処理
+        fireStoreUserManager.fetchUser2(uid: uid, completion: { user, error in
+            if let user = user {
+                self.userDefaultsManager.setUser(user: user)
+            } else {
+                fireStoreError = error
+            }
+        })
+        if let error = fireStoreError {
+            throw error
         }
 
         userDefaultsManager.isSignedIn = true
@@ -44,6 +49,8 @@ class AuthManager {
 
     // MARK: - サインアウト処理
     func signOut() async throws {
+
+        var fireStoreError: Error!
 
         guard let uid = Auth.auth().currentUser?.uid else {
             throw NSError(domain: "サインインができていません。", code: 0)
@@ -58,12 +65,15 @@ class AuthManager {
         }
 
         // サインアウトと同時に、UserDefaultsの情報も削除する処理
-        do {
-            // firestoreからデータを取得して、UserDefaultに上書きする
-            let user: User = try await fireStoreUserManager.fetchUser(uid: uid)
-            userDefaultsManager.setUser(user: user)
-        } catch {
-            throw FirebaseErrorType.FireStore(error as NSError)
+        fireStoreUserManager.fetchUser2(uid: uid, completion: { user, error in
+            if let user = user {
+                self.userDefaultsManager.setUser(user: user)
+            } else {
+                fireStoreError = error
+            }
+        })
+        if let error = fireStoreError {
+            throw error
         }
 
         userDefaultsManager.isSignedIn = false
@@ -74,6 +84,7 @@ class AuthManager {
     func createUser(email: String, password: String, name: String) async throws {
 
         var uid = String()
+        var fireStoreError: Error!
 
         // FirebaseAuthへのアカウント登録
         do {
@@ -86,12 +97,20 @@ class AuthManager {
         // FireStoreへのアカウント情報追加
         do {
             try await fireStoreUserManager.createUser(userName: name, email: email, uid: uid)
-
-            // アカウント登録と同時に、UserDefaultsの情報も追加する処理
-            let user: User = try await fireStoreUserManager.fetchUser(uid: uid)
-            userDefaultsManager.setUser(user: user)
         } catch {
             throw FirebaseErrorType.FireStore(error as NSError)
+        }
+
+        // アカウント登録と同時に、UserDefaultsの情報も追加する処理
+        fireStoreUserManager.fetchUser2(uid: uid, completion: { user, error in
+            if let user = user {
+                self.userDefaultsManager.setUser(user: user)
+            } else {
+                fireStoreError = error
+            }
+        })
+        if let error = fireStoreError {
+            throw error
         }
 
         userDefaultsManager.isSignedIn = true
@@ -109,8 +128,7 @@ class AuthManager {
         do {
             try await fireStoreUserManager.deleteUser(uid: uid)
             // アカウント削除と同時に、UserDefaultsの情報も削除する処理
-            let user: User = try await fireStoreUserManager.fetchUser(uid: uid)
-            userDefaultsManager.setUser(user: user)
+            userDefaultsManager.clearUser()
         } catch {
             throw FirebaseErrorType.FireStore(error as NSError)
         }

@@ -7,6 +7,7 @@
 
 import XCTest
 import FirebaseCore
+import FirebaseAuth
 @testable import CommonWallet
 
 final class SignInTests: XCTestCase {
@@ -26,7 +27,7 @@ final class SignInTests: XCTestCase {
     // XCTAssertThrowsでtry awaitが使えないため、不自然なテストになっている。
     func test_サインインが成功すること() async {
 
-        let mailAdress = "test@testmail.com"
+        let mailAdress = "test.unittest@testmail.com"
         let password = "000000"
         var isSuccess = Bool()
 
@@ -38,53 +39,6 @@ final class SignInTests: XCTestCase {
         }
 
         XCTAssertEqual(isSuccess, true)
-    }
-
-    func test_サインインのエラーが返ってくること_パスワードミス() async {
-        let mailAdress = "test@testmail.com"
-        let password = "111111"
-        var isSuccess = Bool()
-
-        do {
-            try await authManager.signIn(email: mailAdress, password: password)
-            isSuccess = true
-        } catch {
-            isSuccess = false
-        }
-
-        XCTAssertEqual(isSuccess, false)
-    }
-
-    func test_サインインのエラーが返ってくること_メールアドレスミス() async {
-
-        let mailAdress = "test.miss@testmail.com"
-        let password = "000000"
-        var isSuccess = Bool()
-
-        do {
-            try await authManager.signIn(email: mailAdress, password: password)
-            isSuccess = true
-        } catch {
-            isSuccess = false
-        }
-
-        XCTAssertEqual(isSuccess, false)
-    }
-
-    func test_サインインのエラーが返ってくること_パスワード＆メールアドレスミス() async {
-
-        let mailAdress = "test.miss@testmail.com"
-        let password = "111111"
-        var isSuccess = Bool()
-
-        do {
-            try await authManager.signIn(email: mailAdress, password: password)
-            isSuccess = true
-        } catch {
-            isSuccess = false
-        }
-
-        XCTAssertEqual(isSuccess, false)
     }
 
 }

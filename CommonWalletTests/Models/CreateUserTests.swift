@@ -30,7 +30,7 @@ final class CreateUserTests: XCTestCase {
 
     func test_アカウント登録のエラーが返ってくること_既にアカウント存在() async {
 
-        let mailAdress = "test@testmail.com"
+        let mailAdress = "test.unittest@testmail.com"
         let password = "000000"
         let name = "test"
         var isSuccess = Bool()
@@ -64,7 +64,7 @@ final class CreateUserTests: XCTestCase {
 
     func test_アカウント登録のエラーが返ってくること_パスワード短い() async {
 
-        let mailAdress = "test@testmail.com"
+        let mailAdress = "test.unittest@testmail.com"
         let password = "0"
         let name = "test"
         var isSuccess = Bool()

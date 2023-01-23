@@ -10,6 +10,13 @@
 		872652F3297B92A8002C76D6 /* FirebaseErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */; };
 		872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F5297BB8AB002C76D6 /* SignInViewModel.swift */; };
 		8732B457297A4DCF0011313D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8732B456297A4DCF0011313D /* FirebaseAnalytics */; };
+		8737FCEA297E0BDF0064E40D /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF933297CBB5700C94233 /* LaunchScreen.swift */; };
+		8737FCEB297E0BE60064E40D /* FireStoreUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF939297CC8B200C94233 /* FireStoreUserManager.swift */; };
+		8737FCEC297E0BEA0064E40D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF940297D08B100C94233 /* User.swift */; };
+		8737FCED297E0BEC0064E40D /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF93E297D04DF00C94233 /* UserDefaultsKey.swift */; };
+		8737FCEE297E0BEE0064E40D /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF93B297CFC3900C94233 /* UserDefaultsManager.swift */; };
+		8737FCEF297E0BF00064E40D /* LaunchStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF935297CBD1C00C94233 /* LaunchStatus.swift */; };
+		8737FCF0297E0BF70064E40D /* CreateUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */; };
 		874EF932297CB4C600C94233 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 874EF931297CB4C600C94233 /* GoogleService-Info.plist */; };
 		874EF934297CBB5700C94233 /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF933297CBB5700C94233 /* LaunchScreen.swift */; };
 		874EF936297CBD1C00C94233 /* LaunchStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF935297CBD1C00C94233 /* LaunchStatus.swift */; };
@@ -440,12 +447,19 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8737FCF0297E0BF70064E40D /* CreateUserViewModel.swift in Sources */,
+				8737FCEF297E0BF00064E40D /* LaunchStatus.swift in Sources */,
+				8737FCED297E0BEC0064E40D /* UserDefaultsKey.swift in Sources */,
+				8737FCEB297E0BE60064E40D /* FireStoreUserManager.swift in Sources */,
+				8737FCEE297E0BEE0064E40D /* UserDefaultsManager.swift in Sources */,
+				8737FCEA297E0BDF0064E40D /* LaunchScreen.swift in Sources */,
 				87830E70297A1AB900184A7C /* SignInTests.swift in Sources */,
 				87830E7B297A1C6A00184A7C /* ContentView.swift in Sources */,
 				87830E73297A1ACB00184A7C /* CreateUserTests.swift in Sources */,
 				87830E75297A1BA100184A7C /* CommonWalletApp.swift in Sources */,
 				87830E74297A1B9E00184A7C /* AppDelegate.swift in Sources */,
 				87830E7E297A201F00184A7C /* SignInView.swift in Sources */,
+				8737FCEC297E0BEA0064E40D /* User.swift in Sources */,
 				87830E81297A20DB00184A7C /* CreateUserView.swift in Sources */,
 				877CB904297BE9C90005CBD1 /* SignInViewModel.swift in Sources */,
 				87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */,
