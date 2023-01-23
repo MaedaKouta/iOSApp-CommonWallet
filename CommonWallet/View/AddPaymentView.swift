@@ -8,8 +8,38 @@
 import SwiftUI
 
 struct AddPaymentView: View {
+
+    @State private var selectedIndex = 0
+    @State var purchase: String = ""
+    @State var cost: String = ""
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+
+        VStack {
+            Text("支払った人")
+            Picker("", selection: self.$selectedIndex) {
+                Text("かずき")
+                    .tag(0)
+                Text("さくら")
+                    .tag(1)
+            }
+            .pickerStyle(SegmentedPickerStyle())
+            .padding()
+
+            TextField("購入したものを入力", text: $purchase)
+                .padding()
+            TextField("支払い金額を入力", text: $cost)
+                .padding()
+
+            Button ( action: {
+                // 画面をもとに戻す
+            }) {
+                Text("登録")
+            }
+
+        }
+        .padding()
+
     }
 }
 
