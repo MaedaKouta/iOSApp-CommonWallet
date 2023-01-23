@@ -14,7 +14,7 @@ class FireStorePaymentManager {
 
     private let db = Firestore.firestore()
 
-    func createPayment(userUid: String, title: String, memo: String, cost: Int, isMyPayment: Bool, isFinished: Bool) async throws {
+    func createPayment(userUid: String, title: String, memo: String, cost: Int, isMyPayment: Bool) async throws {
         let payment: Dictionary<String, Any> = ["userUid": userUid,
                                              "title": title,
                                              "memo": memo,

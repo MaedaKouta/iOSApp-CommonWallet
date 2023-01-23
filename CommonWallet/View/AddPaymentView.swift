@@ -9,8 +9,11 @@ import SwiftUI
 
 struct AddPaymentView: View {
 
+    @ObservedObject var addPaymentViewModel = AddPaymentViewModel()
+
     @State private var selectedIndex = 0
-    @State var purchase: String = ""
+    @State var title: String = ""
+    @State var memo: String = ""
     @State var cost: String = ""
 
     var body: some View {
@@ -26,7 +29,9 @@ struct AddPaymentView: View {
             .pickerStyle(SegmentedPickerStyle())
             .padding()
 
-            TextField("購入したものを入力", text: $purchase)
+            TextField("タイトル", text: $title)
+                .padding()
+            TextField("メモ", text: $memo)
                 .padding()
             TextField("支払い金額を入力", text: $cost)
                 .padding()
@@ -35,11 +40,14 @@ struct AddPaymentView: View {
                 // 画面をもとに戻す
                 // 後でViewmodelに書く
                 Task {
-                    do {
-                        try await FireStorePaymentManager().createPayment(userUid: "gTcI80NEXAPyfoHewHmZq23sc3E2", title: "トイレットペーパ", memo: "頼まれていたやつです", cost: 5500, isMyPayment: true, isFinished: false)
-                    } catch {
-                        print(error)
-                    }
+                    await  addPaymentViewModel.createPayment(title: title, memo: memo, cost: Int(cost) ?? 0, isMyPayment: true, complition: { isSuccess, message in
+                        if isSuccess {
+                            print("登録成功")
+                        } else {
+                            print("登録失敗", message)
+                        }
+                    })
+
                 }
             }) {
                 Text("登録")
