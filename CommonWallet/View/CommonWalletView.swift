@@ -20,7 +20,11 @@ struct CommonWalletView: View {
 
                 // ユーザー情報系
                 HStack {
-                    Image(systemName: "globe")
+                    Image("SampleIcon")
+                        .resizable()
+                        .scaledToFill()
+                        .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
+                        .frame(width: 30, height: 30)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }.padding()
 

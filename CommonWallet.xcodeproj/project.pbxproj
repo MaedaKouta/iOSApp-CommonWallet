@@ -278,10 +278,10 @@
 		87EE8D81297A1947005CCB6F /* View */ = {
 			isa = PBXGroup;
 			children = (
+				87CDAAB1297E529F00F52887 /* CommonWalletView.swift */,
 				87EE8D4B297A1369005CCB6F /* ContentView.swift */,
 				87830E7F297A20DB00184A7C /* CreateUserView.swift */,
 				87830E7C297A201F00184A7C /* SignInView.swift */,
-				87CDAAB1297E529F00F52887 /* CommonWalletView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
