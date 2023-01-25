@@ -40,13 +40,18 @@ struct AddPaymentView: View {
                 // 画面をもとに戻す
                 // 後でViewmodelに書く
                 Task {
-                    await  addPaymentViewModel.createPayment(title: title, memo: memo, cost: Int(cost) ?? 0, isMyPayment: true, complition: { isSuccess, message in
-                        if isSuccess {
-                            print("登録成功")
-                        } else {
-                            print("登録失敗", message)
-                        }
-                    })
+                    await  addPaymentViewModel.createPayment(
+                        title: title,
+                        memo: memo,
+                        cost: Int(cost) ?? 0,
+                        isMyPayment: selectedIndex==0 ? true : false,
+                        complition: { isSuccess, message in
+                            if isSuccess {
+                                print("登録成功")
+                            } else {
+                                print("登録失敗", message)
+                            }
+                        })
 
                 }
             }) {

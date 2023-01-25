@@ -78,7 +78,7 @@ struct CommonWalletView: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }).sheet(isPresented: self.$isAddPaymentView) {
                     AddPaymentView()
-                        .presentationDetents([.medium])
+                        .presentationDetents([.large])
                 }
             }
         }
