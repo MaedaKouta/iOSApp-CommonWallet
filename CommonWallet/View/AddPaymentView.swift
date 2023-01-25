@@ -11,6 +11,8 @@ struct AddPaymentView: View {
 
     @ObservedObject var addPaymentViewModel = AddPaymentViewModel()
 
+    @Binding var isAddPaymentView: Bool
+
     @State private var selectedIndex = 0
     @State var title: String = ""
     @State var memo: String = ""
@@ -48,6 +50,7 @@ struct AddPaymentView: View {
                         complition: { isSuccess, message in
                             if isSuccess {
                                 print("登録成功")
+                                isAddPaymentView = false
                             } else {
                                 print("登録失敗", message)
                             }
@@ -64,8 +67,8 @@ struct AddPaymentView: View {
     }
 }
 
-struct AddPaymentView_Previews: PreviewProvider {
-    static var previews: some View {
-        AddPaymentView()
-    }
-}
+//struct AddPaymentView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AddPaymentView(isAddPaymentView: Binding<true>)
+//    }
+//}

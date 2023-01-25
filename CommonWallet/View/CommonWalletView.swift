@@ -77,7 +77,7 @@ struct CommonWalletView: View {
                         .shadow(color: Color.white, radius: 10, x: 0, y: 3)
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }).sheet(isPresented: self.$isAddPaymentView) {
-                    AddPaymentView()
+                    AddPaymentView(isAddPaymentView: $isAddPaymentView)
                         .presentationDetents([.large])
                 }
             }
