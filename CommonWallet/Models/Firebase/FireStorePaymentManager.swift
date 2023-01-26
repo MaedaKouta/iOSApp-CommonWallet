@@ -29,9 +29,9 @@ class FireStorePaymentManager {
         }
     }
 
-    func deletePayment(uid: String) async throws {
+    func deletePayment(paymentUid: String) async throws {
         do {
-            try await db.collection("Payments").document(uid).delete()
+            try await db.collection("Payments").document(paymentUid).delete()
         } catch {
             throw error
         }
