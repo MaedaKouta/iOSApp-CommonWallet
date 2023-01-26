@@ -16,7 +16,7 @@ struct UserDefaultsKey {
     let isSignedIn = "isSignedIn"
 
     // ユーザー情報
-    let uid = "uid"
+    let userUid = "userUid"
     let userName = "userName"
     let mailAdress = "mailAdress"
 
