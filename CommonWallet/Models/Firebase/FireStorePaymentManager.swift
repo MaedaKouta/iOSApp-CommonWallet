@@ -37,7 +37,7 @@ class FireStorePaymentManager {
         }
     }
 
-    func fetchPaidPayments() {
+    func fetchPaidPayments(completion: @escaping([Payment]?, Error?) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
 
         // TODO: パートナーの絞り込みも追加しないといけない
@@ -47,7 +47,7 @@ class FireStorePaymentManager {
             .order(by: "createdAt", descending: true)
             .addSnapshotListener { snapShots, error in
                 if let error = error {
-                    print("FirestoreからPaymentsの取得に失敗", error)
+                    completion(nil, error)
                     return
                 }
                 print("FirestoreからPaymentsの取得に成功")
@@ -55,13 +55,15 @@ class FireStorePaymentManager {
 
                 snapShots?.documents.forEach({ snapShot in
                     let data = snapShot.data()
-                    guard let userUid: String = data["userUid"],
-                          let title: String = data["title"],
-                          let cost: Int = data["cost"],
-                          let isMyPayment: Bool = data["isMyPayment"],
-                          let createdAt = data["createdAt"],
-                          let isFinished: Bool = data["isFinished"] else {
+                    guard let userUid = data["userUid"] as? String,
+                          let title = data["title"] as? String,
+                          let cost = data["cost"] as? Int,
+                          let isMyPayment = data["isMyPayment"] as? Bool,
+                          let createdAt = data["createdAt"] as? Timestamp,
+                          let isFinished = data["isFinished"] as? Bool else {
                         print("データにnilが発見されてエラー")
+                        completion(nil, error)
+
                         return
                     }
 
@@ -81,7 +83,7 @@ class FireStorePaymentManager {
             }
     }
 
-    func fetchNotPaidPayments() {
+    func fetchUnpaidPayments(completion: @escaping([Payment]?, Error?) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
 
         // TODO: パートナーの絞り込みも追加しないといけない
@@ -99,13 +101,15 @@ class FireStorePaymentManager {
 
                 snapShots?.documents.forEach({ snapShot in
                     let data = snapShot.data()
-                    guard let userUid: String = data["userUid"],
-                          let title: String = data["title"],
-                          let cost: Int = data["cost"],
-                          let isMyPayment: Bool = data["isMyPayment"],
-                          let createdAt = data["createdAt"],
-                          let isFinished: Bool = data["isFinished"] else {
+                    guard let userUid = data["userUid"] as? String,
+                          let title = data["title"] as? String,
+                          let cost = data["cost"] as? Int,
+                          let isMyPayment = data["isMyPayment"] as? Bool,
+                          let createdAt = data["createdAt"] as? Timestamp,
+                          let isFinished = data["isFinished"] as? Bool else {
                         print("データにnilが発見されてエラー")
+                        completion(nil, error)
+
                         return
                     }
 

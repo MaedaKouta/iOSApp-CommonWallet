@@ -8,4 +8,13 @@
 import Foundation
 
 class CommonWalletViewModel: ObservableObject {
+
+    @Published var paidPayments = [Payment]()
+    @Published var unpaidPayments = [Payment]()
+
+    private var fireStorePaymentManager = FireStorePaymentManager()
+
+    func featchPaidPayments() {
+        //fireStorePaymentManager.fetchPaidPayments()
+    }
 }
