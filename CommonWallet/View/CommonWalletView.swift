@@ -41,10 +41,17 @@ struct CommonWalletView: View {
                 }.padding()
 
                 // パートナーとの差額表示（四角いViewで柔らかい感じに）
-                Rectangle()
-                    .frame(width: 350, height: 150)
-                    .foregroundColor(.red)
-                    .cornerRadius(30)
+                ZStack {
+                    Rectangle()
+                        .frame(width: 350, height: 150)
+                        .foregroundColor(.red)
+                        .cornerRadius(30)
+
+                    VStack {
+                        Text("￥5500")
+                            .foregroundColor(.white)
+                    }
+                }
 
                 // Listで履歴を表示
                 List {
