@@ -32,7 +32,7 @@ class AuthManager {
         }
 
         // サインインと同時に、UserDefaultsの情報も追加する処理
-        fireStoreUserManager.fetchUser2(uid: uid, completion: { user, error in
+        fireStoreUserManager.fetchUser(uid: uid, completion: { user, error in
             if let user = user {
                 self.userDefaultsManager.setUser(user: user)
             } else {
@@ -65,7 +65,7 @@ class AuthManager {
         }
 
         // サインアウトと同時に、UserDefaultsの情報も削除する処理
-        fireStoreUserManager.fetchUser2(uid: uid, completion: { user, error in
+        fireStoreUserManager.fetchUser(uid: uid, completion: { user, error in
             if let user = user {
                 self.userDefaultsManager.setUser(user: user)
             } else {
@@ -102,7 +102,7 @@ class AuthManager {
         }
 
         // アカウント登録と同時に、UserDefaultsの情報も追加する処理
-        fireStoreUserManager.fetchUser2(uid: uid, completion: { user, error in
+        fireStoreUserManager.fetchUser(uid: uid, completion: { user, error in
             if let user = user {
                 self.userDefaultsManager.setUser(user: user)
             } else {

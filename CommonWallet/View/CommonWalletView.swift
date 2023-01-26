@@ -48,6 +48,8 @@ struct CommonWalletView: View {
                         .cornerRadius(30)
 
                     VStack {
+                        Text("〇〇から〇〇へ")
+                            .foregroundColor(.white)
                         Text("￥5500")
                             .foregroundColor(.white)
                     }

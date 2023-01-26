@@ -35,7 +35,7 @@ class FireStoreUserManager {
         }
     }
 
-    func fetchUser2(uid: String, completion: @escaping(User?, Error?) -> Void) {
+    func fetchUser(uid: String, completion: @escaping(User?, Error?) -> Void) {
 
          db.collection("Users").document(uid).getDocument { snapShot, error in
             if let error = error {
