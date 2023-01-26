@@ -35,23 +35,6 @@ class FireStoreUserManager {
         }
     }
 
-    // User情報の読み込み
-//    func fetchUser(uid: String) async throws -> User {
-//        do {
-//            let data = try await db.collection("Users").document(uid).getDocument().data()
-//            guard let userName = data?["userName"] as? String,
-//                  let mailAdress = data?["email"] as? String,
-//                  let uid = data?["uid"] as? String
-//            else {
-//                throw NSError(domain: "fetcheUserDataでNillが取得されたエラー", code: 0)
-//            }
-//            let user = User(userName: userName, mailAdress: mailAdress, uid: uid)
-//            return user
-//        } catch {
-//            throw error
-//        }
-//    }
-
     func fetchUser2(uid: String, completion: @escaping(User?, Error?) -> Void) {
 
          db.collection("Users").document(uid).getDocument { snapShot, error in

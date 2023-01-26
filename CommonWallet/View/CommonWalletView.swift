@@ -10,6 +10,7 @@ import SwiftUI
 struct CommonWalletView: View {
 
     @State var isAccountView = false
+    @State var isAddPaymentView = false
 
     var body: some View {
         ZStack {
@@ -65,7 +66,7 @@ struct CommonWalletView: View {
             VStack {
                 Spacer()
                 Button(action: {
-
+                    isAddPaymentView = true
                 }, label: {
                     Text("＋")
                         .frame(width: 35.0, height: 35.0)
@@ -75,7 +76,10 @@ struct CommonWalletView: View {
                         .cornerRadius(25)
                         .shadow(color: Color.white, radius: 10, x: 0, y: 3)
                         .frame(maxWidth: .infinity, alignment: .trailing)
-                })
+                }).sheet(isPresented: self.$isAddPaymentView) {
+                    AddPaymentView(isAddPaymentView: $isAddPaymentView)
+                        .presentationDetents([.large])
+                }
             }
         }
     }
