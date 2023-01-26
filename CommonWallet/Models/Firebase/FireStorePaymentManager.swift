@@ -42,7 +42,7 @@ class FireStorePaymentManager {
 
         // TODO: パートナーの絞り込みも追加しないといけない
         db.collection("Payments")
-            .whereField("userUID", isEqualTo: uid)
+            .whereField("userUid", isEqualTo: uid)
             .whereField("isFinished", isEqualTo: true)
             .order(by: "createdAt", descending: true)
             .addSnapshotListener { snapShots, error in
@@ -87,7 +87,7 @@ class FireStorePaymentManager {
 
         // TODO: パートナーの絞り込みも追加しないといけない
         db.collection("Payments")
-            .whereField("userUID", isEqualTo: uid)
+            .whereField("userUid", isEqualTo: uid)
             .whereField("isFinished", isEqualTo: false)
             .order(by: "createdAt", descending: true)
             .addSnapshotListener { snapShots, error in

@@ -9,10 +9,13 @@ import SwiftUI
 
 struct CommonWalletView: View {
 
+    @ObservedObject var commonWalletViewModel = CommonWalletViewModel()
+
     @State var isAccountView = false
     @State var isAddPaymentView = false
 
     var body: some View {
+
         ZStack {
             // 背景色
             Color.white.ignoresSafeArea()
@@ -46,16 +49,32 @@ struct CommonWalletView: View {
                 // Listで履歴を表示
                 List {
                     Section {
-                        Text("2/26 5000円 相手")
-                        Text("2/23 250円 自分")
-                        Text("2/22 3000円 相手")
+                        ForEach(0 ..< commonWalletViewModel.unpaidPayments.count,  id: \.self) { index in
+                            Button(action: {
+
+                            }, label: {
+                                HStack {
+                                    Text(String(commonWalletViewModel.unpaidPayments[index].cost) + "円")
+                                    Text(commonWalletViewModel.unpaidPayments[index].title)
+                                }
+                            }
+                            )}
                     } header: {
                         Text("未精算")
                     }
+
+
                     Section {
-                        Text("1/26 5000円 相手")
-                        Text("1/23 250円 自分")
-                        Text("1/22 3000円 相手")
+                        ForEach(0 ..< commonWalletViewModel.paidPayments.count,  id: \.self) { index in
+                            Button(action: {
+
+                            }, label: {
+                                HStack {
+                                    Text(String(commonWalletViewModel.paidPayments[index].cost) + "円")
+                                    Text(commonWalletViewModel.paidPayments[index].title)
+                                }
+                            }
+                            )}
                     } header: {
                         Text("精算済み")
                     }
@@ -81,6 +100,8 @@ struct CommonWalletView: View {
                         .presentationDetents([.large])
                 }
             }
+        }.onAppear{
+            commonWalletViewModel.featchPayments()
         }
     }
 }
