@@ -10,7 +10,7 @@ import FirebaseAuth
 
 class AddPaymentViewModel: ObservableObject {
 
-    private let fireStorePaymentManager = FireStorePaymentManager()
+    private let fireStorePaymentManager = FireStorePayTaskManager()
     private let firebaseErrorManager = FirebaseErrorManager()
 
     func createPayment(title: String, memo: String, cost: Int, isMyPayment: Bool, complition: @escaping (Bool, String) -> Void) async {
@@ -21,7 +21,7 @@ class AddPaymentViewModel: ObservableObject {
         }
 
         do {
-            try await fireStorePaymentManager.createPayment(userUid: uid, title: title, memo: memo, cost: cost, isMyPayment: isMyPayment)
+            try await fireStorePaymentManager.createPayTask(userUid: uid, title: title, memo: memo, cost: cost, isMyPayment: isMyPayment)
             complition(true, "アカウント登録成功")
         } catch FirebaseErrorType.FireStore(let error) {
             let errorMessage = firebaseErrorManager.getFirestoreErrorMessage(error)

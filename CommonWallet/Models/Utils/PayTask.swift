@@ -8,12 +8,12 @@
 import Foundation
 import Firebase
 
-struct Payment {
+struct PayTask {
     public var id: String = UUID().uuidString
     let userUid: String
     let title: String
     let cost: Int
-    let isMyPayment: Bool
+    let isMyPay: Bool
     let createdAt: Timestamp
     var isFinished: Bool
 }

@@ -65,9 +65,9 @@
 		87EE8D79297A16E4005CCB6F /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 87EE8D78297A16E4005CCB6F /* FirebaseFirestore */; };
 		87EE8D7D297A1790005CCB6F /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D7C297A1790005CCB6F /* AppDelegate.swift */; };
 		87EE8D80297A1920005CCB6F /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = 87EE8D7F297A1920005CCB6F /* ViewInspector */; };
-		87F53FDE297E919F00293176 /* Payment.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F53FDD297E919F00293176 /* Payment.swift */; };
-		87F53FE0297EA44E00293176 /* FireStorePaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F53FDF297EA44E00293176 /* FireStorePaymentManager.swift */; };
-		87F53FE1297EA44E00293176 /* FireStorePaymentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F53FDF297EA44E00293176 /* FireStorePaymentManager.swift */; };
+		87F53FDE297E919F00293176 /* PayTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F53FDD297E919F00293176 /* PayTask.swift */; };
+		87F53FE0297EA44E00293176 /* FireStorePayTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F53FDF297EA44E00293176 /* FireStorePayTaskManager.swift */; };
+		87F53FE1297EA44E00293176 /* FireStorePayTaskManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F53FDF297EA44E00293176 /* FireStorePayTaskManager.swift */; };
 		87F53FE3297EA70B00293176 /* AddPaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F53FE2297EA70B00293176 /* AddPaymentViewModel.swift */; };
 		87F53FE4297EA70B00293176 /* AddPaymentViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F53FE2297EA70B00293176 /* AddPaymentViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -124,8 +124,8 @@
 		87EE8D64297A136A005CCB6F /* CommonWalletUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletUITests.swift; sourceTree = "<group>"; };
 		87EE8D66297A136A005CCB6F /* CommonWalletUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		87EE8D7C297A1790005CCB6F /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		87F53FDD297E919F00293176 /* Payment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Payment.swift; sourceTree = "<group>"; };
-		87F53FDF297EA44E00293176 /* FireStorePaymentManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorePaymentManager.swift; sourceTree = "<group>"; };
+		87F53FDD297E919F00293176 /* PayTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayTask.swift; sourceTree = "<group>"; };
+		87F53FDF297EA44E00293176 /* FireStorePayTaskManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorePayTaskManager.swift; sourceTree = "<group>"; };
 		87F53FE2297EA70B00293176 /* AddPaymentViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPaymentViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -183,7 +183,7 @@
 			isa = PBXGroup;
 			children = (
 				874EF940297D08B100C94233 /* User.swift */,
-				87F53FDD297E919F00293176 /* Payment.swift */,
+				87F53FDD297E919F00293176 /* PayTask.swift */,
 				874EF93E297D04DF00C94233 /* UserDefaultsKey.swift */,
 				874EF93B297CFC3900C94233 /* UserDefaultsManager.swift */,
 			);
@@ -195,7 +195,7 @@
 			children = (
 				87830E6B297A1A8300184A7C /* AuthManager.swift */,
 				874EF939297CC8B200C94233 /* FireStoreUserManager.swift */,
-				87F53FDF297EA44E00293176 /* FireStorePaymentManager.swift */,
+				87F53FDF297EA44E00293176 /* FireStorePayTaskManager.swift */,
 				872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */,
 			);
 			path = Firebase;
@@ -483,10 +483,10 @@
 				87CDAAB2297E529F00F52887 /* CommonWalletView.swift in Sources */,
 				87CDAAB5297E5C8000F52887 /* CommonWalletViewModel.swift in Sources */,
 				872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */,
-				87F53FE0297EA44E00293176 /* FireStorePaymentManager.swift in Sources */,
+				87F53FE0297EA44E00293176 /* FireStorePayTaskManager.swift in Sources */,
 				87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */,
 				87CDAABC297E6ADB00F52887 /* AccountView.swift in Sources */,
-				87F53FDE297E919F00293176 /* Payment.swift in Sources */,
+				87F53FDE297E919F00293176 /* PayTask.swift in Sources */,
 				874EF936297CBD1C00C94233 /* LaunchStatus.swift in Sources */,
 				874EF93C297CFC3900C94233 /* UserDefaultsManager.swift in Sources */,
 				87CA8FB7297BF73800248187 /* CreateUserViewModel.swift in Sources */,
@@ -511,7 +511,7 @@
 				87CDAAC1297E8CFC00F52887 /* CommonWalletView.swift in Sources */,
 				8737FCEA297E0BDF0064E40D /* LaunchScreen.swift in Sources */,
 				87830E70297A1AB900184A7C /* SignInTests.swift in Sources */,
-				87F53FE1297EA44E00293176 /* FireStorePaymentManager.swift in Sources */,
+				87F53FE1297EA44E00293176 /* FireStorePayTaskManager.swift in Sources */,
 				87830E7B297A1C6A00184A7C /* ContentView.swift in Sources */,
 				87CDAAC0297E8CF900F52887 /* AddPaymentView.swift in Sources */,
 				87CDAAB6297E5C8000F52887 /* CommonWalletViewModel.swift in Sources */,

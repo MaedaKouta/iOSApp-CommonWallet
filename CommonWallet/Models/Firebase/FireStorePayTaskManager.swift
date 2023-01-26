@@ -10,38 +10,38 @@ import FirebaseAuth
 import Firebase
 import FirebaseFirestore
 
-class FireStorePaymentManager {
+class FireStorePayTaskManager {
 
     private let db = Firestore.firestore()
 
-    func createPayment(userUid: String, title: String, memo: String, cost: Int, isMyPayment: Bool) async throws {
+    func createPayTask(userUid: String, title: String, memo: String, cost: Int, isMyPayment: Bool) async throws {
         let payment: Dictionary<String, Any> = ["userUid": userUid,
                                              "title": title,
                                              "memo": memo,
                                              "cost": cost,
-                                             "isMyPayment": isMyPayment,
+                                             "isMyPay": isMyPayment,
                                              "createdAt": Timestamp(),
                                              "isFinished": false]
         do {
-            try await db.collection("Payments").document().setData(payment)
+            try await db.collection("PayTask").document().setData(payment)
         } catch {
             throw error
         }
     }
 
-    func deletePayment(paymentUid: String) async throws {
+    func deletePayTask(paymentUid: String) async throws {
         do {
-            try await db.collection("Payments").document(paymentUid).delete()
+            try await db.collection("PayTask").document(paymentUid).delete()
         } catch {
             throw error
         }
     }
 
-    func fetchPaidPayments(completion: @escaping([Payment]?, Error?) -> Void) {
+    func fetchPaidPayments(completion: @escaping([PayTask]?, Error?) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
 
         // TODO: パートナーの絞り込みも追加しないといけない
-        db.collection("Payments")
+        db.collection("PayTask")
             .whereField("userUid", isEqualTo: uid)
             .whereField("isFinished", isEqualTo: true)
             .order(by: "createdAt", descending: true)
@@ -51,14 +51,14 @@ class FireStorePaymentManager {
                     return
                 }
                 print("FirestoreからPaymentsの取得に成功")
-                var payments = [Payment]()
+                var payments = [PayTask]()
 
                 snapShots?.documents.forEach({ snapShot in
                     let data = snapShot.data()
                     guard let userUid = data["userUid"] as? String,
                           let title = data["title"] as? String,
                           let cost = data["cost"] as? Int,
-                          let isMyPayment = data["isMyPayment"] as? Bool,
+                          let isMyPayment = data["isMyPay"] as? Bool,
                           let createdAt = data["createdAt"] as? Timestamp,
                           let isFinished = data["isFinished"] as? Bool else {
                         print("データにnilが発見されてエラー")
@@ -66,11 +66,11 @@ class FireStorePaymentManager {
                         return
                     }
 
-                    let payment = Payment(
+                    let payment = PayTask(
                         userUid: userUid,
                         title: title,
                         cost: cost,
-                        isMyPayment: isMyPayment,
+                        isMyPay: isMyPayment,
                         createdAt: createdAt,
                         isFinished: isFinished
                     )
@@ -82,11 +82,11 @@ class FireStorePaymentManager {
             }
     }
 
-    func fetchUnpaidPayments(completion: @escaping([Payment]?, Error?) -> Void) {
+    func fetchUnpaidPayments(completion: @escaping([PayTask]?, Error?) -> Void) {
         guard let uid = Auth.auth().currentUser?.uid else { return }
 
         // TODO: パートナーの絞り込みも追加しないといけない
-        db.collection("Payments")
+        db.collection("PayTask")
             .whereField("userUid", isEqualTo: uid)
             .whereField("isFinished", isEqualTo: false)
             .order(by: "createdAt", descending: true)
@@ -97,14 +97,14 @@ class FireStorePaymentManager {
                     return
                 }
                 print("FirestoreからPaymentsの取得に成功")
-                var payments = [Payment]()
+                var payments = [PayTask]()
 
                 snapShots?.documents.forEach({ snapShot in
                     let data = snapShot.data()
                     guard let userUid = data["userUid"] as? String,
                           let title = data["title"] as? String,
                           let cost = data["cost"] as? Int,
-                          let isMyPayment = data["isMyPayment"] as? Bool,
+                          let isMyPayment = data["isMyPay"] as? Bool,
                           let createdAt = data["createdAt"] as? Timestamp,
                           let isFinished = data["isFinished"] as? Bool else {
                         print("データにnilが発見されてエラー")
@@ -112,11 +112,11 @@ class FireStorePaymentManager {
                         return
                     }
 
-                    let payment = Payment(
+                    let payment = PayTask(
                         userUid: userUid,
                         title: title,
                         cost: cost,
-                        isMyPayment: isMyPayment,
+                        isMyPay: isMyPayment,
                         createdAt: createdAt,
                         isFinished: isFinished
                     )
