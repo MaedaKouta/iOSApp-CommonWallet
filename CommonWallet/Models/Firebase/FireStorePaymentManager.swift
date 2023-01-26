@@ -63,7 +63,6 @@ class FireStorePaymentManager {
                           let isFinished = data["isFinished"] as? Bool else {
                         print("データにnilが発見されてエラー")
                         completion(nil, error)
-
                         return
                     }
 
@@ -94,6 +93,7 @@ class FireStorePaymentManager {
             .addSnapshotListener { snapShots, error in
                 if let error = error {
                     print("FirestoreからPaymentsの取得に失敗", error)
+                    completion(nil, error)
                     return
                 }
                 print("FirestoreからPaymentsの取得に成功")
@@ -109,7 +109,6 @@ class FireStorePaymentManager {
                           let isFinished = data["isFinished"] as? Bool else {
                         print("データにnilが発見されてエラー")
                         completion(nil, error)
-
                         return
                     }
 

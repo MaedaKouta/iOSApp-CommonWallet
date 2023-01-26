@@ -14,7 +14,21 @@ class CommonWalletViewModel: ObservableObject {
 
     private var fireStorePaymentManager = FireStorePaymentManager()
 
-    func featchPaidPayments() {
-        //fireStorePaymentManager.fetchPaidPayments()
+    func featchPayments() {
+        fireStorePaymentManager.fetchPaidPayments(completion: { payments, error in
+            if let payments = payments {
+                self.paidPayments = payments
+            } else {
+                print(error as Any)
+            }
+        })
+
+        fireStorePaymentManager.fetchUnpaidPayments(completion: { payments, error in
+            if let payments = payments {
+                self.unpaidPayments = payments
+            } else {
+                print(error as Any)
+            }
+        })
     }
 }
