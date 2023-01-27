@@ -10,9 +10,9 @@ import FirebaseCore
 import FirebaseAuth
 @testable import CommonWallet
 
-final class AddPaymentViewModelTests: XCTestCase {
+final class AddPayInfoViewModelTests: XCTestCase {
 
-    private var addPaymentViewModel: AddPaymentViewModel!
+    private var addPayInfoViewModel: AddPayInfoViewModel!
 
     class override func setUp() {
         super.setUp()
@@ -21,7 +21,7 @@ final class AddPaymentViewModelTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        addPaymentViewModel = AddPaymentViewModel()
+        addPayInfoViewModel = AddPayInfoViewModel()
     }
 
     func test_サインインしておく() async {

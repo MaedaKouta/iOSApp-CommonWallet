@@ -46,7 +46,7 @@ class FireStoreUserManager {
                   let userName = data["userName"] as? String,
                   let mailAdress = data["email"] as? String,
                   let uid = data["uid"] as? String else { return }
-            let user = User(userName: userName, mailAdress: mailAdress, uid: uid)
+            let user = User(userName: userName, mailAdress: mailAdress, myUid: uid)
 
             completion(user,nil)
         }

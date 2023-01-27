@@ -14,7 +14,7 @@ import Firebase
 struct User {
     var userName: String
     var mailAdress: String
-    var uid: String
+    var myUid: String
     var partnerUid: String?
     var partnerName: String?
 }

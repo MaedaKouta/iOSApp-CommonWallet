@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-struct PayTask {
+struct PayInfo {
     public var id: String = UUID().uuidString
     let userUid: String
     let title: String

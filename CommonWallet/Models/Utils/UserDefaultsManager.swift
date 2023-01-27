@@ -12,7 +12,7 @@ struct UserDefaultsManager {
     private let userDefaultsKey = UserDefaultsKey()
 
     mutating func setUser(user: User) {
-        UserDefaults.standard.set(user.uid, forKey: userDefaultsKey.userUid)
+        UserDefaults.standard.set(user.myUid, forKey: userDefaultsKey.userUid)
         UserDefaults.standard.set(user.userName, forKey: userDefaultsKey.userName)
         UserDefaults.standard.set(user.mailAdress, forKey: userDefaultsKey.mailAdress)
     }
@@ -31,7 +31,7 @@ struct UserDefaultsManager {
             return nil
         }
 
-        let user = User(userName: userName, mailAdress: mailAdress, uid: uid)
+        let user = User(userName: userName, mailAdress: mailAdress, myUid: uid)
         return user
     }
 

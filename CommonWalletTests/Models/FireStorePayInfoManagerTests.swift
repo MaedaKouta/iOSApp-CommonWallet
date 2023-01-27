@@ -10,9 +10,9 @@ import FirebaseCore
 import FirebaseAuth
 @testable import CommonWallet
 
-final class FireStorePaymentManagerTests: XCTestCase {
+final class FireStorePayInfoManagerTests: XCTestCase {
 
-    private var fireStorePaymentManager: FireStorePaymentManager!
+    private var fireStorePayInfoManager: FireStorePayInfoManager!
 
     class override func setUp() {
         super.setUp()
@@ -21,7 +21,7 @@ final class FireStorePaymentManagerTests: XCTestCase {
 
     override func setUp() {
         super.setUp()
-        fireStorePaymentManager = FireStorePaymentManager()
+        fireStorePayInfoManager = FireStorePayInfoManager()
     }
 
     func test_サインインしておく() async {

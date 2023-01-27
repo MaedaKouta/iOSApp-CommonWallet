@@ -12,7 +12,7 @@ struct CommonWalletView: View {
     @ObservedObject var commonWalletViewModel = CommonWalletViewModel()
 
     @State var isAccountView = false
-    @State var isAddPaymentView = false
+    @State var isAddPayInfoView = false
 
     var body: some View {
 
@@ -94,7 +94,7 @@ struct CommonWalletView: View {
             VStack {
                 Spacer()
                 Button(action: {
-                    isAddPaymentView = true
+                    isAddPayInfoView = true
                 }, label: {
                     Text("＋")
                         .frame(width: 35.0, height: 35.0)
@@ -104,8 +104,8 @@ struct CommonWalletView: View {
                         .cornerRadius(25)
                         .shadow(color: Color.white, radius: 10, x: 0, y: 3)
                         .frame(maxWidth: .infinity, alignment: .trailing)
-                }).sheet(isPresented: self.$isAddPaymentView) {
-                    AddPaymentView(isAddPaymentView: $isAddPaymentView)
+                }).sheet(isPresented: self.$isAddPayInfoView) {
+                    AddPayInfoView(isAddPayInfoView: $isAddPayInfoView)
                         .presentationDetents([.large])
                 }
             }
