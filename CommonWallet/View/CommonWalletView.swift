@@ -50,7 +50,7 @@ struct CommonWalletView: View {
                     VStack {
                         Text("〇〇から〇〇へ")
                             .foregroundColor(.white)
-                        Text("￥5500")
+                        Text("￥\(commonWalletViewModel.unpaidCost)")
                             .foregroundColor(.white)
                     }
                 }

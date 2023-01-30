@@ -11,6 +11,7 @@ class CommonWalletViewModel: ObservableObject {
 
     @Published var paidPayments = [PayInfo]()
     @Published var unpaidPayments = [PayInfo]()
+    @Published var unpaidCost = Int()
 
     private var fireStorePaymentManager = FireStorePayInfoManager()
 
@@ -26,9 +27,25 @@ class CommonWalletViewModel: ObservableObject {
         fireStorePaymentManager.fetchUnpaidPayInfo(completion: { payments, error in
             if let payments = payments {
                 self.unpaidPayments = payments
+                self.unpaidCost = self.calculateUnPaidCost()
             } else {
                 print(error as Any)
             }
         })
     }
+
+
+    // 立替金額を計算する関数
+    private func calculateUnPaidCost() -> Int {
+        var cost: Int = 0
+        for unPaidPayment in self.unpaidPayments {
+            if unPaidPayment.isMyPay {
+                cost += unPaidPayment.cost
+            } else {
+                cost -= unPaidPayment.cost
+            }
+        }
+        return cost
+    }
+
 }
