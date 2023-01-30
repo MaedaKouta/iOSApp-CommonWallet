@@ -8,12 +8,12 @@
 import Foundation
 import FirebaseAuth
 
-class AddPaymentViewModel: ObservableObject {
+class AddPayInfoViewModel: ObservableObject {
 
-    private let fireStorePaymentManager = FireStorePaymentManager()
+    private let fireStorePayInfoManager = FireStorePayInfoManager()
     private let firebaseErrorManager = FirebaseErrorManager()
 
-    func createPayment(title: String, memo: String, cost: Int, isMyPayment: Bool, complition: @escaping (Bool, String) -> Void) async {
+    func createPayInfo(title: String, memo: String, cost: Int, isMyPay: Bool, complition: @escaping (Bool, String) -> Void) async {
 
         guard let uid = Auth.auth().currentUser?.uid else {
             complition(false, "uidが見つかりません。")
@@ -21,7 +21,7 @@ class AddPaymentViewModel: ObservableObject {
         }
 
         do {
-            try await fireStorePaymentManager.createPayment(userUid: uid, title: title, memo: memo, cost: cost, isMyPayment: isMyPayment)
+            try await fireStorePayInfoManager.createPayInfo(userUid: uid, title: title, memo: memo, cost: cost, isMyPay: isMyPay)
             complition(true, "アカウント登録成功")
         } catch FirebaseErrorType.FireStore(let error) {
             let errorMessage = firebaseErrorManager.getFirestoreErrorMessage(error)

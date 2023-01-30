@@ -7,11 +7,11 @@
 
 import SwiftUI
 
-struct AddPaymentView: View {
+struct AddPayInfoView: View {
 
-    @ObservedObject var addPaymentViewModel = AddPaymentViewModel()
+    @ObservedObject var addPaymentViewModel = AddPayInfoViewModel()
 
-    @Binding var isAddPaymentView: Bool
+    @Binding var isAddPayInfoView: Bool
 
     @State private var selectedIndex = 0
     @State var title: String = ""
@@ -42,15 +42,15 @@ struct AddPaymentView: View {
                 // 画面をもとに戻す
                 // 後でViewmodelに書く
                 Task {
-                    await  addPaymentViewModel.createPayment(
+                    await  addPaymentViewModel.createPayInfo(
                         title: title,
                         memo: memo,
                         cost: Int(cost) ?? 0,
-                        isMyPayment: selectedIndex==0 ? true : false,
+                        isMyPay: selectedIndex==0 ? true : false,
                         complition: { isSuccess, message in
                             if isSuccess {
                                 print("登録成功")
-                                isAddPaymentView = false
+                                isAddPayInfoView = false
                             } else {
                                 print("登録失敗", message)
                             }

@@ -35,7 +35,7 @@ class FireStoreUserManager {
         }
     }
 
-    func fetchUser2(uid: String, completion: @escaping(User?, Error?) -> Void) {
+    func fetchUser(uid: String, completion: @escaping(User?, Error?) -> Void) {
 
          db.collection("Users").document(uid).getDocument { snapShot, error in
             if let error = error {
@@ -46,7 +46,7 @@ class FireStoreUserManager {
                   let userName = data["userName"] as? String,
                   let mailAdress = data["email"] as? String,
                   let uid = data["uid"] as? String else { return }
-            let user = User(userName: userName, mailAdress: mailAdress, uid: uid)
+            let user = User(userName: userName, mailAdress: mailAdress, myUid: uid)
 
             completion(user,nil)
         }

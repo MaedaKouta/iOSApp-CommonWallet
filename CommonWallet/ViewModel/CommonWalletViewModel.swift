@@ -9,13 +9,14 @@ import Foundation
 
 class CommonWalletViewModel: ObservableObject {
 
-    @Published var paidPayments = [Payment]()
-    @Published var unpaidPayments = [Payment]()
+    @Published var paidPayments = [PayInfo]()
+    @Published var unpaidPayments = [PayInfo]()
+    @Published var unpaidCost = Int()
 
-    private var fireStorePaymentManager = FireStorePaymentManager()
+    private var fireStorePaymentManager = FireStorePayInfoManager()
 
     func featchPayments() {
-        fireStorePaymentManager.fetchPaidPayments(completion: { payments, error in
+        fireStorePaymentManager.fetchPaidPayInfo(completion: { payments, error in
             if let payments = payments {
                 self.paidPayments = payments
             } else {
@@ -23,12 +24,28 @@ class CommonWalletViewModel: ObservableObject {
             }
         })
 
-        fireStorePaymentManager.fetchUnpaidPayments(completion: { payments, error in
+        fireStorePaymentManager.fetchUnpaidPayInfo(completion: { payments, error in
             if let payments = payments {
                 self.unpaidPayments = payments
+                self.unpaidCost = self.calculateUnPaidCost()
             } else {
                 print(error as Any)
             }
         })
     }
+
+
+    // 立替金額を計算する関数
+    private func calculateUnPaidCost() -> Int {
+        var cost: Int = 0
+        for unPaidPayment in self.unpaidPayments {
+            if unPaidPayment.isMyPay {
+                cost += unPaidPayment.cost
+            } else {
+                cost -= unPaidPayment.cost
+            }
+        }
+        return cost
+    }
+
 }
