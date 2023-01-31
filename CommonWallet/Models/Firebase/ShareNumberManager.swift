@@ -14,37 +14,11 @@ class ShareNumberManager {
     private let db = Firestore.firestore()
 
     /*
-     16桁のうち、
-     0-4桁：8888 - yyyy
-     5-8桁：2222 - mmdd
-     9-16桁：ユーザー数
+     16桁をランダムで生成
      */
     func createShareNumber() async -> String {
 
-        var firstQuarterNumber: String = ""
-        var secoundQuarterNumber: String = ""
-        var lastHalfNumber: String = ""
 
-        // 前半8桁
-        let date = Date()
-        let year = Calendar.current.component(.year, from: date)
-        let month = Calendar.current.component(.month, from: date)
-        let day = Calendar.current.component(.day, from: date)
-        let dating: Int = Int((String(month) + String(day))) ?? 0
-        firstQuarterNumber = String(format: "%04d", 8888 - year)
-        secoundQuarterNumber = String(format: "%04d", 2222 - dating)
-
-        // 後半8桁
-        await fetchUserCount(completion: { count, error in
-            if let count = count {
-                print(count)
-                lastHalfNumber = String(format: "%08d", count)
-            } else {
-                print(error as Any)
-            }
-        })
-
-        return firstQuarterNumber + secoundQuarterNumber + lastHalfNumber
     }
 
     private func fetchUserCount(completion: @escaping(Int?, Error?) -> Void) async {
@@ -82,9 +56,14 @@ class ShareNumberManager {
         }
     }
 
-    private func createRandomNumberString(_ length: Int) -> String {
-        let randomInt = Int.random(in: 1..<9999)
-        return String(format: "%04d", randomInt)
+    // 16桁の乱数を生成する関数
+    private func createRandom16NumberString() -> String {
+        let firstQuarter = String(format: "%04d", Int.random(in: 0..<9999))
+        let secondQuarter = String(format: "%04d", Int.random(in: 0..<9999))
+        let thirdQuarter = String(format: "%04d", Int.random(in: 0..<9999))
+        let forthQuarter = String(format: "%04d", Int.random(in: 0..<9999))
+
+        return firstQuarter + secondQuarter + thirdQuarter + firstQuarter
     }
 
 }
