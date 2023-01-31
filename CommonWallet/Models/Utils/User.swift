@@ -15,6 +15,7 @@ struct User {
     var userName: String
     var mailAdress: String
     var myUid: String
+    var myShareNumber: String
     var partnerUid: String?
     var partnerName: String?
 }

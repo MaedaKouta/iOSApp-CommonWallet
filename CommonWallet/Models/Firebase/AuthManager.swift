@@ -81,7 +81,7 @@ class AuthManager {
     }
 
      // MARK: - アカウント登録処理
-    func createUser(email: String, password: String, name: String) async throws {
+    func createUser(email: String, password: String, name: String, shareNumber: String) async throws {
 
         var uid = String()
         var fireStoreError: Error!
@@ -96,7 +96,7 @@ class AuthManager {
 
         // FireStoreへのアカウント情報追加
         do {
-            try await fireStoreUserManager.createUser(userName: name, email: email, uid: uid)
+            try await fireStoreUserManager.createUser(userName: name, email: email, uid: uid, shareNumber: shareNumber)
         } catch {
             throw FirebaseErrorType.FireStore(error as NSError)
         }

@@ -30,4 +30,5 @@ class LaunchStatus {
             return version == launchedVersion ? .Launched : .NewVersionLaunch
         }
     }
+
 }

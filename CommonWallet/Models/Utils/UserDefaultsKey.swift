@@ -18,6 +18,7 @@ struct UserDefaultsKey {
     // ユーザー情報
     let userUid = "userUid"
     let userName = "userName"
+    let userShareNumber = "userShareNumber"
     let mailAdress = "mailAdress"
 
     // バージョン情報
