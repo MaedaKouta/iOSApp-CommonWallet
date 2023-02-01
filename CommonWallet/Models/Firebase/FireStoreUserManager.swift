@@ -15,11 +15,12 @@ class FireStoreUserManager {
     private let db = Firestore.firestore()
     private var userDefaultsManager = UserDefaultsManager()
 
-    func createUser(userName: String, email: String, uid: String) async throws {
+    func createUser(userName: String, email: String, uid: String, shareNumber: String) async throws {
         let user: Dictionary<String, Any> = ["userName": userName,
                                              "uid": uid,
                                              "createdAt": Timestamp(),
-                                             "email": email]
+                                             "email": email,
+                                             "shareNumber": shareNumber]
         do {
             try await db.collection("Users").document(uid).setData(user)
         } catch {
@@ -45,8 +46,9 @@ class FireStoreUserManager {
             guard let data = snapShot?.data(),
                   let userName = data["userName"] as? String,
                   let mailAdress = data["email"] as? String,
-                  let uid = data["uid"] as? String else { return }
-            let user = User(userName: userName, mailAdress: mailAdress, myUid: uid)
+                  let uid = data["uid"] as? String,
+                  let shareNumber = data["shareNumber"] as? String else { return }
+             let user = User(userName: userName, mailAdress: mailAdress, myUid: uid, myShareNumber: shareNumber)
 
             completion(user,nil)
         }
