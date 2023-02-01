@@ -16,44 +16,41 @@ class ShareNumberManager {
     /*
      16桁をランダムで生成
      */
+    // TODO: 一生繰り返し処理なったら大変だから、ループの制限作ろう
     func createShareNumber() async -> String {
 
+        var shareNumber = createRandom16NumberString()
+        var duplicateCheck = await checkDuplicateNumber(number: shareNumber)
+
+        // もしshareNumberが重複した場合に作り直す処理
+        while !duplicateCheck {
+            sleep(1)
+            shareNumber = createRandom16NumberString()
+            duplicateCheck = await checkDuplicateNumber(number: shareNumber)
+        }
+
+        return shareNumber
 
     }
 
-    private func fetchUserCount(completion: @escaping(Int?, Error?) -> Void) async {
+    private func checkDuplicateNumber(number: String) async -> Bool {
 
-        var count = Int()
-
-        // 値をFireStoreから取得
-        db.collection("SignUpUserNumber")
-            .addSnapshotListener { snapShots, error in
-
-                if let error = error {
-                    completion(nil, error)
-                    return
-                }
-                print("FirestoreからUserCountの取得に成功")
-
-                snapShots?.documents.forEach({ snapShot in
-                    let data = snapShot.data()
-                    guard let userNumber = data["userNumber"] as? Int else {
-                        completion(nil, error)
-                        return
-                    }
-                    count = userNumber
-                })
-            }
-
-        // 値をFireStoreにセット
-        count += 1
-        let signUpUserNumber: Dictionary<String, Any> = ["userNumber": count]
         do {
-            try await db.collection("SignUpUserNumber").document("SignUpUserNumber").setData(signUpUserNumber)
-            completion(count, nil)
+            let snapShots = try await db.collection("Users")
+                .whereField("shareNumber", isEqualTo: number)
+                .getDocuments()
+
+            // もしドキュメントに同じ値が存在しなければtrueを返す
+            if snapShots.documents.count == 0 {
+                return true
+            } else {
+                return false
+            }
         } catch {
-            completion(nil, error)
+            // 例外処理
         }
+
+        return false
     }
 
     // 16桁の乱数を生成する関数
@@ -63,7 +60,7 @@ class ShareNumberManager {
         let thirdQuarter = String(format: "%04d", Int.random(in: 0..<9999))
         let forthQuarter = String(format: "%04d", Int.random(in: 0..<9999))
 
-        return firstQuarter + secondQuarter + thirdQuarter + firstQuarter
+        return firstQuarter + secondQuarter + thirdQuarter + forthQuarter
     }
 
 }

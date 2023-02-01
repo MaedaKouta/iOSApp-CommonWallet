@@ -17,9 +17,7 @@ class CreateUserViewModel: ObservableObject {
         // ユーザーの共有番号を作る
         var shareNumber = ""
         do {
-            shareNumber =  try await shareNumberManager.createShareNumber()
-        } catch {
-            print("失敗")
+            shareNumber = await shareNumberManager.createShareNumber()
         }
 
         do {
