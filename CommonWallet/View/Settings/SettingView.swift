@@ -44,7 +44,16 @@ struct SettingView: View {
                                 .lineLimit(0)
                                 .minimumScaleFactor(0.5)
                         }
-                        Text("パートナー")
+
+                        HStack {
+                            Text("パートナー")
+                            NavigationLink(destination: AccountView() ) {
+                                Text("未登録")
+                                    .foregroundColor(.gray)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                            }
+                        }
+
                     } header: {
                         Text("パートナー登録")
                     }
