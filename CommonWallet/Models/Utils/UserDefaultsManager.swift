@@ -39,6 +39,10 @@ struct UserDefaultsManager {
         return user
     }
 
+    mutating func getShareNumber() -> String? {
+        return UserDefaults.standard.string(forKey: userDefaultsKey.userShareNumber)
+    }
+
     var isSignedIn: Bool? {
         get {
             return UserDefaults.standard.bool(forKey: userDefaultsKey.isSignedIn)

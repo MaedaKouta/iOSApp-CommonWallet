@@ -66,7 +66,7 @@ struct LaunchScreen: View {
                         SignInView()
                     }
                     .fullScreenCover(isPresented: self.$isContentView){
-                        ContentView()
+                        CommonWalletView()
                     }
             }
         }

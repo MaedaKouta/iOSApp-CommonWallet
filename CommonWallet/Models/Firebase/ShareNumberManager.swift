@@ -14,7 +14,7 @@ class ShareNumberManager {
     private let db = Firestore.firestore()
 
     /*
-     16桁をランダムで生成
+     12桁をランダムで生成
      */
     // TODO: 一生繰り返し処理なったら大変だから、ループの制限作ろう
     func createShareNumber() async -> String {
@@ -53,14 +53,13 @@ class ShareNumberManager {
         return false
     }
 
-    // 16桁の乱数を生成する関数
+    // 12桁の乱数を生成する関数
     private func createRandom16NumberString() -> String {
-        let firstQuarter = String(format: "%04d", Int.random(in: 0..<9999))
-        let secondQuarter = String(format: "%04d", Int.random(in: 0..<9999))
-        let thirdQuarter = String(format: "%04d", Int.random(in: 0..<9999))
-        let forthQuarter = String(format: "%04d", Int.random(in: 0..<9999))
+        let firstBreake = String(format: "%04d", Int.random(in: 0..<9999))
+        let secondBreake = String(format: "%04d", Int.random(in: 0..<9999))
+        let thirdBreake = String(format: "%04d", Int.random(in: 0..<9999))
 
-        return firstQuarter + secondQuarter + thirdQuarter + forthQuarter
+        return firstBreake + secondBreake + thirdBreake
     }
 
 }

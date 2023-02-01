@@ -34,7 +34,13 @@ struct SettingView: View {
                     }
 
                     Section {
-                        Text("共有番号")
+                        HStack {
+                            Text("共有番号")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Text("2345 4513 4553 4355")
+                                .lineLimit(0)
+                                .minimumScaleFactor(0.5)
+                        }
                         Text("パートナー")
                     } header: {
                         Text("パートナー登録")
