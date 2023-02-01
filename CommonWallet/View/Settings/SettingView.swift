@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct SettingView: View {
+
+    @ObservedObject var settingViewModel = SettingViewModel()
+
     var body: some View {
         NavigationView {
             VStack {
@@ -37,7 +40,7 @@ struct SettingView: View {
                         HStack {
                             Text("共有番号")
                                 .frame(maxWidth: .infinity, alignment: .leading)
-                            Text("2345 4513 4553 4355")
+                            Text(settingViewModel.shareNumber)
                                 .lineLimit(0)
                                 .minimumScaleFactor(0.5)
                         }
