@@ -17,6 +17,7 @@ class FireStorePartnerManager {
     func connectPartner(partnerShareNumber: String) async -> Bool {
         guard let uid = Auth.auth().currentUser?.uid else { return false }
         var partnerUid: String = ""
+        var partnerName: String = ""
 
         // パートナーのshareNumberからUidを探る
         do {
@@ -26,10 +27,12 @@ class FireStorePartnerManager {
 
             if snapShots.documents.count == 1 {
                 let data = snapShots.documents[0].data()
-                guard let uid = data["uid"] as? String else {
+                guard let uid = data["uid"] as? String,
+                let userName = data["userName"] as? String else {
                     return false
                 }
                 partnerUid = uid
+                partnerName = userName
             } else {
                 return false
             }
@@ -60,7 +63,7 @@ class FireStorePartnerManager {
         }
 
         // UserDefaultにセットする
-        userDefaultManager.partnerUid = partnerUid
+        userDefaultManager.setPartner(uid: partnerUid, name: partnerName, shareNumber: partnerShareNumber)
 
         return true
 
