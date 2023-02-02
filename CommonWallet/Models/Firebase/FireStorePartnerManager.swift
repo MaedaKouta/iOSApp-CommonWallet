@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseAuth
 import Firebase
+import FirebaseFirestore
 
 class FireStorePartnerManager {
 
@@ -68,4 +69,68 @@ class FireStorePartnerManager {
         return true
 
     }
+
+    func deletePartner() async -> Bool {
+        guard let myUid = Auth.auth().currentUser?.uid else {
+            return false
+        }
+        guard let partnerUid = userDefaultManager.getPartnerUid() else {
+            return false
+        }
+
+        // お互いにFireStoreから削除する
+        // TODO: 強引にお互いにセットしてるの修正する。相手の承認が必要な感じに
+        do {
+            try await db.collection("Users")
+                .document(myUid)
+                .updateData([
+                    "partnerUid": FieldValue.delete(),
+                ])
+
+            try await db.collection("Users")
+                .document(partnerUid)
+                .setData([
+                    "partnerUid": FieldValue.delete(),
+                ])
+
+        } catch {
+            // TODO: 例外処理
+            return false
+        }
+
+        // UserDefaultにセットする
+        // TODO: 自分の方はUserDefault削除できるけど、相手方は削除できていない、改善する。
+        userDefaultManager.deletePartner()
+        return true
+
+    }
+
+
+    // 相手が連携削除していたら、自分のUserDefaultから相手を削除する処理。アプリ起動時に毎回行う。
+    func fetchDeletePartner() async {
+        guard let uid = Auth.auth().currentUser?.uid else {
+            return
+        }
+
+        // 自分のpartnerUidに値がセットされているかチェック
+        do {
+            let snapShots = try await db.collection("Users")
+                .whereField("uid", isEqualTo: uid)
+                .getDocuments()
+
+            snapShots.documents.forEach({ snapShot in
+                let data = snapShot.data()
+                guard let _ = data["partnerUid"] as? String else {
+                    // partnerUidが空だった
+                    userDefaultManager.deletePartner()
+                    return
+                }
+            })
+
+        } catch {
+            // TODO: 例外処理
+            return
+        }
+    }
+
 }

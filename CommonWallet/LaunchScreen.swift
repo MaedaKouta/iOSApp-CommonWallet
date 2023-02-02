@@ -17,6 +17,7 @@ struct LaunchScreen: View {
     @State private var isContentView = false
     @State private var userDefaultsManager = UserDefaultsManager()
     @State private var fireStoreUserManager = FireStoreUserManager()
+    @State private var fireStorePartnerManager = FireStorePartnerManager()
 
     var body: some View {
 
@@ -31,6 +32,9 @@ struct LaunchScreen: View {
                     .onAppear {
                         if let _ = Auth.auth().currentUser?.uid {
                             // サインインがすでにされている処理分岐
+                            Task {
+                                await fireStorePartnerManager.fetchDeletePartner()
+                            }
 
                             // ここでは、アニメーション無しで画面遷移させている
                             var transaction = Transaction()
