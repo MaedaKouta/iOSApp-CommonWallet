@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct AccountView: View {
+    let authManager = AuthManager()
+    @State var fireStoreUserManager = FireStoreUserManager()
+
     var body: some View {
         VStack {
             List {
@@ -19,11 +22,31 @@ struct AccountView: View {
                 }
 
                 Section {
-                    Text("サインアウト")
+                    Button(action: {
+                        Task {
+                            do {
+                                try await authManager.signOut()
+                            } catch {
+                                print("サインアウト失敗", error)
+                            }
+                        }
+                    }) {
+                        Text("サインアウト")
+                    }
                 }
 
                 Section {
-                    Text("アカウント削除")
+                    Button(action: {
+                        Task {
+                            do {
+                                try await authManager.deleteUser()
+                            } catch {
+                                print("アカウント削除", error)
+                            }
+                        }
+                    }) {
+                        Text("アカウント削除")
+                    }
                 }
             }
             .navigationTitle("アカウント")

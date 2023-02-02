@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ConnectPartnerView: View {
 
+    @ObservedObject var connectPartnerViewModel = ConnectPartnerViewModel()
+
     @State private var firstBreakText: String = ""
     @State private var secondBreakText: String = ""
     @State private var thirdBreakText: String = ""
@@ -63,6 +65,10 @@ struct ConnectPartnerView: View {
 
             // TODO: 今は強引に連携してるけど、連携の申請して承認したら連携なるようにしよう
             Button(action: {
+                Task {
+                    let shareNumber = firstBreakText+secondBreakText+thirdBreakText
+                    await connectPartnerViewModel.connectPartner(partnerShareNumber: shareNumber)
+                }
             }) {
                 Text("連携する")
             }

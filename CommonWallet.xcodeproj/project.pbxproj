@@ -49,6 +49,8 @@
 		879379E0298B444500D3A47B /* ConnectPartnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379DF298B444500D3A47B /* ConnectPartnerView.swift */; };
 		879379E2298B4C8D00D3A47B /* ChangePartnerNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E1298B4C8D00D3A47B /* ChangePartnerNameView.swift */; };
 		879379E4298B53E600D3A47B /* FireStorePartnerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E3298B53E600D3A47B /* FireStorePartnerManager.swift */; };
+		879379E7298B5B4E00D3A47B /* ConnectPartnerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E6298B5B4E00D3A47B /* ConnectPartnerViewModel.swift */; };
+		879379E9298B85E300D3A47B /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E8298B85E300D3A47B /* AccountViewModel.swift */; };
 		87CA8FB7297BF73800248187 /* CreateUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */; };
 		87CA8FB9297BF76A00248187 /* CreateUserViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CA8FB8297BF76A00248187 /* CreateUserViewModelTests.swift */; };
 		87CDAAB2297E529F00F52887 /* CommonWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAAB1297E529F00F52887 /* CommonWalletView.swift */; };
@@ -120,6 +122,8 @@
 		879379DF298B444500D3A47B /* ConnectPartnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectPartnerView.swift; sourceTree = "<group>"; };
 		879379E1298B4C8D00D3A47B /* ChangePartnerNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePartnerNameView.swift; sourceTree = "<group>"; };
 		879379E3298B53E600D3A47B /* FireStorePartnerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorePartnerManager.swift; sourceTree = "<group>"; };
+		879379E6298B5B4E00D3A47B /* ConnectPartnerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectPartnerViewModel.swift; sourceTree = "<group>"; };
+		879379E8298B85E300D3A47B /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewModel.swift; sourceTree = "<group>"; };
 		87CA8FB8297BF76A00248187 /* CreateUserViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewModelTests.swift; sourceTree = "<group>"; };
 		87CDAAB1297E529F00F52887 /* CommonWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletView.swift; sourceTree = "<group>"; };
@@ -177,11 +181,11 @@
 		872652F4297BB88E002C76D6 /* ViewModel */ = {
 			isa = PBXGroup;
 			children = (
+				879379E5298B5B3000D3A47B /* Settings */,
 				872652F5297BB8AB002C76D6 /* SignInViewModel.swift */,
 				87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */,
 				87CDAAB4297E5C8000F52887 /* CommonWalletViewModel.swift */,
 				87F53FE2297EA70B00293176 /* AddPayInfoViewModel.swift */,
-				87391E4B298A15B600897A96 /* SettingViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -253,6 +257,16 @@
 			children = (
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		879379E5298B5B3000D3A47B /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				87391E4B298A15B600897A96 /* SettingViewModel.swift */,
+				879379E6298B5B4E00D3A47B /* ConnectPartnerViewModel.swift */,
+				879379E8298B85E300D3A47B /* AccountViewModel.swift */,
+			);
+			path = Settings;
 			sourceTree = "<group>";
 		};
 		87CDAABA297E69ED00F52887 /* Settings */ = {
@@ -501,8 +515,10 @@
 				87F53FE3297EA70B00293176 /* AddPayInfoViewModel.swift in Sources */,
 				874EF941297D08B100C94233 /* User.swift in Sources */,
 				872652F3297B92A8002C76D6 /* FirebaseErrorManager.swift in Sources */,
+				879379E7298B5B4E00D3A47B /* ConnectPartnerViewModel.swift in Sources */,
 				87CDAAB2297E529F00F52887 /* CommonWalletView.swift in Sources */,
 				87CDAAB5297E5C8000F52887 /* CommonWalletViewModel.swift in Sources */,
+				879379E9298B85E300D3A47B /* AccountViewModel.swift in Sources */,
 				872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */,
 				87391E50298A189900897A96 /* String.swift in Sources */,
 				87F53FE0297EA44E00293176 /* FireStorePayInfoManager.swift in Sources */,
