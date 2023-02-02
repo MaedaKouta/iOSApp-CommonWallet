@@ -47,7 +47,7 @@ class ShareNumberManager {
                 return false
             }
         } catch {
-            // 例外処理
+            // TODO: 例外処理
         }
 
         return false

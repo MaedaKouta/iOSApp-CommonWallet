@@ -74,4 +74,22 @@ struct UserDefaultsManager {
         }
     }
 
+    var partnerUid: String? {
+        get {
+            return UserDefaults.standard.string(forKey: userDefaultsKey.partnerUid)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: userDefaultsKey.partnerUid)
+        }
+    }
+
+    var partnerUserName: String? {
+        get {
+            return UserDefaults.standard.string(forKey: userDefaultsKey.partnerName)
+        }
+        set {
+            UserDefaults.standard.set(newValue, forKey: userDefaultsKey.partnerName)
+        }
+    }
+
 }
