@@ -20,6 +20,8 @@ struct UserDefaultsKey {
     let userName = "userName"
     let userShareNumber = "userShareNumber"
     let mailAdress = "mailAdress"
+    let partnerUid = "partnerUid"
+    let partnerName = "partnerName"
 
     // バージョン情報
     let launchedVersion = "launchedVersion"
