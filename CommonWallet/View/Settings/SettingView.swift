@@ -10,7 +10,6 @@ import SwiftUI
 struct SettingView: View {
 
     @ObservedObject var settingViewModel = SettingViewModel()
-
     @State private var connectText: String = ""
 
     var body: some View {
@@ -60,7 +59,16 @@ struct SettingView: View {
 
                         HStack {
                             Text("パートナー")
-                            NavigationLink(destination: ConnectPartnerView() ) {
+
+                            NavigationLink(destination: {
+                                VStack {
+                                    if settingViewModel.isConnectPartner() {
+                                        UnConnectPartnerView()
+                                    } else {
+                                        ConnectPartnerView()
+                                    }
+                                }
+                            }, label: {
                                 Text(connectText)
                                     .foregroundColor(.gray)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
@@ -71,8 +79,10 @@ struct SettingView: View {
                                             connectText = "未連携"
                                         }
                                     }
-                            }
+                            })
+
                         }
+
 
                     } header: {
                         Text("パートナー登録")

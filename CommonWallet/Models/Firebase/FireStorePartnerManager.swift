@@ -83,15 +83,15 @@ class FireStorePartnerManager {
         do {
             try await db.collection("Users")
                 .document(myUid)
-                .updateData([
+                .setData([
                     "partnerUid": FieldValue.delete(),
-                ])
+                ], merge: true)
 
             try await db.collection("Users")
                 .document(partnerUid)
                 .setData([
                     "partnerUid": FieldValue.delete(),
-                ])
+                ], merge: true)
 
         } catch {
             // TODO: 例外処理
