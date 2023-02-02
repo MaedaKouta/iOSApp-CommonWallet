@@ -21,12 +21,12 @@ class FireStorePartnerManager {
         // パートナーのshareNumberからUidを探る
         do {
             let snapShots = try await db.collection("Users")
-                .whereField("myShareNumber", isEqualTo: partnerShareNumber)
+                .whereField("shareNumber", isEqualTo: partnerShareNumber)
                 .getDocuments()
 
             if snapShots.documents.count == 1 {
                 let data = snapShots.documents[0].data()
-                guard let uid = data["userUid"] as? String else {
+                guard let uid = data["uid"] as? String else {
                     return false
                 }
                 partnerUid = uid
@@ -39,15 +39,23 @@ class FireStorePartnerManager {
             return false
         }
 
-        // FireStoreにセットする
+        // お互いにFireStoreにセットする
+        // TODO: 強引にお互いにセットしてるの修正する。相手の承認が必要な感じに
         do {
             try await db.collection("Users")
                 .document(uid)
                 .setData([
                     "partnerUid": partnerUid,
                 ], merge: true)
+
+            try await db.collection("Users")
+                .document(partnerUid)
+                .setData([
+                    "partnerUid": uid,
+                ], merge: true)
         } catch {
             // TODO: 例外処理
+            print("4")
             return false
         }
 

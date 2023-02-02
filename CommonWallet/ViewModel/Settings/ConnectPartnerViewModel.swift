@@ -14,7 +14,14 @@ class ConnectPartnerViewModel: ObservableObject {
     private let fireStorePartnerManager = FireStorePartnerManager()
 
     func connectPartner(partnerShareNumber: String) async {
-        isConnect = await fireStorePartnerManager.connectPartner(partnerShareNumber: partnerShareNumber)
+
+        let aaa = await fireStorePartnerManager.connectPartner(partnerShareNumber: partnerShareNumber)
+        print("\(aaa)")
+
+        DispatchQueue.main.async {  // 👈 メインスレッドで実行する
+            self.isConnect = aaa
+            print("\(aaa)")
+        }
     }
 
 }
