@@ -10,6 +10,7 @@ import FirebaseAuth
 import Firebase
 import FirebaseFirestore
 
+// TODO: パートナーの改名もUserDefaultsだけじゃなくFireStoreに保存する処理追加する
 class FireStorePartnerManager {
 
     private let db = Firestore.firestore()
@@ -59,7 +60,6 @@ class FireStorePartnerManager {
                 ], merge: true)
         } catch {
             // TODO: 例外処理
-            print("4")
             return false
         }
 

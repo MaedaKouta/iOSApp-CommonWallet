@@ -53,6 +53,7 @@
 		879379E9298B85E300D3A47B /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E8298B85E300D3A47B /* AccountViewModel.swift */; };
 		879379EB298B999700D3A47B /* UnConnectPartnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EA298B999700D3A47B /* UnConnectPartnerView.swift */; };
 		879379ED298B99C700D3A47B /* UnConnectPartnerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EC298B99C700D3A47B /* UnConnectPartnerViewModel.swift */; };
+		879379EF298BBDB800D3A47B /* ChangePartnerNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EE298BBDB800D3A47B /* ChangePartnerNameViewModel.swift */; };
 		87CA8FB7297BF73800248187 /* CreateUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */; };
 		87CA8FB9297BF76A00248187 /* CreateUserViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CA8FB8297BF76A00248187 /* CreateUserViewModelTests.swift */; };
 		87CDAAB2297E529F00F52887 /* CommonWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAAB1297E529F00F52887 /* CommonWalletView.swift */; };
@@ -128,6 +129,7 @@
 		879379E8298B85E300D3A47B /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		879379EA298B999700D3A47B /* UnConnectPartnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnConnectPartnerView.swift; sourceTree = "<group>"; };
 		879379EC298B99C700D3A47B /* UnConnectPartnerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnConnectPartnerViewModel.swift; sourceTree = "<group>"; };
+		879379EE298BBDB800D3A47B /* ChangePartnerNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePartnerNameViewModel.swift; sourceTree = "<group>"; };
 		87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewModel.swift; sourceTree = "<group>"; };
 		87CA8FB8297BF76A00248187 /* CreateUserViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewModelTests.swift; sourceTree = "<group>"; };
 		87CDAAB1297E529F00F52887 /* CommonWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletView.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 				879379E6298B5B4E00D3A47B /* ConnectPartnerViewModel.swift */,
 				879379EC298B99C700D3A47B /* UnConnectPartnerViewModel.swift */,
 				879379E8298B85E300D3A47B /* AccountViewModel.swift */,
+				879379EE298BBDB800D3A47B /* ChangePartnerNameViewModel.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -531,6 +534,7 @@
 				87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */,
 				87CDAABC297E6ADB00F52887 /* AccountView.swift in Sources */,
 				879379E0298B444500D3A47B /* ConnectPartnerView.swift in Sources */,
+				879379EF298BBDB800D3A47B /* ChangePartnerNameViewModel.swift in Sources */,
 				879379ED298B99C700D3A47B /* UnConnectPartnerViewModel.swift in Sources */,
 				87F53FDE297E919F00293176 /* PayInfo.swift in Sources */,
 				874EF936297CBD1C00C94233 /* LaunchStatus.swift in Sources */,

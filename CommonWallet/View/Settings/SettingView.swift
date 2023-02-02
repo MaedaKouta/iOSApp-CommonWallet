@@ -51,9 +51,11 @@ struct SettingView: View {
                         HStack {
                             Text("パートナーの名前")
                             NavigationLink(destination: ChangePartnerNameView() ) {
-                                Text("もえ")
+                                Text(settingViewModel.partnerName)
                                     .foregroundColor(.gray)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
+                            }.onAppear{
+                                settingViewModel.reloadPartnerName()
                             }
                         }
 

@@ -15,7 +15,6 @@ struct UserDefaultsManager {
         UserDefaults.standard.set(user.uid, forKey: userDefaultsKey.uid)
         UserDefaults.standard.set(user.userName, forKey: userDefaultsKey.userName)
         UserDefaults.standard.set(user.email, forKey: userDefaultsKey.email)
-        UserDefaults.standard.set(user.email, forKey: userDefaultsKey.email)
         UserDefaults.standard.set(user.shareNumber, forKey: userDefaultsKey.shareNumber)
 
         if let partnerUid = user.partnerUid {
@@ -60,6 +59,10 @@ struct UserDefaultsManager {
         UserDefaults.standard.set(uid, forKey: userDefaultsKey.partnerUid)
         UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)
         UserDefaults.standard.set(shareNumber, forKey: userDefaultsKey.partnerShareNumber)
+    }
+
+    mutating func setPartnerName(name: String) {
+        UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)
     }
 
     mutating func deletePartner() {

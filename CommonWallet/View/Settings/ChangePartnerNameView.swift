@@ -9,13 +9,14 @@ import SwiftUI
 
 struct ChangePartnerNameView: View {
 
+    @ObservedObject var changePartnerNameViewModel = ChangePartnerNameViewModel()
     @State private var partnerName: String = ""
     @State private var isInputPartnerName: Bool = false
 
     var body: some View {
 
         VStack {
-            TextField("1234", text: $partnerName)
+            TextField(changePartnerNameViewModel.beforePartnerName, text: $partnerName)
                 .onChange(of: partnerName, perform: { newValue in
                     if partnerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         isInputPartnerName = false
@@ -23,12 +24,17 @@ struct ChangePartnerNameView: View {
                         isInputPartnerName = true
                     }
                 })
+                .onAppear{
+                    partnerName = changePartnerNameViewModel.beforePartnerName
+                }
                 .textFieldStyle(.roundedBorder)
                 .padding()
 
             Button(action: {
+                let newPartnerName = partnerName.trimmingCharacters(in: .whitespacesAndNewlines)
+                changePartnerNameViewModel.changePartnerName(newName: newPartnerName)
             }) {
-                Text("変更する")
+                Text("設定する")
             }
             .disabled(!isInputPartnerName)
 
