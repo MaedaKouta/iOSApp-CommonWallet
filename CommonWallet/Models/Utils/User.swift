@@ -13,9 +13,12 @@ import Firebase
  */
 struct User {
     var userName: String
-    var mailAdress: String
-    var myUid: String
-    var myShareNumber: String
+    var email: String
+    var uid: String
+    var shareNumber: String
     var partnerUid: String?
+
+    // UserDefaultだけ保存する変数
     var partnerName: String?
+    var partnerShareNumber: String?
 }

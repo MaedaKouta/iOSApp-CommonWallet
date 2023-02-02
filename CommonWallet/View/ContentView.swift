@@ -20,9 +20,9 @@ struct ContentView: View {
                 .foregroundColor(.accentColor)
             Text("Hello, world!")
 
-            Text(user?.myUid ?? "")
+            Text(user?.uid ?? "")
             Text(user?.userName ?? "")
-            Text(user?.mailAdress ?? "")
+            Text(user?.email ?? "")
 
             Button(action: {
                 Task {

@@ -8,6 +8,10 @@
 import SwiftUI
 
 struct SettingView: View {
+
+    @ObservedObject var settingViewModel = SettingViewModel()
+    @State private var connectText: String = ""
+
     var body: some View {
         NavigationView {
             VStack {
@@ -29,13 +33,59 @@ struct SettingView: View {
                                 }
                             }
                         }
+
+                        HStack {
+                            Text("共有番号")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Text(settingViewModel.shareNumber)
+                                .lineLimit(0)
+                                .minimumScaleFactor(0.5)
+                        }
+
                     } header: {
                         Text("アカウント")
                     }
 
                     Section {
-                        Text("共有番号")
-                        Text("パートナー")
+
+                        HStack {
+                            Text("パートナーの名前")
+                            NavigationLink(destination: ChangePartnerNameView() ) {
+                                Text(settingViewModel.partnerName)
+                                    .foregroundColor(.gray)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                            }.onAppear{
+                                settingViewModel.reloadPartnerName()
+                            }
+                        }
+
+                        HStack {
+                            Text("パートナー")
+
+                            NavigationLink(destination: {
+                                VStack {
+                                    if settingViewModel.isConnectPartner() {
+                                        UnConnectPartnerView()
+                                    } else {
+                                        ConnectPartnerView()
+                                    }
+                                }
+                            }, label: {
+                                Text(connectText)
+                                    .foregroundColor(.gray)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .onAppear {
+                                        if settingViewModel.isConnectPartner() {
+                                            connectText = "連携済み"
+                                        } else {
+                                            connectText = "未連携"
+                                        }
+                                    }
+                            })
+
+                        }
+
+
                     } header: {
                         Text("パートナー登録")
                     }
