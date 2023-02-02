@@ -11,6 +11,8 @@ struct SettingView: View {
 
     @ObservedObject var settingViewModel = SettingViewModel()
 
+    @State private var connectText: String = ""
+
     var body: some View {
         NavigationView {
             VStack {
@@ -59,9 +61,16 @@ struct SettingView: View {
                         HStack {
                             Text("パートナー")
                             NavigationLink(destination: ConnectPartnerView() ) {
-                                Text("未連携")
+                                Text(connectText)
                                     .foregroundColor(.gray)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
+                                    .onAppear {
+                                        if settingViewModel.isConnectPartner() {
+                                            connectText = "連携済み"
+                                        } else {
+                                            connectText = "未連携"
+                                        }
+                                    }
                             }
                         }
 

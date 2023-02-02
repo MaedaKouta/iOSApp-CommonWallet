@@ -24,4 +24,12 @@ class SettingViewModel: ObservableObject {
         return splitShareNumber
     }
 
+    func isConnectPartner() -> Bool {
+        if let _ = userdefaultManager.getPartnerUid() {
+            return true
+        } else {
+            return false
+        }
+    }
+
 }

@@ -16,12 +16,13 @@ struct UserDefaultsKey {
     let isSignedIn = "isSignedIn"
 
     // ユーザー情報
-    let userUid = "userUid"
+    let uid = "uid"
     let userName = "userName"
-    let userShareNumber = "userShareNumber"
-    let mailAdress = "mailAdress"
+    let shareNumber = "shareNumber"
+    let email = "email"
     let partnerUid = "partnerUid"
     let partnerName = "partnerName"
+    let partnerShareNumber = "partnerShareNumber"
 
     // バージョン情報
     let launchedVersion = "launchedVersion"
