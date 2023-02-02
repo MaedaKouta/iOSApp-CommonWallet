@@ -58,7 +58,7 @@ struct SettingView: View {
 
                         HStack {
                             Text("パートナー")
-                            NavigationLink(destination: AccountView() ) {
+                            NavigationLink(destination: ConnectPartnerView() ) {
                                 Text("未連携")
                                     .foregroundColor(.gray)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
