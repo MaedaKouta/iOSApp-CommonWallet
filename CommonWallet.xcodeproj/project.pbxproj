@@ -47,6 +47,7 @@
 		87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7F297A20DB00184A7C /* CreateUserView.swift */; };
 		87830E81297A20DB00184A7C /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7F297A20DB00184A7C /* CreateUserView.swift */; };
 		879379E0298B444500D3A47B /* ConnectPartnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379DF298B444500D3A47B /* ConnectPartnerView.swift */; };
+		879379E2298B4C8D00D3A47B /* ChangePartnerNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E1298B4C8D00D3A47B /* ChangePartnerNameView.swift */; };
 		87CA8FB7297BF73800248187 /* CreateUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */; };
 		87CA8FB9297BF76A00248187 /* CreateUserViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CA8FB8297BF76A00248187 /* CreateUserViewModelTests.swift */; };
 		87CDAAB2297E529F00F52887 /* CommonWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAAB1297E529F00F52887 /* CommonWalletView.swift */; };
@@ -116,6 +117,7 @@
 		87830E7C297A201F00184A7C /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		87830E7F297A20DB00184A7C /* CreateUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserView.swift; sourceTree = "<group>"; };
 		879379DF298B444500D3A47B /* ConnectPartnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectPartnerView.swift; sourceTree = "<group>"; };
+		879379E1298B4C8D00D3A47B /* ChangePartnerNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePartnerNameView.swift; sourceTree = "<group>"; };
 		87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewModel.swift; sourceTree = "<group>"; };
 		87CA8FB8297BF76A00248187 /* CreateUserViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewModelTests.swift; sourceTree = "<group>"; };
 		87CDAAB1297E529F00F52887 /* CommonWalletView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletView.swift; sourceTree = "<group>"; };
@@ -256,6 +258,7 @@
 				87CDAAB7297E608400F52887 /* SettingView.swift */,
 				87CDAABB297E6ADB00F52887 /* AccountView.swift */,
 				879379DF298B444500D3A47B /* ConnectPartnerView.swift */,
+				879379E1298B4C8D00D3A47B /* ChangePartnerNameView.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -487,6 +490,7 @@
 				87EE8D7D297A1790005CCB6F /* AppDelegate.swift in Sources */,
 				874EF93A297CC8B200C94233 /* FireStoreUserManager.swift in Sources */,
 				87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */,
+				879379E2298B4C8D00D3A47B /* ChangePartnerNameView.swift in Sources */,
 				874EF934297CBB5700C94233 /* LaunchScreen.swift in Sources */,
 				87391E4C298A15B600897A96 /* SettingViewModel.swift in Sources */,
 				87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */,

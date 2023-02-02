@@ -49,7 +49,7 @@ struct SettingView: View {
 
                         HStack {
                             Text("パートナーの名前")
-                            NavigationLink(destination: AccountView() ) {
+                            NavigationLink(destination: ChangePartnerNameView() ) {
                                 Text("もえ")
                                     .foregroundColor(.gray)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
