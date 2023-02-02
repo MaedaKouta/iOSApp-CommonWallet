@@ -32,11 +32,7 @@ struct SettingView: View {
                                 }
                             }
                         }
-                    } header: {
-                        Text("アカウント")
-                    }
 
-                    Section {
                         HStack {
                             Text("共有番号")
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -45,10 +41,25 @@ struct SettingView: View {
                                 .minimumScaleFactor(0.5)
                         }
 
+                    } header: {
+                        Text("アカウント")
+                    }
+
+                    Section {
+
+                        HStack {
+                            Text("パートナーの名前")
+                            NavigationLink(destination: AccountView() ) {
+                                Text("もえ")
+                                    .foregroundColor(.gray)
+                                    .frame(maxWidth: .infinity, alignment: .trailing)
+                            }
+                        }
+
                         HStack {
                             Text("パートナー")
                             NavigationLink(destination: AccountView() ) {
-                                Text("未登録")
+                                Text("未連携")
                                     .foregroundColor(.gray)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
                             }
