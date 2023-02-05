@@ -14,10 +14,6 @@ struct CommonWalletView: View {
     @State var isAccountView = false
     @State var isAddPayInfoView = false
 
-    init() {
-        UITableView.appearance().isScrollEnabled = false
-    }
-
     var body: some View {
 
         ZStack {
@@ -93,6 +89,7 @@ struct CommonWalletView: View {
                 }.listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
             }
             .scrollContentBackground(.hidden)
+            .scrollIndicators(.hidden)
 
             // お金追加ボタン
             VStack {
