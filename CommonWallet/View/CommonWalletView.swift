@@ -22,11 +22,10 @@ struct CommonWalletView: View {
 
         ZStack {
 
-            ScrollView(.vertical, showsIndicators: false) {
+            // 背景色
+            Color.white.ignoresSafeArea()
 
-                // 背景色
-                Color.white.ignoresSafeArea()
-
+            List {
                 VStack {
                     // ヘッダー
                     HStack {
@@ -60,6 +59,7 @@ struct CommonWalletView: View {
                         }
                     }
 
+
                     // パートナーとの差額表示（四角いViewで柔らかい感じに）
                     ZStack {
                         Rectangle()
@@ -74,44 +74,25 @@ struct CommonWalletView: View {
                                 .foregroundColor(.white)
                         }
                     }
-
-                    // Listで履歴を表示
-                    List {
-                        Section {
-                            ForEach(0 ..< commonWalletViewModel.unpaidPayments.count,  id: \.self) { index in
-                                Button(action: {
-
-                                }, label: {
-                                    HStack {
-                                        Text(String(commonWalletViewModel.unpaidPayments[index].cost) + "円")
-                                        Text(commonWalletViewModel.unpaidPayments[index].title)
-                                    }.foregroundColor(.black)
-                                }
-                                )}
-                        } header: {
-                            Text("未精算")
-                        }.listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
-
-                        Section {
-                            ForEach(0 ..< commonWalletViewModel.paidPayments.count,  id: \.self) { index in
-                                Button(action: {
-
-                                }, label: {
-                                    HStack {
-                                        Text(String(commonWalletViewModel.paidPayments[index].cost) + "円")
-                                        Text(commonWalletViewModel.paidPayments[index].title)
-                                    }.foregroundColor(.black)
-                                }
-                                )}
-                        } header: {
-                            Text("精算済み")
-                        }.listRowBackground(Color.cyan)
-                    }
-                    .scrollContentBackground(.hidden)
-                    // 下の一文でScrollViewの中でもListが表示できる
-                    .scaledToFit()
                 }
+
+                // 未精算履歴を表示
+                Section {
+                    ForEach(0 ..< commonWalletViewModel.unpaidPayments.count,  id: \.self) { index in
+                        Button(action: {
+
+                        }, label: {
+                            HStack {
+                                Text(String(commonWalletViewModel.unpaidPayments[index].cost) + "円")
+                                Text(commonWalletViewModel.unpaidPayments[index].title)
+                            }.foregroundColor(.black)
+                        }
+                        )}
+                } header: {
+                    Text("未精算リスト")
+                }.listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
             }
+            .scrollContentBackground(.hidden)
 
             // お金追加ボタン
             VStack {
