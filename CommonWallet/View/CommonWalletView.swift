@@ -28,8 +28,20 @@ struct CommonWalletView: View {
                 Color.white.ignoresSafeArea()
 
                 VStack {
-                    // ユーザー情報系
+                    // ヘッダー
                     HStack {
+                        Text("12月22日 日曜日")
+                            .foregroundColor(.gray)
+                            .font(.system(size: 14))
+                            .padding(16)
+                        Spacer()
+                    }.frame(height: 16, alignment: .topLeading)
+                    HStack {
+                        Text("こんばんは")
+                            .font(.largeTitle)
+                            .fontWeight(.bold)
+                            .padding(16)
+                        Spacer()
                         Button ( action: {
                             isAccountView = true
                         }) {
@@ -37,15 +49,16 @@ struct CommonWalletView: View {
                                 .resizable()
                                 .scaledToFill()
                                 .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
-                                .frame(width: 30, height: 30)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 36, height: 36, alignment: .center)
+                                .clipShape(Circle()) // 正円形に切り抜く
+                                .padding(.trailing, 16)
                         }
                         .sheet(isPresented: self.$isAccountView) {
                             // trueになれば下からふわっと表示
                             SettingView()
                         }
-
-                    }.padding()
+                    }
 
                     // パートナーとの差額表示（四角いViewで柔らかい感じに）
                     ZStack {
@@ -77,7 +90,7 @@ struct CommonWalletView: View {
                                 )}
                         } header: {
                             Text("未精算")
-                        }.listRowBackground(Color.gray)
+                        }.listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
 
                         Section {
                             ForEach(0 ..< commonWalletViewModel.paidPayments.count,  id: \.self) { index in
