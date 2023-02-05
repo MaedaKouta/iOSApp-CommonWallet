@@ -53,6 +53,8 @@ struct CommonWalletView: View {
                             // trueになれば下からふわっと表示
                             SettingView()
                         }
+                        // 下の1行でListをアイコンボタンしかタップできなくしている
+                        .buttonStyle(BorderlessButtonStyle())
                     }
 
 
