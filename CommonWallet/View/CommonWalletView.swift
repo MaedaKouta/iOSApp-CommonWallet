@@ -14,79 +14,89 @@ struct CommonWalletView: View {
     @State var isAccountView = false
     @State var isAddPayInfoView = false
 
+    init() {
+        UITableView.appearance().isScrollEnabled = false
+    }
+
     var body: some View {
 
         ZStack {
-            // 背景色
-            Color.white.ignoresSafeArea()
 
-            VStack {
-                // ユーザー情報系
-                HStack {
-                    Button ( action: {
-                        isAccountView = true
-                    }) {
-                        Image("SampleIcon")
-                            .resizable()
-                            .scaledToFill()
-                            .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
-                            .frame(width: 30, height: 30)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
+            ScrollView(.vertical, showsIndicators: false) {
+
+                // 背景色
+                Color.white.ignoresSafeArea()
+
+                VStack {
+                    // ユーザー情報系
+                    HStack {
+                        Button ( action: {
+                            isAccountView = true
+                        }) {
+                            Image("SampleIcon")
+                                .resizable()
+                                .scaledToFill()
+                                .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
+                                .frame(width: 30, height: 30)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                        }
+                        .sheet(isPresented: self.$isAccountView) {
+                            // trueになれば下からふわっと表示
+                            SettingView()
+                        }
+
+                    }.padding()
+
+                    // パートナーとの差額表示（四角いViewで柔らかい感じに）
+                    ZStack {
+                        Rectangle()
+                            .frame(width: 350, height: 150)
+                            .foregroundColor(.red)
+                            .cornerRadius(30)
+
+                        VStack {
+                            Text("〇〇から〇〇へ")
+                                .foregroundColor(.white)
+                            Text("￥\(commonWalletViewModel.unpaidCost)")
+                                .foregroundColor(.white)
+                        }
                     }
-                    .sheet(isPresented: self.$isAccountView) {
-                        // trueになれば下からふわっと表示
-                        SettingView()
-                    }
 
-                }.padding()
+                    // Listで履歴を表示
+                    List {
+                        Section {
+                            ForEach(0 ..< commonWalletViewModel.unpaidPayments.count,  id: \.self) { index in
+                                Button(action: {
 
-                // パートナーとの差額表示（四角いViewで柔らかい感じに）
-                ZStack {
-                    Rectangle()
-                        .frame(width: 350, height: 150)
-                        .foregroundColor(.red)
-                        .cornerRadius(30)
-
-                    VStack {
-                        Text("〇〇から〇〇へ")
-                            .foregroundColor(.white)
-                        Text("￥\(commonWalletViewModel.unpaidCost)")
-                            .foregroundColor(.white)
-                    }
-                }
-
-                // Listで履歴を表示
-                List {
-                    Section {
-                        ForEach(0 ..< commonWalletViewModel.unpaidPayments.count,  id: \.self) { index in
-                            Button(action: {
-
-                            }, label: {
-                                HStack {
-                                    Text(String(commonWalletViewModel.unpaidPayments[index].cost) + "円")
-                                    Text(commonWalletViewModel.unpaidPayments[index].title)
+                                }, label: {
+                                    HStack {
+                                        Text(String(commonWalletViewModel.unpaidPayments[index].cost) + "円")
+                                        Text(commonWalletViewModel.unpaidPayments[index].title)
+                                    }
                                 }
-                            }
-                            )}
-                    } header: {
-                        Text("未精算")
-                    }
+                                )}
+                        } header: {
+                            Text("未精算")
+                        }
 
+                        Section {
+                            ForEach(0 ..< commonWalletViewModel.paidPayments.count,  id: \.self) { index in
+                                Button(action: {
 
-                    Section {
-                        ForEach(0 ..< commonWalletViewModel.paidPayments.count,  id: \.self) { index in
-                            Button(action: {
-
-                            }, label: {
-                                HStack {
-                                    Text(String(commonWalletViewModel.paidPayments[index].cost) + "円")
-                                    Text(commonWalletViewModel.paidPayments[index].title)
+                                }, label: {
+                                    HStack {
+                                        Text(String(commonWalletViewModel.paidPayments[index].cost) + "円")
+                                        Text(commonWalletViewModel.paidPayments[index].title)
+                                    }
                                 }
-                            }
-                            )}
-                    } header: {
-                        Text("精算済み")
+                                )}
+                        } header: {
+                            Text("精算済み")
+                        }
                     }
+                    .scrollContentBackground(.hidden)
+                    // 下の一文でScrollViewの中でもListが表示できる
+                    .scaledToFit()
                 }
             }
 
