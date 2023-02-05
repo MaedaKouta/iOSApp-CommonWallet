@@ -96,20 +96,25 @@ struct CommonWalletView: View {
             // お金追加ボタン
             VStack {
                 Spacer()
-                Button(action: {
-                    isAddPayInfoView = true
-                }, label: {
-                    Text("＋")
-                        .frame(width: 35.0, height: 35.0)
-                        .padding(8)
-                        .accentColor(Color.white)
-                        .background(Color.black)
-                        .cornerRadius(25)
-                        .shadow(color: Color.white, radius: 10, x: 0, y: 3)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                }).sheet(isPresented: self.$isAddPayInfoView) {
-                    AddPayInfoView(isAddPayInfoView: $isAddPayInfoView)
-                        .presentationDetents([.large])
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        isAddPayInfoView = true
+                    }, label: {
+                        Text("＋")
+                            .frame(width: 35.0, height: 35.0)
+                            .padding(8)
+                            .accentColor(Color.white)
+                            .background(Color.black)
+                            .cornerRadius(25)
+                            .shadow(color: Color.white, radius: 10, x: 0, y: 3)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                    })
+                    .padding(.trailing, 16)
+                    .sheet(isPresented: self.$isAddPayInfoView) {
+                        AddPayInfoView(isAddPayInfoView: $isAddPayInfoView)
+                            .presentationDetents([.large])
+                    }
                 }
             }
         }.onAppear{
