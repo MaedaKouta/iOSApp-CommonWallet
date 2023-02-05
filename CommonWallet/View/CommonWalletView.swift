@@ -77,18 +77,23 @@ struct CommonWalletView: View {
                 // 未精算履歴を表示
                 Section {
                     ForEach(0 ..< commonWalletViewModel.unpaidPayments.count,  id: \.self) { index in
-                        Button(action: {
 
-                        }, label: {
-                            HStack {
-                                Text(String(commonWalletViewModel.unpaidPayments[index].cost) + "円")
-                                Text(commonWalletViewModel.unpaidPayments[index].title)
-                            }.foregroundColor(.black)
+                        HStack {
+                            Text(String(commonWalletViewModel.unpaidPayments[index].cost) + "円")
+                            Text(commonWalletViewModel.unpaidPayments[index].title)
+                            Spacer() 
                         }
-                        )}
+                        .foregroundColor(.black)
+                        .contentShape(Rectangle())      // 追加
+                        .onTapGesture {
+                            print(index)
+                        }
+                    }
+
                 } header: {
                     Text("未精算リスト")
-                }.listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
+                }
+                .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
             }
             .scrollContentBackground(.hidden)
             .scrollIndicators(.hidden)
