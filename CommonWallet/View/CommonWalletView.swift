@@ -72,12 +72,12 @@ struct CommonWalletView: View {
                                     HStack {
                                         Text(String(commonWalletViewModel.unpaidPayments[index].cost) + "円")
                                         Text(commonWalletViewModel.unpaidPayments[index].title)
-                                    }
+                                    }.foregroundColor(.black)
                                 }
                                 )}
                         } header: {
                             Text("未精算")
-                        }
+                        }.listRowBackground(Color.gray)
 
                         Section {
                             ForEach(0 ..< commonWalletViewModel.paidPayments.count,  id: \.self) { index in
@@ -87,12 +87,12 @@ struct CommonWalletView: View {
                                     HStack {
                                         Text(String(commonWalletViewModel.paidPayments[index].cost) + "円")
                                         Text(commonWalletViewModel.paidPayments[index].title)
-                                    }
+                                    }.foregroundColor(.black)
                                 }
                                 )}
                         } header: {
                             Text("精算済み")
-                        }
+                        }.listRowBackground(Color.cyan)
                     }
                     .scrollContentBackground(.hidden)
                     // 下の一文でScrollViewの中でもListが表示できる
