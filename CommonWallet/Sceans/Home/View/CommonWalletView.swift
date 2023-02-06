@@ -27,19 +27,7 @@ struct CommonWalletView: View {
                     HeaderAccountView()
 
                     // パートナーとの差額表示（四角いViewで柔らかい感じに）
-                    ZStack {
-                        Rectangle()
-                            .frame(width: 350, height: 150)
-                            .foregroundColor(.red)
-                            .cornerRadius(30)
-
-                        VStack {
-                            Text("〇〇から〇〇へ")
-                                .foregroundColor(.white)
-                            Text("￥\(commonWalletViewModel.unpaidCost)")
-                                .foregroundColor(.white)
-                        }
-                    }
+                    totalMoneyCardView()
                 }
 
                 // 未精算履歴を表示
@@ -94,6 +82,26 @@ struct CommonWalletView: View {
             commonWalletViewModel.featchPayments()
         }
     }
+
+
+
+    // MARK: - 立替合計金額をカードで表示するView
+    private func totalMoneyCardView() -> some View {
+        ZStack {
+            Rectangle()
+                .frame(width: 350, height: 150)
+                .foregroundColor(.red)
+                .cornerRadius(30)
+
+            VStack {
+                Text("〇〇から〇〇へ")
+                    .foregroundColor(.white)
+                Text("￥\(commonWalletViewModel.unpaidCost)")
+                    .foregroundColor(.white)
+            }
+        }
+    }
+
 }
 
 struct CommonWalletTabView_Previews: PreviewProvider {
