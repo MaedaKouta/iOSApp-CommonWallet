@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Parchment
 
 struct LogView: View {
 
@@ -18,10 +19,8 @@ struct LogView: View {
         NavigationView {
             List {
 
-                Section {
-                    VStack {
-                        HeaderLogView()
-                    }
+                VStack {
+                    HeaderLogView()
                 }
 
                 Section {

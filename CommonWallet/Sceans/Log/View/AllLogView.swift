@@ -6,10 +6,27 @@
 //
 
 import SwiftUI
+import Parchment
 
 struct AllLogView: View {
+
+    @State var items = [
+        PagingIndexItem(index: 0, title: "1月"),
+        PagingIndexItem(index: 1, title: "2月"),
+        PagingIndexItem(index: 2, title: "3月"),
+        PagingIndexItem(index: 3, title: "4月"),
+        PagingIndexItem(index: 4, title: "5月"),
+        PagingIndexItem(index: 5, title: "6月"),
+    ]
+    @State var selectedIndex: Int = 5
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+
+        VStack {
+            PageView(items: items, selectedIndex: $selectedIndex) { item in
+                Text(item.title)
+            }
+        }
     }
 }
 
