@@ -14,15 +14,15 @@ struct MainTabView: View {
             CommonWalletView()
                 .tabItem {
                     VStack {
-                        Image(systemName: "a")
-                        Text("TabA")
+                        Image(systemName: "house")
+                        Text("ホーム")
                     }
                 }.tag(1)
             LogView()
                 .tabItem {
                     VStack {
-                        Image(systemName: "a")
-                        Text("TabB")
+                        Image(systemName: "tray.full")
+                        Text("履歴")
                     }
                 }.tag(2)
         }
