@@ -11,9 +11,12 @@ class CommonWalletViewModel: ObservableObject {
 
     @Published var paidPayments = [PayInfo]()
     @Published var unpaidPayments = [PayInfo]()
-    @Published var unpaidMoney = Int()
+    @Published var unpaidCost = Int()
+    @Published var payFromName = ""
+    @Published var payToName = ""
 
     private var fireStorePaymentManager = FireStorePayInfoManager()
+    private var userDefaultsManager = UserDefaultsManager()
 
     func featchPayments() {
         fireStorePaymentManager.fetchPaidPayInfo(completion: { payments, error in
@@ -27,7 +30,7 @@ class CommonWalletViewModel: ObservableObject {
         fireStorePaymentManager.fetchUnpaidPayInfo(completion: { payments, error in
             if let payments = payments {
                 self.unpaidPayments = payments
-                self.unpaidMoney = self.calculateUnPaidCost()
+                self.unpaidCost = self.calculateUnPaidCost()
             } else {
                 print(error as Any)
             }
@@ -45,7 +48,25 @@ class CommonWalletViewModel: ObservableObject {
                 cost -= unPaidPayment.cost
             }
         }
-        return cost
+        checkPayFromWitchPerson(unPaidPayment: cost)
+        return abs(cost)
+    }
+
+    // 立替金額に応じて、どちらからどちらに支払えばよいか調べる関数
+    private func checkPayFromWitchPerson(unPaidPayment: Int) {
+
+        let partnerName: String = userDefaultsManager.getPartnerName() ?? ""
+        let myName: String = userDefaultsManager.getUser()?.userName ?? ""
+
+        // 立替額がマイナスなら"自分"から"相手"に支払い
+        // 立替額がプラスなら"相手"から"自分"に支払い
+        if unPaidPayment < 0 {
+            payFromName = myName
+            payToName = partnerName
+        } else {
+            payFromName = partnerName
+            payToName = myName
+        }
     }
 
 }

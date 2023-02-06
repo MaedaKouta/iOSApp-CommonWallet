@@ -94,9 +94,9 @@ struct CommonWalletView: View {
                 .cornerRadius(30)
 
             VStack {
-                Text("〇〇から〇〇へ")
+                Text("\(commonWalletViewModel.payFromName)から\(commonWalletViewModel.payToName)へ")
                     .foregroundColor(.white)
-                Text("￥\(commonWalletViewModel.unpaidMoney)")
+                Text("￥\(commonWalletViewModel.unpaidCost)")
                     .foregroundColor(.white)
             }
         }
