@@ -98,8 +98,22 @@ struct CommonWalletView: View {
                     .foregroundColor(.white)
                 Text("￥\(commonWalletViewModel.unpaidCost)")
                     .foregroundColor(.white)
+
+                // 本来は精算ボタンタップ後にアラート表示で完了させよう
+                HStack {
+                    Spacer()
+                    Button(action: {
+
+                    }, label: {
+                        Text("> 精算")
+                            .foregroundColor(.white)
+                    })
+                    .padding(.trailing, 16)
+                }
             }
         }
+        // 下の1行でListをアイコンボタンしかタップできなくしている
+        .buttonStyle(BorderlessButtonStyle())
     }
 
 }
