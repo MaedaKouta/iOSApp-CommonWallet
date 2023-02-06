@@ -11,7 +11,7 @@ class CommonWalletViewModel: ObservableObject {
 
     @Published var paidPayments = [PayInfo]()
     @Published var unpaidPayments = [PayInfo]()
-    @Published var unpaidCost = Int()
+    @Published var unpaidMoney = Int()
 
     private var fireStorePaymentManager = FireStorePayInfoManager()
 
@@ -27,7 +27,7 @@ class CommonWalletViewModel: ObservableObject {
         fireStorePaymentManager.fetchUnpaidPayInfo(completion: { payments, error in
             if let payments = payments {
                 self.unpaidPayments = payments
-                self.unpaidCost = self.calculateUnPaidCost()
+                self.unpaidMoney = self.calculateUnPaidCost()
             } else {
                 print(error as Any)
             }

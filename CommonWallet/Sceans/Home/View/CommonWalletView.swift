@@ -78,11 +78,11 @@ struct CommonWalletView: View {
                     }
                 }
             }
-        }.onAppear{
+        }
+        .onAppear{
             commonWalletViewModel.featchPayments()
         }
     }
-
 
 
     // MARK: - 立替合計金額をカードで表示するView
@@ -96,7 +96,7 @@ struct CommonWalletView: View {
             VStack {
                 Text("〇〇から〇〇へ")
                     .foregroundColor(.white)
-                Text("￥\(commonWalletViewModel.unpaidCost)")
+                Text("￥\(commonWalletViewModel.unpaidMoney)")
                     .foregroundColor(.white)
             }
         }
