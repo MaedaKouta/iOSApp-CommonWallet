@@ -1,5 +1,5 @@
 //
-//  AccountHeaderView.swift
+//  LogHeaderView.swift
 //  CommonWallet
 //
 //  Created by 前田航汰 on 2023/02/06.
@@ -7,23 +7,23 @@
 
 import SwiftUI
 
-struct HeaderAccountView: View {
+struct HeaderLogView: View {
 
     @State private var isAccountView = false
 
     var body: some View {
 
-        HStack {
-            Text("12月22日 日曜日")
-                .foregroundColor(.gray)
-                .font(.system(size: 14))
-                .padding(16)
-            Spacer()
-        }.frame(height: 16, alignment: .topLeading)
+//        HStack {
+//            Text("12月22日 日曜日")
+//                .foregroundColor(.gray)
+//                .font(.system(size: 14))
+//                .padding(16)
+//            Spacer()
+//        }.frame(height: 16, alignment: .topLeading)
 
         HStack {
-            Text("こんばんは")
-                .font(.largeTitle)
+            Text("精算済み履歴")
+                .font(.title)
                 .fontWeight(.bold)
                 .padding(16)
             Spacer()
@@ -50,8 +50,8 @@ struct HeaderAccountView: View {
 
 }
 
-struct HeaderAccountView_Previews: PreviewProvider {
+struct LogHeaderView_Previews: PreviewProvider {
     static var previews: some View {
-        HeaderAccountView()
+        HeaderLogView()
     }
 }
