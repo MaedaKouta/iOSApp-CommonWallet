@@ -18,12 +18,17 @@ class SignUpDateCounter {
 
     func monthsBetweenDates() -> Int {
 
+        // 値が0でも最低3つは返す
+        let defaultReturn = 3
+
         guard let startDate: Date = userdefaultManager.getUser()?.createdAt else {
-            return 3
+            return defaultReturn
         }
         let endDate = Date()
 
         let calendar = Calendar.current
+        print(startDate)
+        print(endDate)
         let components = calendar.dateComponents([.month], from: startDate, to: endDate)
         return components.month ?? 3
     }

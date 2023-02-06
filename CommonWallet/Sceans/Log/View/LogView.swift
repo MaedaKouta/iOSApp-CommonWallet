@@ -44,6 +44,8 @@ struct LogView: View {
             .scrollContentBackground(.hidden)
             .scrollIndicators(.hidden)
 
+        }.onAppear{
+            print(SignUpDateCounter().monthsBetweenDates())
         }
     }
 }
