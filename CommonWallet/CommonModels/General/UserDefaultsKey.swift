@@ -20,6 +20,7 @@ struct UserDefaultsKey {
     let userName = "userName"
     let shareNumber = "shareNumber"
     let email = "email"
+    let createdAt = "createdAt"
     let partnerUid = "partnerUid"
     let partnerName = "partnerName"
     let partnerShareNumber = "partnerShareNumber"

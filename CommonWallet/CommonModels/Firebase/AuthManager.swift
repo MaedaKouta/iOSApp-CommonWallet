@@ -85,6 +85,7 @@ class AuthManager {
 
         var uid = String()
         var fireStoreError: Error!
+        let currentTimeStamp: Timestamp = Timestamp()
 
         // FirebaseAuthへのアカウント登録
         do {
@@ -96,7 +97,7 @@ class AuthManager {
 
         // FireStoreへのアカウント情報追加
         do {
-            try await fireStoreUserManager.createUser(userName: name, email: email, uid: uid, shareNumber: shareNumber)
+            try await fireStoreUserManager.createUser(createdAt: currentTimeStamp, userName: name, email: email, uid: uid, shareNumber: shareNumber)
         } catch {
             throw FirebaseErrorType.FireStore(error as NSError)
         }

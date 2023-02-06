@@ -19,6 +19,7 @@ struct User {
     var partnerUid: String?
 
     // UserDefaultだけ保存する変数
+    var createdAt: Date?
     var partnerName: String?
     var partnerShareNumber: String?
 }
