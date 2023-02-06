@@ -11,47 +11,43 @@ struct LogView: View {
 
     @ObservedObject var logViewModel = LogViewModel()
 
+    @State var isAllLogView = false
+
     var body: some View {
 
-        List {
-            
-            Section {
-                VStack {
-                    // ヘッダー
-                    HeaderLogView()
-                }
-            }
-            
-            Section {
-                Text("First Item")
-                Text("Second Item")
-                Text("Third Item")
-                Text("First Item")
-                Text("Second Item")
-                Text("Third Item")
-                Text("First Item")
-                Text("Second Item")
-            } header: {
-                HStack {
-                    Text("過去1ヶ月")
-                    Spacer()
-                    Button ( action: {
-                        //isAccountView = true
-                    }) {
-                        Text("全履歴 >")
+        NavigationView {
+            List {
+
+                Section {
+                    VStack {
+                        HeaderLogView()
                     }
-//                    .sheet(isPresented: self.$isAccountView) {
-//                        // trueになれば下からふわっと表示
-//                        SettingView()
-//                    }
-
                 }
-            }
-            .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
-        }
-        .scrollContentBackground(.hidden)
-        .scrollIndicators(.hidden)
 
+                Section {
+                    Text("First Item")
+                    Text("Second Item")
+                    Text("Third Item")
+                    Text("First Item")
+                    Text("Second Item")
+                    Text("Third Item")
+                    Text("First Item")
+                    Text("Second Item")
+                } header: {
+                    HStack {
+                        Text("過去1ヶ月")
+                        Spacer()
+                        NavigationLink(destination: AllLogView(), label: {
+                            Text("全履歴 >")
+                        })
+                    }
+                }
+                .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
+            }
+            .scrollContentBackground(.hidden)
+            .scrollIndicators(.hidden)
+
+        }
     }
 }
 
