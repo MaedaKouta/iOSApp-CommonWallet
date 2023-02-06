@@ -70,7 +70,7 @@ struct LaunchScreen: View {
                         SignInView()
                     }
                     .fullScreenCover(isPresented: self.$isContentView){
-                        CommonWalletView()
+                        MainTabView()
                     }
             }
         }

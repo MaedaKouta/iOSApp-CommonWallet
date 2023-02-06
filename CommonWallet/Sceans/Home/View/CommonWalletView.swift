@@ -77,6 +77,7 @@ struct CommonWalletView: View {
                             .presentationDetents([.large])
                     }
                 }
+                .padding()
             }
         }
         .onAppear{
