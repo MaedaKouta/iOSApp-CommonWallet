@@ -10,6 +10,8 @@ import Parchment
 
 struct AllLogView: View {
 
+    @ObservedObject var allLogViewModel = AllLogViewModel()
+
     @State var items = [
         PagingIndexItem(index: 0, title: "1月"),
         PagingIndexItem(index: 1, title: "2月"),
@@ -24,8 +26,27 @@ struct AllLogView: View {
 
         VStack {
             PageView(items: items, selectedIndex: $selectedIndex) { item in
-                Text(item.title)
+                //Text(item.title)
+
+                List {
+                    ForEach(0 ..< allLogViewModel.paidPayments.count,  id: \.self) { index in
+
+                        HStack {
+                            Text(String(allLogViewModel.paidPayments[index].cost) + "円")
+                            Text(allLogViewModel.paidPayments[index].title)
+                            Spacer()
+                        }
+                        .foregroundColor(.black)
+                        .contentShape(Rectangle())      // 追加
+                        .onTapGesture {
+                            print(index)
+                        }
+                    }
+                }
             }
+        }
+        .onAppear{
+            allLogViewModel.featchPayments()
         }
     }
 }

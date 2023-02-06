@@ -10,8 +10,6 @@ import Parchment
 
 struct LogView: View {
 
-    @ObservedObject var logViewModel = LogViewModel()
-
     @State var isAllLogView = false
 
     var body: some View {
