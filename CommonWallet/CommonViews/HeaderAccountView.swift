@@ -12,6 +12,7 @@ struct HeaderAccountView: View {
     @State private var isAccountView = false
 
     var body: some View {
+
         HStack {
             Text("12月22日 日曜日")
                 .foregroundColor(.gray)
@@ -19,6 +20,7 @@ struct HeaderAccountView: View {
                 .padding(16)
             Spacer()
         }.frame(height: 16, alignment: .topLeading)
+
         HStack {
             Text("こんばんは")
                 .font(.largeTitle)
@@ -44,8 +46,8 @@ struct HeaderAccountView: View {
             // 下の1行でListをアイコンボタンしかタップできなくしている
             .buttonStyle(BorderlessButtonStyle())
         }
-
     }
+
 }
 
 struct HeaderAccountView_Previews: PreviewProvider {
