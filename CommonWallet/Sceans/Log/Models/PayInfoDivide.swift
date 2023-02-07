@@ -11,7 +11,6 @@ class PayInfoDivide {
 
     private let fireStorePayInfoManager = FireStorePayInfoManager()
     private var userDefaultsManager = UserDefaultsManager()
-
     private let nowDate = Date()
 
     // 下のように使用している月数ごとにPayInfoを２重配列で格納する

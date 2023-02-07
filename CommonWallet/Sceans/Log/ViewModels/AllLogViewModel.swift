@@ -12,17 +12,18 @@ class AllLogViewModel: ObservableObject {
 
     @Published var paidPayments = [PayInfo]()
 
-    @Published var pagingItems = [
-        PagingIndexItem(index: 0, title: "1月"),
-        PagingIndexItem(index: 1, title: "2月"),
-        PagingIndexItem(index: 2, title: "3月"),
-        PagingIndexItem(index: 3, title: "4月"),
-        PagingIndexItem(index: 4, title: "5月"),
-        PagingIndexItem(index: 5, title: "6月"),
-    ]
+    @Published var paidPaymentsByMonth: [[PayInfo]] = []
+    @Published var pagingIndexItems: [PagingIndexItem] = []
 
     private var fireStorePaymentManager = FireStorePayInfoManager()
     private var userDefaultsManager = UserDefaultsManager()
+    private var signUpDateCounter = SignUpDateCounter()
+    private var payInfoDivide = PayInfoDivide()
+
+    init() {
+        createPagingItem()
+        calculatePaidPaymentsByMonth()
+    }
 
     func featchPayments() {
         fireStorePaymentManager.fetchPaidPayInfo(completion: { payments, error in
@@ -33,5 +34,18 @@ class AllLogViewModel: ObservableObject {
             }
         })
     }
+
+    func calculatePaidPaymentsByMonth() {
+        let monthCount = signUpDateCounter.calculateSignUpMonth()
+        paidPaymentsByMonth = payInfoDivide.divideByMonth(monthCount: monthCount)
+    }
+
+    func createPagingItem() {
+        let monthCount = signUpDateCounter.calculateSignUpMonth()
+        for i in (0..<monthCount) {
+            pagingIndexItems.append(PagingIndexItem(index: i, title: "◯月"))
+        }
+    }
+
 
 }
