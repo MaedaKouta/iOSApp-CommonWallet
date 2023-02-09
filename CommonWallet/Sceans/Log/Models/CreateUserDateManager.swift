@@ -7,7 +7,7 @@
 
 import Foundation
 
-class SignUpDateCounter {
+class CreateUserDateManager {
 
     var userdefaultManager = UserDefaultsManager()
 
