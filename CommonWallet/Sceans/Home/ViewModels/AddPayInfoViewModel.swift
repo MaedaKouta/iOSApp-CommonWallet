@@ -12,6 +12,14 @@ class AddPayInfoViewModel: ObservableObject {
 
     private let fireStorePayInfoManager = FireStorePayInfoManager()
     private let firebaseErrorManager = FirebaseErrorManager()
+    private var userDefaultsManager = UserDefaultsManager()
+    @Published var myName = ""
+    @Published var partnerName = ""
+
+    init() {
+        myName = userDefaultsManager.getUser()?.userName ?? ""
+        partnerName = userDefaultsManager.getPartnerName() ?? ""
+    }
 
     func createPayInfo(title: String, memo: String, cost: Int, isMyPay: Bool, complition: @escaping (Bool, String) -> Void) async {
 

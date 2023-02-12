@@ -8,6 +8,7 @@
 import Foundation
 
 extension String {
+
     func splitInto(_ length: Int) -> [String] {
         var str = self
         for i in 0 ..< (str.count - 1) / max(length, 1) {
@@ -15,4 +16,5 @@ extension String {
         }
         return str.components(separatedBy: ",")
     }
+
 }

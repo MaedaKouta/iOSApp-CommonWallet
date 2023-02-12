@@ -23,9 +23,9 @@ struct AddPayInfoView: View {
         VStack {
             Text("支払った人")
             Picker("", selection: self.$selectedIndex) {
-                Text("かずき")
+                Text(addPaymentViewModel.myName)
                     .tag(0)
-                Text("さくら")
+                Text(addPaymentViewModel.partnerName)
                     .tag(1)
             }
             .pickerStyle(SegmentedPickerStyle())

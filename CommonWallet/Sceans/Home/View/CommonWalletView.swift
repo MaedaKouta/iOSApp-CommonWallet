@@ -24,7 +24,7 @@ struct CommonWalletView: View {
             List {
                 VStack {
                     // ヘッダー
-                    HeaderAccountView()
+                    HeaderHomeView()
 
                     // パートナーとの差額表示（四角いViewで柔らかい感じに）
                     totalMoneyCardView()

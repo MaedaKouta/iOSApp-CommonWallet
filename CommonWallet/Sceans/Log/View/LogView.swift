@@ -6,13 +6,47 @@
 //
 
 import SwiftUI
+import Parchment
 
 struct LogView: View {
 
-    @ObservedObject var logViewModel = LogViewModel()
+    @State var isAllLogView = false
 
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+
+        NavigationView {
+            List {
+
+                VStack {
+                    HeaderLogView()
+                }
+
+                Section {
+                    Text("First Item")
+                    Text("Second Item")
+                    Text("Third Item")
+                    Text("First Item")
+                    Text("Second Item")
+                    Text("Third Item")
+                    Text("First Item")
+                    Text("Second Item")
+                } header: {
+                    HStack {
+                        Text("過去1ヶ月")
+                        Spacer()
+                        NavigationLink(destination: AllLogView(), label: {
+                            Text("全履歴 >")
+                        })
+                    }
+                }
+                .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
+            }
+            .scrollContentBackground(.hidden)
+            .scrollIndicators(.hidden)
+
+        }.onAppear{
+            print(CreateUserDateManager().monthsBetweenDates())
+        }
     }
 }
 

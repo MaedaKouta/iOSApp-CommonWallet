@@ -25,6 +25,11 @@ struct UserDefaultsManager {
         if let partnerName = user.partnerName {
             UserDefaults.standard.set(partnerName, forKey: userDefaultsKey.partnerName)
         }
+
+        if let createdAt = user.createdAt {
+            UserDefaults.standard.set(createdAt, forKey: userDefaultsKey.createdAt)
+        }
+
     }
 
     mutating func setPartner(uid: String, name: String, shareNumber: String) {
@@ -50,8 +55,9 @@ struct UserDefaultsManager {
 
         let partnerUid = UserDefaults.standard.string(forKey: userDefaultsKey.partnerUid)
         let partnerName = UserDefaults.standard.string(forKey: userDefaultsKey.partnerName)
+        let createdAt = UserDefaults.standard.object(forKey: userDefaultsKey.createdAt) as? Date
 
-        let user = User(userName: userName, email: mailAdress, uid: uid, shareNumber: shareNumber, partnerUid: partnerUid, partnerName: partnerName)
+        let user = User(userName: userName, email: mailAdress, uid: uid, shareNumber: shareNumber, partnerUid: partnerUid, createdAt: createdAt, partnerName: partnerName)
         return user
     }
 
