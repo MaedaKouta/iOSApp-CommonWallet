@@ -18,8 +18,6 @@ struct AllLogView: View {
         VStack {
             PageView(items: allLogViewModel.pagingIndexItems, selectedIndex: $selectedIndex) { item in
 
-                //Text("aa")
-
                 VStack {
                     // もし、paidPaymentsByMonth[selectedIndex]に値がなければ何もしない
                     if allLogViewModel.paidPaymentsByMonth[item.index].count == 0 {
@@ -37,7 +35,6 @@ struct AllLogView: View {
                                 .contentShape(Rectangle())      // 追加
                                 .onTapGesture {
                                     print(index)
-                                    print(selectedIndex)
                                 }
                             }
                         }//Listここまで

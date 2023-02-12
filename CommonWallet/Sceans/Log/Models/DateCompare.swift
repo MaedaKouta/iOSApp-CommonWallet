@@ -17,4 +17,11 @@ class DateCompare {
         return Calendar.current.isDate(compareSourceDate, equalTo: compareDate, toGranularity: .month)
     }
 
+    // 第一引数に、今月から何ヶ月戻った月と比較するかを取る
+    func createStringMonthDate(fromNowMonth: Int) -> String {
+        guard let date = Calendar.current.date(byAdding: .month, value: -1*fromNowMonth, to: nowDate) else { return "" }
+        
+        return Calendar.current.isDate(compareSourceDate, equalTo: compareDate, toGranularity: .month)
+    }
+
 }
