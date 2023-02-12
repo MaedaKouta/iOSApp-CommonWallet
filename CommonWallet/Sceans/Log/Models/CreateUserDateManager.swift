@@ -22,7 +22,16 @@ class CreateUserDateManager {
 
         let calendar = Calendar.current
         let components = calendar.dateComponents([.month], from: startDate, to: endDate)
-        return components.month ?? defaultReturn
+        guard let month = components.month else {
+            return defaultReturn
+        }
+
+        if month < defaultReturn {
+            return defaultReturn
+        } else {
+            return month
+        }
+
     }
 
 }
