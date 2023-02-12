@@ -44,7 +44,9 @@ class AllLogViewModel: ObservableObject {
     private func createPagingItem() {
         let monthCount = createUserDateManager.monthsBetweenDates()
         for i in (0..<monthCount) {
-            pagingIndexItems.append(PagingIndexItem(index: i, title: "\(i)月"))
+            // (monthCount-1)しないと、現在の月を除いた３ヶ月前のデータが取得される
+            let title = dateCompare.createStringMonthDate(fromNowMonth: (monthCount-1)-i)
+            pagingIndexItems.append(PagingIndexItem(index: i, title: title))
         }
     }
 

@@ -14,7 +14,9 @@ enum Template: String {
     case onlyHour = "k"   // 17時
     case era = "GG"       // "西暦" (default) or "平成" (本体設定で和暦を指定している場合)
     case weekDay = "EEEE" // 日曜日
+    case yearMonth = "yyyy/MM"     // 2017/1/1
 }
+
 extension DateFormatter {
 
     func setTemplate(_ template: Template) {
