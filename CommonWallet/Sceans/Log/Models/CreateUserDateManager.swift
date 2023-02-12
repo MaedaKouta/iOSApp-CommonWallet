@@ -21,10 +21,8 @@ class CreateUserDateManager {
         let endDate = Date()
 
         let calendar = Calendar.current
-        print(startDate)
-        print(endDate)
         let components = calendar.dateComponents([.month], from: startDate, to: endDate)
-        return components.month ?? 3
+        return components.month ?? defaultReturn
     }
 
 }
