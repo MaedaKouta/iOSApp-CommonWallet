@@ -31,7 +31,7 @@ struct AllLogView: View {
                                     Spacer()
                                 }
                                 .foregroundColor(.black)
-                                .contentShape(Rectangle())      // 追加
+                                .contentShape(Rectangle())
                                 .onTapGesture {
                                     print(index)
                                 }
