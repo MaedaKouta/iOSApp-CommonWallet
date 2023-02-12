@@ -11,7 +11,7 @@
 		871073B22990B36500A0518C /* HeaderLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B12990B36500A0518C /* HeaderLogView.swift */; };
 		871073B42990B7A600A0518C /* AllLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B32990B7A600A0518C /* AllLogView.swift */; };
 		871073B62990C11500A0518C /* DateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B52990C11500A0518C /* DateManager.swift */; };
-		871073B92990CDBE00A0518C /* SignUpDateCounter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B82990CDBE00A0518C /* SignUpDateCounter.swift */; };
+		871073B92990CDBE00A0518C /* CreateUserDateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B82990CDBE00A0518C /* CreateUserDateManager.swift */; };
 		872652F3297B92A8002C76D6 /* FirebaseErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */; };
 		872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F5297BB8AB002C76D6 /* SignInViewModel.swift */; };
 		8732B457297A4DCF0011313D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8732B456297A4DCF0011313D /* FirebaseAnalytics */; };
@@ -51,7 +51,7 @@
 		87830E7E297A201F00184A7C /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7C297A201F00184A7C /* SignInView.swift */; };
 		87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7F297A20DB00184A7C /* CreateUserView.swift */; };
 		87830E81297A20DB00184A7C /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7F297A20DB00184A7C /* CreateUserView.swift */; };
-		878C9A952991CB2C003D4816 /* PayInfoDivide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878C9A942991CB2C003D4816 /* PayInfoDivide.swift */; };
+		878C9A952991CB2C003D4816 /* DateCompare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878C9A942991CB2C003D4816 /* DateCompare.swift */; };
 		878C9A972991D3E6003D4816 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878C9A962991D3E6003D4816 /* DateFormatter.swift */; };
 		879379E0298B444500D3A47B /* ConnectPartnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379DF298B444500D3A47B /* ConnectPartnerView.swift */; };
 		879379E2298B4C8D00D3A47B /* ChangePartnerNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E1298B4C8D00D3A47B /* ChangePartnerNameView.swift */; };
@@ -117,7 +117,7 @@
 		871073B12990B36500A0518C /* HeaderLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderLogView.swift; sourceTree = "<group>"; };
 		871073B32990B7A600A0518C /* AllLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLogView.swift; sourceTree = "<group>"; };
 		871073B52990C11500A0518C /* DateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateManager.swift; sourceTree = "<group>"; };
-		871073B82990CDBE00A0518C /* SignUpDateCounter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpDateCounter.swift; sourceTree = "<group>"; };
+		871073B82990CDBE00A0518C /* CreateUserDateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserDateManager.swift; sourceTree = "<group>"; };
 		872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseErrorManager.swift; sourceTree = "<group>"; };
 		872652F5297BB8AB002C76D6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
 		87391E482987A8AF00897A96 /* ShareNumberManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareNumberManager.swift; sourceTree = "<group>"; };
@@ -138,7 +138,7 @@
 		87830E71297A1ACB00184A7C /* CreateUserTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserTests.swift; sourceTree = "<group>"; };
 		87830E7C297A201F00184A7C /* SignInView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInView.swift; sourceTree = "<group>"; };
 		87830E7F297A20DB00184A7C /* CreateUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserView.swift; sourceTree = "<group>"; };
-		878C9A942991CB2C003D4816 /* PayInfoDivide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PayInfoDivide.swift; sourceTree = "<group>"; };
+		878C9A942991CB2C003D4816 /* DateCompare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCompare.swift; sourceTree = "<group>"; };
 		878C9A962991D3E6003D4816 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		879379DF298B444500D3A47B /* ConnectPartnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectPartnerView.swift; sourceTree = "<group>"; };
 		879379E1298B4C8D00D3A47B /* ChangePartnerNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePartnerNameView.swift; sourceTree = "<group>"; };
@@ -210,8 +210,8 @@
 		871073B72990CD1000A0518C /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				871073B82990CDBE00A0518C /* SignUpDateCounter.swift */,
-				878C9A942991CB2C003D4816 /* PayInfoDivide.swift */,
+				871073B82990CDBE00A0518C /* CreateUserDateManager.swift */,
+				878C9A942991CB2C003D4816 /* DateCompare.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -672,7 +672,7 @@
 				874EF93A297CC8B200C94233 /* FireStoreUserManager.swift in Sources */,
 				87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */,
 				879379E2298B4C8D00D3A47B /* ChangePartnerNameView.swift in Sources */,
-				878C9A952991CB2C003D4816 /* PayInfoDivide.swift in Sources */,
+				878C9A952991CB2C003D4816 /* DateCompare.swift in Sources */,
 				874EF934297CBB5700C94233 /* LaunchScreen.swift in Sources */,
 				87391E4C298A15B600897A96 /* SettingViewModel.swift in Sources */,
 				87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */,
@@ -703,7 +703,7 @@
 				874EF93C297CFC3900C94233 /* UserDefaultsManager.swift in Sources */,
 				879379EB298B999700D3A47B /* UnConnectPartnerView.swift in Sources */,
 				87CA8FB7297BF73800248187 /* CreateUserViewModel.swift in Sources */,
-				871073B92990CDBE00A0518C /* SignUpDateCounter.swift in Sources */,
+				871073B92990CDBE00A0518C /* CreateUserDateManager.swift in Sources */,
 				87CDAABF297E895400F52887 /* AddPayInfoView.swift in Sources */,
 				87391E492987A8AF00897A96 /* ShareNumberManager.swift in Sources */,
 				87830E7D297A201F00184A7C /* SignInView.swift in Sources */,

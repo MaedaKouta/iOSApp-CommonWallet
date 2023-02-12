@@ -105,7 +105,6 @@ class FireStorePartnerManager {
 
     }
 
-
     // 相手が連携削除していたら、自分のUserDefaultから相手を削除する処理。アプリ起動時に毎回行う。
     func fetchDeletePartner() async {
         guard let uid = Auth.auth().currentUser?.uid else {
