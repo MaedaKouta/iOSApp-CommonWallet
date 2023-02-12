@@ -11,17 +11,16 @@ import Parchment
 struct AllLogView: View {
 
     @ObservedObject var allLogViewModel = AllLogViewModel()
-    @State var selectedIndex: Int = 2
 
     var body: some View {
 
         VStack {
-            PageView(items: allLogViewModel.pagingIndexItems, selectedIndex: $selectedIndex) { item in
+            PageView(items: allLogViewModel.pagingIndexItems, selectedIndex: $allLogViewModel.selectedIndex) { item in
 
                 VStack {
                     // もし、paidPaymentsByMonth[selectedIndex]に値がなければ何もしない
                     if allLogViewModel.paidPaymentsByMonth[item.index].count == 0 {
-                        Text("\(item.index)")
+                        Text("値がありません")
                     } else {
                         List {
                             ForEach(0 ..< allLogViewModel.paidPaymentsByMonth[item.index].count,  id: \.self) { index in
@@ -43,7 +42,7 @@ struct AllLogView: View {
             }
         }
         .onAppear{
-            allLogViewModel.featchPayments()
+            //allLogViewModel.featchPayments()
             print(allLogViewModel.paidPaymentsByMonth)
         }
     }
