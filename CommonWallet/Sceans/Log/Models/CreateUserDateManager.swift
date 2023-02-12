@@ -11,11 +11,6 @@ class CreateUserDateManager {
 
     var userdefaultManager = UserDefaultsManager()
 
-//    func calculateSignUpMonth() -> Int {
-//        let createdAt = userdefaultManager.getUser()?.createdAt
-//        return 0
-//    }
-
     func monthsBetweenDates() -> Int {
         // 値が0でも最低3つは返す
         let defaultReturn = 3
