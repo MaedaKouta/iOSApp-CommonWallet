@@ -43,9 +43,6 @@ struct LogView: View {
             }
             .scrollContentBackground(.hidden)
             .scrollIndicators(.hidden)
-
-        }.onAppear{
-            print(CreateUserDateManager().monthsBetweenDates())
         }
     }
 }

@@ -41,10 +41,6 @@ struct AllLogView: View {
                 }//VStackここまで
             }
         }
-        .onAppear{
-            //allLogViewModel.featchPayments()
-            print(allLogViewModel.paidPaymentsByMonth)
-        }
     }
 }
 
