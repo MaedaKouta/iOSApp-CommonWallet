@@ -9,6 +9,7 @@ import SwiftUI
 
 struct UnConnectPartnerView: View {
 
+    @Binding var isShowSettingView: Bool
     @ObservedObject var unConnectPartnerViewModel = UnConnectPartnerViewModel()
 
     var body: some View {
@@ -25,12 +26,20 @@ struct UnConnectPartnerView: View {
             }
 
         }
+        .toolbar {
+            /// ナビゲーションバー左
+            ToolbarItem(placement: .navigationBarTrailing){
+                Button(action: {isShowSettingView = false}) {
+                    Text("完了")
+                }
+            }
+        }
     }
 
 }
 
-struct UnConnectView_Previews: PreviewProvider {
-    static var previews: some View {
-        UnConnectPartnerView()
-    }
-}
+//struct UnConnectView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        UnConnectPartnerView()
+//    }
+//}

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChangePartnerNameView: View {
 
+    @Binding var isShowSettingView: Bool
     @ObservedObject var changePartnerNameViewModel = ChangePartnerNameViewModel()
     @State private var partnerName: String = ""
     @State private var isInputPartnerName: Bool = false
@@ -39,13 +40,20 @@ struct ChangePartnerNameView: View {
             .disabled(!isInputPartnerName)
 
         }
-
+        .toolbar {
+            /// ナビゲーションバー左
+            ToolbarItem(placement: .navigationBarTrailing){
+                Button(action: {isShowSettingView = false}) {
+                    Text("完了")
+                }
+            }
+        }
 
     }
 }
 
-struct ChangePartnerNameView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChangePartnerNameView()
-    }
-}
+//struct ChangePartnerNameView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChangePartnerNameView()
+//    }
+//}

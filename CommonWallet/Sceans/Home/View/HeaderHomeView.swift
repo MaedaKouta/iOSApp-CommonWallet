@@ -9,7 +9,7 @@ import SwiftUI
 
 struct HeaderHomeView: View {
 
-    @State private var isAccountView = false
+    @State private var isSettingView = false
 
     var body: some View {
 
@@ -29,7 +29,7 @@ struct HeaderHomeView: View {
                     .padding(16)
                 Spacer()
                 Button ( action: {
-                    isAccountView = true
+                    isSettingView = true
                 }) {
                     Image("SampleIcon")
                         .resizable()
@@ -40,9 +40,9 @@ struct HeaderHomeView: View {
                         .clipShape(Circle()) // 正円形に切り抜く
                         .padding(.trailing, 16)
                 }
-                .sheet(isPresented: self.$isAccountView) {
+                .sheet(isPresented: self.$isSettingView) {
                     // trueになれば下からふわっと表示
-                    SettingView()
+                    SettingView(isShowSettingView: $isSettingView)
                 }
                 // 下の1行でListをアイコンボタンしかタップできなくしている
                 .buttonStyle(BorderlessButtonStyle())

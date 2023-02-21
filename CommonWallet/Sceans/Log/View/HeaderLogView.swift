@@ -9,17 +9,9 @@ import SwiftUI
 
 struct HeaderLogView: View {
 
-    @State private var isAccountView = false
+    @State private var isSettingView = false
 
     var body: some View {
-
-//        HStack {
-//            Text("12月22日 日曜日")
-//                .foregroundColor(.gray)
-//                .font(.system(size: 14))
-//                .padding(16)
-//            Spacer()
-//        }.frame(height: 16, alignment: .topLeading)
 
         HStack {
             Text("精算済み履歴")
@@ -28,7 +20,7 @@ struct HeaderLogView: View {
                 .padding(16)
             Spacer()
             Button ( action: {
-                isAccountView = true
+                isSettingView = true
             }) {
                 Image("SampleIcon")
                     .resizable()
@@ -39,9 +31,9 @@ struct HeaderLogView: View {
                     .clipShape(Circle()) // 正円形に切り抜く
                     .padding(.trailing, 16)
             }
-            .sheet(isPresented: self.$isAccountView) {
+            .sheet(isPresented: self.$isSettingView) {
                 // trueになれば下からふわっと表示
-                SettingView()
+                SettingView(isShowSettingView: $isSettingView)
             }
             // 下の1行でListをアイコンボタンしかタップできなくしている
             .buttonStyle(BorderlessButtonStyle())

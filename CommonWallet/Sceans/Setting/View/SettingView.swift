@@ -9,6 +9,7 @@ import SwiftUI
 
 struct SettingView: View {
 
+    @Binding var isShowSettingView: Bool
     @ObservedObject var settingViewModel = SettingViewModel()
     @State private var connectText: String = ""
 
@@ -18,7 +19,7 @@ struct SettingView: View {
                 List {
 
                     Section {
-                        NavigationLink(destination: AccountView() ) {
+                        NavigationLink(destination: AccountView(isShowSettingView: $isShowSettingView) ) {
                             HStack {
                                 Image("SampleIcon")
                                     .resizable()
@@ -50,7 +51,7 @@ struct SettingView: View {
 
                         HStack {
                             Text("パートナーの名前")
-                            NavigationLink(destination: ChangePartnerNameView() ) {
+                            NavigationLink(destination: ChangePartnerNameView(isShowSettingView: $isShowSettingView) ) {
                                 Text(settingViewModel.partnerName)
                                     .foregroundColor(.gray)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
@@ -65,9 +66,9 @@ struct SettingView: View {
                             NavigationLink(destination: {
                                 VStack {
                                     if settingViewModel.isConnectPartner() {
-                                        UnConnectPartnerView()
+                                        UnConnectPartnerView(isShowSettingView: $isShowSettingView)
                                     } else {
-                                        ConnectPartnerView()
+                                        ConnectPartnerView(isShowSettingView: $isShowSettingView)
                                     }
                                 }
                             }, label: {
@@ -110,12 +111,21 @@ struct SettingView: View {
             }
             .navigationTitle("設定")
             .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                /// ナビゲーションバー左
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Button(action: {isShowSettingView = false}) {
+                        Text("完了")
+                    }
+                }
+            }
         }
+
     }
 }
 
-struct SettingView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingView()
-    }
-}
+//struct SettingView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        SettingView(isShowSettingView: true)
+//    }
+//}

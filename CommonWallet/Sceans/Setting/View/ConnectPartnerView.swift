@@ -11,6 +11,8 @@ struct ConnectPartnerView: View {
 
     @ObservedObject var connectPartnerViewModel = ConnectPartnerViewModel()
 
+    @Binding var isShowSettingView: Bool
+
     @State private var firstBreakText: String = ""
     @State private var secondBreakText: String = ""
     @State private var thirdBreakText: String = ""
@@ -74,12 +76,20 @@ struct ConnectPartnerView: View {
             }
             .disabled(!(isInputtedFirstBreakText&&isInputtedSecondBreakText&&isInputtedThirdBreakText))
         }
+        .toolbar {
+            /// ナビゲーションバー左
+            ToolbarItem(placement: .navigationBarTrailing){
+                Button(action: {isShowSettingView = false}) {
+                    Text("完了")
+                }
+            }
+        }
     }
 
 }
 
-struct ConnectView_Previews: PreviewProvider {
-    static var previews: some View {
-        ConnectPartnerView()
-    }
-}
+//struct ConnectView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ConnectPartnerView()
+//    }
+//}

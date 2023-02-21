@@ -8,7 +8,8 @@
 import SwiftUI
 
 struct AccountView: View {
-    
+
+    @Binding var isShowSettingView: Bool
     let authManager = AuthManager()
     @State var fireStoreUserManager = FireStoreUserManager()
     @ObservedObject var accountViewModel = AccountViewModel()
@@ -102,14 +103,21 @@ struct AccountView: View {
             }// Listここまで
             .scrollContentBackground(.visible)
             .navigationTitle("アカウント")
-            //.navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                /// ナビゲーションバー左
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Button(action: {isShowSettingView = false}) {
+                        Text("完了")
+                    }
+                }
+            }
 
         }
     }
 }
 
-struct AccountView_Previews: PreviewProvider {
-    static var previews: some View {
-        AccountView()
-    }
-}
+//struct AccountView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AccountView()
+//    }
+//}
