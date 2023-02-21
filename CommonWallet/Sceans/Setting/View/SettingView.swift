@@ -39,6 +39,7 @@ struct SettingView: View {
                             Text("My共有番号")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             Text(settingViewModel.shareNumber)
+                                .textSelection(.enabled)
                                 .lineLimit(0)
                                 .minimumScaleFactor(0.5)
                         }
