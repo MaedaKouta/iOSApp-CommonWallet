@@ -12,11 +12,15 @@ class SettingViewModel: ObservableObject {
 
     @Published var shareNumber = ""
     @Published var partnerName = ""
+    @Published var userName = ""
+    @Published var userEmail = ""
     private var userDefaultsManager = UserDefaultsManager()
 
     init() {
         shareNumber = splitShareNumber(text: userDefaultsManager.getShareNumber() ?? "")
         partnerName = userDefaultsManager.getPartnerName() ?? ""
+        userName = userDefaultsManager.getUser()?.userName ?? ""
+        userEmail = userDefaultsManager.getUser()?.email ?? ""
     }
 
     // 12桁の文字列を4桁ずつ" - "で区切る関数

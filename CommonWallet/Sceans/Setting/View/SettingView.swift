@@ -26,16 +26,16 @@ struct SettingView: View {
                                     .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
                                     .frame(width: 45, height: 45)
                                 VStack {
-                                    Text("名前")
+                                    Text(settingViewModel.userName)
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                    Text("メールアドレス")
+                                    Text(settingViewModel.userEmail)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                             }
                         }
 
                         HStack {
-                            Text("共有番号")
+                            Text("My共有番号")
                                 .frame(maxWidth: .infinity, alignment: .leading)
                             Text(settingViewModel.shareNumber)
                                 .lineLimit(0)
