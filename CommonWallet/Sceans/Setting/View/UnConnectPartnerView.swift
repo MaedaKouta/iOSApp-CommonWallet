@@ -26,14 +26,6 @@ struct UnConnectPartnerView: View {
             }
 
         }
-        .toolbar {
-            /// ナビゲーションバー左
-            ToolbarItem(placement: .navigationBarTrailing){
-                Button(action: {isShowSettingView = false}) {
-                    Text("完了")
-                }
-            }
-        }
     }
 
 }

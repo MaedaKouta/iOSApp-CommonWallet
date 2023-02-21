@@ -40,14 +40,7 @@ struct ChangePartnerNameView: View {
             .disabled(!isInputPartnerName)
 
         }
-        .toolbar {
-            /// ナビゲーションバー左
-            ToolbarItem(placement: .navigationBarTrailing){
-                Button(action: {isShowSettingView = false}) {
-                    Text("完了")
-                }
-            }
-        }
+
 
     }
 }

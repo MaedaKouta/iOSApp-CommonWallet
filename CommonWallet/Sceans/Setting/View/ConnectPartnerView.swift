@@ -76,14 +76,6 @@ struct ConnectPartnerView: View {
             }
             .disabled(!(isInputtedFirstBreakText&&isInputtedSecondBreakText&&isInputtedThirdBreakText))
         }
-        .toolbar {
-            /// ナビゲーションバー左
-            ToolbarItem(placement: .navigationBarTrailing){
-                Button(action: {isShowSettingView = false}) {
-                    Text("完了")
-                }
-            }
-        }
     }
 
 }
