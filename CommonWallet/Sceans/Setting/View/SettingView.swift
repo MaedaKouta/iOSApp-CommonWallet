@@ -45,6 +45,7 @@ struct SettingView: View {
                     } header: {
                         Text("アカウント")
                     }
+                    .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
 
                     Section {
 
@@ -82,13 +83,11 @@ struct SettingView: View {
                                         }
                                     }
                             })
-
                         }
-
-
                     } header: {
                         Text("パートナー登録")
                     }
+                    .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
 
                     Section {
                         Text("通知")
@@ -96,6 +95,7 @@ struct SettingView: View {
                     } header: {
                         Text("基本設定")
                     }
+                    .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
 
                     Section {
                         Text("アプリをレビューする")
@@ -107,12 +107,14 @@ struct SettingView: View {
                     } header: {
                         Text("端末情報")
                     }
+                    .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
+
                 }
+
 
             }
             .navigationTitle("設定")
             .navigationBarTitleDisplayMode(.inline)
-
         }
     }
 }

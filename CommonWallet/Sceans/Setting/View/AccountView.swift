@@ -69,6 +69,7 @@ struct AccountView: View {
                         })
                     }
                 }
+                .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
 
                 Section {
                     Button(action: {
@@ -83,6 +84,7 @@ struct AccountView: View {
                         Text("サインアウト")
                     }
                 }
+                .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
 
                 Section {
                     Button(action: {
@@ -97,6 +99,7 @@ struct AccountView: View {
                         Text("アカウント削除")
                     }
                 }
+                .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
             }
             .navigationTitle("アカウント")
             //.navigationBarTitleDisplayMode(.inline)
