@@ -18,6 +18,8 @@ struct SettingView: View {
     @State private var connectText: String = ""
     @State private var isSelectionShareNumber = false
 
+    @State private var test = false
+
     var body: some View {
         NavigationView {
             VStack {
@@ -40,33 +42,27 @@ struct SettingView: View {
                             }
                         }
 
-                        NavigationLink(destination: EmptyView()){
-                            Text("aa")
-                        }
-
-                        HStack {
-                            Text("My共有番号")
-                                .frame(maxWidth: .infinity, alignment: .leading)
-                            Text(settingViewModel.shareNumber)
-                                .textSelection(.enabled)
-                                .lineLimit(0)
-                                .minimumScaleFactor(0.5)
-                                .foregroundColor(.gray)
-                            Image(systemName: "square.on.square")
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 16, height: 16)
-                                .foregroundColor(.gray)
-                        }
-                        //.listRowBackground(color)
-
-                        .listRowBackground(isSelectionShareNumber ? Color.black : color)
-                        .animation(.easeInOut(duration: 2.5), value: isSelectionShareNumber)
-                        .onTapGesture {
-                            isSelectionShareNumber = true
-                        }
-                        .contentShape(Rectangle())
-
+                        Button(action: {
+                            // TODO: 「クリップボードにコピーしました」みたいなアラート出そう
+                            UIPasteboard.general.string = settingViewModel.shareNumber
+                            print("クリップボードコピー：\(String(describing: UIPasteboard.general.string))")
+                        }, label: {
+                            HStack {
+                                Text("My共有番号")
+                                    .foregroundColor(.black)
+                                    .frame(maxWidth: .infinity, alignment: .leading)
+                                Text(settingViewModel.shareNumber)
+                                    .textSelection(.enabled)
+                                    .lineLimit(0)
+                                    .minimumScaleFactor(0.5)
+                                    .foregroundColor(.gray)
+                                Image(systemName: "square.on.square")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .frame(width: 16, height: 16)
+                                    .foregroundColor(.gray)
+                            }
+                        })
 
                     } header: {
                         Text("アカウント")
