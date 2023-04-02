@@ -9,9 +9,14 @@ import SwiftUI
 
 struct SettingView: View {
 
-    @Binding var isShowSettingView: Bool
     @ObservedObject var settingViewModel = SettingViewModel()
+
+    @Binding var isShowSettingView: Bool
+    @State private var color: Color = .white
+    @State private var isActive: Bool = false
+
     @State private var connectText: String = ""
+    @State private var isSelectionShareNumber = false
 
     var body: some View {
         NavigationView {
@@ -35,6 +40,10 @@ struct SettingView: View {
                             }
                         }
 
+                        NavigationLink(destination: EmptyView()){
+                            Text("aa")
+                        }
+
                         HStack {
                             Text("My共有番号")
                                 .frame(maxWidth: .infinity, alignment: .leading)
@@ -42,7 +51,22 @@ struct SettingView: View {
                                 .textSelection(.enabled)
                                 .lineLimit(0)
                                 .minimumScaleFactor(0.5)
+                                .foregroundColor(.gray)
+                            Image(systemName: "square.on.square")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 16, height: 16)
+                                .foregroundColor(.gray)
                         }
+                        //.listRowBackground(color)
+
+                        .listRowBackground(isSelectionShareNumber ? Color.black : color)
+                        .animation(.easeInOut(duration: 2.5), value: isSelectionShareNumber)
+                        .onTapGesture {
+                            isSelectionShareNumber = true
+                        }
+                        .contentShape(Rectangle())
+
 
                     } header: {
                         Text("アカウント")
