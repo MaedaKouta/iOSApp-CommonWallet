@@ -110,7 +110,6 @@ struct SettingView: View {
                     }
 
                     Section {
-                        Text("通知")
                         Text("デフォルトカラー")
                     } header: {
                         Text("基本設定")
