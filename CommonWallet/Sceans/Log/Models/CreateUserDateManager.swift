@@ -11,31 +11,27 @@ class CreateUserDateManager {
 
     var userdefaultManager = UserDefaultsManager()
 
-//    func calculateSignUpMonth() -> Int {
-//        let createdAt = userdefaultManager.getUser()?.createdAt
-//        return 0
-//    }
-
     func monthsBetweenDates() -> Int {
-
-
-        return 3
-
         // 値が0でも最低3つは返す
         let defaultReturn = 3
 
-        print("aaa")
-        print(userdefaultManager.getUser()?.createdAt)
         guard let startDate: Date = userdefaultManager.getUser()?.createdAt else {
             return defaultReturn
         }
         let endDate = Date()
 
         let calendar = Calendar.current
-        print(startDate)
-        print(endDate)
         let components = calendar.dateComponents([.month], from: startDate, to: endDate)
-        return components.month ?? 3
+        guard let month = components.month else {
+            return defaultReturn
+        }
+
+        if month < defaultReturn {
+            return defaultReturn
+        } else {
+            return month
+        }
+
     }
 
 }

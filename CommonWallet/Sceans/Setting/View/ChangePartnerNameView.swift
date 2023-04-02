@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ChangePartnerNameView: View {
 
+    @Binding var isShowSettingView: Bool
     @ObservedObject var changePartnerNameViewModel = ChangePartnerNameViewModel()
     @State private var partnerName: String = ""
     @State private var isInputPartnerName: Bool = false
@@ -44,8 +45,8 @@ struct ChangePartnerNameView: View {
     }
 }
 
-struct ChangePartnerNameView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChangePartnerNameView()
-    }
-}
+//struct ChangePartnerNameView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ChangePartnerNameView()
+//    }
+//}

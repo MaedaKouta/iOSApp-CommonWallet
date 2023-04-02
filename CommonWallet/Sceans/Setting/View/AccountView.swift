@@ -8,17 +8,68 @@
 import SwiftUI
 
 struct AccountView: View {
+
+    @Binding var isShowSettingView: Bool
     let authManager = AuthManager()
     @State var fireStoreUserManager = FireStoreUserManager()
+    @ObservedObject var accountViewModel = AccountViewModel()
 
     var body: some View {
         VStack {
+
             List {
                 Section {
-                    Text("アイコン")
-                    Text("ユーザー名")
-                    Text("メールアドレス")
-                    Text("パスワード")
+
+                    HStack {
+                        Text("アイコン")
+                        NavigationLink(destination: {
+                            // TODO: 今はとりあえずContentView
+                            ContentView()
+                        }, label: {
+                            Text("編集する")
+                                .foregroundColor(.gray)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                        })
+                    }
+
+                    HStack {
+                        Text("ユーザー名")
+
+                        NavigationLink(destination: {
+                            // TODO: 今はとりあえずContentView
+                            ContentView()
+                        }, label: {
+                            Text(accountViewModel.userName)
+                                .foregroundColor(.gray)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                        })
+                    }
+
+                    HStack {
+                        Text("メール")
+
+                        NavigationLink(destination: {
+                            // TODO: 今はとりあえずContentView
+                            ContentView()
+                        }, label: {
+                            Text(accountViewModel.userEmail)
+                                .foregroundColor(.gray)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                        })
+                    }
+
+                    HStack {
+                        Text("パスワード")
+
+                        NavigationLink(destination: {
+                            // TODO: 今はとりあえずContentView
+                            ContentView()
+                        }, label: {
+                            Text("******")
+                                .foregroundColor(.gray)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                        })
+                    }
                 }
 
                 Section {
@@ -48,16 +99,25 @@ struct AccountView: View {
                         Text("アカウント削除")
                     }
                 }
-            }
+
+            }// Listここまで
+            .scrollContentBackground(.visible)
             .navigationTitle("アカウント")
-            //.navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                /// ナビゲーションバー左
+                ToolbarItem(placement: .navigationBarTrailing){
+                    Button(action: {isShowSettingView = false}) {
+                        Text("完了")
+                    }
+                }
+            }
 
         }
     }
 }
 
-struct AccountView_Previews: PreviewProvider {
-    static var previews: some View {
-        AccountView()
-    }
-}
+//struct AccountView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AccountView()
+//    }
+//}

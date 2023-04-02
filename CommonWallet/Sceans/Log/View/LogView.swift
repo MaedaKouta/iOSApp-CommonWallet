@@ -32,20 +32,39 @@ struct LogView: View {
                     Text("Second Item")
                 } header: {
                     HStack {
-                        Text("過去1ヶ月")
+                        Text("前回の精算")
                         Spacer()
                         NavigationLink(destination: AllLogView(), label: {
-                            Text("全履歴 >")
+                            Text("取り消す")
                         })
                     }
                 }
                 .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
+
+                Section {
+                    Text("First Item")
+                    Text("Second Item")
+                    Text("Third Item")
+                    Text("First Item")
+                    Text("Second Item")
+                } header: {
+                    HStack {
+                        Text("前々回の精算")
+                        Spacer()
+                        NavigationLink(destination: AllLogView(), label: {
+                            Text("取り消す")
+                        })
+                    }
+                }
+                .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
+
+                NavigationLink(destination: AllLogView(), label: {
+                    Text("全履歴")
+                })
+
             }
             .scrollContentBackground(.hidden)
             .scrollIndicators(.hidden)
-
-        }.onAppear{
-            print(CreateUserDateManager().monthsBetweenDates())
         }
     }
 }

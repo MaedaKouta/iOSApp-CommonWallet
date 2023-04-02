@@ -85,7 +85,6 @@ struct CommonWalletView: View {
         }
     }
 
-
     // MARK: - 立替合計金額をカードで表示するView
     private func totalMoneyCardView() -> some View {
         ZStack {

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct UnConnectPartnerView: View {
 
+    @Binding var isShowSettingView: Bool
     @ObservedObject var unConnectPartnerViewModel = UnConnectPartnerViewModel()
 
     var body: some View {
@@ -29,8 +30,8 @@ struct UnConnectPartnerView: View {
 
 }
 
-struct UnConnectView_Previews: PreviewProvider {
-    static var previews: some View {
-        UnConnectPartnerView()
-    }
-}
+//struct UnConnectView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        UnConnectPartnerView()
+//    }
+//}

@@ -94,7 +94,6 @@ struct UserDefaultsManager {
         UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerShareNumber)
     }
 
-
     var isSignedIn: Bool? {
         get {
             return UserDefaults.standard.bool(forKey: userDefaultsKey.isSignedIn)

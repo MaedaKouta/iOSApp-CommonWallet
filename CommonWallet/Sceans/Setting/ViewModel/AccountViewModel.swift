@@ -10,4 +10,13 @@ import FirebaseAuth
 
 class AccountViewModel: ObservableObject {
 
+    @Published var userName = ""
+    @Published var userEmail = ""
+    private var userDefaultsManager = UserDefaultsManager()
+
+    init() {
+        userName = userDefaultsManager.getUser()?.userName ?? ""
+        userEmail = userDefaultsManager.getUser()?.email ?? ""
+    }
+
 }

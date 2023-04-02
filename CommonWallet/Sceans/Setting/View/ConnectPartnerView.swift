@@ -11,6 +11,8 @@ struct ConnectPartnerView: View {
 
     @ObservedObject var connectPartnerViewModel = ConnectPartnerViewModel()
 
+    @Binding var isShowSettingView: Bool
+
     @State private var firstBreakText: String = ""
     @State private var secondBreakText: String = ""
     @State private var thirdBreakText: String = ""
@@ -78,8 +80,8 @@ struct ConnectPartnerView: View {
 
 }
 
-struct ConnectView_Previews: PreviewProvider {
-    static var previews: some View {
-        ConnectPartnerView()
-    }
-}
+//struct ConnectView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        ConnectPartnerView()
+//    }
+//}
