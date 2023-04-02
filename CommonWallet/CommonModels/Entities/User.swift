@@ -8,13 +8,11 @@
 import Foundation
 import Firebase
 
-/*
-   Userデータの受け渡しだけに使う構造体
- */
-struct User {
+struct User: Codable, Identifiable {
+    public var id: String = UUID().uuidString
+
     var userName: String
     var email: String
-    var uid: String
     var shareNumber: String
     var partnerUid: String?
 

@@ -20,7 +20,7 @@ struct ContentView: View {
                 .foregroundColor(.accentColor)
             Text("Hello, world!")
 
-            Text(user?.uid ?? "")
+            Text(user?.id ?? "")
             Text(user?.userName ?? "")
             Text(user?.email ?? "")
 

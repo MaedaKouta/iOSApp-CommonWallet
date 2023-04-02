@@ -13,7 +13,7 @@ struct UserDefaultsManager {
 
     // MARK: - Set
     mutating func setUser(user: User) {
-        UserDefaults.standard.set(user.uid, forKey: userDefaultsKey.uid)
+        UserDefaults.standard.set(user.id, forKey: userDefaultsKey.uid)
         UserDefaults.standard.set(user.userName, forKey: userDefaultsKey.userName)
         UserDefaults.standard.set(user.email, forKey: userDefaultsKey.email)
         UserDefaults.standard.set(user.shareNumber, forKey: userDefaultsKey.shareNumber)
@@ -57,7 +57,7 @@ struct UserDefaultsManager {
         let partnerName = UserDefaults.standard.string(forKey: userDefaultsKey.partnerName)
         let createdAt = UserDefaults.standard.object(forKey: userDefaultsKey.createdAt) as? Date
 
-        let user = User(userName: userName, email: mailAdress, uid: uid, shareNumber: shareNumber, partnerUid: partnerUid, createdAt: createdAt, partnerName: partnerName)
+        let user = User(id: uid, userName: userName, email: mailAdress, shareNumber: shareNumber, partnerUid: partnerUid, createdAt: createdAt, partnerName: partnerName)
         return user
     }
 

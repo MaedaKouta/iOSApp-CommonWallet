@@ -49,7 +49,7 @@ class FireStoreUserManager {
                   let uid = data["uid"] as? String,
                   let shareNumber = data["shareNumber"] as? String,
                   let createdAt = data["createdAt"] as? Timestamp else { return }
-             let user = User(userName: userName, email: mailAdress, uid: uid, shareNumber: shareNumber, createdAt: createdAt.dateValue())
+             let user = User(id: uid, userName: userName, email: mailAdress, shareNumber: shareNumber, createdAt: createdAt.dateValue())
 
             completion(user,nil)
         }
