@@ -24,7 +24,7 @@ class FireStoreTransacationManager {
                                                     "amount": amount,
                                                     "createdAt": Timestamp()]
         do {
-            try await db.collection("Transactions").document().setData(transaction)
+            try await db.collection("Transactions").document(transactionId).setData(transaction)
             // TODO: Userのcollectionにも上記のtransactionIDをリスト追加する
         } catch {
             throw error

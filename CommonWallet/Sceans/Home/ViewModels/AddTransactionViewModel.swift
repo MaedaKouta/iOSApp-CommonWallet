@@ -28,14 +28,9 @@ class AddTransactionViewModel: ObservableObject {
 
     func addTransaction(creditorId: String, debtorId: String, title: String, description: String, amount: Int, complition: @escaping (Bool, String) -> Void) async {
 
-        guard let uid = Auth.auth().currentUser?.uid else {
-            complition(false, "uidが見つかりません。")
-            return
-        }
-
         do {
             try await fireStoreTransacationManager.createTransaction(transactionId: UUID().uuidString, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
-            complition(true, "アカウント登録成功")
+            complition(true, "transaction追加成功")
         } catch FirebaseErrorType.FireStore(let error) {
             let errorMessage = firebaseErrorManager.getFirestoreErrorMessage(error)
             complition(false, errorMessage)

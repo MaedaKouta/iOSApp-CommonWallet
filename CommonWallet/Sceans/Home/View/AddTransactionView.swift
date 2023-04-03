@@ -50,7 +50,7 @@ struct AddTransactionView: View {
                         amount: Int(amount) ?? 0,
                         complition: { isSuccess, message in
                             if isSuccess {
-                                print("登録成功")
+                                print("登録成功"+message)
                                 isAddTransactionView = false
                             } else {
                                 print("登録失敗", message)
