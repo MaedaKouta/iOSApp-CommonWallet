@@ -26,6 +26,17 @@ class FireStoreTransacationManager {
         do {
             try await db.collection("Transactions").document(transactionId).setData(transaction)
             // TODO: Userのcollectionにも上記のtransactionIDをリスト追加する
+
+            try await db.collection("Users").document(creditorId)
+                .updateData([
+                    "transactionIds": FieldValue.arrayUnion([transactionId])
+                ])
+
+            try await db.collection("Users").document(debtorId)
+                .updateData([
+                    "transactionIds": FieldValue.arrayUnion([transactionId])
+                ])
+
         } catch {
             throw error
         }
@@ -44,12 +55,12 @@ class FireStoreTransacationManager {
 
     // MARK: Fetch
     func fetchResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void) {
-        guard let uesrId = Auth.auth().currentUser?.uid else { return }
+        guard let userId = Auth.auth().currentUser?.uid else { return }
         var transactionIds = [String]()
         var transactions = [Transaction]()
 
         // 自分のUserCollectionからtransactionIds（[String]）を取得
-        db.collection("Users").document(uesrId).getDocument { snapShot, error in
+        db.collection("Users").document(userId).getDocument { snapShot, error in
             if let error = error {
                 print("Firestoreからユーザ情報の取得に失敗しました")
                 completion(nil, error)
