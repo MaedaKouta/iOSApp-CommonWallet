@@ -12,7 +12,7 @@ struct SignInView: View {
 
     @ObservedObject var signInViewModel = SignInViewModel()
 
-    @State var mailAdress = ""
+    @State var email = ""
     @State var password = ""
     @State private var isSecondView: Bool = false
     @State private var isCreateUserView: Bool = false
@@ -20,12 +20,12 @@ struct SignInView: View {
     var body: some View {
         VStack {
             Text("ログイン")
-            TextField("メールアドレス", text: $mailAdress)
+            TextField("メールアドレス", text: $email)
             TextField("パスワード", text: $password)
 
             Button(action: {
                 Task {
-                    await signInViewModel.signIn(email: mailAdress, password: password, complition:{ isSuccess, message in
+                    await signInViewModel.signIn(email: email, password: password, complition:{ isSuccess, message in
                         print(isSuccess, message)
                     })
                 }
@@ -33,7 +33,7 @@ struct SignInView: View {
                 Text("ログイン").fontWeight(.bold).font(.largeTitle)
             }
             .fullScreenCover(isPresented: self.$isSecondView) {
-                ContentView()
+                MainTabView()
             }
 
             Button {

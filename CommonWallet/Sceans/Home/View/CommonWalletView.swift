@@ -12,7 +12,7 @@ struct CommonWalletView: View {
     @ObservedObject var commonWalletViewModel = CommonWalletViewModel()
 
     @State var isAccountView = false
-    @State var isAddPayInfoView = false
+    @State var isAddTransactionView = false
 
     var body: some View {
 
@@ -32,11 +32,11 @@ struct CommonWalletView: View {
 
                 // 未精算履歴を表示
                 Section {
-                    ForEach(0 ..< commonWalletViewModel.unpaidPayments.count,  id: \.self) { index in
+                    ForEach(0 ..< commonWalletViewModel.unResolvedTransactions.count,  id: \.self) { index in
 
                         HStack {
-                            Text(String(commonWalletViewModel.unpaidPayments[index].cost) + "円")
-                            Text(commonWalletViewModel.unpaidPayments[index].title)
+                            Text(String(commonWalletViewModel.unResolvedTransactions[index].amount) + "円")
+                            Text(commonWalletViewModel.unResolvedTransactions[index].title)
                             Spacer() 
                         }
                         .foregroundColor(.black)
@@ -60,7 +60,7 @@ struct CommonWalletView: View {
                 HStack {
                     Spacer()
                     Button(action: {
-                        isAddPayInfoView = true
+                        isAddTransactionView = true
                     }, label: {
                         Text("＋")
                             .frame(width: 35.0, height: 35.0)
@@ -72,8 +72,8 @@ struct CommonWalletView: View {
                             .frame(maxWidth: .infinity, alignment: .trailing)
                     })
                     .padding(.trailing, 16)
-                    .sheet(isPresented: self.$isAddPayInfoView) {
-                        AddPayInfoView(isAddPayInfoView: $isAddPayInfoView)
+                    .sheet(isPresented: self.$isAddTransactionView) {
+                        AddTransactionView(isAddTransactionView: $isAddTransactionView)
                             .presentationDetents([.large])
                     }
                 }
@@ -81,7 +81,7 @@ struct CommonWalletView: View {
             }
         }
         .onAppear{
-            commonWalletViewModel.featchPayments()
+            commonWalletViewModel.featchTransactions()
         }
     }
 
@@ -96,7 +96,7 @@ struct CommonWalletView: View {
             VStack {
                 Text("\(commonWalletViewModel.payFromName)から\(commonWalletViewModel.payToName)へ")
                     .foregroundColor(.white)
-                Text("￥\(commonWalletViewModel.unpaidCost)")
+                Text("￥\(commonWalletViewModel.unResolvedAmount)")
                     .foregroundColor(.white)
 
                 // 本来は精算ボタンタップ後にアラート表示で完了させよう

@@ -7,25 +7,24 @@
 
 import SwiftUI
 
-struct AddPayInfoView: View {
+struct AddTransactionView: View {
 
-    @ObservedObject var addPaymentViewModel = AddPayInfoViewModel()
-
-    @Binding var isAddPayInfoView: Bool
+    @ObservedObject var addTransactionViewModel = AddTransactionViewModel()
+    @Binding var isAddTransactionView: Bool
 
     @State private var selectedIndex = 0
     @State var title: String = ""
-    @State var memo: String = ""
-    @State var cost: String = ""
+    @State var description: String = ""
+    @State var amount: String = ""
 
     var body: some View {
 
         VStack {
             Text("支払った人")
             Picker("", selection: self.$selectedIndex) {
-                Text(addPaymentViewModel.myName)
+                Text(addTransactionViewModel.myName)
                     .tag(0)
-                Text(addPaymentViewModel.partnerName)
+                Text(addTransactionViewModel.partnerName)
                     .tag(1)
             }
             .pickerStyle(SegmentedPickerStyle())
@@ -33,29 +32,30 @@ struct AddPayInfoView: View {
 
             TextField("タイトル", text: $title)
                 .padding()
-            TextField("メモ", text: $memo)
+            TextField("メモ", text: $description)
                 .padding()
-            TextField("支払い金額を入力", text: $cost)
+            TextField("支払い金額を入力", text: $amount)
                 .padding()
 
             Button ( action: {
                 // 画面をもとに戻す
                 // 後でViewmodelに書く
                 Task {
-                    await  addPaymentViewModel.createPayInfo(
+
+                    await  addTransactionViewModel.addTransaction(
+                        creditorId: selectedIndex == 0 ? addTransactionViewModel.myUserId : addTransactionViewModel.partnerUserId,
+                        debtorId: selectedIndex == 0 ? addTransactionViewModel.partnerUserId : addTransactionViewModel.myUserId,
                         title: title,
-                        memo: memo,
-                        cost: Int(cost) ?? 0,
-                        isMyPay: selectedIndex==0 ? true : false,
+                        description: description,
+                        amount: Int(amount) ?? 0,
                         complition: { isSuccess, message in
                             if isSuccess {
                                 print("登録成功")
-                                isAddPayInfoView = false
+                                isAddTransactionView = false
                             } else {
                                 print("登録失敗", message)
                             }
                         })
-
                 }
             }) {
                 Text("登録")

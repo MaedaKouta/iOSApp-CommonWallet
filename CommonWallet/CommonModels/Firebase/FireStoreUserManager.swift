@@ -15,43 +15,87 @@ class FireStoreUserManager {
     private let db = Firestore.firestore()
     private var userDefaultsManager = UserDefaultsManager()
 
-    func createUser(createdAt: Timestamp, userName: String, email: String, uid: String, shareNumber: String) async throws {
-        let user: Dictionary<String, Any> = ["userName": userName,
-                                             "uid": uid,
-                                             "createdAt": createdAt,
+    // MARK: Create
+    func createUser(userId: String, userName: String, email: String, shareNumber: String) async throws {
+        let user: Dictionary<String, Any> = ["id": userId,
+                                             "name": userName,
                                              "email": email,
-                                             "shareNumber": shareNumber]
+                                             "shareNumber": shareNumber,
+                                             "createdAt": Timestamp(),
+                                             ]
         do {
-            try await db.collection("Users").document(uid).setData(user)
+            try await db.collection("Users").document(userId).setData(user)
         } catch {
             throw error
         }
     }
 
-    func deleteUser(uid: String) async throws {
+    // MARK: Delete
+    func deleteUser(userId: String) async throws {
         do {
-            try await db.collection("Users").document(uid).delete()
+            try await db.collection("Users").document(userId).delete()
         } catch {
             throw error
         }
     }
 
-    func fetchUser(uid: String, completion: @escaping(User?, Error?) -> Void) {
+    // MARK: Fetch
+    func fetchInfo(userId: String, completion: @escaping(User?, Error?) -> Void) {
 
-         db.collection("Users").document(uid).getDocument { snapShot, error in
+         db.collection("Users").document(userId).getDocument { snapShot, error in
             if let error = error {
                 print("Firestoreからユーザ情報の取得に失敗しました")
                 completion(nil, error)
             }
             guard let data = snapShot?.data(),
-                  let userName = data["userName"] as? String,
-                  let mailAdress = data["email"] as? String,
-                  let uid = data["uid"] as? String,
+                  let userId = data["id"] as? String,
+                  let userName = data["name"] as? String,
+                  let email = data["email"] as? String,
                   let shareNumber = data["shareNumber"] as? String,
                   let createdAt = data["createdAt"] as? Timestamp else { return }
-             let user = User(id: uid, userName: userName, email: mailAdress, shareNumber: shareNumber, createdAt: createdAt.dateValue())
+             let user = User(id: userId, name: userName, email: email, shareNumber: shareNumber, createdAt: createdAt.dateValue())
 
-            completion(user,nil)
+            completion(user, nil)
         }
     }
+
+    func fetchLastResolvedAt(userId: String, completion: @escaping(Date?, Error?) -> Void) {
+         db.collection("Users").document(userId).getDocument { snapShot, error in
+            if let error = error {
+                print("FirestoreからLastResolvedAtの取得に失敗しました")
+                completion(nil, error)
+            }
+            guard let data = snapShot?.data(),
+                  let lastResolvedAt = data["lastResolvedAt"] as? Date else { return }
+
+            completion(lastResolvedAt, nil)
+        }
+    }
+
+    func fetchPreviousResolvedAt(userId: String, completion: @escaping(Date?, Error?) -> Void) {
+         db.collection("Users").document(userId).getDocument { snapShot, error in
+            if let error = error {
+                print("FirestoreからPreviousResolvedAtの取得に失敗しました")
+                completion(nil, error)
+            }
+            guard let data = snapShot?.data(),
+                  let previousResolvedAt = data["previousResolvedAt"] as? Date else { return }
+
+            completion(previousResolvedAt, nil)
+        }
+    }
+
+    func fetchTransactions(userId: String, completion: @escaping([String]?, Error?) -> Void) {
+         db.collection("Users").document(userId).getDocument { snapShot, error in
+            if let error = error {
+                print("FirestoreからTransactionsの取得に失敗しました")
+                completion(nil, error)
+            }
+            guard let data = snapShot?.data(),
+                  let transactions = data["transaction"] as? [String] else { return }
+
+            completion(transactions, nil)
+        }
+    }
+
 }

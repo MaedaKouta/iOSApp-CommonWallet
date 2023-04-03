@@ -38,7 +38,7 @@ struct CreateUserView: View {
             }
             .fullScreenCover(isPresented: self.$isSecondView) {
                 // trueになれば下からふわっと表示
-                ContentView()
+                MainTabView()
             }
 
             Button {

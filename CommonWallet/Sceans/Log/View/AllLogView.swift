@@ -19,15 +19,15 @@ struct AllLogView: View {
 
                 VStack {
                     // もし、paidPaymentsByMonth[selectedIndex]に値がなければ何もしない
-                    if allLogViewModel.paidPaymentsByMonth[item.index].count == 0 {
+                    if allLogViewModel.resolvedTransactionsByMonth[item.index].count == 0 {
                         Text("値がありません")
                     } else {
                         List {
-                            ForEach(0 ..< allLogViewModel.paidPaymentsByMonth[item.index].count,  id: \.self) { index in
+                            ForEach(0 ..< allLogViewModel.resolvedTransactionsByMonth[item.index].count,  id: \.self) { index in
 
                                 HStack {
-                                    Text(String(allLogViewModel.paidPaymentsByMonth[item.index][index].cost) + "円")
-                                    Text(allLogViewModel.paidPaymentsByMonth[item.index][index].title)
+                                    Text(String(allLogViewModel.resolvedTransactionsByMonth[item.index][index].amount) + "円")
+                                    Text(allLogViewModel.resolvedTransactionsByMonth[item.index][index].title)
                                     Spacer()
                                 }
                                 .foregroundColor(.black)

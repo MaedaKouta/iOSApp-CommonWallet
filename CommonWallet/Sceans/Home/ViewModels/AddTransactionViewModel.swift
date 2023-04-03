@@ -8,20 +8,25 @@
 import Foundation
 import FirebaseAuth
 
-class AddPayInfoViewModel: ObservableObject {
+class AddTransactionViewModel: ObservableObject {
 
-    private let fireStorePayInfoManager = FireStorePayInfoManager()
+    private let fireStoreTransacationManager = FireStoreTransacationManager()
     private let firebaseErrorManager = FirebaseErrorManager()
     private var userDefaultsManager = UserDefaultsManager()
+    @Published var myUserId = ""
     @Published var myName = ""
+    @Published var partnerUserId = ""
     @Published var partnerName = ""
 
+
     init() {
-        myName = userDefaultsManager.getUser()?.userName ?? ""
+        myUserId = userDefaultsManager.getUser()?.id ?? ""
+        myName = userDefaultsManager.getUser()?.name ?? ""
         partnerName = userDefaultsManager.getPartnerName() ?? ""
+        partnerUserId = userDefaultsManager.getPartnerUid() ?? ""
     }
 
-    func createPayInfo(title: String, memo: String, cost: Int, isMyPay: Bool, complition: @escaping (Bool, String) -> Void) async {
+    func addTransaction(creditorId: String, debtorId: String, title: String, description: String, amount: Int, complition: @escaping (Bool, String) -> Void) async {
 
         guard let uid = Auth.auth().currentUser?.uid else {
             complition(false, "uidが見つかりません。")
@@ -29,7 +34,7 @@ class AddPayInfoViewModel: ObservableObject {
         }
 
         do {
-            try await fireStorePayInfoManager.createPayInfo(userUid: uid, title: title, memo: memo, cost: cost, isMyPay: isMyPay)
+            try await fireStoreTransacationManager.createTransaction(transactionId: UUID().uuidString, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
             complition(true, "アカウント登録成功")
         } catch FirebaseErrorType.FireStore(let error) {
             let errorMessage = firebaseErrorManager.getFirestoreErrorMessage(error)

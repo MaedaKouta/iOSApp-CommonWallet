@@ -11,13 +11,16 @@ import Firebase
 struct User: Codable, Identifiable {
     public var id: String = UUID().uuidString
 
-    var userName: String
+    var name: String
     var email: String
-    var shareNumber: String
-    var partnerUid: String?
+    var shareNumber: String // 共有番号
+    var createdAt: Date? // アカウント作成日時
+    var lastResolvedAt: Date? // 前回の精算日時
+    var previousResolvedAt: Date? // 前々回の精算日時
+    var transactionIds: [String]? // 立替記録のIDリスト
 
-    // UserDefaultだけ保存する変数
-    var createdAt: Date?
+    // パートナー
+    var partnerUserId: String?
     var partnerName: String?
     var partnerShareNumber: String?
 }

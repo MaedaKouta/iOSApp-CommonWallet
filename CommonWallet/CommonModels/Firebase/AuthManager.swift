@@ -20,19 +20,19 @@ class AuthManager {
     // MARK: - サインイン処理
     func signIn(email:String, password:String) async throws {
 
-        var uid = String()
+        var userId = String()
         var fireStoreError: Error!
 
         do {
             // 通信して認証を行う
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
-            uid = result.user.uid
+            userId = result.user.uid
         } catch {
             throw FirebaseErrorType.Auth(error as NSError)
         }
 
         // サインインと同時に、UserDefaultsの情報も追加する処理
-        fireStoreUserManager.fetchUser(uid: uid, completion: { user, error in
+        fireStoreUserManager.fetchInfo(userId: userId, completion: { user, error in
             if let user = user {
                 self.userDefaultsManager.setUser(user: user)
             } else {
@@ -52,7 +52,7 @@ class AuthManager {
 
         var fireStoreError: Error!
 
-        guard let uid = Auth.auth().currentUser?.uid else {
+        guard let userId = Auth.auth().currentUser?.uid else {
             throw NSError(domain: "サインインができていません。", code: 0)
         }
 
@@ -65,7 +65,7 @@ class AuthManager {
         }
 
         // サインアウトと同時に、UserDefaultsの情報も削除する処理
-        fireStoreUserManager.fetchUser(uid: uid, completion: { user, error in
+        fireStoreUserManager.fetchInfo(userId: userId, completion: { user, error in
             if let user = user {
                 self.userDefaultsManager.setUser(user: user)
             } else {
@@ -83,27 +83,26 @@ class AuthManager {
      // MARK: - アカウント登録処理
     func createUser(email: String, password: String, name: String, shareNumber: String) async throws {
 
-        var uid = String()
+        var userId = String()
         var fireStoreError: Error!
-        let currentTimeStamp: Timestamp = Timestamp()
 
         // FirebaseAuthへのアカウント登録
         do {
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
-            uid = result.user.uid
+            userId = result.user.uid
         } catch {
             throw FirebaseErrorType.Auth(error as NSError)
         }
 
         // FireStoreへのアカウント情報追加
         do {
-            try await fireStoreUserManager.createUser(createdAt: currentTimeStamp, userName: name, email: email, uid: uid, shareNumber: shareNumber)
+            try await fireStoreUserManager.createUser(userId: userId, userName: name, email: email, shareNumber: shareNumber)
         } catch {
             throw FirebaseErrorType.FireStore(error as NSError)
         }
 
         // アカウント登録と同時に、UserDefaultsの情報も追加する処理
-        fireStoreUserManager.fetchUser(uid: uid, completion: { user, error in
+        fireStoreUserManager.fetchInfo(userId: userId, completion: { user, error in
             if let user = user {
                 self.userDefaultsManager.setUser(user: user)
             } else {
@@ -121,13 +120,13 @@ class AuthManager {
     // MARK: - アカウント削除処理
     func deleteUser() async throws {
 
-        guard let uid = Auth.auth().currentUser?.uid else {
+        guard let userId = Auth.auth().currentUser?.uid else {
             throw FirebaseErrorType.other("uidが見つからない")
         }
 
         // ①FireStoreのユーザデータ削除。この順番でないとFireStoreのユーザデータが削除できない
         do {
-            try await fireStoreUserManager.deleteUser(uid: uid)
+            try await fireStoreUserManager.deleteUser(userId: userId)
             // アカウント削除と同時に、UserDefaultsの情報も削除する処理
             userDefaultsManager.clearUser()
         } catch {
