@@ -15,11 +15,11 @@ class CommonWalletViewModel: ObservableObject {
     @Published var payFromName = ""
     @Published var payToName = ""
 
-    private var fireStoreTransacationManager = FireStoreTransacationManager()
+    private var fireStoreTransactionManager = FireStoreTransactionManager()
     private var userDefaultsManager = UserDefaultsManager()
 
-    func featchTransactions() {
-        fireStoreTransacationManager.fetchResolvedTransactions(completion: { transactions, error in
+    func fetchTransactions() {
+        fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
             if let transactions = transactions {
                 self.resolvedTransactions = transactions
             } else {
@@ -27,8 +27,7 @@ class CommonWalletViewModel: ObservableObject {
             }
         })
 
-        fireStoreTransacationManager.fetchUnResolvedTransactions(completion: { transactions, error in
-            print(transactions)
+        fireStoreTransactionManager.fetchUnResolvedTransactions(completion: { transactions, error in
             if let transactions = transactions {
                 self.unResolvedTransactions = transactions
                 self.unResolvedAmount = self.calculateUnResolvedAmount()

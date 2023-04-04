@@ -17,7 +17,7 @@ class AllLogViewModel: ObservableObject {
 
     private let monthCount: Int = CreateUserDateManager().monthsBetweenDates()
 
-    private var fireStoreTransacationManager = FireStoreTransacationManager()
+    private var fireStoreTransacationManager = FireStoreTransactionManager()
     private var userDefaultsManager = UserDefaultsManager()
     private var createUserDateManager = CreateUserDateManager()
     private var dateCompare = DateCompare()

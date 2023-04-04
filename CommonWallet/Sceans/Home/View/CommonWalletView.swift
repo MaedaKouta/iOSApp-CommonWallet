@@ -81,9 +81,7 @@ struct CommonWalletView: View {
             }
         }
         .onAppear{
-            commonWalletViewModel.featchTransactions()
-            print(commonWalletViewModel.resolvedTransactions)
-            print(commonWalletViewModel.unResolvedTransactions)
+            commonWalletViewModel.fetchTransactions()
         }
     }
 

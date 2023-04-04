@@ -10,7 +10,7 @@ import FirebaseAuth
 
 class AddTransactionViewModel: ObservableObject {
 
-    private let fireStoreTransacationManager = FireStoreTransacationManager()
+    private let fireStoreTransacationManager = FireStoreTransactionManager()
     private let firebaseErrorManager = FirebaseErrorManager()
     private var userDefaultsManager = UserDefaultsManager()
     @Published var myUserId = ""
