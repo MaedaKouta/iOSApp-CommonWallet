@@ -79,6 +79,7 @@ class AllLogViewModel: ObservableObject {
                 // (monthCount-1)しないと、現在の月を除いた３ヶ月前のデータが取得される
                 if self.dateCompare.isEqualMonth(fromNowMonth: (monthCount-1)-i, compareDate: transaction.createdAt) {
                     self.resolvedTransactionsByMonth[i].append(transaction)
+                    print(self.resolvedTransactionsByMonth)
                 }
             }
         }

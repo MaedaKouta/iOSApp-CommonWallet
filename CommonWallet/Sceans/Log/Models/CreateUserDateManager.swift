@@ -9,13 +9,13 @@ import Foundation
 
 class CreateUserDateManager {
 
-    var userdefaultManager = UserDefaultsManager()
+    var userDefaultsManager = UserDefaultsManager()
 
     func monthsBetweenDates() -> Int {
         // 値が0でも最低3つは返す
         let defaultReturn = 3
 
-        guard let startDate: Date = userdefaultManager.getUser()?.createdAt else {
+        guard let startDate: Date = userDefaultsManager.getUser()?.createdAt else {
             return defaultReturn
         }
         let endDate = Date()

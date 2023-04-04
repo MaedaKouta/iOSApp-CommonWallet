@@ -40,6 +40,9 @@ struct AllLogView: View {
                     }//if文ここまで
                 }//VStackここまで
             }
+        }.onAppear{
+            print(allLogViewModel.pagingIndexItems)
+            print(allLogViewModel.selectedIndex)
         }
     }
 }
