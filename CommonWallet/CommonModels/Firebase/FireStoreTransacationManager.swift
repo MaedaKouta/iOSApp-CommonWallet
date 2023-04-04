@@ -25,7 +25,6 @@ class FireStoreTransacationManager {
                                                     "createdAt": Timestamp()]
         do {
             try await db.collection("Transactions").document(transactionId).setData(transaction)
-            // TODO: Userのcollectionにも上記のtransactionIDをリスト追加する
 
             try await db.collection("Users").document(creditorId)
                 .updateData([
@@ -40,7 +39,6 @@ class FireStoreTransacationManager {
         } catch {
             throw error
         }
-
 
     }
 
@@ -71,7 +69,7 @@ class FireStoreTransacationManager {
                 return completion(nil, error)
             }
             transactionIds = transactions
-       }
+        }
 
         // transactionIds（[String]）をtransacations([transacation])に置き換え
         transactionIds.forEach { transactionId in
@@ -101,7 +99,6 @@ class FireStoreTransacationManager {
         completion(transactions, nil)
     }
 
-
     func fetchUnResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void) {
         guard let uesrId = Auth.auth().currentUser?.uid else { return }
         var transactionIds = [String]()
@@ -114,39 +111,43 @@ class FireStoreTransacationManager {
                 completion(nil, error)
             }
             guard let data = snapShot?.data(),
-                  let transactions = data["transactionIds"] as? [String] else {
+                  let transactionIdsFromData = data["transactionIds"] as? [String] else {
                 print("FireStoreのUserCollectionでtransactionIdsが空です")
                 return completion(nil, error)
             }
-            transactionIds = transactions
-       }
+            transactionIds = transactionIdsFromData
 
-        // transactionIds（[String]）をtransacations([transacation])に置き換え
-        transactionIds.forEach { transactionId in
+            // transactionIds（[String]）をtransactions([transaction])に置き換え
+            // TODO: 非同期処理の関係？で値が空で、下のfor文回ってない
+            transactionIds.forEach { transactionId in
 
-            db.collection("Transactions").document(transactionId).getDocument { snapShot, error in
-                if let error = error {
-                    print("FirestoreからTransactionsの取得に失敗しました")
-                    completion(nil, error)
-                }
-                guard let data = snapShot?.data(),
-                      let id = data["id"] as? String,
-                      let creditorId = data["creditorId"] as? String,
-                      let debtorId = data["debtorId"] as? String,
-                      let title = data["title"] as? String,
-                      let description = data["description"] as? String,
-                      let amount = data["amount"] as? Int,
-                      let createdAt = data["createdAt"] as? Date  else { return }
+                self.db.collection("Transactions").document(transactionId).getDocument { snapShot, error in
+                    if let error = error {
+                        print("FirestoreからTransactionsの取得に失敗しました")
+                        completion(nil, error)
+                    }
+                    guard let data = snapShot?.data(),
+                          let id = data["id"] as? String,
+                          let creditorId = data["creditorId"] as? String,
+                          let debtorId = data["debtorId"] as? String,
+                          let title = data["title"] as? String,
+                          let description = data["description"] as? String,
+                          let amount = data["amount"] as? Int,
+                          let createdAt = data["createdAt"] as? Timestamp  else {
+                        return }
 
-                // "精算済み" を調べる
-                let resolvedAt = data["resolvedAt"] as? Date
-                if resolvedAt == nil {
-                    let transaction = Transaction(id: id, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount, createdAt: createdAt, resolvedAt: resolvedAt)
-                    transactions.append(transaction)
+                    // "精算済み" を調べる
+                    let resolvedAt = data["resolvedAt"] as? Date
+                    if resolvedAt == nil {
+                        let transaction = Transaction(id: id, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount, createdAt: createdAt.dateValue(), resolvedAt: resolvedAt)
+                        transactions.append(transaction)
+                    }
+                    // ここにcompletionを書かないと、非同期？の関係でnilを返してしまう
+                    completion(transactions, nil)
                 }
             }
         }
-        completion(transactions, nil)
+
     }
 
 }
