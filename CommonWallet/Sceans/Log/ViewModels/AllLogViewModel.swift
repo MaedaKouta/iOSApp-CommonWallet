@@ -17,7 +17,7 @@ class AllLogViewModel: ObservableObject {
 
     private let monthCount: Int = CreateUserDateManager().monthsBetweenDates()
 
-    private var fireStoreTransacationManager = FireStoreTransactionManager()
+    private var fireStoreTransactionManager = FireStoreTransactionManager()
     private var userDefaultsManager = UserDefaultsManager()
     private var createUserDateManager = CreateUserDateManager()
     private var dateCompare = DateCompare()
@@ -26,7 +26,7 @@ class AllLogViewModel: ObservableObject {
         createSelectedIndex()
         initPaidPaymentsByMonth()
         createPagingItem()
-        featchPayments()
+        fetchPayments()
     }
 
     // MARK: - イニシャライザ
@@ -57,8 +57,8 @@ class AllLogViewModel: ObservableObject {
         selectedIndex = monthCount - 1
     }
 
-    func featchPayments() {
-        fireStoreTransacationManager.fetchResolvedTransactions(completion: { transactions, error in
+    func fetchPayments() {
+        fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
             if let transactions = transactions {
                 // [Payments]を取得
                 self.resolvedTransactions = transactions
