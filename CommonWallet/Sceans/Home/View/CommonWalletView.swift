@@ -103,7 +103,9 @@ struct CommonWalletView: View {
                 HStack {
                     Spacer()
                     Button(action: {
-
+                        Task {
+                            try await commonWalletViewModel.resolveTransaction()
+                        }
                     }, label: {
                         Text("> 精算")
                             .foregroundColor(.white)

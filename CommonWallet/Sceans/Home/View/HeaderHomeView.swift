@@ -21,7 +21,7 @@ struct HeaderHomeView: View {
                     .padding(16)
                 Spacer()
             }.frame(height: 16, alignment: .topLeading)
-            
+
             HStack {
                 Text("こんばんは")
                     .font(.largeTitle)

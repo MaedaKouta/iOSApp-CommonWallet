@@ -37,6 +37,23 @@ class CommonWalletViewModel: ObservableObject {
         })
     }
 
+    // 精算を完了させる関数
+    func resolveTransaction() async throws {
+        // 押下時間格納（resultTime）
+        let resultTime = Date()
+
+        for unResolvedTransaction in unResolvedTransactions {
+            try await fireStoreTransactionManager.addResolvedAt(transactionId: unResolvedTransaction.id, resolvedAt: resultTime)
+        }
+        // TransactionのresultedAtにresultTime登録
+
+
+        // 自分と相手のUserのpreviousResolvedAtにlastResolvedAtをテンプ
+
+        // 自分と相手のUserのlastResolvedAtにresultTime登録
+
+    }
+
     // 立替金額を計算する関数
     private func calculateUnResolvedAmount() -> Int {
         var amount: Int = 0
