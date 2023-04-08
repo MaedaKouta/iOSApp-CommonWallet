@@ -35,10 +35,10 @@ class AllLogViewModel: ObservableObject {
      空の配列を月数だけ格納しておくことでこれを回避する関数
      */
     private func initPaidPaymentsByMonth() {
-//        paidPaymentsByMonth = [[PayInfo]]()
-//        for _ in 0 ..< monthCount {
-//            paidPaymentsByMonth.append([PayInfo]())
-//        }
+        resolvedTransactionsByMonth = [[Transaction]]()
+        for _ in 0 ..< monthCount {
+            resolvedTransactionsByMonth.append([Transaction]())
+        }
     }
 
     /*
@@ -63,23 +63,23 @@ class AllLogViewModel: ObservableObject {
                 // [Payments]を取得
                 self.resolvedTransactions = transactions
                 // 月ごとに[[Payments]]へ多次元配列へ分割
-                self.divideByMonth()
+                self.transactionsDivideByMonth()
             } else {
                 print(error as Any)
             }
         })
     }
 
-    private func divideByMonth() {
+    private func transactionsDivideByMonth() {
         initPaidPaymentsByMonth()
 
         for i in 0 ..< monthCount {
             // 多次元配列を扱うときは、appendでからの要素の追加を明示しないと、〇〇[i].appendが出来なかった
             for transaction in resolvedTransactions {
+
                 // (monthCount-1)しないと、現在の月を除いた３ヶ月前のデータが取得される
                 if self.dateCompare.isEqualMonth(fromNowMonth: (monthCount-1)-i, compareDate: transaction.createdAt) {
                     self.resolvedTransactionsByMonth[i].append(transaction)
-                    print(self.resolvedTransactionsByMonth)
                 }
             }
         }
