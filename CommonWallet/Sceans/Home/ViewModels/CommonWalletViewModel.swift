@@ -42,11 +42,10 @@ class CommonWalletViewModel: ObservableObject {
         // 押下時間格納（resultTime）
         let resultTime = Date()
 
+        // TransactionのresultedAtにresultTime登録
         for unResolvedTransaction in unResolvedTransactions {
             try await fireStoreTransactionManager.addResolvedAt(transactionId: unResolvedTransaction.id, resolvedAt: resultTime)
         }
-        // TransactionのresultedAtにresultTime登録
-
 
         // 自分と相手のUserのpreviousResolvedAtにlastResolvedAtをテンプ
 
