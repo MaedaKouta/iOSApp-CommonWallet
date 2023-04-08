@@ -81,29 +81,29 @@ class FireStoreUserManager {
         }
     }
 
-    func fetchLastResolvedAt(userId: String, completion: @escaping(Date?, Error?) -> Void) {
-         db.collection("Users").document(userId).getDocument { snapShot, error in
-            if let error = error {
-                print("FirestoreからLastResolvedAtの取得に失敗しました")
-                completion(nil, error)
-            }
-            guard let data = snapShot?.data(),
-                  let lastResolvedAt = data["lastResolvedAt"] as? Date else { return }
+    func fetchLastResolvedAt(userId: String) async throws -> Date? {
+        do {
+            let snapShot = try await db.collection("Users").document(userId).getDocument()
+            guard let data = snapShot.data(),
+                  let lastResolvedAt = data["lastResolvedAt"] as? Timestamp else { return nil }
 
-            completion(lastResolvedAt, nil)
+            return lastResolvedAt.dateValue()
+        } catch {
+            print("FirestoreからLastResolvedAtの取得に失敗しました: \(error)")
+            throw error
         }
     }
 
-    func fetchPreviousResolvedAt(userId: String, completion: @escaping(Date?, Error?) -> Void) {
-         db.collection("Users").document(userId).getDocument { snapShot, error in
-            if let error = error {
-                print("FirestoreからPreviousResolvedAtの取得に失敗しました")
-                completion(nil, error)
-            }
-            guard let data = snapShot?.data(),
-                  let previousResolvedAt = data["previousResolvedAt"] as? Date else { return }
+    func fetchPreviousResolvedAt(userId: String) async throws -> Date? {
+        do {
+            let snapShot = try await db.collection("Users").document(userId).getDocument()
+            guard let data = snapShot.data(),
+                  let previousResolvedAt = data["previousResolvedAt"] as? Timestamp else { return nil }
 
-            completion(previousResolvedAt, nil)
+            return previousResolvedAt.dateValue()
+        } catch {
+            print("FirestoreからLastResolvedAtの取得に失敗しました: \(error)")
+            throw error
         }
     }
 

@@ -16,6 +16,7 @@ class CommonWalletViewModel: ObservableObject {
     @Published var payToName = ""
 
     private var fireStoreTransactionManager = FireStoreTransactionManager()
+    private var fireStoreUserManager = FireStoreUserManager()
     private var userDefaultsManager = UserDefaultsManager()
 
     func fetchTransactions() {
@@ -41,6 +42,9 @@ class CommonWalletViewModel: ObservableObject {
     func resolveTransaction() async throws {
         // 押下時間格納（resultTime）
         let resultTime = Date()
+        //var tempDate: Date?
+        let myUserId = userDefaultsManager.getUser()?.id ?? ""
+        let partnerUserId = userDefaultsManager.getPartnerUid() ?? ""
 
         // TransactionのresultedAtにresultTime登録
         for unResolvedTransaction in unResolvedTransactions {
@@ -48,8 +52,17 @@ class CommonWalletViewModel: ObservableObject {
         }
 
         // 自分と相手のUserのpreviousResolvedAtにlastResolvedAtをテンプ
+        let tempDate = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId)
+        if let tempDate = tempDate {
+            try await fireStoreUserManager.addPreviousResolvedAt(userId: myUserId, previousResolvedAt: tempDate)
+            try await fireStoreUserManager.addPreviousResolvedAt(userId: partnerUserId, previousResolvedAt: tempDate)
+        } else {
+            print("resolveTransaction関数内でtempDateが空のまま処理")
+        }
 
         // 自分と相手のUserのlastResolvedAtにresultTime登録
+        try await fireStoreUserManager.addLastResolvedAt(userId: myUserId, lastResolvedAt: resultTime)
+        try await fireStoreUserManager.addLastResolvedAt(userId: partnerUserId, lastResolvedAt: resultTime)
 
     }
 
