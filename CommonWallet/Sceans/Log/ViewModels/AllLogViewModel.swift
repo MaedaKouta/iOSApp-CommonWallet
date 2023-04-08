@@ -24,9 +24,9 @@ class AllLogViewModel: ObservableObject {
 
     init() {
         createSelectedIndex()
-        initPaidPaymentsByMonth()
+        initTransactionsByMonth()
         createPagingItem()
-        fetchPayments()
+        fetchTransactions()
     }
 
     // MARK: - イニシャライザ
@@ -34,7 +34,7 @@ class AllLogViewModel: ObservableObject {
      paidPaymentsByMonthの多次元配列がそのままの初期化だと、取得時にIndexOutOfRangeエラーが起こる
      空の配列を月数だけ格納しておくことでこれを回避する関数
      */
-    private func initPaidPaymentsByMonth() {
+    private func initTransactionsByMonth() {
         resolvedTransactionsByMonth = [[Transaction]]()
         for _ in 0 ..< monthCount {
             resolvedTransactionsByMonth.append([Transaction]())
@@ -57,7 +57,7 @@ class AllLogViewModel: ObservableObject {
         selectedIndex = monthCount - 1
     }
 
-    func fetchPayments() {
+    func fetchTransactions() {
         fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
             if let transactions = transactions {
                 // [Payments]を取得
@@ -71,7 +71,7 @@ class AllLogViewModel: ObservableObject {
     }
 
     private func transactionsDivideByMonth() {
-        initPaidPaymentsByMonth()
+        initTransactionsByMonth()
 
         for i in 0 ..< monthCount {
             // 多次元配列を扱うときは、appendでからの要素の追加を明示しないと、〇〇[i].appendが出来なかった
