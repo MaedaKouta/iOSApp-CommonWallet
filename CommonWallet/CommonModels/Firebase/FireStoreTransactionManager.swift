@@ -161,7 +161,6 @@ class FireStoreTransactionManager {
                 }
             }
         }
-
     }
 
 }
