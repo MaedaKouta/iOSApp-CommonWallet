@@ -42,8 +42,6 @@ class FireStoreTransactionManager {
     }
 
     func addResolvedAt(transactionId: String, resolvedAt: Date) async throws {
-        //let transaction: Dictionary<String, Any> = ["resolvedAt": resolvedAt]
-
         do {
             try await db.collection("Transactions").document(transactionId)
                 .updateData([

@@ -40,29 +40,33 @@ class CommonWalletViewModel: ObservableObject {
 
     // 精算を完了させる関数
     func resolveTransaction() async throws {
-        // 押下時間格納（resultTime）
-        let resultTime = Date()
-        //var tempDate: Date?
-        let myUserId = userDefaultsManager.getUser()?.id ?? ""
-        let partnerUserId = userDefaultsManager.getPartnerUid() ?? ""
+        do {
+            // 押下時間格納（resultTime）
+            let resultTime = Date()
+            //var tempDate: Date?
+            let myUserId = userDefaultsManager.getUser()?.id ?? ""
+            let partnerUserId = userDefaultsManager.getPartnerUid() ?? ""
 
-        // TransactionのresultedAtにresultTime登録
-        for unResolvedTransaction in unResolvedTransactions {
-            try await fireStoreTransactionManager.addResolvedAt(transactionId: unResolvedTransaction.id, resolvedAt: resultTime)
+            // TransactionのresultedAtにresultTime登録
+            for unResolvedTransaction in unResolvedTransactions {
+                try await fireStoreTransactionManager.addResolvedAt(transactionId: unResolvedTransaction.id, resolvedAt: resultTime)
+            }
+
+            // 自分と相手のUserのpreviousResolvedAtにlastResolvedAtをテンプ
+            let tempDate = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId)
+            if let tempDate = tempDate {
+                try await fireStoreUserManager.addPreviousResolvedAt(userId: myUserId, previousResolvedAt: tempDate)
+                try await fireStoreUserManager.addPreviousResolvedAt(userId: partnerUserId, previousResolvedAt: tempDate)
+            } else {
+                print("resolveTransaction関数内でtempDateが空のまま処理")
+            }
+
+            // 自分と相手のUserのlastResolvedAtにresultTime登録
+            try await fireStoreUserManager.addLastResolvedAt(userId: myUserId, lastResolvedAt: resultTime)
+            try await fireStoreUserManager.addLastResolvedAt(userId: partnerUserId, lastResolvedAt: resultTime)
+        } catch {
+            print("精算を完了させる関数resolveTransactionでエラー", error)
         }
-
-        // 自分と相手のUserのpreviousResolvedAtにlastResolvedAtをテンプ
-        let tempDate = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId)
-        if let tempDate = tempDate {
-            try await fireStoreUserManager.addPreviousResolvedAt(userId: myUserId, previousResolvedAt: tempDate)
-            try await fireStoreUserManager.addPreviousResolvedAt(userId: partnerUserId, previousResolvedAt: tempDate)
-        } else {
-            print("resolveTransaction関数内でtempDateが空のまま処理")
-        }
-
-        // 自分と相手のUserのlastResolvedAtにresultTime登録
-        try await fireStoreUserManager.addLastResolvedAt(userId: myUserId, lastResolvedAt: resultTime)
-        try await fireStoreUserManager.addLastResolvedAt(userId: partnerUserId, lastResolvedAt: resultTime)
 
     }
 
