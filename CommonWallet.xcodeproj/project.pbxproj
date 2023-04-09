@@ -77,6 +77,7 @@
 		87CDAABF297E895400F52887 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAABE297E895400F52887 /* AddTransactionView.swift */; };
 		87CDAAC0297E8CF900F52887 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAABE297E895400F52887 /* AddTransactionView.swift */; };
 		87CDAAC1297E8CFC00F52887 /* CommonWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAAB1297E529F00F52887 /* CommonWalletView.swift */; };
+		87D1A05229E23ABC0058A98F /* LogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D1A05129E23ABC0058A98F /* LogViewModel.swift */; };
 		87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */; };
 		87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D4B297A1369005CCB6F /* ContentView.swift */; };
 		87EE8D4E297A136A005CCB6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87EE8D4D297A136A005CCB6F /* Assets.xcassets */; };
@@ -157,6 +158,7 @@
 		87CDAAB7297E608400F52887 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		87CDAABB297E6ADB00F52887 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		87CDAABE297E895400F52887 /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
+		87D1A05129E23ABC0058A98F /* LogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewModel.swift; sourceTree = "<group>"; };
 		87EE8D46297A1369005CCB6F /* CommonWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CommonWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletApp.swift; sourceTree = "<group>"; };
 		87EE8D4B297A1369005CCB6F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -448,6 +450,7 @@
 			isa = PBXGroup;
 			children = (
 				87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */,
+				87D1A05129E23ABC0058A98F /* LogViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -683,6 +686,7 @@
 				87CDAAB2297E529F00F52887 /* CommonWalletView.swift in Sources */,
 				87CDAAB5297E5C8000F52887 /* CommonWalletViewModel.swift in Sources */,
 				879379E9298B85E300D3A47B /* AccountViewModel.swift in Sources */,
+				87D1A05229E23ABC0058A98F /* LogViewModel.swift in Sources */,
 				872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */,
 				87ABC58829908BA1003E94F3 /* AllLogViewModel.swift in Sources */,
 				87391E50298A189900897A96 /* String.swift in Sources */,
