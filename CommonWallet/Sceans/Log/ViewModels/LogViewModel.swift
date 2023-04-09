@@ -26,8 +26,11 @@ class LogViewModel: ObservableObject {
 
     // TODO: ここ非同期にしたい
     func fetchLastResolvedAt() async throws {
+        lastResolvedTransactions.removeAll()
+        
         // UserからlastResolvedAtとpreviousResolvedAtの取得
         let lastResolvedAt = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId)
+
         fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
             if let transactions = transactions {
                 for transaction in transactions {
@@ -43,6 +46,7 @@ class LogViewModel: ObservableObject {
 
     // TODO: ここ非同期にしたい
     func fetchPreviousResolvedAt() async throws {
+        previousResolvedTransactions = [Transaction]()
         let previousResolvedAt = try await fireStoreUserManager.fetchPreviousResolvedAt(userId: myUserId)
         fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
             if let transactions = transactions {
