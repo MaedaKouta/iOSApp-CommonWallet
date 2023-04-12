@@ -38,7 +38,7 @@ struct LogView: View {
                     }
                 } header: {
                     HStack {
-                        Text("前々回の精算")
+                        Text("前回の精算")
                         Spacer()
                         NavigationLink(destination: AllLogView(), label: {
                             Text("取り消す")
@@ -63,7 +63,7 @@ struct LogView: View {
                     }
                 } header: {
                     HStack {
-                        Text("前回の精算")
+                        Text("前々回の精算")
                         Spacer()
                         NavigationLink(destination: AllLogView(), label: {
                             Text("取り消す")

@@ -25,23 +25,40 @@ class LogViewModel: ObservableObject {
     }
 
     // TODO: ここ非同期にしたい
+    // TODO: lastResolvedTransactionsの初期化を関数が呼ばれるたびにやりたいけどできない。。。
+//    func fetchLastResolvedAt() async throws {
+//
+//        lastResolvedTransactions = []
+//        // UserからlastResolvedAtとpreviousResolvedAtの取得
+//        let lastResolvedAt = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId)
+//
+//        fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
+//            if let transactions = transactions {
+//                for transaction in transactions {
+//                    if transaction.resolvedAt == lastResolvedAt {
+//                        self.lastResolvedTransactions.append(transaction)
+//                    }
+//                }
+//            } else {
+//                print(error as Any)
+//            }
+//        })
+//    }
     func fetchLastResolvedAt() async throws {
-        lastResolvedTransactions.removeAll()
-        
+        lastResolvedTransactions = []
         // UserからlastResolvedAtとpreviousResolvedAtの取得
         let lastResolvedAt = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId)
 
-        fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
-            if let transactions = transactions {
-                for transaction in transactions {
-                    if transaction.resolvedAt == lastResolvedAt {
-                        self.lastResolvedTransactions.append(transaction)
-                    }
-                }
-            } else {
-                print(error as Any)
+        do {
+            let transactions = try await fireStoreTransactionManager.fetchResolvedTransactions()
+            let filteredTransactions = transactions.filter { $0.resolvedAt == lastResolvedAt }
+
+            DispatchQueue.main.async { [weak self] in
+                self?.lastResolvedTransactions = filteredTransactions
             }
-        })
+        } catch {
+            print(error)
+        }
     }
 
     // TODO: ここ非同期にしたい

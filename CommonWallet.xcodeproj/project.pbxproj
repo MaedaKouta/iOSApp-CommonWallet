@@ -78,6 +78,7 @@
 		87CDAAC0297E8CF900F52887 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAABE297E895400F52887 /* AddTransactionView.swift */; };
 		87CDAAC1297E8CFC00F52887 /* CommonWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAAB1297E529F00F52887 /* CommonWalletView.swift */; };
 		87D1A05229E23ABC0058A98F /* LogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D1A05129E23ABC0058A98F /* LogViewModel.swift */; };
+		87D1A05529E770F20058A98F /* FetchError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D1A05429E770F20058A98F /* FetchError.swift */; };
 		87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */; };
 		87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D4B297A1369005CCB6F /* ContentView.swift */; };
 		87EE8D4E297A136A005CCB6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87EE8D4D297A136A005CCB6F /* Assets.xcassets */; };
@@ -159,6 +160,7 @@
 		87CDAABB297E6ADB00F52887 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		87CDAABE297E895400F52887 /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
 		87D1A05129E23ABC0058A98F /* LogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewModel.swift; sourceTree = "<group>"; };
+		87D1A05429E770F20058A98F /* FetchError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchError.swift; sourceTree = "<group>"; };
 		87EE8D46297A1369005CCB6F /* CommonWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CommonWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletApp.swift; sourceTree = "<group>"; };
 		87EE8D4B297A1369005CCB6F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -270,6 +272,7 @@
 		87830E6A297A1A6000184A7C /* CommonModels */ = {
 			isa = PBXGroup;
 			children = (
+				87D1A05329E770E30058A98F /* Error */,
 				874EF943297D0F3700C94233 /* Firebase */,
 				87ABC57B29907C54003E94F3 /* General */,
 				874EF942297D0D8100C94233 /* Entities */,
@@ -453,6 +456,14 @@
 				87D1A05129E23ABC0058A98F /* LogViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		87D1A05329E770E30058A98F /* Error */ = {
+			isa = PBXGroup;
+			children = (
+				87D1A05429E770F20058A98F /* FetchError.swift */,
+			);
+			path = Error;
 			sourceTree = "<group>";
 		};
 		87EE8D3D297A1369005CCB6F = {
@@ -709,6 +720,7 @@
 				87830E7D297A201F00184A7C /* SignInView.swift in Sources */,
 				87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */,
 				87ABC58129908B17003E94F3 /* MainTabView.swift in Sources */,
+				87D1A05529E770F20058A98F /* FetchError.swift in Sources */,
 				879379E4298B53E600D3A47B /* FireStorePartnerManager.swift in Sources */,
 				871073B22990B36500A0518C /* HeaderLogView.swift in Sources */,
 			);
