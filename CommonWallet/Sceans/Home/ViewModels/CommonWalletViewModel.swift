@@ -9,58 +9,92 @@ import Foundation
 
 class CommonWalletViewModel: ObservableObject {
 
-    @Published var paidPayments = [PayInfo]()
-    @Published var unpaidPayments = [PayInfo]()
-    @Published var unpaidCost = Int()
+    @Published var resolvedTransactions = [Transaction]()
+    @Published var unResolvedTransactions = [Transaction]()
+    @Published var unResolvedAmount = Int()
     @Published var payFromName = ""
     @Published var payToName = ""
 
-    private var fireStorePaymentManager = FireStorePayInfoManager()
+    private var fireStoreTransactionManager = FireStoreTransactionManager()
+    private var fireStoreUserManager = FireStoreUserManager()
     private var userDefaultsManager = UserDefaultsManager()
 
-    func featchPayments() {
-        fireStorePaymentManager.fetchPaidPayInfo(completion: { payments, error in
-            if let payments = payments {
-                self.paidPayments = payments
+    func fetchTransactions() {
+        fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
+            if let transactions = transactions {
+                self.resolvedTransactions = transactions
             } else {
                 print(error as Any)
             }
         })
 
-        fireStorePaymentManager.fetchUnpaidPayInfo(completion: { payments, error in
-            if let payments = payments {
-                self.unpaidPayments = payments
-                self.unpaidCost = self.calculateUnPaidCost()
+        fireStoreTransactionManager.fetchUnResolvedTransactions(completion: { transactions, error in
+            if let transactions = transactions {
+                self.unResolvedTransactions = transactions
+                self.unResolvedAmount = self.calculateUnResolvedAmount()
             } else {
                 print(error as Any)
             }
         })
     }
 
+    // 精算を完了させる関数
+    func resolveTransaction() async throws {
+        do {
+            // 押下時間格納（resultTime）
+            let resultTime = Date()
+            //var tempDate: Date?
+            let myUserId = userDefaultsManager.getUser()?.id ?? ""
+            let partnerUserId = userDefaultsManager.getPartnerUid() ?? ""
+
+            // TransactionのresultedAtにresultTime登録
+            for unResolvedTransaction in unResolvedTransactions {
+                try await fireStoreTransactionManager.addResolvedAt(transactionId: unResolvedTransaction.id, resolvedAt: resultTime)
+            }
+
+            // 自分と相手のUserのpreviousResolvedAtにlastResolvedAtをテンプ
+            let tempDate = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId)
+            if let tempDate = tempDate {
+                try await fireStoreUserManager.addPreviousResolvedAt(userId: myUserId, previousResolvedAt: tempDate)
+                try await fireStoreUserManager.addPreviousResolvedAt(userId: partnerUserId, previousResolvedAt: tempDate)
+            } else {
+                print("resolveTransaction関数内でtempDateが空のまま処理")
+            }
+
+            // 自分と相手のUserのlastResolvedAtにresultTime登録
+            try await fireStoreUserManager.addLastResolvedAt(userId: myUserId, lastResolvedAt: resultTime)
+            try await fireStoreUserManager.addLastResolvedAt(userId: partnerUserId, lastResolvedAt: resultTime)
+        } catch {
+            print("精算を完了させる関数resolveTransactionでエラー", error)
+        }
+
+    }
 
     // 立替金額を計算する関数
-    private func calculateUnPaidCost() -> Int {
-        var cost: Int = 0
-        for unPaidPayment in self.unpaidPayments {
-            if unPaidPayment.isMyPay {
-                cost += unPaidPayment.cost
+    private func calculateUnResolvedAmount() -> Int {
+        var amount: Int = 0
+        let myUserId = userDefaultsManager.getUser()?.id
+
+        for unResolvedTransaction in self.unResolvedTransactions {
+            if unResolvedTransaction.creditorId.description == myUserId {
+                amount += unResolvedTransaction.amount
             } else {
-                cost -= unPaidPayment.cost
+                amount -= unResolvedTransaction.amount
             }
         }
-        checkPayFromWitchPerson(unPaidPayment: cost)
-        return abs(cost)
+        checkPayFromWitchPerson(unResolvedTransaction: amount)
+        return abs(amount)
     }
 
     // 立替金額に応じて、どちらからどちらに支払えばよいか調べる関数
-    private func checkPayFromWitchPerson(unPaidPayment: Int) {
+    private func checkPayFromWitchPerson(unResolvedTransaction: Int) {
 
         let partnerName: String = userDefaultsManager.getPartnerName() ?? ""
-        let myName: String = userDefaultsManager.getUser()?.userName ?? ""
+        let myName: String = userDefaultsManager.getUser()?.name ?? ""
 
         // 立替額がマイナスなら"自分"から"相手"に支払い
         // 立替額がプラスなら"相手"から"自分"に支払い
-        if unPaidPayment < 0 {
+        if unResolvedTransaction < 0 {
             payFromName = myName
             payToName = partnerName
         } else {

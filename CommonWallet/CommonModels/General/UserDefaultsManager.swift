@@ -13,13 +13,13 @@ struct UserDefaultsManager {
 
     // MARK: - Set
     mutating func setUser(user: User) {
-        UserDefaults.standard.set(user.uid, forKey: userDefaultsKey.uid)
-        UserDefaults.standard.set(user.userName, forKey: userDefaultsKey.userName)
+        UserDefaults.standard.set(user.id, forKey: userDefaultsKey.userId)
+        UserDefaults.standard.set(user.name, forKey: userDefaultsKey.userName)
         UserDefaults.standard.set(user.email, forKey: userDefaultsKey.email)
         UserDefaults.standard.set(user.shareNumber, forKey: userDefaultsKey.shareNumber)
 
-        if let partnerUid = user.partnerUid {
-            UserDefaults.standard.set(partnerUid, forKey: userDefaultsKey.partnerUid)
+        if let partnerUserId = user.partnerUserId {
+            UserDefaults.standard.set(partnerUserId, forKey: userDefaultsKey.partnerUserId)
         }
 
         if let partnerName = user.partnerName {
@@ -32,8 +32,8 @@ struct UserDefaultsManager {
 
     }
 
-    mutating func setPartner(uid: String, name: String, shareNumber: String) {
-        UserDefaults.standard.set(uid, forKey: userDefaultsKey.partnerUid)
+    mutating func setPartner(userId: String, name: String, shareNumber: String) {
+        UserDefaults.standard.set(userId, forKey: userDefaultsKey.partnerUserId)
         UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)
         UserDefaults.standard.set(shareNumber, forKey: userDefaultsKey.partnerShareNumber)
     }
@@ -46,18 +46,18 @@ struct UserDefaultsManager {
     // MARK: - Get
     mutating func getUser() -> User? {
         guard let userName = UserDefaults.standard.string(forKey: userDefaultsKey.userName),
-              let mailAdress = UserDefaults.standard.string(forKey: userDefaultsKey.email),
-              let uid = UserDefaults.standard.string(forKey: userDefaultsKey.uid),
+              let email = UserDefaults.standard.string(forKey: userDefaultsKey.email),
+              let userId = UserDefaults.standard.string(forKey: userDefaultsKey.userId),
               let shareNumber = UserDefaults.standard.string(forKey: userDefaultsKey.shareNumber)
         else {
             return nil
         }
 
-        let partnerUid = UserDefaults.standard.string(forKey: userDefaultsKey.partnerUid)
+        let partnerUserId = UserDefaults.standard.string(forKey: userDefaultsKey.partnerUserId)
         let partnerName = UserDefaults.standard.string(forKey: userDefaultsKey.partnerName)
         let createdAt = UserDefaults.standard.object(forKey: userDefaultsKey.createdAt) as? Date
 
-        let user = User(userName: userName, email: mailAdress, uid: uid, shareNumber: shareNumber, partnerUid: partnerUid, createdAt: createdAt, partnerName: partnerName)
+        let user = User(id: userId, name: userName, email: email, shareNumber: shareNumber, createdAt: createdAt, partnerUserId: partnerUserId, partnerName: partnerName)
         return user
     }
 
@@ -66,7 +66,7 @@ struct UserDefaultsManager {
     }
 
     mutating func getPartnerUid() -> String? {
-        return UserDefaults.standard.string(forKey: userDefaultsKey.partnerUid)
+        return UserDefaults.standard.string(forKey: userDefaultsKey.partnerUserId)
     }
 
     mutating func getPartnerName() -> String? {
@@ -80,16 +80,16 @@ struct UserDefaultsManager {
 
     // MARK: Delete
     mutating func clearUser() {
-        UserDefaults.standard.set(nil, forKey: userDefaultsKey.uid)
+        UserDefaults.standard.set(nil, forKey: userDefaultsKey.userId)
         UserDefaults.standard.set(nil, forKey: userDefaultsKey.userName)
         UserDefaults.standard.set(nil, forKey: userDefaultsKey.email)
         UserDefaults.standard.set(nil, forKey: userDefaultsKey.shareNumber)
-        UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerUid)
+        UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerUserId)
         UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerName)
     }
 
     mutating func deletePartner() {
-        UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerUid)
+        UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerUserId)
         UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerName)
         UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerShareNumber)
     }

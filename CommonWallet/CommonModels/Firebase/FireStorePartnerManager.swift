@@ -17,8 +17,8 @@ class FireStorePartnerManager {
     private var userDefaultManager = UserDefaultsManager()
 
     func connectPartner(partnerShareNumber: String) async -> Bool {
-        guard let uid = Auth.auth().currentUser?.uid else { return false }
-        var partnerUid: String = ""
+        guard let userId = Auth.auth().currentUser?.uid else { return false }
+        var partnerUserId: String = ""
         var partnerName: String = ""
 
         // パートナーのshareNumberからUidを探る
@@ -29,11 +29,11 @@ class FireStorePartnerManager {
 
             if snapShots.documents.count == 1 {
                 let data = snapShots.documents[0].data()
-                guard let uid = data["uid"] as? String,
-                let userName = data["userName"] as? String else {
+                guard let userId = data["id"] as? String,
+                let userName = data["name"] as? String else {
                     return false
                 }
-                partnerUid = uid
+                partnerUserId = userId
                 partnerName = userName
             } else {
                 return false
@@ -48,33 +48,34 @@ class FireStorePartnerManager {
         // TODO: 強引にお互いにセットしてるの修正する。相手の承認が必要な感じに
         do {
             try await db.collection("Users")
-                .document(uid)
+                .document(userId)
                 .setData([
-                    "partnerUid": partnerUid,
+                    "partnerUserId": partnerUserId,
                 ], merge: true)
 
             try await db.collection("Users")
-                .document(partnerUid)
+                .document(partnerUserId)
                 .setData([
-                    "partnerUid": uid,
+                    "partnerUserId": userId,
                 ], merge: true)
+
         } catch {
             // TODO: 例外処理
             return false
         }
 
         // UserDefaultにセットする
-        userDefaultManager.setPartner(uid: partnerUid, name: partnerName, shareNumber: partnerShareNumber)
+        userDefaultManager.setPartner(userId: partnerUserId, name: partnerName, shareNumber: partnerShareNumber)
 
         return true
 
     }
 
     func deletePartner() async -> Bool {
-        guard let myUid = Auth.auth().currentUser?.uid else {
+        guard let myUserId = Auth.auth().currentUser?.uid else {
             return false
         }
-        guard let partnerUid = userDefaultManager.getPartnerUid() else {
+        guard let partnerUserId = userDefaultManager.getPartnerUid() else {
             return false
         }
 
@@ -82,15 +83,15 @@ class FireStorePartnerManager {
         // TODO: 強引にお互いにセットしてるの修正する。相手の承認が必要な感じに
         do {
             try await db.collection("Users")
-                .document(myUid)
+                .document(myUserId)
                 .setData([
-                    "partnerUid": FieldValue.delete(),
+                    "partnerUserId": FieldValue.delete(),
                 ], merge: true)
 
             try await db.collection("Users")
-                .document(partnerUid)
+                .document(partnerUserId)
                 .setData([
-                    "partnerUid": FieldValue.delete(),
+                    "partnerUserId": FieldValue.delete(),
                 ], merge: true)
 
         } catch {
@@ -107,19 +108,19 @@ class FireStorePartnerManager {
 
     // 相手が連携削除していたら、自分のUserDefaultから相手を削除する処理。アプリ起動時に毎回行う。
     func fetchDeletePartner() async {
-        guard let uid = Auth.auth().currentUser?.uid else {
+        guard let userId = Auth.auth().currentUser?.uid else {
             return
         }
 
         // 自分のpartnerUidに値がセットされているかチェック
         do {
             let snapShots = try await db.collection("Users")
-                .whereField("uid", isEqualTo: uid)
+                .whereField("userId", isEqualTo: userId)
                 .getDocuments()
 
             snapShots.documents.forEach({ snapShot in
                 let data = snapShot.data()
-                guard let _ = data["partnerUid"] as? String else {
+                guard let _ = data["partnerUserId"] as? String else {
                     // partnerUidが空だった
                     userDefaultManager.deletePartner()
                     return

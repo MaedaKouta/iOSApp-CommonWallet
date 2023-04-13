@@ -15,7 +15,7 @@ class AccountViewModel: ObservableObject {
     private var userDefaultsManager = UserDefaultsManager()
 
     init() {
-        userName = userDefaultsManager.getUser()?.userName ?? ""
+        userName = userDefaultsManager.getUser()?.name ?? ""
         userEmail = userDefaultsManager.getUser()?.email ?? ""
     }
 

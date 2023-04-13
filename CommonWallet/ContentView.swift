@@ -20,8 +20,8 @@ struct ContentView: View {
                 .foregroundColor(.accentColor)
             Text("Hello, world!")
 
-            Text(user?.uid ?? "")
-            Text(user?.userName ?? "")
+            Text(user?.id ?? "")
+            Text(user?.name ?? "")
             Text(user?.email ?? "")
 
             Button(action: {
@@ -53,7 +53,7 @@ struct ContentView: View {
         .onAppear {
             Task {
                 let uid = Auth.auth().currentUser!.uid
-                fireStoreUserManager.fetchUser(uid: uid, completion: { userr, error in
+                fireStoreUserManager.fetchInfo(userId: uid, completion: { userr, error in
                     if let user = userr {
                         self.user = user
                     }

@@ -37,20 +37,20 @@ struct LaunchScreen: View {
                             }
 
                             // ここでは、アニメーション無しで画面遷移させている
-                            var transaction = Transaction()
-                            transaction.disablesAnimations = true
-                            withTransaction(transaction) {
+//                            var transaction = Transaction()
+//                            transaction.disablesAnimations = true
+//                            withTransaction(transaction) {
                                 isContentView = true
-                            }
+                            //}
                         } else {
                             // サインインがされていない処理分岐
                             // とりあえず、チュートリアル画面作成していないため、サインイン画面に全て流す
                             // ここでは、アニメーション無しで画面遷移させている
-                            var transaction = Transaction()
-                            transaction.disablesAnimations = true
-                            withTransaction(transaction) {
+//                            var transaction = Transaction()
+//                            transaction.disablesAnimations = true
+//                            withTransaction(transaction) {
                                 isSignInView = true
-                            }
+//                            }
 
                             switch LaunchStatus.launchStatus {
                             case .FirstLaunch :

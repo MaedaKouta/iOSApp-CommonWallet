@@ -10,6 +10,7 @@ import Parchment
 
 struct LogView: View {
 
+    @ObservedObject var logViewModel = LogViewModel()
     @State var isAllLogView = false
 
     var body: some View {
@@ -22,14 +23,19 @@ struct LogView: View {
                 }
 
                 Section {
-                    Text("First Item")
-                    Text("Second Item")
-                    Text("Third Item")
-                    Text("First Item")
-                    Text("Second Item")
-                    Text("Third Item")
-                    Text("First Item")
-                    Text("Second Item")
+                    ForEach(0 ..< logViewModel.lastResolvedTransactions.count,  id: \.self) { index in
+
+                        HStack {
+                            Text(String(logViewModel.lastResolvedTransactions[index].amount) + "円")
+                            Text(logViewModel.lastResolvedTransactions[index].title)
+                            Spacer()
+                        }
+                        .foregroundColor(.black)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            print(index)
+                        }
+                    }
                 } header: {
                     HStack {
                         Text("前回の精算")
@@ -42,11 +48,19 @@ struct LogView: View {
                 .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
 
                 Section {
-                    Text("First Item")
-                    Text("Second Item")
-                    Text("Third Item")
-                    Text("First Item")
-                    Text("Second Item")
+                    ForEach(0 ..< logViewModel.previousResolvedTransactions.count,  id: \.self) { index in
+
+                        HStack {
+                            Text(String(logViewModel.previousResolvedTransactions[index].amount) + "円")
+                            Text(logViewModel.previousResolvedTransactions[index].title)
+                            Spacer()
+                        }
+                        .foregroundColor(.black)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            print(index)
+                        }
+                    }
                 } header: {
                     HStack {
                         Text("前々回の精算")
@@ -65,6 +79,11 @@ struct LogView: View {
             }
             .scrollContentBackground(.hidden)
             .scrollIndicators(.hidden)
+        }.onAppear{
+            Task {
+                try await logViewModel.fetchLastResolvedAt()
+                try await logViewModel.fetchPreviousResolvedAt()
+            }
         }
     }
 }
