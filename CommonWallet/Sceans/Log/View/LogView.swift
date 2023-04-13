@@ -83,8 +83,6 @@ struct LogView: View {
             Task {
                 try await logViewModel.fetchLastResolvedAt()
                 try await logViewModel.fetchPreviousResolvedAt()
-                print("a",logViewModel.lastResolvedTransactions)
-                print("aa", logViewModel.previousResolvedTransactions)
             }
         }
     }
