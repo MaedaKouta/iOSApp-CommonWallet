@@ -26,31 +26,19 @@ class LogViewModel: ObservableObject {
 
     // TODO: ここ非同期にしたい
     // TODO: lastResolvedTransactionsの初期化を関数が呼ばれるたびにやりたいけどできない。。。
-//    func fetchLastResolvedAt() async throws {
-//
-//        lastResolvedTransactions = []
-//        // UserからlastResolvedAtとpreviousResolvedAtの取得
-//        let lastResolvedAt = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId)
-//
-//        fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
-//            if let transactions = transactions {
-//                for transaction in transactions {
-//                    if transaction.resolvedAt == lastResolvedAt {
-//                        self.lastResolvedTransactions.append(transaction)
-//                    }
-//                }
-//            } else {
-//                print(error as Any)
-//            }
-//        })
-//    }
     func fetchLastResolvedAt() async throws {
-        lastResolvedTransactions = []
+
+        DispatchQueue.main.async { [weak self] in
+            self?.lastResolvedTransactions = []
+        }
+
         // UserからlastResolvedAtとpreviousResolvedAtの取得
         let lastResolvedAt = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId)
 
         do {
-            let transactions = try await fireStoreTransactionManager.fetchResolvedTransactions()
+            guard let transactions = try await fireStoreTransactionManager.fetchResolvedTransactions(userId: myUserId) else {
+                return
+            }
             let filteredTransactions = transactions.filter { $0.resolvedAt == lastResolvedAt }
 
             DispatchQueue.main.async { [weak self] in
