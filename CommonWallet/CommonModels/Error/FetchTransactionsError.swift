@@ -18,7 +18,7 @@ enum FetchTransactionsError: Error {
             return "Transaction IDs are empty."
         case .emptyTransactionData:
             return "Transaction Data are empty."
-        case .documentDataNotFound
+        case .documentDataNotFound:
             return "Document Data Not Found."
         }
     }

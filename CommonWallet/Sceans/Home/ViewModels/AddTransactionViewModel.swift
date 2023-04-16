@@ -13,11 +13,11 @@ class AddTransactionViewModel: ObservableObject {
     private let fireStoreTransactionManager = FireStoreTransactionManager()
     private let firebaseErrorManager = FirebaseErrorManager()
     private var userDefaultsManager = UserDefaultsManager()
+
     @Published var myUserId = ""
     @Published var myName = ""
     @Published var partnerUserId = ""
     @Published var partnerName = ""
-
 
     init() {
         myUserId = userDefaultsManager.getUser()?.id ?? ""
@@ -25,6 +25,7 @@ class AddTransactionViewModel: ObservableObject {
         partnerName = userDefaultsManager.getPartnerName() ?? ""
         partnerUserId = userDefaultsManager.getPartnerUid() ?? ""
     }
+
 
     func addTransaction(creditorId: String, debtorId: String, title: String, description: String, amount: Int, complition: @escaping (Bool, String) -> Void) async {
 
@@ -38,4 +39,18 @@ class AddTransactionViewModel: ObservableObject {
             complition(false, "不明なエラー")
         }
     }
+
+    // TODO: 書き換え中
+    func addTransaction2(creditorId: String, debtorId: String, title: String, description: String, amount: Int) async throws -> Bool {
+
+        do {
+            try await fireStoreTransactionManager.createTransaction(transactionId: UUID().uuidString, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
+            return true
+        } catch {
+            // TODO: エラーハンドリング
+            return false
+        }
+
+    }
+
 }

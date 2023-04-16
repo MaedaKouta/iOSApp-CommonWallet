@@ -15,7 +15,7 @@ class FireStoreTransactionManager {
     private let db = Firestore.firestore()
 
     // MARK: Create
-    // transactionの生成
+    /// transactionの生成
     func createTransaction(transactionId: String, creditorId: String, debtorId: String,  title: String, description: String, amount: Int) async throws {
 
         // Firestoreに書き込むデータの作成
@@ -53,7 +53,7 @@ class FireStoreTransactionManager {
     }
 
     // MARK: Delete
-    // transactionの削除
+    /// transactionの削除
     func deleteTransaction(transactionId: String) async throws {
         // Firestoreへのトランザクション削除
         try await db.collection("Transacations").document(transactionId).delete()
@@ -96,7 +96,7 @@ class FireStoreTransactionManager {
         return data
     }
 
-    // ユーザーIDを指定して、精算済みのトランザクションを取得する関数
+    /// ユーザーIDを指定して、精算済みのトランザクションを取得する関数
     func fetchResolvedTransactions(userId: String) async throws -> [Transaction]? {
 
         var transactions: [Transaction] = []
@@ -183,7 +183,7 @@ class FireStoreTransactionManager {
         }
     }
 
-    // ユーザーIDを指定して、未精算のトランザクションを取得する関数
+    /// ユーザーIDを指定して、未精算のトランザクションを取得する関数
     func fetchUnResolvedTransactions(userId: String) async throws -> [Transaction]? {
 
         var transactions: [Transaction] = []
