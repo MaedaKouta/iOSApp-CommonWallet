@@ -15,7 +15,10 @@ class FireStoreTransactionManager {
     private let db = Firestore.firestore()
 
     // MARK: Create
+    // transactionの生成
     func createTransaction(transactionId: String, creditorId: String, debtorId: String,  title: String, description: String, amount: Int) async throws {
+
+        // Firestoreに書き込むデータの作成
         let transaction: Dictionary<String, Any> = ["id": transactionId,
                                                     "creditorId": creditorId,
                                                     "debtorId": debtorId,
@@ -23,21 +26,22 @@ class FireStoreTransactionManager {
                                                     "description": description,
                                                     "amount": amount,
                                                     "createdAt": Timestamp()]
+
         do {
+            // Firestoreへのトランザクション書き込み
             try await db.collection("Transactions").document(transactionId).setData(transaction)
 
+            // クレジット側のユーザーデータの更新
             try await db.collection("Users").document(creditorId)
                 .updateData([
                     "transactionIds": FieldValue.arrayUnion([transactionId])
                 ])
 
+            // デビット側のユーザーデータの更新
             try await db.collection("Users").document(debtorId)
                 .updateData([
                     "transactionIds": FieldValue.arrayUnion([transactionId])
                 ])
-
-        } catch {
-            throw error
         }
     }
 
