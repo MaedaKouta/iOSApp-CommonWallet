@@ -122,7 +122,7 @@ class FireStoreTransactionManager {
 
             // トランザクションのデータから、resolvedAtを取得
             let resolvedAt = transactionData["resolvedAt"] as? Timestamp
-            // resolvedの値があれば精算済みの変数に追加
+            // resolvedAtの値があれば精算済みの変数に追加
             if let resolvedAt = resolvedAt {
                 let transaction = Transaction(id: id, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount, createdAt: createdAt.dateValue(), resolvedAt: resolvedAt.dateValue())
                 transactions.append(transaction)
@@ -183,12 +183,19 @@ class FireStoreTransactionManager {
         }
     }
 
+    // ユーザーIDを指定して、未精算のトランザクションを取得する関数
     func fetchUnResolvedTransactions(userId: String) async throws -> [Transaction]? {
+
         var transactions: [Transaction] = []
+
+        // トランザクションのIDを取得
         let transactionIds = try await fetchTransactionIds(userId: userId)
 
         for transactionId in transactionIds {
+            // トランザクションのデータを取得
             let transactionData = try await fetchTransactionData(transactionId: transactionId)
+
+            // トランザクションのデータから、必要なデータを取得
             guard let id = transactionData["id"] as? String,
                   let creditorId = transactionData["creditorId"] as? String,
                   let debtorId = transactionData["debtorId"] as? String,
@@ -199,8 +206,9 @@ class FireStoreTransactionManager {
                 throw FetchTransactionsError.emptyTransactionData
             }
 
-            // resolvedが存在すれば精算済みと認定
+            // トランザクションのデータから、resolvedAtを取得
             let resolvedAt = transactionData["resolvedAt"] as? Timestamp
+            // resolvedAtの値があれば精算済みの変数に追加
             if resolvedAt == nil {
                 let transaction = Transaction(id: id, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount, createdAt: createdAt.dateValue(), resolvedAt: nil)
                 transactions.append(transaction)
@@ -209,6 +217,7 @@ class FireStoreTransactionManager {
 
         return transactions
     }
+
     // TODO: この関数は使わなくする。
     func fetchUnResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void) {
         guard let userId = Auth.auth().currentUser?.uid else { return }
