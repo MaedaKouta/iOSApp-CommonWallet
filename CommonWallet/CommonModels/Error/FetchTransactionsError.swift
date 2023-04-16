@@ -7,7 +7,7 @@
 
 import Foundation
 
-enum FetchError: Error {
+enum FetchTransactionsError: Error {
     case emptyTransactionIds
     case emptyTransactionData
 
