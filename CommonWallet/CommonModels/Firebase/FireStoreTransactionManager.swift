@@ -45,6 +45,7 @@ class FireStoreTransactionManager {
 
     // transactionに精算完了時間の追加
     func addResolvedAt(transactionId: String, resolvedAt: Date) async throws {
+        // Firestoreへのトランザクション上書き
         try await db.collection("Transactions").document(transactionId)
             .updateData([
                 "resolvedAt": resolvedAt
@@ -52,6 +53,7 @@ class FireStoreTransactionManager {
     }
 
     // MARK: Delete
+    // transactionの削除
     func deleteTransaction(transactionId: String) async throws {
         do {
             try await db.collection("Transacations").document(transactionId).delete()
