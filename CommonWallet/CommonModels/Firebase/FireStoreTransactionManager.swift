@@ -43,15 +43,12 @@ class FireStoreTransactionManager {
             ])
     }
 
+    // transactionに精算完了時間の追加
     func addResolvedAt(transactionId: String, resolvedAt: Date) async throws {
-        do {
-            try await db.collection("Transactions").document(transactionId)
-                .updateData([
-                    "resolvedAt": resolvedAt
-                ])
-        } catch {
-            throw error
-        }
+        try await db.collection("Transactions").document(transactionId)
+            .updateData([
+                "resolvedAt": resolvedAt
+            ])
     }
 
     // MARK: Delete
