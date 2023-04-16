@@ -60,7 +60,7 @@ class FireStoreTransactionManager {
     }
 
     // MARK: Fetch
-    // TransactionIds
+    // UserIdからUserごとのTransactionIdを配列で返す
     private func fetchTransactionIds(userId: String) async throws -> [String] {
 
         // ユーザーのドキュメントを取得
@@ -81,13 +81,21 @@ class FireStoreTransactionManager {
         return transactionIds
     }
 
+    // transactionIdからTransactionDataを取得
     private func fetchTransactionData(transactionId: String) async throws -> [String: Any] {
+        // トランザクションのドキュメントを取得
         let document = try await db.collection("Transactions").document(transactionId).getDocument()
+
+        // ドキュメントのデータを取得
         guard let data = document.data() else {
+            // ドキュメントのデータが nil の場合はエラーをスロー
             throw FetchTransactionsError.emptyTransactionData
         }
+
+        // データを返す
         return data
     }
+
 
     func fetchResolvedTransactions(userId: String) async throws -> [Transaction]? {
         var transactions: [Transaction] = []
