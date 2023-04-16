@@ -1,13 +1,13 @@
 //
-//  FetchError.swift
+//  AuthError.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/04/13.
+//  Created by 前田航汰 on 2023/04/16.
 //
 
 import Foundation
 
-enum FetchError: Error {
+enum AuthError: Error {
     case emptyTransactionIds
     case emptyTransactionData
 

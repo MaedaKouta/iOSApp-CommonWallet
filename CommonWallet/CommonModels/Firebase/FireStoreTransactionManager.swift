@@ -66,7 +66,7 @@ class FireStoreTransactionManager {
         let document = try await db.collection("Users").document(userId).getDocument()
         guard let data = document.data(),
               let transactionIds = data["transactionIds"] as? [String] else {
-            throw FetchError.emptyTransactionIds
+            throw FetchTransactionsError.emptyTransactionIds
         }
         return transactionIds
     }
@@ -74,7 +74,7 @@ class FireStoreTransactionManager {
     private func fetchTransactionData(transactionId: String) async throws -> [String: Any] {
         let document = try await db.collection("Transactions").document(transactionId).getDocument()
         guard let data = document.data() else {
-            throw FetchError.emptyTransactionData
+            throw FetchTransactionsError.emptyTransactionData
         }
         return data
     }
@@ -92,7 +92,7 @@ class FireStoreTransactionManager {
                let description = transactionData["description"] as? String,
                let amount = transactionData["amount"] as? Int,
                let createdAt = transactionData["createdAt"] as? Timestamp else {
-                throw FetchError.emptyTransactionData
+                throw FetchTransactionsError.emptyTransactionData
             }
 
             // resolvedが存在すれば精算済みと認定
@@ -169,7 +169,7 @@ class FireStoreTransactionManager {
                let description = transactionData["description"] as? String,
                let amount = transactionData["amount"] as? Int,
                let createdAt = transactionData["createdAt"] as? Timestamp else {
-                throw FetchError.emptyTransactionData
+                throw FetchTransactionsError.emptyTransactionData
             }
 
             // resolvedが存在すれば精算済みと認定
