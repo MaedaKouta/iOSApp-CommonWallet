@@ -27,22 +27,20 @@ class FireStoreTransactionManager {
                                                     "amount": amount,
                                                     "createdAt": Timestamp()]
 
-        do {
-            // Firestoreへのトランザクション書き込み
-            try await db.collection("Transactions").document(transactionId).setData(transaction)
+        // Firestoreへのトランザクション書き込み
+        try await db.collection("Transactions").document(transactionId).setData(transaction)
 
-            // クレジット側のユーザーデータの更新
-            try await db.collection("Users").document(creditorId)
-                .updateData([
-                    "transactionIds": FieldValue.arrayUnion([transactionId])
-                ])
+        // クレジット側のユーザーデータの更新
+        try await db.collection("Users").document(creditorId)
+            .updateData([
+                "transactionIds": FieldValue.arrayUnion([transactionId])
+            ])
 
-            // デビット側のユーザーデータの更新
-            try await db.collection("Users").document(debtorId)
-                .updateData([
-                    "transactionIds": FieldValue.arrayUnion([transactionId])
-                ])
-        }
+        // デビット側のユーザーデータの更新
+        try await db.collection("Users").document(debtorId)
+            .updateData([
+                "transactionIds": FieldValue.arrayUnion([transactionId])
+            ])
     }
 
     func addResolvedAt(transactionId: String, resolvedAt: Date) async throws {
