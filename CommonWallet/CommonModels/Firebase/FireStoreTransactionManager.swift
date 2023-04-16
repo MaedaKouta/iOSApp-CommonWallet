@@ -60,10 +60,22 @@ class FireStoreTransactionManager {
     }
 
     // MARK: Fetch
+    // TransactionIds
     private func fetchTransactionIds(userId: String) async throws -> [String] {
+
+        // ユーザーのドキュメントを取得
         let document = try await db.collection("Users").document(userId).getDocument()
+
+        // ドキュメントのデータを取得
+        guard let data = document.data() else {
+            // ドキュメントのデータが nil の場合はエラーをスロー
+            throw FetchTransactionsError.documentDataNotFound
+        }
+
+        // トランザクションIDの配列を取得
         guard let data = document.data(),
               let transactionIds = data["transactionIds"] as? [String] else {
+            // トランザクションIDの配列が nil の場合はエラーをスロー
             throw FetchTransactionsError.emptyTransactionIds
         }
         return transactionIds
