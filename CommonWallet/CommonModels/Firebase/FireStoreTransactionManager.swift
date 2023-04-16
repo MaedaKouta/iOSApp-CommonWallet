@@ -55,11 +55,8 @@ class FireStoreTransactionManager {
     // MARK: Delete
     // transactionの削除
     func deleteTransaction(transactionId: String) async throws {
-        do {
-            try await db.collection("Transacations").document(transactionId).delete()
-        } catch {
-            throw error
-        }
+        // Firestoreへのトランザクション削除
+        try await db.collection("Transacations").document(transactionId).delete()
     }
 
     // MARK: Fetch
