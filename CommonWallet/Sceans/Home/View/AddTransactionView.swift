@@ -66,7 +66,7 @@ struct AddTransactionView: View {
     func addTransaction(creditorId: String, debtorId: String, title: String, description: String, amount: Int) {
         Task{
 
-            let result = try await addTransactionViewModel.addTransaction2(creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
+            let result = try await addTransactionViewModel.addTransaction(creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
 
             switch result {
             case .success:

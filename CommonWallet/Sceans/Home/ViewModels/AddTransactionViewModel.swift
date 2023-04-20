@@ -11,7 +11,6 @@ import FirebaseAuth
 class AddTransactionViewModel: ObservableObject {
 
     private let fireStoreTransactionManager = FireStoreTransactionManager()
-    private let firebaseErrorManager = FirebaseErrorManager()
     private var userDefaultsManager = UserDefaultsManager()
 
     @Published var myUserId = ""
@@ -26,22 +25,8 @@ class AddTransactionViewModel: ObservableObject {
         partnerUserId = userDefaultsManager.getPartnerUid() ?? ""
     }
 
-
-    func addTransaction(creditorId: String, debtorId: String, title: String, description: String, amount: Int, complition: @escaping (Bool, String) -> Void) async {
-
-        do {
-            try await fireStoreTransactionManager.createTransaction(transactionId: UUID().uuidString, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
-            complition(true, "transaction追加成功")
-        } catch FirebaseErrorType.FireStore(let error) {
-            let errorMessage = firebaseErrorManager.getFirestoreErrorMessage(error)
-            complition(false, errorMessage)
-        } catch {
-            complition(false, "不明なエラー")
-        }
-    }
-
     // TODO: 書き換え中
-    func addTransaction2(creditorId: String, debtorId: String, title: String, description: String, amount: Int) async throws -> Result<Void, Error> {
+    func addTransaction(creditorId: String, debtorId: String, title: String, description: String, amount: Int) async throws -> Result<Void, Error> {
 
         do {
             // 非同期処理の完了を待つ
