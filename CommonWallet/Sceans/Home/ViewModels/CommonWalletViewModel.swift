@@ -19,6 +19,26 @@ class CommonWalletViewModel: ObservableObject {
     private var fireStoreUserManager = FireStoreUserManager()
     private var userDefaultsManager = UserDefaultsManager()
 
+    func fetchTransactions2() async throws -> Result<Void, Error> {
+
+        guard let userId = userDefaultsManager.getUser()?.id else {
+            throw
+        }
+
+        do {
+            let result = try await fireStoreTransactionManager.fetchResolvedTransactions(userId: )
+            self.resolvedTransactions = result ?? [Transaction]()
+            // 成功した場合
+            return .success(())
+        } catch {
+            // TODO: エラーハンドリング
+            // 失敗した場合
+            print("Transaction failed with error: \(error)")
+            return .failure(error)
+        }
+    }
+}
+
     func fetchTransactions() {
         fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
             if let transactions = transactions {
