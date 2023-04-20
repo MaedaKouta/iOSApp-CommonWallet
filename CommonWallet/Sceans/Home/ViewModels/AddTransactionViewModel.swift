@@ -41,14 +41,16 @@ class AddTransactionViewModel: ObservableObject {
     }
 
     // TODO: 書き換え中
-    func addTransaction2(creditorId: String, debtorId: String, title: String, description: String, amount: Int) async throws -> Bool {
+    func addTransaction2(creditorId: String, debtorId: String, title: String, description: String, amount: Int) async throws -> Result<Void, Error> {
 
         do {
+            // 非同期処理の完了を待つ
             try await fireStoreTransactionManager.createTransaction(transactionId: UUID().uuidString, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
-            return true
+            return .success(())
         } catch {
             // TODO: エラーハンドリング
-            return false
+            print("Transaction failed with error: \(error)")
+            return .failure(error)
         }
 
     }
