@@ -50,8 +50,48 @@ class CommonWalletViewModel: ObservableObject {
 
     }
 
+    func pushResolvedTransaction() async throws -> Result<Void, Error> {
+        do {
+            // 精算実行時刻を取得
+            let resultTime = Date()
+            // 自分と相手のユーザーIDを取得
+            guard let myUserId = userDefaultsManager.getUser()?.id,
+                  let partnerUserId = userDefaultsManager.getPartnerUid() else {
+                throw UserDefaultsError.emptyUserIds
+            }
+
+            // 未精算のトランザクションに対して、resultTimeを登録
+            for unResolvedTransaction in unResolvedTransactions {
+                try await fireStoreTransactionManager.addResolvedAt(transactionId: unResolvedTransaction.id, resolvedAt: resultTime)
+            }
+
+            // 自分と相手のユーザーのpreviousResolvedAtを更新
+            let lastResolvedAt = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId)
+            if let lastResolvedAt = lastResolvedAt {
+                try await fireStoreUserManager.addPreviousResolvedAt(userId: myUserId, previousResolvedAt: lastResolvedAt)
+                try await fireStoreUserManager.addPreviousResolvedAt(userId: partnerUserId, previousResolvedAt: lastResolvedAt)
+            } else {
+                // TODO: エラーハンドリング？
+                print("resolveTransaction関数内でlastResolvedAtが空のまま処理")
+            }
+
+            // 自分と相手のユーザーのlastResolvedAtにresultTimeを登録
+            try await fireStoreUserManager.addLastResolvedAt(userId: myUserId, lastResolvedAt: resultTime)
+            try await fireStoreUserManager.addLastResolvedAt(userId: partnerUserId, lastResolvedAt: resultTime)
+
+            // 成功した場合
+            return .success(())
+        } catch {
+            // 失敗した場合
+            print("resolveTransaction関数内でエラー", error)
+            return .failure(error)
+        }
+
+    }
+
     // 精算を完了させる関数
-    func resolveTransaction() async throws {
+    func resolveTransaction() async throws   {
+
         do {
             // 押下時間格納（resultTime）
             let resultTime = Date()

@@ -82,7 +82,6 @@ struct CommonWalletView: View {
         }
         .onAppear{
             self.fetchTransactions()
-            //commonWalletViewModel.fetchTransactions()
         }
     }
 
@@ -105,7 +104,7 @@ struct CommonWalletView: View {
                     Spacer()
                     Button(action: {
                         Task {
-                            try await commonWalletViewModel.resolveTransaction()
+                            self.pushResolvedTransaction()
                         }
                     }, label: {
                         Text("> 精算")
@@ -119,7 +118,7 @@ struct CommonWalletView: View {
         .buttonStyle(BorderlessButtonStyle())
     }
 
-    func fetchTransactions() {
+    private func fetchTransactions() {
         Task{
 
             let result = try await commonWalletViewModel.fetchTransactions()
@@ -127,12 +126,31 @@ struct CommonWalletView: View {
             switch result {
             case .success:
                 // 成功した場合の処理
-                print("CommonWalletView：Transactionの登録成功")
+                print("CommonWalletView：Transactionのfetch成功")
                 break
             case .failure(let error):
                 // 失敗した場合の処理
-                print("Transactionの登録失敗")
-                print("Transaction failed with error: \(error.localizedDescription)")
+                print("CommonWalletView：Transactionのfetch失敗")
+                print("CommonWalletView：Transaction failed with error: \(error.localizedDescription)")
+                break
+            }
+        }
+    }
+
+    private func pushResolvedTransaction() {
+        Task{
+
+            let result = try await commonWalletViewModel.pushResolvedTransaction()
+
+            switch result {
+            case .success:
+                // 成功した場合の処理
+                print("CommonWalletView：pushResolvedTransactionの登録成功")
+                break
+            case .failure(let error):
+                // 失敗した場合の処理
+                print("CommonWalletView：pushResolvedTransactionの登録失敗")
+                print("CommonWalletView：Transaction failed with error: \(error.localizedDescription)")
                 break
             }
         }
