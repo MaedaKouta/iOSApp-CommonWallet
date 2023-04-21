@@ -50,25 +50,6 @@ class CommonWalletViewModel: ObservableObject {
 
     }
 
-//    func fetchTransactions() {
-//        fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
-//            if let transactions = transactions {
-//                self.resolvedTransactions = transactions
-//            } else {
-//                print(error as Any)
-//            }
-//        })
-//
-//        fireStoreTransactionManager.fetchUnResolvedTransactions(completion: { transactions, error in
-//            if let transactions = transactions {
-//                self.unResolvedTransactions = transactions
-//                self.unResolvedAmount = self.calculateUnResolvedAmount()
-//            } else {
-//                print(error as Any)
-//            }
-//        })
-//    }
-
     // 精算を完了させる関数
     func resolveTransaction() async throws {
         do {
