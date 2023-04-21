@@ -81,7 +81,8 @@ struct CommonWalletView: View {
             }
         }
         .onAppear{
-            commonWalletViewModel.fetchTransactions()
+            self.fetchTransactions()
+            //commonWalletViewModel.fetchTransactions()
         }
     }
 
@@ -116,6 +117,25 @@ struct CommonWalletView: View {
         }
         // 下の1行でListをアイコンボタンしかタップできなくしている
         .buttonStyle(BorderlessButtonStyle())
+    }
+
+    func fetchTransactions() {
+        Task{
+
+            let result = try await commonWalletViewModel.fetchTransactions()
+
+            switch result {
+            case .success:
+                // 成功した場合の処理
+                print("CommonWalletView：Transactionの登録成功")
+                break
+            case .failure(let error):
+                // 失敗した場合の処理
+                print("Transactionの登録失敗")
+                print("Transaction failed with error: \(error.localizedDescription)")
+                break
+            }
+        }
     }
 
 }

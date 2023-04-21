@@ -19,7 +19,7 @@ class CommonWalletViewModel: ObservableObject {
     private var fireStoreUserManager = FireStoreUserManager()
     private var userDefaultsManager = UserDefaultsManager()
 
-    func fetchTransactions2() async throws -> Result<Void, Error> {
+    func fetchTransactions() async throws -> Result<Void, Error> {
 
         // UserdefaultsからmyUserIdの取得
         guard let userId = userDefaultsManager.getUser()?.id else {
@@ -29,11 +29,15 @@ class CommonWalletViewModel: ObservableObject {
         do {
             // 精算済みのデータ取得
             let result = try await fireStoreTransactionManager.fetchResolvedTransactions(userId: userId)
-            self.resolvedTransactions = result ?? [Transaction]()
+            DispatchQueue.main.async {
+                self.resolvedTransactions = result ?? [Transaction]()
+            }
 
             // 未精算のデータ取得
             let unResolvedResult = try await fireStoreTransactionManager.fetchUnResolvedTransactions(userId: userId)
-            self.unResolvedTransactions = unResolvedResult ?? []
+            DispatchQueue.main.async {
+                self.unResolvedTransactions = unResolvedResult ?? []
+            }
 
             // 成功した場合
             return .success(())
@@ -46,24 +50,24 @@ class CommonWalletViewModel: ObservableObject {
 
     }
 
-    func fetchTransactions() {
-        fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
-            if let transactions = transactions {
-                self.resolvedTransactions = transactions
-            } else {
-                print(error as Any)
-            }
-        })
-
-        fireStoreTransactionManager.fetchUnResolvedTransactions(completion: { transactions, error in
-            if let transactions = transactions {
-                self.unResolvedTransactions = transactions
-                self.unResolvedAmount = self.calculateUnResolvedAmount()
-            } else {
-                print(error as Any)
-            }
-        })
-    }
+//    func fetchTransactions() {
+//        fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
+//            if let transactions = transactions {
+//                self.resolvedTransactions = transactions
+//            } else {
+//                print(error as Any)
+//            }
+//        })
+//
+//        fireStoreTransactionManager.fetchUnResolvedTransactions(completion: { transactions, error in
+//            if let transactions = transactions {
+//                self.unResolvedTransactions = transactions
+//                self.unResolvedAmount = self.calculateUnResolvedAmount()
+//            } else {
+//                print(error as Any)
+//            }
+//        })
+//    }
 
     // 精算を完了させる関数
     func resolveTransaction() async throws {

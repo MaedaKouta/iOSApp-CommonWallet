@@ -10,6 +10,7 @@ import FirebaseAuth
 import Firebase
 import FirebaseFirestore
 
+// TODO: 電波がないところでも表示されるようにする
 class FireStoreTransactionManager {
 
     private let db = Firestore.firestore()
@@ -65,12 +66,6 @@ class FireStoreTransactionManager {
 
         // ユーザーのドキュメントを取得
         let document = try await db.collection("Users").document(userId).getDocument()
-
-        // ドキュメントのデータを取得
-        guard let data = document.data() else {
-            // ドキュメントのデータが nil の場合はエラーをスロー
-            throw FetchTransactionsError.documentDataNotFound
-        }
 
         // トランザクションIDの配列を取得
         guard let data = document.data(),
