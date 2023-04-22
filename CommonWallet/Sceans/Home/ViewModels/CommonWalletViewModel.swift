@@ -27,17 +27,17 @@ class CommonWalletViewModel: ObservableObject {
         }
 
         do {
-            // 精算済みのデータ取得
+            // 精算済みのデータ取得・更新
+            // 未精算データの取得・更新
             let result = try await fireStoreTransactionManager.fetchResolvedTransactions(userId: userId)
-            DispatchQueue.main.async {
-                self.resolvedTransactions = result ?? [Transaction]()
-            }
-
-            // 未精算のデータ取得
             let unResolvedResult = try await fireStoreTransactionManager.fetchUnResolvedTransactions(userId: userId)
             DispatchQueue.main.async {
                 self.unResolvedTransactions = unResolvedResult ?? []
+                self.resolvedTransactions = result ?? [Transaction]()
             }
+
+            // 〇〇から〇〇へ〇〇円を計算・アウトプットする関数
+            self.calculateUnresolvedAmount()
 
             // 成功した場合
             return .success(())
@@ -50,6 +50,7 @@ class CommonWalletViewModel: ObservableObject {
 
     }
 
+    /// 精算を完了させる関数
     func pushResolvedTransaction() async throws -> Result<Void, Error> {
         do {
             // 精算実行時刻を取得
@@ -89,69 +90,33 @@ class CommonWalletViewModel: ObservableObject {
 
     }
 
-    // 精算を完了させる関数
-    func resolveTransaction() async throws   {
+    /// 未精算の取引から、ログインユーザーと相手ユーザーの支払金額を計算する関数
+    private func calculateUnresolvedAmount() {
+        // 取引合計金額を初期化
+        var totalAmount: Int = 0
+        // ログインユーザーのIDを取得
+        guard let myUserId = userDefaultsManager.getUser()?.id else { return }
 
-        do {
-            // 押下時間格納（resultTime）
-            let resultTime = Date()
-            //var tempDate: Date?
-            let myUserId = userDefaultsManager.getUser()?.id ?? ""
-            let partnerUserId = userDefaultsManager.getPartnerUid() ?? ""
+        // ログインユーザーと相手ユーザーの名前を取得
+        // パートナーの名前は空があり得る(?)
+        let partnerName = userDefaultsManager.getPartnerName() ?? ""
+        let myName = userDefaultsManager.getUser()?.name ?? ""
 
-            // TransactionのresultedAtにresultTime登録
-            for unResolvedTransaction in unResolvedTransactions {
-                try await fireStoreTransactionManager.addResolvedAt(transactionId: unResolvedTransaction.id, resolvedAt: resultTime)
-            }
-
-            // 自分と相手のUserのpreviousResolvedAtにlastResolvedAtをテンプ
-            let tempDate = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId)
-            if let tempDate = tempDate {
-                try await fireStoreUserManager.addPreviousResolvedAt(userId: myUserId, previousResolvedAt: tempDate)
-                try await fireStoreUserManager.addPreviousResolvedAt(userId: partnerUserId, previousResolvedAt: tempDate)
-            } else {
-                print("resolveTransaction関数内でtempDateが空のまま処理")
-            }
-
-            // 自分と相手のUserのlastResolvedAtにresultTime登録
-            try await fireStoreUserManager.addLastResolvedAt(userId: myUserId, lastResolvedAt: resultTime)
-            try await fireStoreUserManager.addLastResolvedAt(userId: partnerUserId, lastResolvedAt: resultTime)
-        } catch {
-            print("精算を完了させる関数resolveTransactionでエラー", error)
-        }
-
-    }
-
-    // 立替金額を計算する関数
-    private func calculateUnResolvedAmount() -> Int {
-        var amount: Int = 0
-        let myUserId = userDefaultsManager.getUser()?.id
-
+        // 未精算の取引から、ログインユーザーと相手ユーザーの支払金額を計算
         for unResolvedTransaction in self.unResolvedTransactions {
-            if unResolvedTransaction.creditorId.description == myUserId {
-                amount += unResolvedTransaction.amount
-            } else {
-                amount -= unResolvedTransaction.amount
-            }
+            // 取引の債権者が自分かどうかを判定
+            // 自分が債権者の場合、取引金額をtotalAmountに加算。そうでない場合は減算。
+            let isCreditorMe = unResolvedTransaction.creditorId.description == myUserId
+            totalAmount += isCreditorMe ? unResolvedTransaction.amount : -unResolvedTransaction.amount
         }
-        checkPayFromWitchPerson(unResolvedTransaction: amount)
-        return abs(amount)
-    }
 
-    // 立替金額に応じて、どちらからどちらに支払えばよいか調べる関数
-    private func checkPayFromWitchPerson(unResolvedTransaction: Int) {
-
-        let partnerName: String = userDefaultsManager.getPartnerName() ?? ""
-        let myName: String = userDefaultsManager.getUser()?.name ?? ""
-
-        // 立替額がマイナスなら"自分"から"相手"に支払い
-        // 立替額がプラスなら"相手"から"自分"に支払い
-        if unResolvedTransaction < 0 {
-            payFromName = myName
-            payToName = partnerName
-        } else {
-            payFromName = partnerName
-            payToName = myName
+        // 支払い元・支払い先と未精算金額を更新
+        DispatchQueue.main.async {
+            // 立替金額がマイナスの場合、自分が相手に支払う必要がある
+            // 立替金額がプラスの場合、相手が自分に支払う必要がある
+            self.payFromName = totalAmount < 0 ? myName : partnerName
+            self.payToName = totalAmount < 0 ? partnerName : myName
+            self.unResolvedAmount = abs(totalAmount)
         }
     }
 

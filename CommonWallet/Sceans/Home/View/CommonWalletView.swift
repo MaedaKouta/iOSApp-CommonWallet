@@ -120,7 +120,6 @@ struct CommonWalletView: View {
 
     private func fetchTransactions() {
         Task{
-
             let result = try await commonWalletViewModel.fetchTransactions()
 
             switch result {
