@@ -10,7 +10,7 @@ import FirebaseAuth
 import Firebase
 import FirebaseFirestore
 
-class AuthManager {
+class AuthManager: AuthManaging {
 
     private static let shared = AuthManager()
     private let db = Firestore.firestore()
