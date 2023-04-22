@@ -18,4 +18,16 @@ struct Transaction: Codable, Identifiable {
     var amount: Int // 金額
     var createdAt: Date // 作成日時
     var resolvedAt: Date? // 精算日時
+
+    enum CodingKeys: String, CodingKey {
+        case id = "id"
+        case creditorId = "creditorId"
+        case debtorId = "debtorId"
+        case title = "title"
+        case description = "description"
+        case amount = "amount"
+        case createdAt = "createdAt"
+        case resolvedAt = "resolvedAt"
+    }
+
 }

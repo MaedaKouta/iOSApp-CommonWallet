@@ -139,4 +139,10 @@ class CommonWalletViewModel: ObservableObject {
         }
     }
 
+    func aaa() {
+        fireStoreTransactionManager.fetchResolvedTransactionsDayoun(completion: { aaa, error in
+            print(aaa)
+        })
+    }
+
 }

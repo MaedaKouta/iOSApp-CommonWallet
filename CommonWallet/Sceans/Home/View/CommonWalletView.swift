@@ -82,6 +82,7 @@ struct CommonWalletView: View {
         }
         .onAppear{
             self.fetchTransactions()
+            commonWalletViewModel.aaa()
         }
     }
 
