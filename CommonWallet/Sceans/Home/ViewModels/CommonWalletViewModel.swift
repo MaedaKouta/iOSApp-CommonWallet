@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import FirebaseFirestore
 
 class CommonWalletViewModel: ObservableObject {
 
@@ -15,9 +16,15 @@ class CommonWalletViewModel: ObservableObject {
     @Published var payFromName = ""
     @Published var payToName = ""
 
-    private var fireStoreTransactionManager = FireStoreTransactionManager()
-    private var fireStoreUserManager = FireStoreUserManager()
-    private var userDefaultsManager = UserDefaultsManager()
+    private var fireStoreTransactionManager: FireStoreTransactionManager
+    private var fireStoreUserManager: FireStoreUserManager
+    private var userDefaultsManager: UserDefaultsManager
+
+    init(fireStoreTransactionManager: FireStoreTransactionManager, fireStoreUserManager: FireStoreUserManager, userDefaultsManager: UserDefaultsManager) {
+        self.fireStoreTransactionManager = fireStoreTransactionManager
+        self.fireStoreUserManager = fireStoreUserManager
+        self.userDefaultsManager = userDefaultsManager
+    }
 
     func fetchTransactions() async throws -> Result<Void, Error> {
 

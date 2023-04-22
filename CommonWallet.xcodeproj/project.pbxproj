@@ -238,10 +238,10 @@
 			isa = PBXGroup;
 			children = (
 				87402F4829F37B960007320D /* AuthManaging.swift */,
-				87402F4029F377C40007320D /* FireStoreTransactionManaging.swift */,
 				87402F4229F377D70007320D /* FireStoreUserManaging.swift */,
-				87402F4429F378330007320D /* UserDefaultsManaging.swift */,
+				87402F4029F377C40007320D /* FireStoreTransactionManaging.swift */,
 				87402F4629F37B040007320D /* FireStorePartnerManaging.swift */,
+				87402F4429F378330007320D /* UserDefaultsManaging.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -271,8 +271,8 @@
 				874EF939297CC8B200C94233 /* FireStoreUserManager.swift */,
 				87F53FDF297EA44E00293176 /* FireStoreTransactionManager.swift */,
 				879379E3298B53E600D3A47B /* FireStorePartnerManager.swift */,
-				872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */,
 				87391E482987A8AF00897A96 /* ShareNumberManager.swift */,
+				872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";

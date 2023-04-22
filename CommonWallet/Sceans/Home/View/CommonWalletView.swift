@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CommonWalletView: View {
 
-    @ObservedObject var commonWalletViewModel = CommonWalletViewModel()
+    @ObservedObject var commonWalletViewModel: CommonWalletViewModel
 
     @State var isAccountView = false
     @State var isAddTransactionView = false
@@ -157,8 +157,8 @@ struct CommonWalletView: View {
 
 }
 
-struct CommonWalletTabView_Previews: PreviewProvider {
-    static var previews: some View {
-        CommonWalletView()
-    }
-}
+//struct CommonWalletTabView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CommonWalletView()
+//    }
+//}
