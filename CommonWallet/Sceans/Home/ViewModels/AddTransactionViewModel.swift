@@ -10,8 +10,8 @@ import FirebaseAuth
 
 class AddTransactionViewModel: ObservableObject {
 
-    private let fireStoreTransactionManager = FireStoreTransactionManager()
-    private var userDefaultsManager = UserDefaultsManager()
+    private var fireStoreTransactionManager: FireStoreTransactionManager
+    private var userDefaultsManager: UserDefaultsManager
 
     // ユーザー情報の監視用のPublished変数
     @Published var myUserId = ""
@@ -19,12 +19,15 @@ class AddTransactionViewModel: ObservableObject {
     @Published var partnerUserId = ""
     @Published var partnerName = ""
 
-    init() {
-        // ユーザー情報の設定
-        myUserId = userDefaultsManager.getUser()?.id ?? ""
-        myName = userDefaultsManager.getUser()?.name ?? ""
-        partnerName = userDefaultsManager.getPartnerName() ?? ""
-        partnerUserId = userDefaultsManager.getPartnerUid() ?? ""
+    init(fireStoreTransactionManager: FireStoreTransactionManager,
+         userDefaultsManager: UserDefaultsManager) {
+        self.fireStoreTransactionManager = fireStoreTransactionManager
+        self.userDefaultsManager = userDefaultsManager
+
+        myUserId = self.userDefaultsManager.getUser()?.id ?? ""
+        myName = self.userDefaultsManager.getUser()?.name ?? ""
+        partnerName = self.userDefaultsManager.getPartnerName() ?? ""
+        partnerUserId = self.userDefaultsManager.getPartnerUid() ?? ""
     }
 
     // TODO: 書き換え中

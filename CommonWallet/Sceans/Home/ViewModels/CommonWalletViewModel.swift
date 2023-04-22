@@ -26,6 +26,18 @@ class CommonWalletViewModel: ObservableObject {
         self.userDefaultsManager = userDefaultsManager
     }
 
+    func getFireStoreTransactionManager() -> FireStoreTransactionManager {
+        return self.fireStoreTransactionManager
+    }
+
+    func getFireStoreUserManager() -> FireStoreUserManager {
+        return self.fireStoreUserManager
+    }
+
+    func getUserDefaultsManager() -> UserDefaultsManager {
+        return self.userDefaultsManager
+    }
+
     func fetchTransactions() async throws -> Result<Void, Error> {
 
         // UserdefaultsからmyUserIdの取得

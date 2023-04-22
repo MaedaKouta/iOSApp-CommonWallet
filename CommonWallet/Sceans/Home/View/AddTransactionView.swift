@@ -9,7 +9,7 @@ import SwiftUI
 
 struct AddTransactionView: View {
 
-    @ObservedObject var addTransactionViewModel = AddTransactionViewModel()
+    @ObservedObject var addTransactionViewModel: AddTransactionViewModel
     @Binding var isAddTransactionView: Bool
 
     @State private var selectedIndex = 0

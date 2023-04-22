@@ -73,7 +73,7 @@ struct CommonWalletView: View {
                     })
                     .padding(.trailing, 16)
                     .sheet(isPresented: self.$isAddTransactionView) {
-                        AddTransactionView(isAddTransactionView: $isAddTransactionView)
+                        AddTransactionView(addTransactionViewModel: AddTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager()), isAddTransactionView: $isAddTransactionView)
                             .presentationDetents([.large])
                     }
                 }
