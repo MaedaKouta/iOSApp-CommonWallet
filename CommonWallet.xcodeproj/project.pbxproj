@@ -28,6 +28,7 @@
 		87402F4129F377C40007320D /* FireStoreTransactionManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87402F4029F377C40007320D /* FireStoreTransactionManaging.swift */; };
 		87402F4329F377D70007320D /* FireStoreUserManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87402F4229F377D70007320D /* FireStoreUserManaging.swift */; };
 		87402F4529F378330007320D /* UserDefaultsManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87402F4429F378330007320D /* UserDefaultsManaging.swift */; };
+		87402F4729F37B040007320D /* FireStorePartnerManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87402F4629F37B040007320D /* FireStorePartnerManaging.swift */; };
 		874A988529F206DB007CFB74 /* UserDefaultsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874A988429F206DB007CFB74 /* UserDefaultsError.swift */; };
 		874EF932297CB4C600C94233 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 874EF931297CB4C600C94233 /* GoogleService-Info.plist */; };
 		874EF934297CBB5700C94233 /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF933297CBB5700C94233 /* LaunchScreen.swift */; };
@@ -132,6 +133,7 @@
 		87402F4029F377C40007320D /* FireStoreTransactionManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreTransactionManaging.swift; sourceTree = "<group>"; };
 		87402F4229F377D70007320D /* FireStoreUserManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStoreUserManaging.swift; sourceTree = "<group>"; };
 		87402F4429F378330007320D /* UserDefaultsManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsManaging.swift; sourceTree = "<group>"; };
+		87402F4629F37B040007320D /* FireStorePartnerManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorePartnerManaging.swift; sourceTree = "<group>"; };
 		874A988429F206DB007CFB74 /* UserDefaultsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsError.swift; sourceTree = "<group>"; };
 		874EF931297CB4C600C94233 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		874EF933297CBB5700C94233 /* LaunchScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreen.swift; sourceTree = "<group>"; };
@@ -236,6 +238,7 @@
 				87402F4029F377C40007320D /* FireStoreTransactionManaging.swift */,
 				87402F4229F377D70007320D /* FireStoreUserManaging.swift */,
 				87402F4429F378330007320D /* UserDefaultsManaging.swift */,
+				87402F4629F37B040007320D /* FireStorePartnerManaging.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -746,6 +749,7 @@
 				87CA8FB7297BF73800248187 /* CreateUserViewModel.swift in Sources */,
 				871073B92990CDBE00A0518C /* CreateUserDateManager.swift in Sources */,
 				87CDAABF297E895400F52887 /* AddTransactionView.swift in Sources */,
+				87402F4729F37B040007320D /* FireStorePartnerManaging.swift in Sources */,
 				87391E492987A8AF00897A96 /* ShareNumberManager.swift in Sources */,
 				87830E7D297A201F00184A7C /* SignInView.swift in Sources */,
 				87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */,
