@@ -10,6 +10,7 @@ import SwiftUI
 struct AddTransactionView: View {
 
     @ObservedObject var addTransactionViewModel: AddTransactionViewModel
+    @ObservedObject var commonWalletViewModel: CommonWalletViewModel
     @Binding var isAddTransactionView: Bool
 
     @State private var selectedIndex = 0
@@ -17,7 +18,6 @@ struct AddTransactionView: View {
     @State var description: String = ""
     @State var amount: String = ""
 
-    @State private var transactionResult: Result<Void, Error>? = nil
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
 
@@ -72,7 +72,7 @@ struct AddTransactionView: View {
             case .success:
                 // 成功した場合の処理
                 print("Transactionの登録成功")
-                self.transactionResult = .success(())
+                self.fetchTransactions()
                 self.alertMessage = "Transaction succeeded!"
                 self.isAddTransactionView = false
                 self.showAlert = true
@@ -80,9 +80,27 @@ struct AddTransactionView: View {
             case .failure(let error):
                 // 失敗した場合の処理
                 print("Transactionの登録失敗")
-                self.transactionResult = .failure(error)
                 self.alertMessage = "Transaction failed with error: \(error.localizedDescription)"
                 self.showAlert = true
+                break
+            }
+        }
+    }
+
+    /// 遷移元のViewのTransaction情報を更新するために、遷移元のviewModelを操作
+    private func fetchTransactions() {
+        Task{
+            let result = try await commonWalletViewModel.fetchTransactions()
+
+            switch result {
+            case .success:
+                // 成功した場合の処理
+                print("CommonWalletView：Transactionのfetch成功")
+                break
+            case .failure(let error):
+                // 失敗した場合の処理
+                print("CommonWalletView：Transactionのfetch失敗")
+                print("CommonWalletView：Transaction failed with error: \(error.localizedDescription)")
                 break
             }
         }

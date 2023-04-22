@@ -30,8 +30,7 @@ class AddTransactionViewModel: ObservableObject {
         partnerUserId = self.userDefaultsManager.getPartnerUid() ?? ""
     }
 
-    // TODO: 書き換え中
-    // 新規トランザクション追加
+    /// 新規トランザクション追加
     func addTransaction(creditorId: String, debtorId: String, title: String, description: String, amount: Int) async throws -> Result<Void, Error> {
 
         do {

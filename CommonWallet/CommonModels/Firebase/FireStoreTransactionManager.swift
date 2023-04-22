@@ -10,7 +10,6 @@ import FirebaseAuth
 import Firebase
 import FirebaseFirestore
 
-// TODO: 電波がないところでも表示されるようにする
 class FireStoreTransactionManager: FireStoreTransactionManaging {
 
     private let db = Firestore.firestore()
