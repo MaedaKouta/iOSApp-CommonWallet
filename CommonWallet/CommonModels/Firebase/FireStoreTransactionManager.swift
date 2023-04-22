@@ -11,7 +11,7 @@ import Firebase
 import FirebaseFirestore
 
 // TODO: 電波がないところでも表示されるようにする
-class FireStoreTransactionManager {
+class FireStoreTransactionManager: FireStoreTransactionManaging {
 
     private let db = Firestore.firestore()
 
