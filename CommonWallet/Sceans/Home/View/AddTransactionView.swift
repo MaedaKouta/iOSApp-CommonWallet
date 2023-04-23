@@ -72,7 +72,7 @@ struct AddTransactionView: View {
             case .success:
                 // 成功した場合の処理
                 print("Transactionの登録成功")
-                self.fetchTransactions()
+                //self.fetchTransactions()
                 self.alertMessage = "Transaction succeeded!"
                 self.isAddTransactionView = false
                 self.showAlert = true

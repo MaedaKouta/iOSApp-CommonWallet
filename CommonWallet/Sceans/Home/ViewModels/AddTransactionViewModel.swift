@@ -19,6 +19,8 @@ class AddTransactionViewModel: ObservableObject {
     @Published var partnerUserId = ""
     @Published var partnerName = ""
 
+    let myShareNumber: String
+
     init(fireStoreTransactionManager: FireStoreTransactionManager,
          userDefaultsManager: UserDefaultsManager) {
         self.fireStoreTransactionManager = fireStoreTransactionManager
@@ -28,13 +30,18 @@ class AddTransactionViewModel: ObservableObject {
         myName = self.userDefaultsManager.getUser()?.name ?? ""
         partnerName = self.userDefaultsManager.getPartnerName() ?? ""
         partnerUserId = self.userDefaultsManager.getPartnerUid() ?? ""
+
+        myShareNumber = self.userDefaultsManager.getUser()?.shareNumber ?? ""
+
     }
 
     /// 新規トランザクション追加
     func addTransaction(creditorId: String, debtorId: String, title: String, description: String, amount: Int) async throws -> Result<Void, Error> {
 
         do {
-            try await fireStoreTransactionManager.createTransaction(transactionId: UUID().uuidString, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
+            // データベースで調べやすいように、myShareNumberをつける
+            let transactionId = myShareNumber + "-" + UUID().uuidString
+            try await fireStoreTransactionManager.createTransaction(transactionId: transactionId, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
             // 成功した場合
             return .success(())
         } catch {
