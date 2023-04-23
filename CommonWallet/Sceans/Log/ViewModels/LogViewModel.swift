@@ -33,18 +33,19 @@ class LogViewModel: ObservableObject {
         // UserからlastResolvedAtとpreviousResolvedAtの取得
         let lastResolvedAt = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId)
 
-        do {
-            guard let transactions = try await fireStoreTransactionManager.fetchResolvedTransactions(userId: myUserId) else {
-                return
-            }
-            let filteredTransactions = transactions.filter { $0.resolvedAt == lastResolvedAt }
-
-            DispatchQueue.main.async { [weak self] in
-                self?.lastResolvedTransactions = filteredTransactions
-            }
-        } catch {
-            print(error)
-        }
+        // TODO: TransactionManager書き換えにより一旦コメントアウト
+//        do {
+//            guard let transactions = try await fireStoreTransactionManager.fetchResolvedTransactions2(userId: myUserId) else {
+//                return
+//            }
+//            let filteredTransactions = transactions.filter { $0.resolvedAt == lastResolvedAt }
+//
+//            DispatchQueue.main.async { [weak self] in
+//                self?.lastResolvedTransactions = filteredTransactions
+//            }
+//        } catch {
+//            print(error)
+//        }
     }
 
     // TODO: ここ非同期にしたい
@@ -56,18 +57,20 @@ class LogViewModel: ObservableObject {
         // UserからlastResolvedAtとpreviousResolvedAtの取得
         let previousResolved = try await fireStoreUserManager.fetchPreviousResolvedAt(userId: myUserId)
 
-        do {
-            guard let transactions = try await fireStoreTransactionManager.fetchResolvedTransactions(userId: myUserId) else {
-                return
-            }
-            let filteredTransactions = transactions.filter { $0.resolvedAt == previousResolved }
+        // TODO: TransactionManager書き換えにより一旦コメントアウト
 
-            DispatchQueue.main.async { [weak self] in
-                self?.previousResolvedTransactions = filteredTransactions
-            }
-        } catch {
-            print(error)
-        }
+//        do {
+//            guard let transactions = try await fireStoreTransactionManager.fetchResolvedTransactions(userId: myUserId) else {
+//                return
+//            }
+//            let filteredTransactions = transactions.filter { $0.resolvedAt == previousResolved }
+//
+//            DispatchQueue.main.async { [weak self] in
+//                self?.previousResolvedTransactions = filteredTransactions
+//            }
+//        } catch {
+//            print(error)
+//        }
     }
 
 }
