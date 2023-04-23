@@ -29,7 +29,8 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                                                     "title": title,
                                                     "description": description,
                                                     "amount": amount,
-                                                    "createdAt": Timestamp()]
+                                                    "createdAt": Timestamp(),
+                                                    "resolvedAt": NSNull()]
 
         // Firestoreへのトランザクション書き込み
         try await db.collection("Transactions").document(transactionId).setData(transaction)
@@ -241,13 +242,14 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
 
 
 
-    func fetchUnResultTransactions2(completion: @escaping([Transaction]?, Error?) -> Void) {
+    func fetchUnResolvedTransactions2(completion: @escaping([Transaction]?, Error?) -> Void) {
 
         guard let userId = Auth.auth().currentUser?.uid else { return }
         let partnerId = userDefaultsManager.getPartnerUid() ?? ""
 
         db.collection("Transactions")
             .whereField("creditorId", in: [partnerId, userId])
+            .whereField("resolvedAt", isEqualTo: NSNull())
             //.order(by: "createdAt", descending: true)
             .addSnapshotListener { snapShots, error in
 
@@ -266,14 +268,44 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                           let description = data["description"] as? String,
                           let amount = data["amount"] as? Int,
                           let createdAt = data["createdAt"] as? Timestamp  else { return }
-                    // "精算済み" を調べる
-                    let resolvedAt = data["resolvedAt"] as? Timestamp
-                    if resolvedAt != nil {
-                        return
-                    }
 
                     let transaction = Transaction(id: id, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount, createdAt: createdAt.dateValue())
                     print(transaction)
+                    transactions.append(transaction)
+                })
+                completion(transactions, error)
+            }
+    }
+
+    func fetchResolvedTransactions2(completion: @escaping([Transaction]?, Error?) -> Void) {
+
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        let partnerId = userDefaultsManager.getPartnerUid() ?? ""
+
+        db.collection("Transactions")
+            .whereField("creditorId", in: [partnerId, userId])
+            .whereField("resolvedAt", isNotEqualTo: NSNull())
+            //.order(by: "createdAt", descending: true)
+            .addSnapshotListener { snapShots, error in
+
+                if let error = error {
+                    print("FirestoreからTransactionsの取得に失敗しました")
+                    completion(nil, error)
+                }
+
+                var transactions = [Transaction]()
+                snapShots?.documents.forEach({ snapShot in
+                    let data = snapShot.data()
+                    guard let id = data["id"] as? String,
+                          let creditorId = data["creditorId"] as? String,
+                          let debtorId = data["debtorId"] as? String,
+                          let title = data["title"] as? String,
+                          let description = data["description"] as? String,
+                          let amount = data["amount"] as? Int,
+                          let createdAt = data["createdAt"] as? Timestamp,
+                          let resolvedAt = data["resolvedAt"] as? Timestamp else { return }
+
+                    let transaction = Transaction(id: id, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount, createdAt: createdAt.dateValue(), resolvedAt: resolvedAt.dateValue())
                     transactions.append(transaction)
                 })
                 completion(transactions, error)

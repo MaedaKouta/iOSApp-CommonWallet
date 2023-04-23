@@ -32,7 +32,6 @@ class AddTransactionViewModel: ObservableObject {
         partnerUserId = self.userDefaultsManager.getPartnerUid() ?? ""
 
         myShareNumber = self.userDefaultsManager.getUser()?.shareNumber ?? ""
-
     }
 
     /// 新規トランザクション追加

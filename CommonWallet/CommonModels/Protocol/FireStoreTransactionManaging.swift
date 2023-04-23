@@ -19,6 +19,6 @@ protocol FireStoreTransactionManaging {
     func deleteTransaction(transactionId: String) async throws
 
     // fetch
-    func fetchResolvedTransactions(userId: String) async throws -> [Transaction]?
-    func fetchUnResolvedTransactions(userId: String) async throws -> [Transaction]?
+//    func fetchResolvedTransactions(userId: String) async throws -> [Transaction]?
+//    func fetchUnResolvedTransactions(userId: String) async throws -> [Transaction]?
 }

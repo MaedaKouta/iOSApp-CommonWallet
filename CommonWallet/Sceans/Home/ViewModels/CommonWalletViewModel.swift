@@ -65,7 +65,7 @@ class CommonWalletViewModel: ObservableObject {
 //                    self.unResolvedTransactions = aaaa
 //                })
 //            })
-            fireStoreTransactionManager.fetchUnResultTransactions2(completion: { aaa, error in
+            fireStoreTransactionManager.fetchUnResolvedTransactions2(completion: { aaa, error in
                 self.unResolvedTransactions = []
                 print(aaa)
                 guard let aaaa = aaa else { return }
