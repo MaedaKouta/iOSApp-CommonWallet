@@ -13,12 +13,13 @@ protocol FireStoreTransactionManaging {
     func createTransaction(transactionId: String, creditorId: String, debtorId: String,  title: String, description: String, amount: Int) async throws
 
     // push
-    func addResolvedAt(transactionId: String, resolvedAt: Date) async throws
+    func pushResolvedAt(transactionId: String, resolvedAt: Date) async throws
 
     // delete
     func deleteTransaction(transactionId: String) async throws
 
     // fetch
-//    func fetchResolvedTransactions(userId: String) async throws -> [Transaction]?
-//    func fetchUnResolvedTransactions(userId: String) async throws -> [Transaction]?
+    func fetchUnResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void)
+    func fetchResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void)
+
 }

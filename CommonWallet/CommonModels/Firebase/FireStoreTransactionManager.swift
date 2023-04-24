@@ -34,7 +34,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
     }
 
     // transactionに精算完了時間の追加
-    func addResolvedAt(transactionId: String, resolvedAt: Date) async throws {
+    func pushResolvedAt(transactionId: String, resolvedAt: Date) async throws {
         // Firestoreへのトランザクション上書き
         try await db.collection("Transactions").document(transactionId)
             .updateData([
