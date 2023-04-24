@@ -90,19 +90,7 @@ struct AddTransactionView: View {
     /// 遷移元のViewのTransaction情報を更新するために、遷移元のviewModelを操作
     private func fetchTransactions() {
         Task{
-            let result = try await commonWalletViewModel.fetchTransactions()
-
-            switch result {
-            case .success:
-                // 成功した場合の処理
-                print("CommonWalletView：Transactionのfetch成功")
-                break
-            case .failure(let error):
-                // 失敗した場合の処理
-                print("CommonWalletView：Transactionのfetch失敗")
-                print("CommonWalletView：Transaction failed with error: \(error.localizedDescription)")
-                break
-            }
+            try await commonWalletViewModel.fetchTransactions()
         }
     }
 

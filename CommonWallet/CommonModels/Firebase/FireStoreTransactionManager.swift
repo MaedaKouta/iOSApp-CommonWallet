@@ -11,9 +11,6 @@ import Firebase
 import FirebaseFirestore
 
 class FireStoreTransactionManager: FireStoreTransactionManaging {
-    func fetchUnResolvedTransactions(userId: String) async throws -> [Transaction]? {
-        return nil
-    }
 
     private let db = Firestore.firestore()
     private var userDefaultsManager = UserDefaultsManager()
@@ -34,18 +31,6 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
 
         // Firestoreへのトランザクション書き込み
         try await db.collection("Transactions").document(transactionId).setData(transaction)
-
-        // クレジット側のユーザーデータの更新
-        try await db.collection("Users").document(creditorId)
-            .updateData([
-                "transactionIds": FieldValue.arrayUnion([transactionId])
-            ])
-
-        // デビット側のユーザーデータの更新
-        try await db.collection("Users").document(debtorId)
-            .updateData([
-                "transactionIds": FieldValue.arrayUnion([transactionId])
-            ])
     }
 
     // transactionに精算完了時間の追加
@@ -66,7 +51,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
 
     // MARK: Fetch
     /// 未精算のトランザクションを取得する
-    func fetchUnResolvedTransactions2(completion: @escaping([Transaction]?, Error?) -> Void) {
+    func fetchUnResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void) {
 
         guard let userId = Auth.auth().currentUser?.uid else { return }
         let partnerId = userDefaultsManager.getPartnerUid() ?? ""
@@ -75,7 +60,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
         db.collection("Transactions")
             .whereField("creditorId", in: [partnerId, userId])
             .whereField("resolvedAt", isEqualTo: NSNull())
-            //.order(by: "createdAt", descending: true)
+        //.order(by: "createdAt", descending: true)
             .addSnapshotListener { snapShots, error in
 
                 if let error = error {
@@ -103,7 +88,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
     }
 
     /// 精算済みのトランザクションを取得する
-    func fetchResolvedTransactions2(completion: @escaping([Transaction]?, Error?) -> Void) {
+    func fetchResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void) {
 
         guard let userId = Auth.auth().currentUser?.uid else { return }
         let partnerId = userDefaultsManager.getPartnerUid() ?? ""
@@ -111,7 +96,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
         db.collection("Transactions")
             .whereField("creditorId", in: [partnerId, userId])
             .whereField("resolvedAt", isNotEqualTo: NSNull())
-            //.order(by: "createdAt", descending: true)
+        //.order(by: "createdAt", descending: true)
             .addSnapshotListener { snapShots, error in
 
                 if let error = error {
@@ -137,6 +122,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                 completion(transactions, error)
             }
     }
+
 }
 
 

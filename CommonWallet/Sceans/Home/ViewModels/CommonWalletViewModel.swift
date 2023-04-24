@@ -38,36 +38,22 @@ class CommonWalletViewModel: ObservableObject {
         return self.userDefaultsManager
     }
 
-    func fetchTransactions() async throws -> Result<Void, Error> {
+    func fetchTransactions() async throws {
 
-        // UserdefaultsからmyUserIdの取得
-        guard let userId = userDefaultsManager.getUser()?.id else {
-            throw UserDefaultsError.emptyUserIds
-        }
+        // 精算済みのデータ取得・更新
+        fireStoreTransactionManager.fetchUnResolvedTransactions(completion: { transactions, error in
 
-        do {
-            // 精算済みのデータ取得・更新
-            fireStoreTransactionManager.fetchUnResolvedTransactions2(completion: { transactions, error in
-                self.unResolvedTransactions = []
-                guard let transactions = transactions else { return }
-                self.unResolvedTransactions = transactions
-            })
-//            DispatchQueue.main.async {
-//                //self.unResolvedTransactions = unResolvedResult ?? []
-//                //self.resolvedTransactions = result ?? [Transaction]()
-//            }
+            if let error = error {
+                print("fetchTransactions failed with error: \(error)")
+                return
+            }
+            self.unResolvedTransactions = []
+            guard let transactions = transactions else { return }
+            self.unResolvedTransactions = transactions
 
             // 〇〇から〇〇へ〇〇円を計算・アウトプットする関数
             self.calculateUnresolvedAmount()
-
-            // 成功した場合
-            return .success(())
-        } catch {
-            // TODO: エラーハンドリング
-            // 失敗した場合
-            print("fetchTransactions failed with error: \(error)")
-            return .failure(error)
-        }
+        })
 
     }
 

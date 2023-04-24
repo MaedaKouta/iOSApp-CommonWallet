@@ -58,7 +58,7 @@ class AllLogViewModel: ObservableObject {
     }
 
     func fetchTransactions() {
-        fireStoreTransactionManager.fetchResolvedTransactions2(completion: { transactions, error in
+        fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
             if let transactions = transactions {
                 // [Payments]を取得
                 self.resolvedTransactions = transactions
