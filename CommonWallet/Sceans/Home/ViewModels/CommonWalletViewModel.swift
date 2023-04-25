@@ -69,9 +69,8 @@ class CommonWalletViewModel: ObservableObject {
             }
 
             // 未精算のトランザクションに対して、resultTimeを登録
-            for unResolvedTransaction in unResolvedTransactions {
-                try await fireStoreTransactionManager.pushResolvedAt(transactionId: unResolvedTransaction.id, resolvedAt: resultTime)
-            }
+            let ids = unResolvedTransactions.map { $0.id }
+            try await fireStoreTransactionManager.pushResolvedAt(transactionIds: ids, resolvedAt: resultTime)
 
             // 自分と相手のユーザーのpreviousResolvedAtを更新
             let lastResolvedAt = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId)

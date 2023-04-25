@@ -36,10 +36,29 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
     // transactionに精算完了時間の追加
     func pushResolvedAt(transactionId: String, resolvedAt: Date) async throws {
         // Firestoreへのトランザクション上書き
-        try await db.collection("Transactions").document(transactionId)
+        try await db.collection("Transactions")
+            .document(transactionId)
             .updateData([
                 "resolvedAt": resolvedAt
             ])
+    }
+
+    // TODO: バッチで書き込める上限は500件まで、現状500以上はエラーが起きてしまう
+    func pushResolvedAt(transactionIds: [String], resolvedAt: Date) async throws {
+        let batch = db.batch()
+
+        for transactionId in transactionIds {
+            let documentResolved = db.collection("Transactions").document(transactionId)
+            batch.updateData(["resolvedAt": resolvedAt], forDocument: documentResolved)
+        }
+
+        do {
+            try await batch.commit()
+            print("Batch write succeeded.")
+        } catch {
+            print("Error writing batch \(error)")
+        }
+
     }
 
     // MARK: Delete
