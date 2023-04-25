@@ -10,6 +10,7 @@ import Foundation
 enum FetchTransactionsError: Error {
     case emptyTransactionIds
     case emptyTransactionData
+    case documentDataNotFound
 
     var localizedDescription: String {
         switch self {
@@ -17,6 +18,8 @@ enum FetchTransactionsError: Error {
             return "Transaction IDs are empty."
         case .emptyTransactionData:
             return "Transaction Data are empty."
+        case .documentDataNotFound:
+            return "Document Data Not Found."
         }
     }
 }

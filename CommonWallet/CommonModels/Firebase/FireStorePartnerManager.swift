@@ -11,7 +11,7 @@ import Firebase
 import FirebaseFirestore
 
 // TODO: パートナーの改名もUserDefaultsだけじゃなくFireStoreに保存する処理追加する
-class FireStorePartnerManager {
+class FireStorePartnerManager: FireStorePartnerManaging {
 
     private let db = Firestore.firestore()
     private var userDefaultManager = UserDefaultsManager()

@@ -11,7 +11,7 @@ struct MainTabView: View {
 
     var body: some View {
         TabView {
-            CommonWalletView()
+            CommonWalletView(commonWalletViewModel: CommonWalletViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), fireStoreUserManager: FireStoreUserManager(), userDefaultsManager: UserDefaultsManager()))
                 .tabItem {
                     VStack {
                         Image(systemName: "house")
@@ -27,6 +27,7 @@ struct MainTabView: View {
                 }.tag(2)
         }
     }
+
 
 }
 

@@ -9,13 +9,17 @@ import SwiftUI
 
 struct AddTransactionView: View {
 
-    @ObservedObject var addTransactionViewModel = AddTransactionViewModel()
+    @ObservedObject var addTransactionViewModel: AddTransactionViewModel
+    @ObservedObject var commonWalletViewModel: CommonWalletViewModel
     @Binding var isAddTransactionView: Bool
 
     @State private var selectedIndex = 0
     @State var title: String = ""
     @State var description: String = ""
     @State var amount: String = ""
+
+    @State private var showAlert: Bool = false
+    @State private var alertMessage: String = ""
 
     var body: some View {
 
@@ -38,25 +42,12 @@ struct AddTransactionView: View {
                 .padding()
 
             Button ( action: {
-                // 画面をもとに戻す
-                // 後でViewmodelに書く
-                Task {
-
-                    await  addTransactionViewModel.addTransaction(
-                        creditorId: selectedIndex == 0 ? addTransactionViewModel.myUserId : addTransactionViewModel.partnerUserId,
-                        debtorId: selectedIndex == 0 ? addTransactionViewModel.partnerUserId : addTransactionViewModel.myUserId,
-                        title: title,
-                        description: description,
-                        amount: Int(amount) ?? 0,
-                        complition: { isSuccess, message in
-                            if isSuccess {
-                                print("登録成功"+message)
-                                isAddTransactionView = false
-                            } else {
-                                print("登録失敗", message)
-                            }
-                        })
-                }
+                addTransaction(
+                    creditorId: selectedIndex == 0 ? addTransactionViewModel.myUserId : addTransactionViewModel.partnerUserId,
+                    debtorId: selectedIndex == 0 ? addTransactionViewModel.partnerUserId : addTransactionViewModel.myUserId,
+                    title: title,
+                    description: description,
+                    amount: Int(amount) ?? 0)
             }) {
                 Text("登録")
             }
@@ -64,7 +55,45 @@ struct AddTransactionView: View {
         }
         .padding()
 
+        .alert(isPresented: $showAlert, content: {
+            Alert(title: Text("Transaction Result"),
+                  message: Text(alertMessage),
+                  dismissButton: .default(Text("OK")))
+        })
+
     }
+
+    func addTransaction(creditorId: String, debtorId: String, title: String, description: String, amount: Int) {
+        Task{
+
+            let result = try await addTransactionViewModel.addTransaction(creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
+
+            switch result {
+            case .success:
+                // 成功した場合の処理
+                print("Transactionの登録成功")
+                //self.fetchTransactions()
+                self.alertMessage = "Transaction succeeded!"
+                self.isAddTransactionView = false
+                self.showAlert = true
+                break
+            case .failure(let error):
+                // 失敗した場合の処理
+                print("Transactionの登録失敗")
+                self.alertMessage = "Transaction failed with error: \(error.localizedDescription)"
+                self.showAlert = true
+                break
+            }
+        }
+    }
+
+    /// 遷移元のViewのTransaction情報を更新するために、遷移元のviewModelを操作
+    private func fetchTransactions() {
+        Task{
+            try await commonWalletViewModel.fetchTransactions()
+        }
+    }
+
 }
 
 //struct AddPaymentView_Previews: PreviewProvider {

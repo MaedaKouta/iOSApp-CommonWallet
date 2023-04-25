@@ -9,7 +9,7 @@ import SwiftUI
 
 struct CommonWalletView: View {
 
-    @ObservedObject var commonWalletViewModel = CommonWalletViewModel()
+    @ObservedObject var commonWalletViewModel: CommonWalletViewModel
 
     @State var isAccountView = false
     @State var isAddTransactionView = false
@@ -73,7 +73,7 @@ struct CommonWalletView: View {
                     })
                     .padding(.trailing, 16)
                     .sheet(isPresented: self.$isAddTransactionView) {
-                        AddTransactionView(isAddTransactionView: $isAddTransactionView)
+                        AddTransactionView(addTransactionViewModel: AddTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager()), commonWalletViewModel: self.commonWalletViewModel, isAddTransactionView: $isAddTransactionView)
                             .presentationDetents([.large])
                     }
                 }
@@ -81,7 +81,7 @@ struct CommonWalletView: View {
             }
         }
         .onAppear{
-            commonWalletViewModel.fetchTransactions()
+            self.fetchTransactions()
         }
     }
 
@@ -104,7 +104,7 @@ struct CommonWalletView: View {
                     Spacer()
                     Button(action: {
                         Task {
-                            try await commonWalletViewModel.resolveTransaction()
+                            self.pushResolvedTransaction()
                         }
                     }, label: {
                         Text("> 精算")
@@ -118,10 +118,35 @@ struct CommonWalletView: View {
         .buttonStyle(BorderlessButtonStyle())
     }
 
+    private func fetchTransactions() {
+        Task{
+            try await commonWalletViewModel.fetchTransactions()
+        }
+    }
+
+    private func pushResolvedTransaction() {
+        Task{
+
+            let result = try await commonWalletViewModel.pushResolvedTransaction()
+
+            switch result {
+            case .success:
+                // 成功した場合の処理
+                print("CommonWalletView：pushResolvedTransactionの登録成功")
+                break
+            case .failure(let error):
+                // 失敗した場合の処理
+                print("CommonWalletView：pushResolvedTransactionの登録失敗")
+                print("CommonWalletView：Transaction failed with error: \(error.localizedDescription)")
+                break
+            }
+        }
+    }
+
 }
 
-struct CommonWalletTabView_Previews: PreviewProvider {
-    static var previews: some View {
-        CommonWalletView()
-    }
-}
+//struct CommonWalletTabView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        CommonWalletView()
+//    }
+//}
