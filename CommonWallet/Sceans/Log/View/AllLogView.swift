@@ -41,6 +41,9 @@ struct AllLogView: View {
                 }//VStackここまで
             }
         }.onAppear{
+            Task {
+                allLogViewModel.fetchTransactions
+            }
             print(allLogViewModel.pagingIndexItems)
             print(allLogViewModel.selectedIndex)
         }

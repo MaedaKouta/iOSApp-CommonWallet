@@ -26,7 +26,6 @@ class AllLogViewModel: ObservableObject {
         createSelectedIndex()
         initTransactionsByMonth()
         createPagingItem()
-        fetchTransactions()
     }
 
     // MARK: - イニシャライザ
@@ -57,16 +56,19 @@ class AllLogViewModel: ObservableObject {
         selectedIndex = monthCount - 1
     }
 
-    func fetchTransactions() {
+    func fetchTransactions() async throws {
         fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
-            if let transactions = transactions {
-                // [Payments]を取得
-                self.resolvedTransactions = transactions
-                // 月ごとに[[Payments]]へ多次元配列へ分割
-                self.transactionsDivideByMonth()
-            } else {
-                print(error as Any)
+
+            if let error = error {
+                print("fetchTransactions failed with error: \(error)")
+                return
             }
+
+            guard let transactions = transactions else { return }
+            // [Payments]を取得
+            self.resolvedTransactions = transactions
+            // 月ごとに[[Payments]]へ多次元配列へ分割
+            self.transactionsDivideByMonth()
         })
     }
 
