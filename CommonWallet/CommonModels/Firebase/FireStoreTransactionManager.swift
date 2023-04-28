@@ -118,6 +118,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
         //.order(by: "createdAt", descending: true)
             .addSnapshotListener { snapShots, error in
 
+                // TODO: 初期で２周している
                 if let error = error {
                     print("FirestoreからTransactionsの取得に失敗しました")
                     completion(nil, error)
