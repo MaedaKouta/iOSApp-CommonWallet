@@ -83,6 +83,7 @@ class FireStoreUserManager: FireStoreUserManaging {
 
     func fetchLastResolvedAt(userId: String) async throws -> Date? {
         do {
+            
             let snapShot = try await db.collection("Users").document(userId).getDocument()
             guard let data = snapShot.data(),
                   let lastResolvedAt = data["lastResolvedAt"] as? Timestamp else { return nil }
@@ -107,17 +108,39 @@ class FireStoreUserManager: FireStoreUserManaging {
         }
     }
 
-    func fetchTransactions(userId: String, completion: @escaping([String]?, Error?) -> Void) {
-         db.collection("Users").document(userId).getDocument { snapShot, error in
+    func fetchLastResolvedAt(userId: String, completion: @escaping(Date?, Error?) -> Void) {
+        db.collection("Users").document(userId).getDocument { snapShot, error in
+
             if let error = error {
                 print("FirestoreからTransactionsの取得に失敗しました")
                 completion(nil, error)
             }
             guard let data = snapShot?.data(),
-                  let transactions = data["transaction"] as? [String] else { return }
+                  let lastResolvedAt = data["lastResolvedAt"] as? Timestamp else {
+                    completion(nil, nil)
+                    return
+                }
 
-            completion(transactions, nil)
+            completion(lastResolvedAt.dateValue(), nil)
         }
     }
+
+    func fetchPreviousResolvedAt(userId: String, completion: @escaping(Date?, Error?) -> Void) {
+        db.collection("Users").document(userId).getDocument { snapShot, error in
+
+            if let error = error {
+                print("FirestoreからTransactionsの取得に失敗しました")
+                completion(nil, error)
+            }
+            guard let data = snapShot?.data(),
+                  let previousResolvedAt = data["previousResolvedAt"] as? Timestamp else {
+                    completion(nil, nil)
+                    return
+                }
+            completion(previousResolvedAt.dateValue(), nil)
+        }
+    }
+
+
 
 }

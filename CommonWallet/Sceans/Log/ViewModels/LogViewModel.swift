@@ -24,53 +24,36 @@ class LogViewModel: ObservableObject {
         partnerUserId = userDefaultsManager.getPartnerUid() ?? ""
     }
 
-    // TODO: ここ非同期にしたい
     func fetchLastResolvedAt() async throws {
-
-        DispatchQueue.main.async { [weak self] in
-            self?.lastResolvedTransactions = []
-        }
         // UserからlastResolvedAtとpreviousResolvedAtの取得
-        let lastResolvedAt = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId)
+        guard let lastResolvedAt = try await fireStoreUserManager.fetchLastResolvedAt(userId: myUserId) else {
+            return
+        }
 
-        // TODO: TransactionManager書き換えにより一旦コメントアウト
-//        do {
-//            guard let transactions = try await fireStoreTransactionManager.fetchResolvedTransactions2(userId: myUserId) else {
-//                return
-//            }
-//            let filteredTransactions = transactions.filter { $0.resolvedAt == lastResolvedAt }
-//
-//            DispatchQueue.main.async { [weak self] in
-//                self?.lastResolvedTransactions = filteredTransactions
-//            }
-//        } catch {
-//            print(error)
-//        }
+        fireStoreTransactionManager.fetchLastResolvedTransactions(lastResolvedDate: lastResolvedAt, completion: { transactions, error in
+            if let error = error {
+                print(error)
+            }
+
+            guard let transactions = transactions else { return }
+            self.lastResolvedTransactions = transactions
+        })
     }
 
-    // TODO: ここ非同期にしたい
     func fetchPreviousResolvedAt() async throws {
-
-        DispatchQueue.main.async { [weak self] in
-            self?.previousResolvedTransactions = []
-        }
         // UserからlastResolvedAtとpreviousResolvedAtの取得
-        let previousResolved = try await fireStoreUserManager.fetchPreviousResolvedAt(userId: myUserId)
+        guard let previousResolvedAt = try await fireStoreUserManager.fetchPreviousResolvedAt(userId: myUserId) else {
+            return
+        }
 
-        // TODO: TransactionManager書き換えにより一旦コメントアウト
+        fireStoreTransactionManager.fetchPreviousResolvedTransactions(previousResolvedDate: previousResolvedAt, completion: { transactions, error in
+            if let error = error {
+                print(error)
+            }
 
-//        do {
-//            guard let transactions = try await fireStoreTransactionManager.fetchResolvedTransactions(userId: myUserId) else {
-//                return
-//            }
-//            let filteredTransactions = transactions.filter { $0.resolvedAt == previousResolved }
-//
-//            DispatchQueue.main.async { [weak self] in
-//                self?.previousResolvedTransactions = filteredTransactions
-//            }
-//        } catch {
-//            print(error)
-//        }
+            guard let transactions = transactions else { return }
+            self.previousResolvedTransactions = transactions
+        })
     }
 
 }

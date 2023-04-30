@@ -39,7 +39,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
         try await db.collection("Transactions")
             .document(transactionId)
             .updateData([
-                "resolvedAt": resolvedAt
+                "resolvedAt": Timestamp(date: resolvedAt)
             ])
     }
 
@@ -49,7 +49,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
 
         for transactionId in transactionIds {
             let documentResolved = db.collection("Transactions").document(transactionId)
-            batch.updateData(["resolvedAt": resolvedAt], forDocument: documentResolved)
+            batch.updateData(["resolvedAt": Timestamp(date: resolvedAt)], forDocument: documentResolved)
         }
 
         do {
@@ -102,7 +102,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                     print(transaction)
                     transactions.append(transaction)
                 })
-                completion(transactions, error)
+                completion(transactions, nil)
             }
     }
 
@@ -139,7 +139,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                     let transaction = Transaction(id: id, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount, createdAt: createdAt.dateValue(), resolvedAt: resolvedAt.dateValue())
                     transactions.append(transaction)
                 })
-                completion(transactions, error)
+                completion(transactions, nil)
             }
     }
 
@@ -165,6 +165,93 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                 let oldestTimestamp = doc.get("createdAt") as? Timestamp
 
                 completion(oldestTimestamp?.dateValue(), error)
+            }
+    }
+
+    func fetchLastResolvedTransactions(lastResolvedDate: Date, completion: @escaping([Transaction]?, Error?) -> Void) {
+
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        let partnerId = userDefaultsManager.getPartnerUid() ?? ""
+        /*
+         前後0.1秒の誤差を許容している
+         誤差を考えて検索しないと検索できたりできなかったりする
+         10000ナノ秒くらいから、正しい挙動になったが、安全のため100000000ナノ秒でいく
+         （100000000ナノ秒 = 0.1秒）
+         */
+        guard let startDate = Calendar.current.date(byAdding: .nanosecond, value: -100000000, to: lastResolvedDate),
+              let endDate = Calendar.current.date(byAdding: .nanosecond, value: +100000000, to: lastResolvedDate) else {
+            return
+        }
+
+        db.collection("Transactions")
+            .whereField("creditorId", in: [partnerId, userId])
+            .whereField("resolvedAt", isGreaterThan: Timestamp(date: startDate))
+            .whereField("resolvedAt", isLessThan: Timestamp(date: endDate))
+            .addSnapshotListener { snapShots, error in
+
+                if let error = error {
+                    print("FirestoreからTransactionsの取得に失敗しました")
+                    completion(nil, error)
+                }
+
+                var transactions = [Transaction]()
+                snapShots?.documents.forEach({ snapShot in
+                    let data = snapShot.data()
+                    guard let id = data["id"] as? String,
+                          let creditorId = data["creditorId"] as? String,
+                          let debtorId = data["debtorId"] as? String,
+                          let title = data["title"] as? String,
+                          let description = data["description"] as? String,
+                          let amount = data["amount"] as? Int,
+                          let createdAt = data["createdAt"] as? Timestamp,
+                          let resolvedAt = data["resolvedAt"] as? Timestamp else { return }
+
+                    let transaction = Transaction(id: id, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount, createdAt: createdAt.dateValue(), resolvedAt: resolvedAt.dateValue())
+                    transactions.append(transaction)
+                })
+                completion(transactions, nil)
+            }
+    }
+
+    func fetchPreviousResolvedTransactions(previousResolvedDate: Date, completion: @escaping([Transaction]?, Error?) -> Void) {
+
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        let partnerId = userDefaultsManager.getPartnerUid() ?? ""
+        // 前後0.1秒の誤差を許容している
+        // 誤差を考えて検索しないと検索できたりできなかったりする
+        // （100000000ナノ秒 = 0.1秒）
+        guard let startDate = Calendar.current.date(byAdding: .nanosecond, value: -100000000, to: previousResolvedDate),
+              let endDate = Calendar.current.date(byAdding: .nanosecond, value: +100000000, to: previousResolvedDate) else {
+            return
+        }
+
+        db.collection("Transactions")
+            .whereField("creditorId", in: [partnerId, userId])
+            .whereField("resolvedAt", isGreaterThan: Timestamp(date: startDate))
+            .whereField("resolvedAt", isLessThan: Timestamp(date: endDate))
+            .addSnapshotListener { snapShots, error in
+
+                if let error = error {
+                    print("FirestoreからTransactionsの取得に失敗しました")
+                    completion(nil, error)
+                }
+
+                var transactions = [Transaction]()
+                snapShots?.documents.forEach({ snapShot in
+                    let data = snapShot.data()
+                    guard let id = data["id"] as? String,
+                          let creditorId = data["creditorId"] as? String,
+                          let debtorId = data["debtorId"] as? String,
+                          let title = data["title"] as? String,
+                          let description = data["description"] as? String,
+                          let amount = data["amount"] as? Int,
+                          let createdAt = data["createdAt"] as? Timestamp,
+                          let resolvedAt = data["resolvedAt"] as? Timestamp else { return }
+
+                    let transaction = Transaction(id: id, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount, createdAt: createdAt.dateValue(), resolvedAt: resolvedAt.dateValue())
+                    transactions.append(transaction)
+                })
+                completion(transactions, nil)
             }
     }
 
