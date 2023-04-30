@@ -9,5 +9,16 @@ import Foundation
 
 class LaunchViewModel: ObservableObject {
 
-    
+    private var fireStoreTransactionManager = FireStoreTransactionManager()
+    private var userDefaultsManager = UserDefaultsManager()
+
+    func fetchOldestDate() async throws {
+        fireStoreTransactionManager.fetchOldestDate(completion:  { oldestDate, error in
+            if let error = error {
+                print(error)
+            }
+            print("#######")
+            print(oldestDate)
+        })
+    }
 }

@@ -19,6 +19,8 @@ struct LaunchScreen: View {
     @State private var fireStoreUserManager = FireStoreUserManager()
     @State private var fireStorePartnerManager = FireStorePartnerManager()
 
+    @ObservedObject var launchViewModel = LaunchViewModel()
+
     var body: some View {
 
         ZStack {
@@ -72,6 +74,10 @@ struct LaunchScreen: View {
                     .fullScreenCover(isPresented: self.$isContentView){
                         MainTabView()
                     }
+            }
+        }.onAppear {
+            Task {
+                try await launchViewModel.fetchOldestDate()
             }
         }
 

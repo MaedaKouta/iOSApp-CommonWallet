@@ -153,7 +153,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
         db.collection("Transactions")
             .whereField("creditorId", in: [partnerId, userId])
             .whereField("resolvedAt", isNotEqualTo: NSNull())
-            .order(by: "timestamp", descending: false)
+            .order(by: "resolvedAt")
             .limit(to: 1)
             .getDocuments { snapShots, error in
 
@@ -163,7 +163,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                 }
 
                 guard let snapshots = snapShots, let doc = snapshots.documents.first else { return }
-                let oldestTimestamp = doc.get("createdAt") as? Timestamp
+                let oldestTimestamp = doc.get("resolvedAt") as? Timestamp
 
                 completion(oldestTimestamp?.dateValue(), error)
             }
