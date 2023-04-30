@@ -16,69 +16,112 @@ struct CommonWalletView: View {
 
     var body: some View {
 
-        ZStack {
+        NavigationView {
+            ZStack {
 
-            // 背景色
-            Color.white.ignoresSafeArea()
+                // 背景色
+                Color.white.ignoresSafeArea()
 
-            List {
+                List {
+                    VStack {
+                        // ヘッダー
+                        //HeaderHomeView()
+
+                        // パートナーとの差額表示（四角いViewで柔らかい感じに）
+                        totalMoneyCardView()
+                    }
+
+                    // 未精算履歴を表示
+
+                    if commonWalletViewModel.unResolvedTransactions.count != 0 {
+                        Section {
+                            ForEach(0 ..< commonWalletViewModel.unResolvedTransactions.count,  id: \.self) { index in
+
+                                HStack {
+                                    Text(String(commonWalletViewModel.unResolvedTransactions[index].amount) + "円")
+                                    Text(commonWalletViewModel.unResolvedTransactions[index].title)
+                                    Spacer()
+                                }
+                                .foregroundColor(.black)
+                                .contentShape(Rectangle())      // 追加
+                                .onTapGesture {
+                                    print(index)
+                                }
+                            }
+
+                        } header: {
+                            Text("未精算リスト")
+                        }
+                        .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
+                    } else { // ifここまで
+
+                        VStack {
+                            Image("Sample2")
+                                .resizable()
+                                .scaledToFill()
+                                .aspectRatio(contentMode: .fit)
+                                .padding()
+                            //.frame(width: , height: 28, alignment: .center)
+                            Text("値が空です")
+                        }.padding(.top, 100)
+                    }
+                }
+                .scrollContentBackground(.hidden)
+                .scrollIndicators(.hidden)
+                .refreshable {
+                    await Task.sleep(1000000000)
+                }
+
+                // お金追加ボタン
                 VStack {
-                    // ヘッダー
-                    HeaderHomeView()
-
-                    // パートナーとの差額表示（四角いViewで柔らかい感じに）
-                    totalMoneyCardView()
-                }
-
-                // 未精算履歴を表示
-                Section {
-                    ForEach(0 ..< commonWalletViewModel.unResolvedTransactions.count,  id: \.self) { index in
-
-                        HStack {
-                            Text(String(commonWalletViewModel.unResolvedTransactions[index].amount) + "円")
-                            Text(commonWalletViewModel.unResolvedTransactions[index].title)
-                            Spacer() 
-                        }
-                        .foregroundColor(.black)
-                        .contentShape(Rectangle())      // 追加
-                        .onTapGesture {
-                            print(index)
-                        }
-                    }
-
-                } header: {
-                    Text("未精算リスト")
-                }
-                .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
-            }
-            .scrollContentBackground(.hidden)
-            .scrollIndicators(.hidden)
-
-            // お金追加ボタン
-            VStack {
-                Spacer()
-                HStack {
                     Spacer()
+                    HStack {
+                        Spacer()
+                        Button(action: {
+                            isAddTransactionView = true
+                        }, label: {
+                            Text("＋")
+                                .frame(width: 35.0, height: 35.0)
+                                .padding(8)
+                                .accentColor(Color.white)
+                                .background(Color.black)
+                                .cornerRadius(25)
+                                .shadow(color: Color.white, radius: 10, x: 0, y: 3)
+                                .frame(maxWidth: .infinity, alignment: .trailing)
+                        })
+                        .padding(.trailing, 16)
+                        .sheet(isPresented: self.$isAddTransactionView) {
+                            AddTransactionView(addTransactionViewModel: AddTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager()), commonWalletViewModel: self.commonWalletViewModel, isAddTransactionView: $isAddTransactionView)
+                                .presentationDetents([.large])
+                        }
+                    }
+                    .padding()
+                }
+            }
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarItems(
+                leading: Button(action: {
+                    print("aa")
+                }) {
+                    //Image(systemName: "trash")
+                    Text("こんばんは")
+                        .foregroundColor(Color.black)
+                }, trailing: HStack {
                     Button(action: {
-                        isAddTransactionView = true
-                    }, label: {
-                        Text("＋")
-                            .frame(width: 35.0, height: 35.0)
-                            .padding(8)
-                            .accentColor(Color.white)
-                            .background(Color.black)
-                            .cornerRadius(25)
-                            .shadow(color: Color.white, radius: 10, x: 0, y: 3)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    })
-                    .padding(.trailing, 16)
-                    .sheet(isPresented: self.$isAddTransactionView) {
-                        AddTransactionView(addTransactionViewModel: AddTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager()), commonWalletViewModel: self.commonWalletViewModel, isAddTransactionView: $isAddTransactionView)
-                            .presentationDetents([.large])
+                        print("aa")
+                    }) {
+                        Image("SampleIcon")
+                            .resizable()
+                            .scaledToFill()
+                            .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 28, height: 28, alignment: .center)
+                            .clipShape(Circle()) // 正円形に切り抜く
+                        Text("kota")
+                            .foregroundColor(Color.black)
                     }
                 }
-                .padding()
-            }
+            )
         }
         .onAppear{
             self.fetchTransactions()
