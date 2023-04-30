@@ -143,6 +143,32 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
             }
     }
 
+    /// 一番古いトランザクションデータを取得する
+    func fetchOldestDate(completion: @escaping(Date?, Error?) -> Void) {
+
+        guard let userId = Auth.auth().currentUser?.uid else { return }
+        let partnerId = userDefaultsManager.getPartnerUid() ?? ""
+
+        // Transactionsコレクションから未精算の取引を取得する
+        db.collection("Transactions")
+            .whereField("creditorId", in: [partnerId, userId])
+            .whereField("resolvedAt", isNotEqualTo: NSNull())
+            .order(by: "timestamp", descending: false)
+            .limit(to: 1)
+            .getDocuments { snapShots, error in
+
+                if let error = error {
+                    print("FirestoreからTransactionsの取得に失敗しました")
+                    completion(nil, error)
+                }
+
+                guard let snapshots = snapShots, let doc = snapshots.documents.first else { return }
+                let oldestTimestamp = doc.get("createdAt") as? Timestamp
+
+                completion(oldestTimestamp?.dateValue(), error)
+            }
+    }
+
 }
 
 
