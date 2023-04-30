@@ -68,13 +68,16 @@ struct LogView: View {
                 }
                 .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
 
-                NavigationLink(destination: AllLogView(allLogViewModel: AllLogViewModel()), label: {
-                    Text("全履歴")
-                })
+                Section {
+                    NavigationLink(destination: AllLogView(allLogViewModel: AllLogViewModel()), label: {
+                        Text("全履歴")
+                    })
+                }
 
             }
             .scrollContentBackground(.hidden)
             .scrollIndicators(.hidden)
+
         }.onAppear{
             Task {
                 try await logViewModel.fetchLastResolvedAt()

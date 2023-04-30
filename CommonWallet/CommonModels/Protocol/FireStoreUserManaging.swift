@@ -21,7 +21,4 @@ protocol FireStoreUserManaging {
 
     // fetch
     func fetchInfo(userId: String, completion: @escaping(User?, Error?) -> Void)
-    func fetchLastResolvedAt(userId: String) async throws -> Date?
-    func fetchPreviousResolvedAt(userId: String) async throws -> Date?
-    func fetchTransactions(userId: String, completion: @escaping([String]?, Error?) -> Void)
 }
