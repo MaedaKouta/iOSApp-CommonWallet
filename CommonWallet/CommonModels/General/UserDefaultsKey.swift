@@ -24,6 +24,7 @@ struct UserDefaultsKey {
     let partnerUserId = "partnerUserId"
     let partnerName = "partnerName"
     let partnerShareNumber = "partnerShareNumber"
+    let oldestResolvedDate = "oldestResolvedDate"
 
     // バージョン情報
     let launchedVersion = "launchedVersion"

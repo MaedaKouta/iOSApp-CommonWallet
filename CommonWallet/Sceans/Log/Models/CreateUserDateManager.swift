@@ -15,7 +15,7 @@ class CreateUserDateManager {
         // 値が0でも最低3つは返す
         let defaultReturn = 3
 
-        guard let startDate: Date = userDefaultsManager.getUser()?.createdAt else {
+        guard let startDate: Date = userDefaultsManager.getOldestResolvedDate() else {
             return defaultReturn
         }
         let endDate = Date()
@@ -26,10 +26,12 @@ class CreateUserDateManager {
             return defaultReturn
         }
 
-        if month < defaultReturn {
+        // 差を求めるだけだと8月から12月は、12-8で4ヶ月しかないことになる
+        // 実際当月も含めて5ヶ月だから、+1しないといけない
+        if (month+1) < defaultReturn {
             return defaultReturn
         } else {
-            return month
+            return (month+1)
         }
 
     }

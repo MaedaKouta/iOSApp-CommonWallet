@@ -42,6 +42,9 @@ struct UserDefaultsManager {
         UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)
     }
 
+    mutating func setOldestResolvedDate(date: Date) {
+        UserDefaults.standard.set(date, forKey: userDefaultsKey.oldestResolvedDate)
+    }
 
     // MARK: - Get
     mutating func getUser() -> User? {
@@ -77,6 +80,9 @@ struct UserDefaultsManager {
         return UserDefaults.standard.string(forKey: userDefaultsKey.partnerShareNumber)
     }
 
+    mutating func getOldestResolvedDate() -> Date? {
+        return UserDefaults.standard.object(forKey: userDefaultsKey.oldestResolvedDate) as? Date
+    }
 
     // MARK: Delete
     mutating func clearUser() {

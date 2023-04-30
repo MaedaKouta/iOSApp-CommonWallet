@@ -16,7 +16,7 @@ struct AllLogView: View {
     var body: some View {
 
         VStack {
-            PageView(items: allLogViewModel.pagingIndexItems.reversed(), selectedIndex: $allLogViewModel.selectedIndex) { item in
+            PageView(items: allLogViewModel.pagingIndexItems, selectedIndex: $allLogViewModel.selectedIndex) { item in
                 ListItems(allLogViewModel: self.allLogViewModel, itemIndex: item.index)
             }
         }

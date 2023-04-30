@@ -17,8 +17,10 @@ class LaunchViewModel: ObservableObject {
             if let error = error {
                 print(error)
             }
-            print("#######")
-            print(oldestDate)
+            // 値がnilでない場合にuserDefaultsに保存しておく
+            if let oldestDate = oldestDate {
+                self.userDefaultsManager.setOldestResolvedDate(date: oldestDate)
+            }
         })
     }
 }
