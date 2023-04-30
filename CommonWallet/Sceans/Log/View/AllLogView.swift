@@ -10,45 +10,61 @@ import Parchment
 
 struct AllLogView: View {
 
-    @ObservedObject var allLogViewModel = AllLogViewModel()
+    @ObservedObject var allLogViewModel: AllLogViewModel
+    @State var currentIndex: Int = 0
 
     var body: some View {
 
         VStack {
             PageView(items: allLogViewModel.pagingIndexItems, selectedIndex: $allLogViewModel.selectedIndex) { item in
-
-                VStack {
-                    // もし、paidPaymentsByMonth[selectedIndex]に値がなければ何もしない
-                    if allLogViewModel.resolvedTransactionsByMonth[item.index].count == 0 {
-                        Text("値がありません")
-                    } else {
-                        List {
-                            ForEach(0 ..< allLogViewModel.resolvedTransactionsByMonth[item.index].count,  id: \.self) { index in
-
-                                HStack {
-                                    Text(String(allLogViewModel.resolvedTransactionsByMonth[item.index][index].amount) + "円")
-                                    Text(allLogViewModel.resolvedTransactionsByMonth[item.index][index].title)
-                                    Spacer()
-                                }
-                                .foregroundColor(.black)
-                                .contentShape(Rectangle())
-                                .onTapGesture {
-                                    print(index)
-                                }
-                            }
-                        }//Listここまで
-                    }//if文ここまで
-                }//VStackここまで
+                ListItems(allLogViewModel: self.allLogViewModel, itemIndex: item.index)
             }
-        }.onAppear{
-            print(allLogViewModel.pagingIndexItems)
-            print(allLogViewModel.selectedIndex)
+        }
+
+    }
+}
+
+struct ListItems: View {
+
+    @ObservedObject var allLogViewModel: AllLogViewModel
+    var itemIndex: Int
+
+    var body: some View {
+
+        VStack {
+
+            HStack {
+                Text("合計 \(42423)円").padding()
+            }
+
+            List {
+                ForEach((0 ..< allLogViewModel.resolvedTransactionsByMonth[itemIndex].count).reversed(),  id: \.self) { index in
+
+                    HStack {
+                        Text(String(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].amount) + "円")
+                        Text(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].title)
+                        Text(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].createdAt.description)
+                        Spacer()
+                    }
+                    .foregroundColor(.black)
+                    .contentShape(Rectangle())
+                    .onTapGesture {
+                        print(index)
+                    }
+                }
+            }.onAppear {
+                Task {
+                    try await allLogViewModel.fetchTransactions()
+                }
+            }
         }
     }
 }
 
-struct AllLogView_Previews: PreviewProvider {
-    static var previews: some View {
-        AllLogView()
-    }
-}
+
+
+//struct AllLogView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        AllLogView()
+//    }
+//}

@@ -18,6 +18,7 @@ struct User: Codable, Identifiable {
     var lastResolvedAt: Date? // 前回の精算日時
     var previousResolvedAt: Date? // 前々回の精算日時
     var transactionIds: [String]? // 立替記録のIDリスト
+    var oldestResolvedDate: Date? // 精算の最も古い日時
 
     // パートナー
     var partnerUserId: String?

@@ -10,7 +10,7 @@ import Parchment
 
 struct LogView: View {
 
-    @ObservedObject var logViewModel = LogViewModel()
+    @ObservedObject var logViewModel: LogViewModel
     @State var isAllLogView = false
 
     var body: some View {
@@ -40,9 +40,7 @@ struct LogView: View {
                     HStack {
                         Text("前回の精算")
                         Spacer()
-                        NavigationLink(destination: AllLogView(), label: {
-                            Text("取り消す")
-                        })
+                        Text("取り消す")
                     }
                 }
                 .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
@@ -65,14 +63,12 @@ struct LogView: View {
                     HStack {
                         Text("前々回の精算")
                         Spacer()
-                        NavigationLink(destination: AllLogView(), label: {
-                            Text("取り消す")
-                        })
+                        Text("取り消す")
                     }
                 }
                 .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
 
-                NavigationLink(destination: AllLogView(), label: {
+                NavigationLink(destination: AllLogView(allLogViewModel: AllLogViewModel()), label: {
                     Text("全履歴")
                 })
 
@@ -88,8 +84,8 @@ struct LogView: View {
     }
 }
 
-struct LogView_Previews: PreviewProvider {
-    static var previews: some View {
-        LogView()
-    }
-}
+//struct LogView_Previews: PreviewProvider {
+//    static var previews: some View {
+//        LogView()
+//    }
+//}
