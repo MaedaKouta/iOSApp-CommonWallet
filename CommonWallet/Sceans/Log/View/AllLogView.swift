@@ -38,11 +38,12 @@ struct ListItems: View {
             }
 
             List {
-                ForEach(0 ..< allLogViewModel.resolvedTransactionsByMonth[itemIndex].count,  id: \.self) { index in
+                ForEach((0 ..< allLogViewModel.resolvedTransactionsByMonth[itemIndex].count).reversed(),  id: \.self) { index in
 
                     HStack {
                         Text(String(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].amount) + "円")
                         Text(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].title)
+                        Text(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].createdAt.description)
                         Spacer()
                     }
                     .foregroundColor(.black)
