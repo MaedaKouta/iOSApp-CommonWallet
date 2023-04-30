@@ -42,11 +42,11 @@ class LogViewModel: ObservableObject {
 
     func fetchPreviousResolvedAt() async throws {
         // UserからlastResolvedAtとpreviousResolvedAtの取得
-        guard let previousResolved = try await fireStoreUserManager.fetchPreviousResolvedAt(userId: myUserId) else {
+        guard let previousResolvedAt = try await fireStoreUserManager.fetchPreviousResolvedAt(userId: myUserId) else {
             return
         }
 
-        fireStoreTransactionManager.fetchPreviousResolvedTransactions(previousResolvedDate: previousResolved, completion: { transactions, error in
+        fireStoreTransactionManager.fetchPreviousResolvedTransactions(previousResolvedDate: previousResolvedAt, completion: { transactions, error in
             if let error = error {
                 print(error)
             }
