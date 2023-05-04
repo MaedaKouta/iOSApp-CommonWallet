@@ -36,44 +36,8 @@ struct CommonWalletView: View {
                         Text("未精算リスト")
                             .font(.title2)
                         Spacer()
-
-                        Button(action: {
-                            Task {
-                                self.pushResolvedTransaction()
-                            }
-                        }, label: {
-                            HStack(spacing: 3) {
-                                Image(systemName: cancelButtonSystemImage)
-                                    .font(.caption)
-                                Text("取消")
-                                    .font(.caption)
-                            }
-                            .frame(width: 60.0, height: 20.0)
-                            .padding(8)
-                            .accentColor(Color.black)
-                            .background(Color.white)
-                            .cornerRadius(20)
-                            .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
-                        })
-
-                        Button(action: {
-                            Task {
-                                self.pushResolvedTransaction()
-                            }
-                        }, label: {
-                            HStack(spacing: 3) {
-                                Image(systemName: resolveButtonSystemImage)
-                                    .font(.caption)
-                                Text("精算")
-                                    .font(.caption)
-                            }
-                            .frame(width: 60.0, height: 20.0)
-                            .padding(8)
-                            .accentColor(Color.black)
-                            .background(Color.white)
-                            .cornerRadius(20)
-                            .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
-                        })
+                        cancelTransactionButton()
+                        resolveTransactionButton()
                     }
                     .padding(0)
                     //.listRowSeparator(.hidden)
@@ -188,7 +152,7 @@ struct CommonWalletView: View {
     }
 
     // MARK: View
-    // 立替合計金額をカードで表示するView
+    /// 立替合計金額をカードで表示するView
     private func totalMoneyCardView() -> some View {
         ZStack {
             Rectangle()
@@ -225,6 +189,7 @@ struct CommonWalletView: View {
         .buttonStyle(BorderlessButtonStyle())
     }
 
+    /// Transaction追加ボタンのView
     private func addTransactionButton() -> some View {
         VStack {
             Spacer()
@@ -250,6 +215,51 @@ struct CommonWalletView: View {
             }
             .padding()
         }
+    }
+
+    /// トランザクション取り消しボタンのView
+    private func cancelTransactionButton() -> some View {
+        Button(action: {
+            Task {
+                self.pushResolvedTransaction()
+            }
+        }, label: {
+            HStack(spacing: 3) {
+                Image(systemName: cancelButtonSystemImage)
+                    .font(.caption)
+                Text("取消")
+                    .font(.caption)
+            }
+            .frame(width: 60.0, height: 20.0)
+            .padding(8)
+            .accentColor(Color.black)
+            .background(Color.white)
+            .cornerRadius(20)
+            .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
+        })
+
+    }
+
+    /// 精算ボタンのView
+    private func resolveTransactionButton() -> some View {
+        Button(action: {
+            Task {
+                self.pushResolvedTransaction()
+            }
+        }, label: {
+            HStack(spacing: 3) {
+                Image(systemName: resolveButtonSystemImage)
+                    .font(.caption)
+                Text("精算")
+                    .font(.caption)
+            }
+            .frame(width: 60.0, height: 20.0)
+            .padding(8)
+            .accentColor(Color.black)
+            .background(Color.white)
+            .cornerRadius(20)
+            .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
+        })
     }
 
     // MARK: 通信系
