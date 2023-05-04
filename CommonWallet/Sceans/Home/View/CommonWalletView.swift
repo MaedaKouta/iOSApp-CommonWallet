@@ -14,6 +14,10 @@ struct CommonWalletView: View {
     @State var isAccountView = false
     @State var isAddTransactionView = false
 
+    private let cancelButtonSystemImage = "arrow.uturn.backward.circle"
+    private let resolveButtonSystemImage = "checkmark.circle"
+    private let addTransactionButtonSystemImage = "plus"
+
     var body: some View {
 
         NavigationView {
@@ -39,7 +43,7 @@ struct CommonWalletView: View {
                             }
                         }, label: {
                             HStack(spacing: 3) {
-                                Image(systemName: "gobackward")
+                                Image(systemName: cancelButtonSystemImage)
                                     .font(.caption)
                                 Text("取消")
                                     .font(.caption)
@@ -58,7 +62,7 @@ struct CommonWalletView: View {
                             }
                         }, label: {
                             HStack(spacing: 3) {
-                                Image(systemName: "checkmark.circle")
+                                Image(systemName: resolveButtonSystemImage)
                                     .font(.caption)
                                 Text("精算")
                                     .font(.caption)
@@ -155,8 +159,7 @@ struct CommonWalletView: View {
                         Button(action: {
                             isAddTransactionView = true
                         }, label: {
-                            //Text("＋")
-                            Image(systemName: "plus")
+                            Image(systemName: addTransactionButtonSystemImage)
                                 .font(.title2)
                                 .frame(width: 36.0, height: 36)
                                 .padding(8)
