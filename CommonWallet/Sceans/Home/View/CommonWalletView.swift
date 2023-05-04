@@ -29,29 +29,101 @@ struct CommonWalletView: View {
 
                         // パートナーとの差額表示（四角いViewで柔らかい感じに）
                         totalMoneyCardView()
-                    }
+                    }.listRowSeparator(.hidden)
+
+                    HStack(spacing: 15) {
+                        Text("未精算リスト")
+                            .font(.title2)
+                        Spacer()
+
+                        Button(action: {
+                            Task {
+                                self.pushResolvedTransaction()
+                            }
+                        }, label: {
+                            HStack(spacing: 3) {
+                                Image(systemName: "gobackward")
+                                    .font(.caption)
+                                Text("取消")
+                                    .font(.caption)
+                            }
+                            .frame(width: 60.0, height: 20.0)
+                            .padding(8)
+                            .accentColor(Color.black)
+                            .background(Color.white)
+                            .cornerRadius(20)
+                            .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
+                        })
+
+                        Button(action: {
+                            Task {
+                                self.pushResolvedTransaction()
+                            }
+                        }, label: {
+                            HStack(spacing: 3) {
+                                Image(systemName: "checkmark.circle")
+                                    .font(.caption)
+                                Text("精算")
+                                    .font(.caption)
+                            }
+                            .frame(width: 60.0, height: 20.0)
+                            .padding(8)
+                            .accentColor(Color.black)
+                            .background(Color.white)
+                            .cornerRadius(20)
+                            .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
+                        })
+                    }.listRowSeparator(.hidden)
 
                     // 未精算履歴を表示
-
                     if commonWalletViewModel.unResolvedTransactions.count != 0 {
                         Section {
+
                             ForEach(0 ..< commonWalletViewModel.unResolvedTransactions.count,  id: \.self) { index in
 
                                 HStack {
-                                    Text(String(commonWalletViewModel.unResolvedTransactions[index].amount) + "円")
-                                    Text(commonWalletViewModel.unResolvedTransactions[index].title)
+                                    Image("SampleIcon")
+                                        .resizable()
+                                        .scaledToFill()
+                                        .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                                        .aspectRatio(contentMode: .fit)
+                                        .frame(width: 28, height: 28, alignment: .center)
+                                        .clipShape(Circle())
+
+                                    VStack(alignment: .leading) {
+                                        Text("2023/4/6")
+                                            .font(.caption)
+                                            .foregroundColor(Color.gray)
+                                        Text(commonWalletViewModel.unResolvedTransactions[index].title)
+
+//                                        Text(commonWalletViewModel.unResolvedTransactions[index].description)
+//                                            .font(.caption)
+                                    }
+
                                     Spacer()
+
+                                    VStack(alignment: .trailing) {
+//                                        Text("2023/4/6")
+//                                            .font(.caption)
+//                                            .foregroundColor(Color.gray)
+                                        Text("¥\(commonWalletViewModel.unResolvedTransactions[index].amount)")
+                                    }
+
                                 }
+                                .padding(3)
                                 .foregroundColor(.black)
-                                .contentShape(Rectangle())      // 追加
+                                .contentShape(Rectangle())
                                 .onTapGesture {
                                     print(index)
                                 }
                             }
-
-                        } header: {
-                            Text("未精算リスト")
+                            .listRowSeparator(.hidden)
+                            .listRowBackground(Color.white)
                         }
+//                    header: {
+//                            Text("未精算リスト")
+//                                //.font(.title)
+//                        }
                         .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
                     } else { // ifここまで
 
@@ -60,12 +132,16 @@ struct CommonWalletView: View {
                                 .resizable()
                                 .scaledToFill()
                                 .aspectRatio(contentMode: .fit)
-                                .padding()
-                            //.frame(width: , height: 28, alignment: .center)
-                            Text("値が空です")
-                        }.padding(.top, 100)
+                                .padding(.top)
+                            Text("リストが空です")
+                                .foregroundColor(.gray)
+                        }
+                        .listRowSeparator(.hidden)
+                        .padding(.top, 100)
                     }
                 }
+                .listRowSeparator(.hidden)
+                .listStyle(.grouped)
                 .scrollContentBackground(.hidden)
                 .scrollIndicators(.hidden)
                 .refreshable {
@@ -106,6 +182,8 @@ struct CommonWalletView: View {
                     //Image(systemName: "trash")
                     Text("こんばんは")
                         .foregroundColor(Color.black)
+                        .font(.title3)
+
                 }, trailing: HStack {
                     Button(action: {
                         print("aa")
@@ -131,30 +209,55 @@ struct CommonWalletView: View {
     // MARK: - 立替合計金額をカードで表示するView
     private func totalMoneyCardView() -> some View {
         ZStack {
+
             Rectangle()
                 .frame(width: 350, height: 150)
-                .foregroundColor(.red)
+                .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.black, lineWidth: 5))
+                .foregroundColor(.white)
                 .cornerRadius(30)
 
             VStack {
-                Text("\(commonWalletViewModel.payFromName)から\(commonWalletViewModel.payToName)へ")
-                    .foregroundColor(.white)
-                Text("￥\(commonWalletViewModel.unResolvedAmount)")
-                    .foregroundColor(.white)
+                HStack(spacing: 5) {
+                    Text("\(commonWalletViewModel.payFromName)")
+                        .foregroundColor(.black)
+                    Text("から")
+                        .foregroundColor(.gray)
+                    Text("\(commonWalletViewModel.payToName)")
+                        .foregroundColor(.black)
+                    Text("へ")
+                        .foregroundColor(.gray)
+                    Spacer()
+                }
+                .padding(.leading, 30)
+
+                HStack {
+                    Text("￥")
+                        .foregroundColor(.black)
+                        .baselineOffset(-5)
+                    Text("\(commonWalletViewModel.unResolvedAmount)")
+                        .font(.title)
+                        .foregroundColor(.black)
+                }.padding()
+
 
                 // 本来は精算ボタンタップ後にアラート表示で完了させよう
-                HStack {
-                    Spacer()
-                    Button(action: {
-                        Task {
-                            self.pushResolvedTransaction()
-                        }
-                    }, label: {
-                        Text("> 精算")
-                            .foregroundColor(.white)
-                    })
-                    .padding(.trailing, 16)
-                }
+//                HStack {
+//                    Spacer()
+//                    Button(action: {
+//                        Task {
+//                            self.pushResolvedTransaction()
+//                        }
+//                    }, label: {
+//                        Text("精算")
+//                            .frame(width: 70.0, height: 18.0)
+//                            .padding(8)
+//                            .accentColor(Color.black)
+//                            .background(Color.white)
+//                            .cornerRadius(12)
+//                            .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
+//                            .frame(maxWidth: .infinity, alignment: .trailing)
+//                    }).padding(.trailing, 10)
+//                }.padding(.bottom, -20)
             }
         }
         // 下の1行でListをアイコンボタンしかタップできなくしている
