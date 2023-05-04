@@ -242,13 +242,23 @@ struct CommonWalletView: View {
 
                 HStack {
 
-                    Image("SampleIcon")
-                        .resizable()
-                        .scaledToFill()
-                        .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 28, height: 28, alignment: .center)
-                        .clipShape(Circle())
+                    if commonWalletViewModel.unResolvedTransactions[index].debtorId != commonWalletViewModel.myUserId {
+                        Image("SampleIcon")
+                            .resizable()
+                            .scaledToFill()
+                            .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 28, height: 28, alignment: .center)
+                            .clipShape(Circle())
+                    } else {
+                        Image("SamplePartnerIcon")
+                            .resizable()
+                            .scaledToFill()
+                            .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 28, height: 28, alignment: .center)
+                            .clipShape(Circle())
+                    }
 
                     VStack(alignment: .leading) {
                         Text(self.dateToString(date: commonWalletViewModel.unResolvedTransactions[index].createdAt))
