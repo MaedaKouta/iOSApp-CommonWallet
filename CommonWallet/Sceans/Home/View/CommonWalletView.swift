@@ -24,9 +24,6 @@ struct CommonWalletView: View {
 
                 List {
                     VStack {
-                        // ヘッダー
-                        //HeaderHomeView()
-
                         // パートナーとの差額表示（四角いViewで柔らかい感じに）
                         totalMoneyCardView()
                     }.listRowSeparator(.hidden)
@@ -73,7 +70,9 @@ struct CommonWalletView: View {
                             .cornerRadius(20)
                             .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
                         })
-                    }.listRowSeparator(.hidden)
+                    }
+                    .padding(0)
+                    //.listRowSeparator(.hidden)
 
                     // 未精算履歴を表示
                     if commonWalletViewModel.unResolvedTransactions.count != 0 {
@@ -96,16 +95,16 @@ struct CommonWalletView: View {
                                             .foregroundColor(Color.gray)
                                         Text(commonWalletViewModel.unResolvedTransactions[index].title)
 
-//                                        Text(commonWalletViewModel.unResolvedTransactions[index].description)
-//                                            .font(.caption)
+                                        //                                        Text(commonWalletViewModel.unResolvedTransactions[index].description)
+                                        //                                            .font(.caption)
                                     }
 
                                     Spacer()
 
                                     VStack(alignment: .trailing) {
-//                                        Text("2023/4/6")
-//                                            .font(.caption)
-//                                            .foregroundColor(Color.gray)
+                                        //                                        Text("2023/4/6")
+                                        //                                            .font(.caption)
+                                        //                                            .foregroundColor(Color.gray)
                                         Text("¥\(commonWalletViewModel.unResolvedTransactions[index].amount)")
                                     }
 
@@ -120,10 +119,10 @@ struct CommonWalletView: View {
                             .listRowSeparator(.hidden)
                             .listRowBackground(Color.white)
                         }
-//                    header: {
-//                            Text("未精算リスト")
-//                                //.font(.title)
-//                        }
+                        //                    header: {
+                        //                            Text("未精算リスト")
+                        //                                //.font(.title)
+                        //                        }
                         .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
                     } else { // ifここまで
 
@@ -241,23 +240,23 @@ struct CommonWalletView: View {
 
 
                 // 本来は精算ボタンタップ後にアラート表示で完了させよう
-//                HStack {
-//                    Spacer()
-//                    Button(action: {
-//                        Task {
-//                            self.pushResolvedTransaction()
-//                        }
-//                    }, label: {
-//                        Text("精算")
-//                            .frame(width: 70.0, height: 18.0)
-//                            .padding(8)
-//                            .accentColor(Color.black)
-//                            .background(Color.white)
-//                            .cornerRadius(12)
-//                            .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
-//                            .frame(maxWidth: .infinity, alignment: .trailing)
-//                    }).padding(.trailing, 10)
-//                }.padding(.bottom, -20)
+                //                HStack {
+                //                    Spacer()
+                //                    Button(action: {
+                //                        Task {
+                //                            self.pushResolvedTransaction()
+                //                        }
+                //                    }, label: {
+                //                        Text("精算")
+                //                            .frame(width: 70.0, height: 18.0)
+                //                            .padding(8)
+                //                            .accentColor(Color.black)
+                //                            .background(Color.white)
+                //                            .cornerRadius(12)
+                //                            .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
+                //                            .frame(maxWidth: .infinity, alignment: .trailing)
+                //                    }).padding(.trailing, 10)
+                //                }.padding(.bottom, -20)
             }
         }
         // 下の1行でListをアイコンボタンしかタップできなくしている
