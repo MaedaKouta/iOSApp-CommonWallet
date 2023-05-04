@@ -251,7 +251,7 @@ struct CommonWalletView: View {
                         .clipShape(Circle())
 
                     VStack(alignment: .leading) {
-                        Text("\(commonWalletViewModel.unResolvedTransactions[index].createdAt.description)")
+                        Text(self.dateToString(date: commonWalletViewModel.unResolvedTransactions[index].createdAt))
                             .font(.caption)
                             .foregroundColor(Color.gray)
                         Text(commonWalletViewModel.unResolvedTransactions[index].title)
@@ -276,7 +276,7 @@ struct CommonWalletView: View {
                 } message: {
                     let amount = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].amount
                     let description = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].description
-                    let createdAt = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].createdAt.description
+                    let createdAt = self.dateToDetailString(date: commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].createdAt)
                     let debtor = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].debtorId == commonWalletViewModel.partnerUserId ? commonWalletViewModel.myName : commonWalletViewModel.partnerName
 
                     if description.isEmpty {
@@ -349,6 +349,24 @@ struct CommonWalletView: View {
                 break
             }
         }
+    }
+
+    private func dateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.dateStyle = .medium
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+
+        return dateFormatter.string(from: date)
+    }
+
+    private func dateToDetailString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.dateStyle = .medium
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
+
+        return dateFormatter.string(from: date)
     }
 
 }
