@@ -15,15 +15,26 @@ class CommonWalletViewModel: ObservableObject {
     @Published var unResolvedAmount = Int()
     @Published var payFromName = ""
     @Published var payToName = ""
-
+    
+    @Published var myUserId = ""
+    @Published var myName = ""
+    @Published var partnerUserId = ""
+    @Published var partnerName = ""
+    
     private var fireStoreTransactionManager: FireStoreTransactionManager
     private var fireStoreUserManager: FireStoreUserManager
     private var userDefaultsManager: UserDefaultsManager
-
+    
     init(fireStoreTransactionManager: FireStoreTransactionManager, fireStoreUserManager: FireStoreUserManager, userDefaultsManager: UserDefaultsManager) {
+
         self.fireStoreTransactionManager = fireStoreTransactionManager
         self.fireStoreUserManager = fireStoreUserManager
         self.userDefaultsManager = userDefaultsManager
+
+        myUserId = self.userDefaultsManager.getUser()?.id ?? ""
+        myName = self.userDefaultsManager.getUser()?.name ?? ""
+        partnerName = self.userDefaultsManager.getPartnerName() ?? ""
+        partnerUserId = self.userDefaultsManager.getPartnerUid() ?? ""
     }
 
     func getFireStoreTransactionManager() -> FireStoreTransactionManager {
@@ -49,7 +60,11 @@ class CommonWalletViewModel: ObservableObject {
             }
             self.unResolvedTransactions = []
             guard let transactions = transactions else { return }
-            self.unResolvedTransactions = transactions
+
+            let sortedTransactions = transactions.sorted(by: { (a, b) -> Bool in
+                return a.createdAt > b.createdAt
+            })
+            self.unResolvedTransactions = sortedTransactions
 
             // 〇〇から〇〇へ〇〇円を計算・アウトプットする関数
             self.calculateUnresolvedAmount()

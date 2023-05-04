@@ -19,7 +19,7 @@ struct CommonWalletView: View {
     @State var isResolveAlert = false
     @State var isCancelAlert = false
     @State var isTransactionDescriptionAlert = false
-
+    @State var selectedTransactionIndex = 0
     // 画像のSystemImage
     private let cancelButtonSystemImage = "arrow.uturn.backward.circle"
     private let resolveButtonSystemImage = "checkmark.circle"
@@ -63,7 +63,6 @@ struct CommonWalletView: View {
                     }
 
                 }
-                .listRowSeparator(.hidden)
                 .listStyle(.grouped)
                 .scrollContentBackground(.hidden)
                 .scrollIndicators(.hidden)
@@ -240,7 +239,9 @@ struct CommonWalletView: View {
     private func unResolvedListView() -> some View {
         Section {
             ForEach(0 ..< commonWalletViewModel.unResolvedTransactions.count,  id: \.self) { index in
+
                 HStack {
+
                     Image("SampleIcon")
                         .resizable()
                         .scaledToFill()
@@ -250,7 +251,7 @@ struct CommonWalletView: View {
                         .clipShape(Circle())
 
                     VStack(alignment: .leading) {
-                        Text("2023/4/6")
+                        Text("\(commonWalletViewModel.unResolvedTransactions[index].createdAt.description)")
                             .font(.caption)
                             .foregroundColor(Color.gray)
                         Text(commonWalletViewModel.unResolvedTransactions[index].title)
@@ -261,19 +262,53 @@ struct CommonWalletView: View {
                     VStack(alignment: .trailing) {
                         Text("¥\(commonWalletViewModel.unResolvedTransactions[index].amount)")
                     }
-
                 }
                 .padding(3)
                 .foregroundColor(.black)
                 .contentShape(Rectangle())
                 .onTapGesture {
-                    print(index)
+                    self.selectedTransactionIndex = index
+                    self.isTransactionDescriptionAlert = true
                 }
+                .alert("\(commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].title)", isPresented: $isTransactionDescriptionAlert){
+                    Button("OK") {
+                    }
+                } message: {
+                    let amount = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].amount
+                    let description = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].description
+                    let createdAt = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].createdAt.description
+                    let debtor = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].debtorId == commonWalletViewModel.partnerUserId ? commonWalletViewModel.myName : commonWalletViewModel.partnerName
+
+                    if description.isEmpty {
+                        Text("""
+                        ¥\(amount)
+                        「\(debtor)」が立て替え
+                        \(createdAt)
+                        """)
+                    } else {
+                        Text("""
+                        ¥\(amount)
+                        「\(debtor)」が立て替え
+                        \(createdAt)
+                        \(description)
+                        """)
+                    }
+                } // alertここまで
+                .swipeActions(edge: .trailing) {
+                    Button(role: .destructive) {
+                        // 処理
+                    } label: {
+                        Image(systemName: "trash.fill")
+                    }
+                    Button(role: .destructive) {
+                        // 処理
+                    } label: {
+                        Image(systemName: "trash.fill")
+                    }
+                }
+
             }
-            .listRowSeparator(.hidden)
-            .listRowBackground(Color.white)
         }
-        .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
     }
 
     private func unResolvedListIsNullView() -> some View {
