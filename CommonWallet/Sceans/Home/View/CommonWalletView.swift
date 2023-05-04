@@ -152,37 +152,8 @@ struct CommonWalletView: View {
                 }
 
                 // お金追加ボタン
-                VStack {
-                    Spacer()
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            isAddTransactionView = true
-                        }, label: {
-                            Image(systemName: addTransactionButtonSystemImage)
-                                .font(.title2)
-                                .frame(width: 36.0, height: 36)
-                                .padding(8)
-                                .accentColor(Color.black)
-                                .background(Color.white)
-                                .cornerRadius(26)
-                                .shadow(color: Color.gray, radius: 5, x: 0, y: 0)
-//                                .frame(width: 35.0, height: 35.0)
-//                                .padding(8)
-//                                .accentColor(Color.white)
-//                                .background(Color.black)
-//                                .cornerRadius(25)
-//                                .shadow(color: Color.white, radius: 10, x: 0, y: 3)
-//                                .frame(maxWidth: .infinity, alignment: .trailing)
-                        })
-                        .padding(.trailing, 16)
-                        .sheet(isPresented: self.$isAddTransactionView) {
-                            AddTransactionView(addTransactionViewModel: AddTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager()), commonWalletViewModel: self.commonWalletViewModel, isAddTransactionView: $isAddTransactionView)
-                                .presentationDetents([.large])
-                        }
-                    }
-                    .padding()
-                }
+                addTransactionButton()
+
             }
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarItems(
@@ -216,10 +187,10 @@ struct CommonWalletView: View {
         }
     }
 
-    // MARK: - 立替合計金額をカードで表示するView
+    // MARK: View
+    // 立替合計金額をカードで表示するView
     private func totalMoneyCardView() -> some View {
         ZStack {
-
             Rectangle()
                 .frame(width: 350, height: 150)
                 .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.black, lineWidth: 5))
@@ -248,32 +219,40 @@ struct CommonWalletView: View {
                         .font(.title)
                         .foregroundColor(.black)
                 }.padding()
-
-
-                // 本来は精算ボタンタップ後にアラート表示で完了させよう
-                //                HStack {
-                //                    Spacer()
-                //                    Button(action: {
-                //                        Task {
-                //                            self.pushResolvedTransaction()
-                //                        }
-                //                    }, label: {
-                //                        Text("精算")
-                //                            .frame(width: 70.0, height: 18.0)
-                //                            .padding(8)
-                //                            .accentColor(Color.black)
-                //                            .background(Color.white)
-                //                            .cornerRadius(12)
-                //                            .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
-                //                            .frame(maxWidth: .infinity, alignment: .trailing)
-                //                    }).padding(.trailing, 10)
-                //                }.padding(.bottom, -20)
             }
         }
         // 下の1行でListをアイコンボタンしかタップできなくしている
         .buttonStyle(BorderlessButtonStyle())
     }
 
+    private func addTransactionButton() -> some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Button(action: {
+                    isAddTransactionView = true
+                }, label: {
+                    Image(systemName: addTransactionButtonSystemImage)
+                        .font(.title2)
+                        .frame(width: 36.0, height: 36)
+                        .padding(8)
+                        .accentColor(Color.black)
+                        .background(Color.white)
+                        .cornerRadius(26)
+                        .shadow(color: Color.gray, radius: 5, x: 0, y: 0)
+                })
+                .padding(.trailing, 16)
+                .sheet(isPresented: self.$isAddTransactionView) {
+                    AddTransactionView(addTransactionViewModel: AddTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager()), commonWalletViewModel: self.commonWalletViewModel, isAddTransactionView: $isAddTransactionView)
+                        .presentationDetents([.large])
+                }
+            }
+            .padding()
+        }
+    }
+
+    // MARK: 通信系
     private func fetchTransactions() {
         Task{
             try await commonWalletViewModel.fetchTransactions()
