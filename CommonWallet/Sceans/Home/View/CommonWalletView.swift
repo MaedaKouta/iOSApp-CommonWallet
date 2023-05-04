@@ -11,9 +11,16 @@ struct CommonWalletView: View {
 
     @ObservedObject var commonWalletViewModel: CommonWalletViewModel
 
+    // 画面遷移
     @State var isAccountView = false
     @State var isAddTransactionView = false
 
+    // アラート
+    @State var isResolveAlert = false
+    @State var isCancelAlert = false
+    @State var isTransactionDescriptionAlert = false
+
+    // 画像のSystemImage
     private let cancelButtonSystemImage = "arrow.uturn.backward.circle"
     private let resolveButtonSystemImage = "checkmark.circle"
     private let addTransactionButtonSystemImage = "plus"
@@ -30,7 +37,9 @@ struct CommonWalletView: View {
                     // パートナーとの差額View
                     VStack {
                         totalMoneyCardView()
-                    }.listRowSeparator(.hidden)
+                    }
+                    .buttonStyle(BorderlessButtonStyle())
+                    .listRowSeparator(.hidden)
 
                     // 未精算リスト上部のView
                     HStack(spacing: 15) {
@@ -40,6 +49,7 @@ struct CommonWalletView: View {
                         cancelTransactionButton()
                         resolveTransactionButton()
                     }
+                    .buttonStyle(BorderlessButtonStyle())
                     .padding(0)
                     .listRowSeparator(.hidden)
 
@@ -131,8 +141,6 @@ struct CommonWalletView: View {
                 }.padding()
             }
         }
-        // 下の1行でListをアイコンボタンしかタップできなくしている
-        .buttonStyle(BorderlessButtonStyle())
     }
 
     /// Transaction追加ボタンのView
@@ -165,10 +173,9 @@ struct CommonWalletView: View {
 
     /// トランザクション取り消しボタンのView
     private func cancelTransactionButton() -> some View {
+
         Button(action: {
-            Task {
-                self.pushResolvedTransaction()
-            }
+            self.isCancelAlert = true
         }, label: {
             HStack(spacing: 3) {
                 Image(systemName: cancelButtonSystemImage)
@@ -183,15 +190,24 @@ struct CommonWalletView: View {
             .cornerRadius(20)
             .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
         })
+        .alert("取り消し", isPresented: $isCancelAlert){
+            Button("キャンセル"){
+                // ボタン1が押された時の処理
+            }
+            Button("OK"){
+                // ボタン2が押された時の処理
+            }
+        } message: {
+            Text("直前の精算を取り消しますか？")
+        }
 
     }
 
     /// 精算ボタンのView
     private func resolveTransactionButton() -> some View {
+
         Button(action: {
-            Task {
-                self.pushResolvedTransaction()
-            }
+            self.isResolveAlert = true
         }, label: {
             HStack(spacing: 3) {
                 Image(systemName: resolveButtonSystemImage)
@@ -206,6 +222,18 @@ struct CommonWalletView: View {
             .cornerRadius(20)
             .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
         })
+        .alert("精算", isPresented: $isResolveAlert){
+            Button("キャンセル"){
+                // ボタン1が押された時の処理
+            }
+            Button("OK"){
+                Task {
+                    self.pushResolvedTransaction()
+                }
+            }
+        } message: {
+            Text("精算しますか？")
+        }
     }
 
     /// 未精算リストView
