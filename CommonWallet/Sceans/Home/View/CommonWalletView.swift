@@ -27,11 +27,12 @@ struct CommonWalletView: View {
                 Color.white.ignoresSafeArea()
 
                 List {
+                    // パートナーとの差額View
                     VStack {
-                        // パートナーとの差額表示（四角いViewで柔らかい感じに）
                         totalMoneyCardView()
                     }.listRowSeparator(.hidden)
 
+                    // 未精算リスト上部のView
                     HStack(spacing: 15) {
                         Text("未精算リスト")
                             .font(.title2)
@@ -40,72 +41,17 @@ struct CommonWalletView: View {
                         resolveTransactionButton()
                     }
                     .padding(0)
-                    //.listRowSeparator(.hidden)
+                    .listRowSeparator(.hidden)
 
-                    // 未精算履歴を表示
+                    // 未精算履歴のView
                     if commonWalletViewModel.unResolvedTransactions.count != 0 {
-                        Section {
-
-                            ForEach(0 ..< commonWalletViewModel.unResolvedTransactions.count,  id: \.self) { index in
-
-                                HStack {
-                                    Image("SampleIcon")
-                                        .resizable()
-                                        .scaledToFill()
-                                        .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
-                                        .aspectRatio(contentMode: .fit)
-                                        .frame(width: 28, height: 28, alignment: .center)
-                                        .clipShape(Circle())
-
-                                    VStack(alignment: .leading) {
-                                        Text("2023/4/6")
-                                            .font(.caption)
-                                            .foregroundColor(Color.gray)
-                                        Text(commonWalletViewModel.unResolvedTransactions[index].title)
-
-                                        //                                        Text(commonWalletViewModel.unResolvedTransactions[index].description)
-                                        //                                            .font(.caption)
-                                    }
-
-                                    Spacer()
-
-                                    VStack(alignment: .trailing) {
-                                        //                                        Text("2023/4/6")
-                                        //                                            .font(.caption)
-                                        //                                            .foregroundColor(Color.gray)
-                                        Text("¥\(commonWalletViewModel.unResolvedTransactions[index].amount)")
-                                    }
-
-                                }
-                                .padding(3)
-                                .foregroundColor(.black)
-                                .contentShape(Rectangle())
-                                .onTapGesture {
-                                    print(index)
-                                }
-                            }
-                            .listRowSeparator(.hidden)
-                            .listRowBackground(Color.white)
-                        }
-                        //                    header: {
-                        //                            Text("未精算リスト")
-                        //                                //.font(.title)
-                        //                        }
-                        .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
-                    } else { // ifここまで
-
-                        VStack {
-                            Image("Sample2")
-                                .resizable()
-                                .scaledToFill()
-                                .aspectRatio(contentMode: .fit)
-                                .padding(.top)
-                            Text("リストが空です")
-                                .foregroundColor(.gray)
-                        }
-                        .listRowSeparator(.hidden)
-                        .padding(.top, 100)
+                         // 未精算のものがあればリスト表示
+                        unResolvedListView()
+                    } else {
+                        // 未精算のものがなければ画像表示
+                        unResolvedListIsNullView()
                     }
+
                 }
                 .listRowSeparator(.hidden)
                 .listStyle(.grouped)
@@ -260,6 +206,60 @@ struct CommonWalletView: View {
             .cornerRadius(20)
             .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
         })
+    }
+
+    /// 未精算リストView
+    private func unResolvedListView() -> some View {
+        Section {
+            ForEach(0 ..< commonWalletViewModel.unResolvedTransactions.count,  id: \.self) { index in
+                HStack {
+                    Image("SampleIcon")
+                        .resizable()
+                        .scaledToFill()
+                        .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 28, height: 28, alignment: .center)
+                        .clipShape(Circle())
+
+                    VStack(alignment: .leading) {
+                        Text("2023/4/6")
+                            .font(.caption)
+                            .foregroundColor(Color.gray)
+                        Text(commonWalletViewModel.unResolvedTransactions[index].title)
+                    }
+
+                    Spacer()
+
+                    VStack(alignment: .trailing) {
+                        Text("¥\(commonWalletViewModel.unResolvedTransactions[index].amount)")
+                    }
+
+                }
+                .padding(3)
+                .foregroundColor(.black)
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    print(index)
+                }
+            }
+            .listRowSeparator(.hidden)
+            .listRowBackground(Color.white)
+        }
+        .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
+    }
+
+    private func unResolvedListIsNullView() -> some View {
+        VStack {
+            Image("Sample2")
+                .resizable()
+                .scaledToFill()
+                .aspectRatio(contentMode: .fit)
+                .padding(.top)
+            Text("リストが空です")
+                .foregroundColor(.gray)
+        }
+        .listRowSeparator(.hidden)
+        .padding(.top, 100)
     }
 
     // MARK: 通信系
