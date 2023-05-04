@@ -17,9 +17,11 @@ struct CommonWalletView: View {
 
     // アラート
     @State var isResolveAlert = false
+    @State var isEnableResolveButton = false
     @State var isCancelAlert = false
     @State var isTransactionDescriptionAlert = false
     @State var selectedTransactionIndex = 0
+
     // 画像のSystemImage
     private let cancelButtonSystemImage = "arrow.uturn.backward.circle"
     private let resolveButtonSystemImage = "checkmark.circle"
@@ -57,9 +59,15 @@ struct CommonWalletView: View {
                     if commonWalletViewModel.unResolvedTransactions.count != 0 {
                          // 未精算のものがあればリスト表示
                         unResolvedListView()
+                            .onAppear {
+                                isEnableResolveButton = true
+                            }
                     } else {
                         // 未精算のものがなければ画像表示
                         unResolvedListIsNullView()
+                            .onAppear {
+                                isEnableResolveButton = false
+                            }
                     }
 
                 }
@@ -221,6 +229,7 @@ struct CommonWalletView: View {
             .cornerRadius(20)
             .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
         })
+        .disabled(!isEnableResolveButton)
         .alert("精算", isPresented: $isResolveAlert){
             Button("キャンセル"){
                 // ボタン1が押された時の処理
