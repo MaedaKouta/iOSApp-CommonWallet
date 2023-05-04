@@ -72,6 +72,7 @@
 		87ABC58429908B79003E94F3 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC58329908B79003E94F3 /* LogView.swift */; };
 		87ABC58829908BA1003E94F3 /* AllLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */; };
 		87ABC58B29909BF5003E94F3 /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 87ABC58A29909BF5003E94F3 /* Parchment */; };
+		87C0BADD2A03C52400A02978 /* Flip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C0BADC2A03C52400A02978 /* Flip.swift */; };
 		87CA8FB7297BF73800248187 /* CreateUserViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */; };
 		87CA8FB9297BF76A00248187 /* CreateUserViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CA8FB8297BF76A00248187 /* CreateUserViewModelTests.swift */; };
 		87CD584929E8DB2500472B6B /* FetchUsersError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CD584829E8DB2500472B6B /* FetchUsersError.swift */; };
@@ -168,6 +169,7 @@
 		87ABC58029908B17003E94F3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		87ABC58329908B79003E94F3 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLogViewModel.swift; sourceTree = "<group>"; };
+		87C0BADC2A03C52400A02978 /* Flip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flip.swift; sourceTree = "<group>"; };
 		87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewModel.swift; sourceTree = "<group>"; };
 		87CA8FB8297BF76A00248187 /* CreateUserViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewModelTests.swift; sourceTree = "<group>"; };
 		87CD584829E8DB2500472B6B /* FetchUsersError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchUsersError.swift; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 		87ABC57C29907CD3003E94F3 /* Sceans */ = {
 			isa = PBXGroup;
 			children = (
+				87C0BADB2A03C50200A02978 /* MainTab */,
 				87ABC57829907B56003E94F3 /* Launch */,
 				87ABC571299076ED003E94F3 /* Authentication */,
 				87ABC570299076D7003E94F3 /* Home */,
@@ -461,12 +464,12 @@
 			path = Sceans;
 			sourceTree = "<group>";
 		};
-		87ABC57D29907DA2003E94F3 /* CommonViews */ = {
+		87ABC57D29907DA2003E94F3 /* Source */ = {
 			isa = PBXGroup;
 			children = (
-				87ABC58029908B17003E94F3 /* MainTabView.swift */,
+				87C0BADC2A03C52400A02978 /* Flip.swift */,
 			);
-			path = CommonViews;
+			path = Source;
 			sourceTree = "<group>";
 		};
 		87ABC58229908B65003E94F3 /* Log */ = {
@@ -496,6 +499,14 @@
 				87D1A05129E23ABC0058A98F /* LogViewModel.swift */,
 			);
 			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		87C0BADB2A03C50200A02978 /* MainTab */ = {
+			isa = PBXGroup;
+			children = (
+				87ABC58029908B17003E94F3 /* MainTabView.swift */,
+			);
+			path = MainTab;
 			sourceTree = "<group>";
 		};
 		87D1A05329E770E30058A98F /* Error */ = {
@@ -538,7 +549,7 @@
 				87EE8D7C297A1790005CCB6F /* AppDelegate.swift */,
 				87EE8D4B297A1369005CCB6F /* ContentView.swift */,
 				87830E6A297A1A6000184A7C /* CommonModels */,
-				87ABC57D29907DA2003E94F3 /* CommonViews */,
+				87ABC57D29907DA2003E94F3 /* Source */,
 				87ABC57C29907CD3003E94F3 /* Sceans */,
 				874EF93D297D040000C94233 /* Extentions */,
 				87EE8D4D297A136A005CCB6F /* Assets.xcassets */,
@@ -768,6 +779,7 @@
 				87402F4729F37B040007320D /* FireStorePartnerManaging.swift in Sources */,
 				87391E492987A8AF00897A96 /* ShareNumberManager.swift in Sources */,
 				87830E7D297A201F00184A7C /* SignInView.swift in Sources */,
+				87C0BADD2A03C52400A02978 /* Flip.swift in Sources */,
 				87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */,
 				87ABC58129908B17003E94F3 /* MainTabView.swift in Sources */,
 				87402F4129F377C40007320D /* FireStoreTransactionManaging.swift in Sources */,

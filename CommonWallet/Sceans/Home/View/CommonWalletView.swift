@@ -15,6 +15,9 @@ struct CommonWalletView: View {
     @State var isAccountView = false
     @State var isAddTransactionView = false
 
+    // カードViewをめくる変数
+    @State var isCardViewFront = true
+
     // アラート
     @State var isResolveAlert = false
     @State var isEnableResolveButton = false
@@ -38,13 +41,19 @@ struct CommonWalletView: View {
                 List {
                     // パートナーとの差額View
                     VStack {
-                        totalMoneyCardView()
+                        Flip(isFront: isCardViewFront, // 先に作っておいた変数 isFront
+                             front: {
+                            moneyAmountCardFrontView() // 表面
+                        },
+                             back: {
+                            moneyAmountCardBackView() // 裏面
+                        })
                     }
                     .buttonStyle(BorderlessButtonStyle())
                     .listRowSeparator(.hidden)
 
                     // 未精算リスト上部のView
-                    HStack(spacing: 15) {
+                    HStack(alignment: .bottom, spacing: 15) {
                         Text("未精算リスト")
                             .font(.title2)
                         Spacer()
@@ -52,8 +61,8 @@ struct CommonWalletView: View {
                         resolveTransactionButton()
                     }
                     .buttonStyle(BorderlessButtonStyle())
-                    .padding(0)
-                    .listRowSeparator(.hidden)
+                    .padding(.top, 5)
+                    //.listRowSeparator(.hidden)
 
                     // 未精算履歴のView
                     if commonWalletViewModel.unResolvedTransactions.count != 0 {
@@ -62,6 +71,7 @@ struct CommonWalletView: View {
                             .onAppear {
                                 isEnableResolveButton = true
                             }
+                            //.listRowSeparator(.hidden)
                     } else {
                         // 未精算のものがなければ画像表示
                         unResolvedListIsNullView()
@@ -115,16 +125,17 @@ struct CommonWalletView: View {
     }
 
     // MARK: View
-    /// 立替合計金額をカードで表示するView
-    private func totalMoneyCardView() -> some View {
+    /// 立替合計金額をカードで表示する表側のView
+    private func moneyAmountCardFrontView() -> some View {
         ZStack {
             Rectangle()
                 .frame(width: 350, height: 150)
-                .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.black, lineWidth: 5))
+                .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.black, lineWidth: 4))
                 .foregroundColor(.white)
                 .cornerRadius(30)
 
             VStack {
+                Spacer()
                 HStack(spacing: 5) {
                     Text("\(commonWalletViewModel.payFromName)")
                         .foregroundColor(.black)
@@ -135,8 +146,9 @@ struct CommonWalletView: View {
                     Text("へ")
                         .foregroundColor(.gray)
                     Spacer()
-                }
-                .padding(.leading, 30)
+                }.padding(.leading, 30)
+
+                Spacer()
 
                 HStack {
                     Text("￥")
@@ -145,7 +157,67 @@ struct CommonWalletView: View {
                     Text("\(commonWalletViewModel.unResolvedAmount)")
                         .font(.title)
                         .foregroundColor(.black)
-                }.padding()
+                }
+
+                Spacer()
+
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        isCardViewFront.toggle()
+                    }, label: {
+                        Image(systemName: "hand.tap")
+                            .foregroundColor(.black)
+                    })
+
+                }.padding(.horizontal, 30)
+                Spacer()
+
+            }
+        }
+    }
+
+    /// 立替合計金額をカードで表示する表側のView
+    private func moneyAmountCardBackView() -> some View {
+        ZStack {
+            Rectangle()
+                .frame(width: 350, height: 150)
+                .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.black, lineWidth: 4))
+                .foregroundColor(.white)
+                .cornerRadius(30)
+
+            VStack() {
+                Spacer()
+
+
+                HStack {
+                    Text("未精算の立て替え総額")
+                    Spacer()
+                }
+                .foregroundColor(.gray)
+                .padding()
+
+                VStack() {
+                    Text("User2  ¥0")
+                    Text("Ttest1  ¥0")
+                }
+                .foregroundColor(.black)
+                .padding([.leading, .trailing])
+
+                Spacer()
+
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        isCardViewFront.toggle()
+                    }, label: {
+                        Image(systemName: "hand.tap")
+                            .foregroundColor(.black)
+                    })
+
+                }.padding(.horizontal, 30)
+                Spacer()
+
             }
         }
     }
@@ -199,10 +271,10 @@ struct CommonWalletView: View {
         })
         .alert("取り消し", isPresented: $isCancelAlert){
             Button("キャンセル"){
-                // ボタン1が押された時の処理
+                // ボタンが押された時の処理
             }
             Button("OK"){
-                // ボタン2が押された時の処理
+                // ボタンが押された時の処理
             }
         } message: {
             Text("直前の精算を取り消しますか？")
@@ -246,7 +318,7 @@ struct CommonWalletView: View {
 
     /// 未精算リストView
     private func unResolvedListView() -> some View {
-        Section {
+        //Section {
             ForEach(0 ..< commonWalletViewModel.unResolvedTransactions.count,  id: \.self) { index in
 
                 HStack {
@@ -327,7 +399,7 @@ struct CommonWalletView: View {
                 }
 
             }
-        }
+        //}
     }
 
     private func unResolvedListIsNullView() -> some View {
