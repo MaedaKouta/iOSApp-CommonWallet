@@ -72,6 +72,11 @@ class CommonWalletViewModel: ObservableObject {
 
     }
 
+
+    func deleteTransaction(transactionId: String) async throws {
+        try await fireStoreTransactionManager.deleteTransaction(transactionId: transactionId)
+    }
+
     /// 精算を完了させる関数
     func pushResolvedTransaction() async throws -> Result<Void, Error> {
         do {

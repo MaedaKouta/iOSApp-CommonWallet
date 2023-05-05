@@ -12,7 +12,7 @@ struct CommonWalletView: View {
     @ObservedObject var commonWalletViewModel: CommonWalletViewModel
 
     // 画面遷移
-    @State var isAccountView = false
+    @State var isSettingView = false
     @State var isAddTransactionView = false
 
     // カードViewをめくる変数
@@ -24,6 +24,8 @@ struct CommonWalletView: View {
     @State var isCancelAlert = false
     @State var isTransactionDescriptionAlert = false
     @State var selectedTransactionIndex = 0
+    @State var isDeleteTransactionAlert = false
+    @State var selectedDeleteTransactionIndex = 0
 
     // 画像のSystemImage
     private let cancelButtonSystemImage = "arrow.uturn.backward.circle"
@@ -105,6 +107,7 @@ struct CommonWalletView: View {
                 }, trailing: HStack {
                     Button(action: {
                         print("aa")
+                        self.isSettingView = true
                     }) {
                         Image("SampleIcon")
                             .resizable()
@@ -118,6 +121,10 @@ struct CommonWalletView: View {
                     }
                 }
             )
+        }
+        .sheet(isPresented: self.$isSettingView) {
+            // trueになれば下からふわっと表示
+            SettingView(isShowSettingView: $isSettingView)
         }
         .onAppear{
             self.fetchTransactions()
@@ -386,19 +393,31 @@ struct CommonWalletView: View {
                     }
                 } // alertここまで
                 .swipeActions(edge: .trailing) {
-                    Button(role: .destructive) {
+                    Button(role: .none) {
                         // 処理
+                        self.selectedTransactionIndex = index
+                        self.isDeleteTransactionAlert = true
                     } label: {
                         Image(systemName: "trash.fill")
                     }
-                    Button(role: .destructive) {
-                        // 処理
-                    } label: {
-                        Image(systemName: "trash.fill")
-                    }
+//                    Button(role: .destructive) {
+//                        // 処理
+//                    } label: {
+//                        Image(systemName: "trash.fill")
+//                    }
                 }
+                .alert("注意", isPresented: $isDeleteTransactionAlert){
+                    Button("キャンセル") {
+                    }
+                    Button("OK") {
+                        self.deleteTransaction(transactionId: commonWalletViewModel.unResolvedTransactions[self.selectedDeleteTransactionIndex].id)
+                    }
+                } message: {
+                    Text("削除して良いですか？")
+                } // alertここまで
 
             }
+
         //}
     }
 
@@ -438,6 +457,19 @@ struct CommonWalletView: View {
                 print("CommonWalletView：pushResolvedTransactionの登録失敗")
                 print("CommonWalletView：Transaction failed with error: \(error.localizedDescription)")
                 break
+            }
+        }
+    }
+
+    private func deleteTransaction(transactionId: String) {
+        Task{
+            do {
+                // ここでindexを0にしないと、out of range になる
+                self.selectedDeleteTransactionIndex = 0
+                self.selectedTransactionIndex = 0
+                try await commonWalletViewModel.deleteTransaction(transactionId: transactionId)
+            } catch {
+                print("transactionの削除に失敗：", error)
             }
         }
     }
