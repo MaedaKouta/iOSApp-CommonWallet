@@ -14,10 +14,13 @@ class EditTransactionViewModel: ObservableObject {
     private var userDefaultsManager: UserDefaultsManager
 
     @Published var transaction: Transaction
+    @Published var selectedIndex: Int
 
     // 自分の情報
-    @Published var myUserId = ""
-    @Published var myName = ""
+    @Published var myUserId: String
+    @Published var myName: String
+    @Published var partnerUserId: String
+    @Published var partnerName: String
 
     init(fireStoreTransactionManager: FireStoreTransactionManager,
          userDefaultsManager: UserDefaultsManager,
@@ -28,6 +31,15 @@ class EditTransactionViewModel: ObservableObject {
 
         myUserId = self.userDefaultsManager.getUser()?.id ?? ""
         myName = self.userDefaultsManager.getUser()?.name ?? ""
+        partnerName = self.userDefaultsManager.getPartnerName() ?? ""
+        partnerUserId = self.userDefaultsManager.getPartnerUid() ?? ""
+
+        if transaction.debtorId == self.userDefaultsManager.getUser()?.id {
+            self.selectedIndex = 0
+        } else {
+            self.selectedIndex = 1
+        }
+        
     }
 
     func updateTransaction() async throws -> Result<Void, Error> {

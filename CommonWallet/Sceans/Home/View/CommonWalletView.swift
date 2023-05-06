@@ -14,6 +14,7 @@ struct CommonWalletView: View {
     // 画面遷移
     @State var isSettingView = false
     @State var isAddTransactionView = false
+    @State var isEditTransactionView = false
 
     // カードViewをめくる変数
     @State var isCardViewFront = true
@@ -23,9 +24,11 @@ struct CommonWalletView: View {
     @State var isEnableResolveButton = false
     @State var isCancelAlert = false
     @State var isTransactionDescriptionAlert = false
-    @State var selectedTransactionIndex = 0
     @State var isDeleteTransactionAlert = false
+
+    @State var selectedTransactionIndex = 0
     @State var selectedDeleteTransactionIndex = 0
+    @State var selectedEditTransactionIndex = 0
 
     // 画像のSystemImage
     private let cancelButtonSystemImage = "arrow.uturn.backward.circle"
@@ -196,7 +199,6 @@ struct CommonWalletView: View {
             VStack() {
                 Spacer()
 
-
                 HStack {
                     Text("未精算の立て替え総額")
                     Spacer()
@@ -252,6 +254,7 @@ struct CommonWalletView: View {
                     AddTransactionView(addTransactionViewModel: AddTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager()), commonWalletViewModel: self.commonWalletViewModel, isAddTransactionView: $isAddTransactionView)
                         .presentationDetents([.large])
                 }
+
             }
             .padding()
         }
@@ -394,14 +397,15 @@ struct CommonWalletView: View {
                 } // alertここまで
                 .swipeActions(edge: .trailing, allowsFullSwipe: false)  {
                     Button(role: .none) {
-                        // 処理
                         self.selectedDeleteTransactionIndex = index
                         self.isDeleteTransactionAlert = true
                     } label: {
                         Image(systemName: "trash.fill")
                     }.tint(.red)
-                    Button(role: .cancel) {
-                        // 処理
+
+                    Button(role: .none) {
+                        self.selectedEditTransactionIndex = index
+                        self.isEditTransactionView = true
                     } label: {
                         Image(systemName: "pencil")
                     }.tint(.orange)
@@ -415,6 +419,15 @@ struct CommonWalletView: View {
                 } message: {
                     Text("削除して良いですか？")
                 } // alertここまで
+
+                .sheet(isPresented: self.$isEditTransactionView) {
+                    EditTransactionView(
+                        editTransactionViewModel: EditTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager(), transaction: commonWalletViewModel.unResolvedTransactions[self.selectedEditTransactionIndex]),
+                        commonWalletViewModel: self.commonWalletViewModel,
+                        isEditTransactionView: $isEditTransactionView
+                    )
+                    .presentationDetents([.large])
+                } // sheetここまで
 
             }
 
