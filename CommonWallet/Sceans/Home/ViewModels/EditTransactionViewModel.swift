@@ -13,40 +13,31 @@ class EditTransactionViewModel: ObservableObject {
     private var fireStoreTransactionManager: FireStoreTransactionManager
     private var userDefaultsManager: UserDefaultsManager
 
-    // ユーザー情報の監視用のPublished変数
+    @Published var transaction: Transaction
+
+    // 自分の情報
     @Published var myUserId = ""
     @Published var myName = ""
-    @Published var partnerUserId = ""
-    @Published var partnerName = ""
-
-    let myShareNumber: String
 
     init(fireStoreTransactionManager: FireStoreTransactionManager,
-         userDefaultsManager: UserDefaultsManager) {
+         userDefaultsManager: UserDefaultsManager,
+         transaction: Transaction) {
         self.fireStoreTransactionManager = fireStoreTransactionManager
         self.userDefaultsManager = userDefaultsManager
+        self.transaction = transaction
 
         myUserId = self.userDefaultsManager.getUser()?.id ?? ""
         myName = self.userDefaultsManager.getUser()?.name ?? ""
-        partnerName = self.userDefaultsManager.getPartnerName() ?? ""
-        partnerUserId = self.userDefaultsManager.getPartnerUid() ?? ""
-
-        myShareNumber = self.userDefaultsManager.getUser()?.shareNumber ?? ""
     }
 
-    /// 新規トランザクション追加
-    func addTransaction(creditorId: String, debtorId: String, title: String, description: String, amount: Int) async throws -> Result<Void, Error> {
-
+    func updateTransaction() async throws -> Result<Void, Error> {
         do {
-            // データベースで調べやすいように、myShareNumberをつける
-            let transactionId = myShareNumber + "-" + UUID().uuidString
-            try await fireStoreTransactionManager.createTransaction(transactionId: transactionId, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
+            try await self.fireStoreTransactionManager.updateTransaction(transaction: transaction)
             // 成功した場合
             return .success(())
         } catch {
-            // TODO: エラーハンドリング
             // 失敗した場合
-            print("Transaction failed with error: \(error)")
+            print("updateTransaction関数内でエラー", error)
             return .failure(error)
         }
     }
