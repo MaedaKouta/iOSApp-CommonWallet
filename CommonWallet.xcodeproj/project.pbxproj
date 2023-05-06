@@ -41,6 +41,7 @@
 		874EF941297D08B100C94233 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF940297D08B100C94233 /* User.swift */; };
 		87534ACD2981F160009671C3 /* AddPayInfoViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87534ACC2981F160009671C3 /* AddPayInfoViewModelTests.swift */; };
 		87534ACF2981F359009671C3 /* FireStorePayInfoManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87534ACE2981F359009671C3 /* FireStorePayInfoManagerTests.swift */; };
+		8753D7302A06175B0074E04A /* EditTransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753D72F2A06175B0074E04A /* EditTransactionViewModel.swift */; };
 		877CB903297BE9C60005CBD1 /* FirebaseErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */; };
 		877CB904297BE9C90005CBD1 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F5297BB8AB002C76D6 /* SignInViewModel.swift */; };
 		877CB906297BEB2F0005CBD1 /* SignInViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877CB905297BEB2F0005CBD1 /* SignInViewModelTests.swift */; };
@@ -149,6 +150,7 @@
 		874EF940297D08B100C94233 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		87534ACC2981F160009671C3 /* AddPayInfoViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPayInfoViewModelTests.swift; sourceTree = "<group>"; };
 		87534ACE2981F359009671C3 /* FireStorePayInfoManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorePayInfoManagerTests.swift; sourceTree = "<group>"; };
+		8753D72F2A06175B0074E04A /* EditTransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTransactionViewModel.swift; sourceTree = "<group>"; };
 		877CB905297BEB2F0005CBD1 /* SignInViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModelTests.swift; sourceTree = "<group>"; };
 		87830E6B297A1A8300184A7C /* AuthManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthManager.swift; sourceTree = "<group>"; };
 		87830E6E297A1AB900184A7C /* SignInTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInTests.swift; sourceTree = "<group>"; };
@@ -370,6 +372,7 @@
 			children = (
 				87CDAAB4297E5C8000F52887 /* CommonWalletViewModel.swift */,
 				87F53FE2297EA70B00293176 /* AddTransactionViewModel.swift */,
+				8753D72F2A06175B0074E04A /* EditTransactionViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -757,6 +760,7 @@
 				87402F4929F37B960007320D /* AuthManaging.swift in Sources */,
 				87D1A05229E23ABC0058A98F /* LogViewModel.swift in Sources */,
 				87CD584929E8DB2500472B6B /* FetchUsersError.swift in Sources */,
+				8753D7302A06175B0074E04A /* EditTransactionViewModel.swift in Sources */,
 				872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */,
 				87ABC58829908BA1003E94F3 /* AllLogViewModel.swift in Sources */,
 				87391E50298A189900897A96 /* String.swift in Sources */,
