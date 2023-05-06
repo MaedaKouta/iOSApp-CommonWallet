@@ -36,7 +36,6 @@ struct CommonWalletView: View {
     private let addTransactionButtonSystemImage = "plus"
 
     var body: some View {
-
         NavigationView {
             ZStack {
 
@@ -122,12 +121,11 @@ struct CommonWalletView: View {
                         Text("kota")
                             .foregroundColor(Color.black)
                     }
+                    .sheet(isPresented: self.$isSettingView) {
+                        SettingView(isShowSettingView: $isSettingView)
+                    }
                 }
             )
-        }
-        .sheet(isPresented: self.$isSettingView) {
-            // trueになれば下からふわっと表示
-            SettingView(isShowSettingView: $isSettingView)
         }
         .onAppear{
             self.fetchTransactions()
@@ -251,9 +249,21 @@ struct CommonWalletView: View {
                 })
                 .padding(.trailing, 16)
                 .sheet(isPresented: self.$isAddTransactionView) {
-                    AddTransactionView(addTransactionViewModel: AddTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager()), commonWalletViewModel: self.commonWalletViewModel, isAddTransactionView: $isAddTransactionView)
-                        .presentationDetents([.large])
+                    AddTransactionView(
+                        addTransactionViewModel: AddTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager()),
+                        commonWalletViewModel: self.commonWalletViewModel,
+                        isAddTransactionView: $isAddTransactionView
+                    )
+                    .presentationDetents([.large])
                 }
+                .sheet(isPresented: self.$isEditTransactionView) {
+                    EditTransactionView(
+                        editTransactionViewModel: EditTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager(), transaction: commonWalletViewModel.unResolvedTransactions[self.selectedEditTransactionIndex]),
+                        commonWalletViewModel: self.commonWalletViewModel,
+                        isEditTransactionView: $isEditTransactionView
+                    )
+                    .presentationDetents([.large])
+                } // sheetここまで
 
             }
             .padding()
@@ -328,110 +338,100 @@ struct CommonWalletView: View {
 
     /// 未精算リストView
     private func unResolvedListView() -> some View {
-        //Section {
-            ForEach(0 ..< commonWalletViewModel.unResolvedTransactions.count,  id: \.self) { index in
+        ForEach(0 ..< commonWalletViewModel.unResolvedTransactions.count,  id: \.self) { index in
 
-                HStack {
+            HStack {
 
-                    if commonWalletViewModel.unResolvedTransactions[index].debtorId != commonWalletViewModel.myUserId {
-                        Image("SampleIcon")
-                            .resizable()
-                            .scaledToFill()
-                            .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 28, height: 28, alignment: .center)
-                            .clipShape(Circle())
-                    } else {
-                        Image("SamplePartnerIcon")
-                            .resizable()
-                            .scaledToFill()
-                            .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 28, height: 28, alignment: .center)
-                            .clipShape(Circle())
-                    }
-
-                    VStack(alignment: .leading) {
-                        Text(self.dateToString(date: commonWalletViewModel.unResolvedTransactions[index].createdAt))
-                            .font(.caption)
-                            .foregroundColor(Color.gray)
-                        Text(commonWalletViewModel.unResolvedTransactions[index].title)
-                    }
-
-                    Spacer()
-
-                    VStack(alignment: .trailing) {
-                        Text("¥\(commonWalletViewModel.unResolvedTransactions[index].amount)")
-                    }
+                if commonWalletViewModel.unResolvedTransactions[index].debtorId != commonWalletViewModel.myUserId {
+                    Image("SampleIcon")
+                        .resizable()
+                        .scaledToFill()
+                        .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 28, height: 28, alignment: .center)
+                        .clipShape(Circle())
+                } else {
+                    Image("SamplePartnerIcon")
+                        .resizable()
+                        .scaledToFill()
+                        .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 28, height: 28, alignment: .center)
+                        .clipShape(Circle())
                 }
-                .padding(3)
-                .foregroundColor(.black)
-                .contentShape(Rectangle())
-                .onTapGesture {
-                    self.selectedTransactionIndex = index
-                    self.isTransactionDescriptionAlert = true
-                }
-                .alert("\(commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].title)", isPresented: $isTransactionDescriptionAlert){
-                    Button("OK") {
-                    }
-                } message: {
-                    let amount = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].amount
-                    let description = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].description
-                    let createdAt = self.dateToDetailString(date: commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].createdAt)
-                    let debtor = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].debtorId == commonWalletViewModel.partnerUserId ? commonWalletViewModel.myName : commonWalletViewModel.partnerName
 
-                    if description.isEmpty {
-                        Text("""
+                VStack(alignment: .leading) {
+                    Text(self.dateToString(date: commonWalletViewModel.unResolvedTransactions[index].createdAt))
+                        .font(.caption)
+                        .foregroundColor(Color.gray)
+                    Text(commonWalletViewModel.unResolvedTransactions[index].title)
+                }
+
+                Spacer()
+
+                VStack(alignment: .trailing) {
+                    Text("¥\(commonWalletViewModel.unResolvedTransactions[index].amount)")
+                }
+            }
+            .padding(3)
+            .foregroundColor(.black)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                self.selectedTransactionIndex = index
+                self.isTransactionDescriptionAlert = true
+            }
+            .alert("\(commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].title)", isPresented: $isTransactionDescriptionAlert){
+                Button("OK") {
+                }
+            } message: {
+                let amount = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].amount
+                let description = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].description
+                let createdAt = self.dateToDetailString(date: commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].createdAt)
+                let debtor = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].debtorId == commonWalletViewModel.partnerUserId ? commonWalletViewModel.myName : commonWalletViewModel.partnerName
+
+                if description.isEmpty {
+                    Text("""
                         ¥\(amount)
                         「\(debtor)」が立て替え
                         \(createdAt)
                         """)
-                    } else {
-                        Text("""
+                } else {
+                    Text("""
                         ¥\(amount)
                         「\(debtor)」が立て替え
                         \(createdAt)
                         \(description)
                         """)
-                    }
-                } // alertここまで
-                .swipeActions(edge: .trailing, allowsFullSwipe: false)  {
-                    Button(role: .none) {
-                        self.selectedDeleteTransactionIndex = index
-                        self.isDeleteTransactionAlert = true
-                    } label: {
-                        Image(systemName: "trash.fill")
-                    }.tint(.red)
-
-                    Button(role: .none) {
-                        self.selectedEditTransactionIndex = index
-                        self.isEditTransactionView = true
-                    } label: {
-                        Image(systemName: "pencil")
-                    }.tint(.orange)
                 }
-                .alert("注意", isPresented: $isDeleteTransactionAlert){
-                    Button("キャンセル") {
-                    }
-                    Button("OK") {
-                        self.deleteTransaction(transactionId: commonWalletViewModel.unResolvedTransactions[self.selectedDeleteTransactionIndex].id)
-                    }
-                } message: {
-                    Text("削除して良いですか？")
-                } // alertここまで
+            } // alertここまで
+            .swipeActions(edge: .trailing, allowsFullSwipe: false)  {
+                Button(role: .none) {
+                    self.selectedDeleteTransactionIndex = index
+                    self.isDeleteTransactionAlert = true
+                } label: {
+                    Image(systemName: "trash.fill")
+                }
+                .tint(.red)
 
-                .sheet(isPresented: self.$isEditTransactionView) {
-                    EditTransactionView(
-                        editTransactionViewModel: EditTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager(), transaction: commonWalletViewModel.unResolvedTransactions[self.selectedEditTransactionIndex]),
-                        commonWalletViewModel: self.commonWalletViewModel,
-                        isEditTransactionView: $isEditTransactionView
-                    )
-                    .presentationDetents([.large])
-                } // sheetここまで
-
+                Button(role: .none) {
+                    self.selectedEditTransactionIndex = index
+                    print("trueの直前",self.selectedEditTransactionIndex)
+                    self.isEditTransactionView = true
+                } label: {
+                    Image(systemName: "pencil")
+                }
+                .tint(.orange)
             }
-
-        //}
+            .alert("注意", isPresented: $isDeleteTransactionAlert){
+                Button("キャンセル") {
+                }
+                Button("OK") {
+                    self.deleteTransaction(transactionId: commonWalletViewModel.unResolvedTransactions[self.selectedDeleteTransactionIndex].id)
+                }
+            } message: {
+                Text("削除して良いですか？")
+            } // alertここまで
+        }
     }
 
     private func unResolvedListIsNullView() -> some View {

@@ -14,10 +14,6 @@ struct EditTransactionView: View {
     @Binding var isEditTransactionView: Bool
 
     @State private var selectedIndex = 0
-    @State var title: String = ""
-    @State var description: String = ""
-    @State var amount: String = ""
-
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
 
@@ -43,9 +39,11 @@ struct EditTransactionView: View {
 
             Button ( action: {
                 if editTransactionViewModel.selectedIndex == 0 {
-                    editTransactionViewModel.transaction.debtorId = editTransactionViewModel.myUserId
-                } else {
+                    editTransactionViewModel.transaction.creditorId = editTransactionViewModel.myUserId
                     editTransactionViewModel.transaction.debtorId = editTransactionViewModel.partnerUserId
+                } else {
+                    editTransactionViewModel.transaction.creditorId = editTransactionViewModel.partnerUserId
+                    editTransactionViewModel.transaction.debtorId = editTransactionViewModel.myUserId
                 }
                 // 通信
                 updateTransaction()
@@ -55,7 +53,6 @@ struct EditTransactionView: View {
 
         }
         .padding()
-
         .alert(isPresented: $showAlert, content: {
             Alert(title: Text("Transaction Result"),
                   message: Text(alertMessage),

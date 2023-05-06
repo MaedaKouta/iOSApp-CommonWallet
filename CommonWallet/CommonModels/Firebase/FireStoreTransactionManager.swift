@@ -71,7 +71,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                                              "description": transaction.description,
                                              "amount": transaction.amount]
 
-        try await db.collection("Transaction")
+        try await db.collection("Transactions")
             .document(transaction.id)
             .setData(data, merge: true)
     }

@@ -25,6 +25,8 @@ class EditTransactionViewModel: ObservableObject {
     init(fireStoreTransactionManager: FireStoreTransactionManager,
          userDefaultsManager: UserDefaultsManager,
          transaction: Transaction) {
+
+        print(transaction.title)
         self.fireStoreTransactionManager = fireStoreTransactionManager
         self.userDefaultsManager = userDefaultsManager
         self.transaction = transaction
@@ -34,7 +36,8 @@ class EditTransactionViewModel: ObservableObject {
         partnerName = self.userDefaultsManager.getPartnerName() ?? ""
         partnerUserId = self.userDefaultsManager.getPartnerUid() ?? ""
 
-        if transaction.debtorId == self.userDefaultsManager.getUser()?.id {
+        // 立て替えた人 == 自分なら、selectedIndexを0にする
+        if transaction.creditorId == self.userDefaultsManager.getUser()?.id {
             self.selectedIndex = 0
         } else {
             self.selectedIndex = 1

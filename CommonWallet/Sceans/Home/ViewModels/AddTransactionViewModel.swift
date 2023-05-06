@@ -23,6 +23,7 @@ class AddTransactionViewModel: ObservableObject {
 
     init(fireStoreTransactionManager: FireStoreTransactionManager,
          userDefaultsManager: UserDefaultsManager) {
+        print("AddTransaction")
         self.fireStoreTransactionManager = fireStoreTransactionManager
         self.userDefaultsManager = userDefaultsManager
 
