@@ -392,19 +392,19 @@ struct CommonWalletView: View {
                         """)
                     }
                 } // alertここまで
-                .swipeActions(edge: .trailing) {
+                .swipeActions(edge: .trailing, allowsFullSwipe: false)  {
                     Button(role: .none) {
                         // 処理
-                        self.selectedTransactionIndex = index
+                        self.selectedDeleteTransactionIndex = index
                         self.isDeleteTransactionAlert = true
                     } label: {
                         Image(systemName: "trash.fill")
-                    }
-//                    Button(role: .destructive) {
-//                        // 処理
-//                    } label: {
-//                        Image(systemName: "trash.fill")
-//                    }
+                    }.tint(.red)
+                    Button(role: .cancel) {
+                        // 処理
+                    } label: {
+                        Image(systemName: "pencil")
+                    }.tint(.orange)
                 }
                 .alert("注意", isPresented: $isDeleteTransactionAlert){
                     Button("キャンセル") {
