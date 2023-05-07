@@ -43,7 +43,7 @@ struct Flip<Front: View, Back: View>: View {
             }
         })
         .animation(nil)
-        .rotation3DEffect(isFront ? Angle(degrees: 0): Angle(degrees: 180), axis: (x: CGFloat(10), y: CGFloat(0), z: CGFloat(0)))
+        .rotation3DEffect(isFront ? Angle(degrees: 0): Angle(degrees: -180), axis: (x: CGFloat(10), y: CGFloat(0), z: CGFloat(0)))
         .animation(.easeInOut(duration: duration))
     }
 }

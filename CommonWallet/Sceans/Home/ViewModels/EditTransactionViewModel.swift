@@ -26,7 +26,7 @@ class EditTransactionViewModel: ObservableObject {
          userDefaultsManager: UserDefaultsManager,
          transaction: Transaction) {
 
-        print(transaction.title)
+        print("title", transaction.title)
         self.fireStoreTransactionManager = fireStoreTransactionManager
         self.userDefaultsManager = userDefaultsManager
         self.transaction = transaction
