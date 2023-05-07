@@ -17,6 +17,7 @@ class SettingViewModel: ObservableObject {
     private var userDefaultsManager = UserDefaultsManager()
 
     init() {
+        print("Setting")
         shareNumber = splitShareNumber(text: userDefaultsManager.getShareNumber() ?? "")
         partnerName = userDefaultsManager.getPartnerName() ?? ""
         userName = userDefaultsManager.getUser()?.name ?? ""

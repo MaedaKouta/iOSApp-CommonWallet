@@ -61,11 +61,26 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
 
     }
 
+    // MARK: UPDATE
+    func updateTransaction(transaction: Transaction) async throws {
+
+        let data: Dictionary<String, Any> = ["id": transaction.id,
+                                             "creditorId": transaction.creditorId,
+                                             "debtorId": transaction.debtorId,
+                                             "title": transaction.title,
+                                             "description": transaction.description,
+                                             "amount": transaction.amount]
+
+        try await db.collection("Transactions")
+            .document(transaction.id)
+            .setData(data, merge: true)
+    }
+
     // MARK: Delete
     /// transactionの削除
     func deleteTransaction(transactionId: String) async throws {
         // Firestoreへのトランザクション削除
-        try await db.collection("Transacations").document(transactionId).delete()
+        try await db.collection("Transactions").document(transactionId).delete()
     }
 
     // MARK: Fetch

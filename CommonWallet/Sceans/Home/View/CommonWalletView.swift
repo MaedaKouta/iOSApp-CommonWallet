@@ -11,113 +11,443 @@ struct CommonWalletView: View {
 
     @ObservedObject var commonWalletViewModel: CommonWalletViewModel
 
-    @State var isAccountView = false
+    // 画面遷移
+    @State var isSettingView = false
     @State var isAddTransactionView = false
+    @State var isEditTransactionView = false
+
+    // カードViewをめくる変数
+    @State var isCardViewFront = true
+
+    // アラート
+    @State var isResolveAlert = false
+    @State var isEnableResolveButton = false
+    @State var isCancelAlert = false
+    @State var isTransactionDescriptionAlert = false
+    @State var isDeleteTransactionAlert = false
+
+    @State var selectedTransactionIndex = 0
+    @State var selectedDeleteTransactionIndex = 0
+    @State var selectedEditTransactionIndex = 0
+
+    // 画像のSystemImage
+    private let cancelButtonSystemImage = "arrow.uturn.backward.circle"
+    private let resolveButtonSystemImage = "checkmark.circle"
+    private let addTransactionButtonSystemImage = "plus"
 
     var body: some View {
+        NavigationView {
+            ZStack {
 
-        ZStack {
+                // 背景色
+                Color.white.ignoresSafeArea()
 
-            // 背景色
-            Color.white.ignoresSafeArea()
+                List {
+                    // パートナーとの差額View
+                    VStack {
+                        Flip(isFront: isCardViewFront, // 先に作っておいた変数 isFront
+                             front: {
+                            moneyAmountCardFrontView() // 表面
+                        },
+                             back: {
+                            moneyAmountCardBackView() // 裏面
+                        })
+                    }
+                    .buttonStyle(BorderlessButtonStyle())
+                    .listRowSeparator(.hidden)
 
-            List {
-                VStack {
-                    // ヘッダー
-                    HeaderHomeView()
+                    // 未精算リスト上部のView
+                    HStack(alignment: .bottom, spacing: 15) {
+                        Text("未精算リスト")
+                            .font(.title2)
+                        Spacer()
+                        cancelTransactionButton()
+                        resolveTransactionButton()
+                    }
+                    .buttonStyle(BorderlessButtonStyle())
+                    .padding(.top, 5)
+                    //.listRowSeparator(.hidden)
 
-                    // パートナーとの差額表示（四角いViewで柔らかい感じに）
-                    totalMoneyCardView()
-                }
-
-                // 未精算履歴を表示
-                Section {
-                    ForEach(0 ..< commonWalletViewModel.unResolvedTransactions.count,  id: \.self) { index in
-
-                        HStack {
-                            Text(String(commonWalletViewModel.unResolvedTransactions[index].amount) + "円")
-                            Text(commonWalletViewModel.unResolvedTransactions[index].title)
-                            Spacer() 
-                        }
-                        .foregroundColor(.black)
-                        .contentShape(Rectangle())      // 追加
-                        .onTapGesture {
-                            print(index)
-                        }
+                    // 未精算履歴のView
+                    if commonWalletViewModel.unResolvedTransactions.count != 0 {
+                         // 未精算のものがあればリスト表示
+                        unResolvedListView()
+                            .onAppear {
+                                isEnableResolveButton = true
+                            }
+                            //.listRowSeparator(.hidden)
+                    } else {
+                        // 未精算のものがなければ画像表示
+                        unResolvedListIsNullView()
+                            .onAppear {
+                                isEnableResolveButton = false
+                            }
                     }
 
-                } header: {
-                    Text("未精算リスト")
                 }
-                .listRowBackground(Color.init(UIColor(red: 0.95, green: 0.95, blue: 0.95, alpha: 1.0)))
-            }
-            .scrollContentBackground(.hidden)
-            .scrollIndicators(.hidden)
+                .listStyle(.grouped)
+                .scrollContentBackground(.hidden)
+                .scrollIndicators(.hidden)
+                .refreshable {
+                    await Task.sleep(1000000000)
+                }
 
-            // お金追加ボタン
-            VStack {
-                Spacer()
-                HStack {
-                    Spacer()
+                // お金追加ボタン
+                addTransactionButton()
+
+            }
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarItems(
+                leading: Button(action: {
+                    print("aa")
+                }) {
+                    //Image(systemName: "trash")
+                    Text("こんばんは")
+                        .foregroundColor(Color.black)
+                        .font(.title3)
+
+                }, trailing: HStack {
                     Button(action: {
-                        isAddTransactionView = true
-                    }, label: {
-                        Text("＋")
-                            .frame(width: 35.0, height: 35.0)
-                            .padding(8)
-                            .accentColor(Color.white)
-                            .background(Color.black)
-                            .cornerRadius(25)
-                            .shadow(color: Color.white, radius: 10, x: 0, y: 3)
-                            .frame(maxWidth: .infinity, alignment: .trailing)
-                    })
-                    .padding(.trailing, 16)
-                    .sheet(isPresented: self.$isAddTransactionView) {
-                        AddTransactionView(addTransactionViewModel: AddTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager()), commonWalletViewModel: self.commonWalletViewModel, isAddTransactionView: $isAddTransactionView)
-                            .presentationDetents([.large])
+                        print("aa")
+                        self.isSettingView = true
+                    }) {
+                        Image("SampleIcon")
+                            .resizable()
+                            .scaledToFill()
+                            .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 28, height: 28, alignment: .center)
+                            .clipShape(Circle()) // 正円形に切り抜く
+                        Text("kota")
+                            .foregroundColor(Color.black)
+                    }
+                    .sheet(isPresented: self.$isSettingView) {
+                        SettingView(isShowSettingView: $isSettingView)
                     }
                 }
-                .padding()
-            }
+            )
         }
         .onAppear{
             self.fetchTransactions()
         }
     }
 
-    // MARK: - 立替合計金額をカードで表示するView
-    private func totalMoneyCardView() -> some View {
+    // MARK: View
+    /// 立替合計金額をカードで表示する表側のView
+    private func moneyAmountCardFrontView() -> some View {
         ZStack {
             Rectangle()
                 .frame(width: 350, height: 150)
-                .foregroundColor(.red)
+                .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.black, lineWidth: 4))
+                .foregroundColor(.white)
                 .cornerRadius(30)
 
             VStack {
-                Text("\(commonWalletViewModel.payFromName)から\(commonWalletViewModel.payToName)へ")
-                    .foregroundColor(.white)
-                Text("￥\(commonWalletViewModel.unResolvedAmount)")
-                    .foregroundColor(.white)
+                Spacer()
+                HStack(spacing: 5) {
+                    Text("\(commonWalletViewModel.payFromName)")
+                        .foregroundColor(.black)
+                    Text("から")
+                        .foregroundColor(.gray)
+                    Text("\(commonWalletViewModel.payToName)")
+                        .foregroundColor(.black)
+                    Text("へ")
+                        .foregroundColor(.gray)
+                    Spacer()
+                }.padding(.leading, 30)
 
-                // 本来は精算ボタンタップ後にアラート表示で完了させよう
+                Spacer()
+
+                HStack {
+                    Text("￥")
+                        .foregroundColor(.black)
+                        .baselineOffset(-5)
+                    Text("\(commonWalletViewModel.unResolvedAmount)")
+                        .font(.title)
+                        .foregroundColor(.black)
+                }
+
+                Spacer()
+
                 HStack {
                     Spacer()
                     Button(action: {
-                        Task {
-                            self.pushResolvedTransaction()
-                        }
+                        isCardViewFront.toggle()
                     }, label: {
-                        Text("> 精算")
-                            .foregroundColor(.white)
+                        Image(systemName: "hand.tap")
+                            .foregroundColor(.black)
                     })
-                    .padding(.trailing, 16)
-                }
+
+                }.padding(.horizontal, 30)
+                Spacer()
+
             }
         }
-        // 下の1行でListをアイコンボタンしかタップできなくしている
-        .buttonStyle(BorderlessButtonStyle())
     }
 
+    /// 立替合計金額をカードで表示する表側のView
+    private func moneyAmountCardBackView() -> some View {
+        ZStack {
+            Rectangle()
+                .frame(width: 350, height: 150)
+                .overlay(RoundedRectangle(cornerRadius: 30).stroke(Color.black, lineWidth: 4))
+                .foregroundColor(.white)
+                .cornerRadius(30)
+
+            VStack() {
+                Spacer()
+
+                HStack {
+                    Text("未精算の立て替え総額")
+                    Spacer()
+                }
+                .foregroundColor(.gray)
+                .padding()
+
+                VStack() {
+                    Text("User2  ¥0")
+                    Text("Ttest1  ¥0")
+                }
+                .foregroundColor(.black)
+                .padding([.leading, .trailing])
+
+                Spacer()
+
+                HStack {
+                    Spacer()
+                    Button(action: {
+                        isCardViewFront.toggle()
+                    }, label: {
+                        Image(systemName: "hand.tap")
+                            .foregroundColor(.black)
+                    })
+
+                }.padding(.horizontal, 30)
+                Spacer()
+
+            }
+        }
+    }
+
+    /// Transaction追加ボタンのView
+    private func addTransactionButton() -> some View {
+        VStack {
+            Spacer()
+            HStack {
+                Spacer()
+                Button(action: {
+                    isAddTransactionView = true
+                }, label: {
+                    Image(systemName: addTransactionButtonSystemImage)
+                        .font(.title2)
+                        .frame(width: 36.0, height: 36)
+                        .padding(8)
+                        .accentColor(Color.black)
+                        .background(Color.white)
+                        .cornerRadius(26)
+                        .shadow(color: Color.gray, radius: 5, x: 0, y: 0)
+                })
+                .padding(.trailing, 16)
+                .sheet(isPresented: self.$isAddTransactionView) {
+                    AddTransactionView(
+                        addTransactionViewModel: AddTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager()),
+                        commonWalletViewModel: self.commonWalletViewModel,
+                        isAddTransactionView: $isAddTransactionView
+                    )
+                    .presentationDetents([.large])
+                }
+                .sheet(isPresented: self.$isEditTransactionView) {
+                    EditTransactionView(
+                        editTransactionViewModel: EditTransactionViewModel(fireStoreTransactionManager: commonWalletViewModel.getFireStoreTransactionManager(), userDefaultsManager: commonWalletViewModel.getUserDefaultsManager(), transaction: commonWalletViewModel.unResolvedTransactions[self.selectedEditTransactionIndex]),
+                        commonWalletViewModel: self.commonWalletViewModel,
+                        isEditTransactionView: $isEditTransactionView
+                    )
+                    .presentationDetents([.large])
+                } // sheetここまで
+
+            }
+            .padding()
+        }
+    }
+
+    /// トランザクション取り消しボタンのView
+    private func cancelTransactionButton() -> some View {
+
+        Button(action: {
+            self.isCancelAlert = true
+        }, label: {
+            HStack(spacing: 3) {
+                Image(systemName: cancelButtonSystemImage)
+                    .font(.caption)
+                Text("取消")
+                    .font(.caption)
+            }
+            .frame(width: 60.0, height: 20.0)
+            .padding(8)
+            .accentColor(Color.black)
+            .background(Color.white)
+            .cornerRadius(20)
+            .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
+        })
+        .alert("取り消し", isPresented: $isCancelAlert){
+            Button("キャンセル"){
+                // ボタンが押された時の処理
+            }
+            Button("OK"){
+                // ボタンが押された時の処理
+            }
+        } message: {
+            Text("直前の精算を取り消しますか？")
+        }
+
+    }
+
+    /// 精算ボタンのView
+    private func resolveTransactionButton() -> some View {
+
+        Button(action: {
+            self.isResolveAlert = true
+        }, label: {
+            HStack(spacing: 3) {
+                Image(systemName: resolveButtonSystemImage)
+                    .font(.caption)
+                Text("精算")
+                    .font(.caption)
+            }
+            .frame(width: 60.0, height: 20.0)
+            .padding(8)
+            .accentColor(Color.black)
+            .background(Color.white)
+            .cornerRadius(20)
+            .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
+        })
+        .disabled(!isEnableResolveButton)
+        .alert("精算", isPresented: $isResolveAlert){
+            Button("キャンセル"){
+                // ボタン1が押された時の処理
+            }
+            Button("OK"){
+                Task {
+                    self.pushResolvedTransaction()
+                }
+            }
+        } message: {
+            Text("精算しますか？")
+        }
+    }
+
+    /// 未精算リストView
+    private func unResolvedListView() -> some View {
+        ForEach(0 ..< commonWalletViewModel.unResolvedTransactions.count,  id: \.self) { index in
+
+            HStack {
+
+                if commonWalletViewModel.unResolvedTransactions[index].debtorId != commonWalletViewModel.myUserId {
+                    Image("SampleIcon")
+                        .resizable()
+                        .scaledToFill()
+                        .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 28, height: 28, alignment: .center)
+                        .clipShape(Circle())
+                } else {
+                    Image("SamplePartnerIcon")
+                        .resizable()
+                        .scaledToFill()
+                        .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 28, height: 28, alignment: .center)
+                        .clipShape(Circle())
+                }
+
+                VStack(alignment: .leading) {
+                    Text(self.dateToString(date: commonWalletViewModel.unResolvedTransactions[index].createdAt))
+                        .font(.caption)
+                        .foregroundColor(Color.gray)
+                    Text(commonWalletViewModel.unResolvedTransactions[index].title)
+                }
+
+                Spacer()
+
+                VStack(alignment: .trailing) {
+                    Text("¥\(commonWalletViewModel.unResolvedTransactions[index].amount)")
+                }
+            }
+            .padding(3)
+            .foregroundColor(.black)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                self.selectedTransactionIndex = index
+                self.isTransactionDescriptionAlert = true
+            }
+            .alert("\(commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].title)", isPresented: $isTransactionDescriptionAlert){
+                Button("OK") {
+                }
+            } message: {
+                let amount = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].amount
+                let description = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].description
+                let createdAt = self.dateToDetailString(date: commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].createdAt)
+                let debtor = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].debtorId == commonWalletViewModel.partnerUserId ? commonWalletViewModel.myName : commonWalletViewModel.partnerName
+
+                if description.isEmpty {
+                    Text("""
+                        ¥\(amount)
+                        「\(debtor)」が立て替え
+                        \(createdAt)
+                        """)
+                } else {
+                    Text("""
+                        ¥\(amount)
+                        「\(debtor)」が立て替え
+                        \(createdAt)
+                        \(description)
+                        """)
+                }
+            } // alertここまで
+            .swipeActions(edge: .trailing, allowsFullSwipe: false)  {
+                Button(role: .none) {
+                    self.selectedDeleteTransactionIndex = index
+                    self.isDeleteTransactionAlert = true
+                } label: {
+                    Image(systemName: "trash.fill")
+                }
+                .tint(.red)
+
+                Button(role: .none) {
+                    self.selectedEditTransactionIndex = index
+                    self.isEditTransactionView = true
+                } label: {
+                    Image(systemName: "pencil")
+                }
+                .tint(.orange)
+            }
+            .alert("注意", isPresented: $isDeleteTransactionAlert){
+                Button("キャンセル") {
+                }
+                Button("OK") {
+                    self.deleteTransaction(transactionId: commonWalletViewModel.unResolvedTransactions[self.selectedDeleteTransactionIndex].id)
+                }
+            } message: {
+                Text("削除して良いですか？")
+            } // alertここまで
+        }
+    }
+
+    private func unResolvedListIsNullView() -> some View {
+        VStack {
+            Image("Sample2")
+                .resizable()
+                .scaledToFill()
+                .aspectRatio(contentMode: .fit)
+                .padding(.top)
+            Text("リストが空です")
+                .foregroundColor(.gray)
+        }
+        .listRowSeparator(.hidden)
+        .padding(.top, 100)
+    }
+
+    // MARK: 通信系
     private func fetchTransactions() {
         Task{
             try await commonWalletViewModel.fetchTransactions()
@@ -141,6 +471,37 @@ struct CommonWalletView: View {
                 break
             }
         }
+    }
+
+    private func deleteTransaction(transactionId: String) {
+        Task{
+            do {
+                // ここでindexを0にしないと、out of range になる
+                self.selectedDeleteTransactionIndex = 0
+                self.selectedTransactionIndex = 0
+                try await commonWalletViewModel.deleteTransaction(transactionId: transactionId)
+            } catch {
+                print("transactionの削除に失敗：", error)
+            }
+        }
+    }
+
+    private func dateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.dateStyle = .medium
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+
+        return dateFormatter.string(from: date)
+    }
+
+    private func dateToDetailString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.dateStyle = .medium
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
+
+        return dateFormatter.string(from: date)
     }
 
 }
