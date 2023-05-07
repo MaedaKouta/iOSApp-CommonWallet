@@ -20,7 +20,7 @@ struct AddTransactionView: View {
 
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
-
+    
     var body: some View {
 
         NavigationView {
@@ -105,9 +105,9 @@ struct AddTransactionView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     /// ナビゲーションバー左
-                    ToolbarItem(placement: .navigationBarTrailing){
+                    ToolbarItem(placement: .navigationBarLeading){
                         Button(action: {isAddTransactionView = false}) {
-                            Text("閉じる")
+                            Text("キャンセル")
                         }
                     }
                 }
