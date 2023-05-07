@@ -406,9 +406,7 @@ struct CommonWalletView: View {
             } // alertここまで
             .swipeActions(edge: .trailing, allowsFullSwipe: false)  {
                 Button(role: .none) {
-                    print(self.selectedDeleteTransactionIndex )
                     self.selectedDeleteTransactionIndex = index
-                    print(self.selectedDeleteTransactionIndex )
                     self.isDeleteTransactionAlert = true
                 } label: {
                     Image(systemName: "trash.fill")
@@ -416,9 +414,7 @@ struct CommonWalletView: View {
                 .tint(.red)
 
                 Button(role: .none) {
-                    print(self.selectedEditTransactionIndex )
                     self.selectedEditTransactionIndex = index
-                    print(self.selectedEditTransactionIndex )
                     self.isEditTransactionView = true
                 } label: {
                     Image(systemName: "pencil")
