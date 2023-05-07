@@ -16,50 +16,103 @@ struct AddTransactionView: View {
     @State private var selectedIndex = 0
     @State var title: String = ""
     @State var description: String = ""
-    @State var amount: String = ""
+    @State var amount: Int?
 
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
 
     var body: some View {
 
-        VStack {
-            Text("支払った人")
-            Picker("", selection: self.$selectedIndex) {
-                Text(addTransactionViewModel.myName)
-                    .tag(0)
-                Text(addTransactionViewModel.partnerName)
-                    .tag(1)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 0) {
 
-            TextField("タイトル", text: $title)
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("立て替え者")
+                        Picker("", selection: self.$selectedIndex) {
+                            Text(addTransactionViewModel.myName)
+                                .tag(0)
+                            Text(addTransactionViewModel.partnerName)
+                                .tag(1)
+                        }
+                        .padding(.horizontal)
+                        .pickerStyle(SegmentedPickerStyle())
+                    }
+                    .padding()
+
+
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("タイトル")
+                        TextField("駅前の薬局", text: $title)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal)
+                    }
+                    .padding()
+
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("詳細")
+                        ZStack(alignment: .topLeading) {
+                            TextEditor(text: $description)
+                                .frame(height: 100)
+                                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(uiColor: .systemGray5), lineWidth: 1))
+                            if description.isEmpty {
+                                Text("帰宅時にあわてて購入した洗剤")
+                                    .foregroundColor(Color(uiColor: .placeholderText))
+                                    .allowsHitTesting(false)
+                                    .padding(5)
+                            }
+                        }.padding(.horizontal)
+                    }
+                    .padding()
+
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("金額")
+                        TextField("480円", value: $amount, format: .number)
+                            .keyboardType(.numberPad)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal)
+                    }
+                    .padding()
+
+                    Button ( action: {
+                        addTransaction(
+                            creditorId: selectedIndex == 0 ? addTransactionViewModel.myUserId : addTransactionViewModel.partnerUserId,
+                            debtorId: selectedIndex == 0 ? addTransactionViewModel.partnerUserId : addTransactionViewModel.myUserId,
+                            title: title,
+                            description: description,
+                            amount: amount ?? 0)
+                    }) {
+                        HStack {
+                            Text("登録")
+                        }
+                        .frame(width: 100.0, height: 25.0)
+                        .padding(10)
+                        .accentColor(Color.black)
+                        .background(Color.white)
+                        .cornerRadius(25)
+                        .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
+                    }
+
+                }
                 .padding()
-            TextField("メモ", text: $description)
-                .padding()
-            TextField("支払い金額を入力", text: $amount)
-                .padding()
 
-            Button ( action: {
-                addTransaction(
-                    creditorId: selectedIndex == 0 ? addTransactionViewModel.myUserId : addTransactionViewModel.partnerUserId,
-                    debtorId: selectedIndex == 0 ? addTransactionViewModel.partnerUserId : addTransactionViewModel.myUserId,
-                    title: title,
-                    description: description,
-                    amount: Int(amount) ?? 0)
-            }) {
-                Text("登録")
-            }
-
-        }
-        .padding()
-
-        .alert(isPresented: $showAlert, content: {
-            Alert(title: Text("Transaction Result"),
-                  message: Text(alertMessage),
-                  dismissButton: .default(Text("OK")))
-        })
+                .alert(isPresented: $showAlert, content: {
+                    Alert(title: Text("Transaction Result"),
+                          message: Text(alertMessage),
+                          dismissButton: .default(Text("OK")))
+                })
+                .navigationTitle("追加")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    /// ナビゲーションバー左
+                    ToolbarItem(placement: .navigationBarTrailing){
+                        Button(action: {isAddTransactionView = false}) {
+                            Text("閉じる")
+                        }
+                    }
+                }
+            } // ScrollViewここまで
+        } // NavigationViewここまで
 
     }
 
