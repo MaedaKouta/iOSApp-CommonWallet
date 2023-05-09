@@ -113,6 +113,7 @@ struct ListItems: View {
                     }
                 }
             }
+            .listStyle(PlainListStyle())
             .onAppear {
                 Task {
                     try await allLogViewModel.fetchTransactions()
