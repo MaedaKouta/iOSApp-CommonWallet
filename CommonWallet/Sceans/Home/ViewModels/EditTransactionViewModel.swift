@@ -14,6 +14,7 @@ class EditTransactionViewModel: ObservableObject {
     private var userDefaultsManager: UserDefaultsManager
 
     @Published var transaction: Transaction
+    @Published var beforeTransaction: Transaction
     @Published var selectedIndex: Int
 
     // 自分の情報
@@ -30,6 +31,7 @@ class EditTransactionViewModel: ObservableObject {
         self.fireStoreTransactionManager = fireStoreTransactionManager
         self.userDefaultsManager = userDefaultsManager
         self.transaction = transaction
+        self.beforeTransaction = transaction
 
         myUserId = self.userDefaultsManager.getUser()?.id ?? ""
         myName = self.userDefaultsManager.getUser()?.name ?? ""

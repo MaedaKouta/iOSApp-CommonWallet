@@ -19,46 +19,98 @@ struct EditTransactionView: View {
 
     var body: some View {
 
-        VStack {
-            Text("支払った人")
-            Picker("", selection: $editTransactionViewModel.selectedIndex) {
-                Text(editTransactionViewModel.myName)
-                    .tag(0)
-                Text(editTransactionViewModel.partnerName)
-                    .tag(1)
-            }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding()
+        NavigationView {
+            ScrollView {
+                VStack(spacing: 0) {
 
-            TextField("タイトル", text: $editTransactionViewModel.transaction.title)
-                .padding()
-            TextField("メモ", text: $editTransactionViewModel.transaction.description)
-                .padding()
-            TextField("支払い金額を入力", value: $editTransactionViewModel.transaction.amount, format: .number)
-                .padding()
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("立て替え者")
+                        Picker("", selection: $editTransactionViewModel.selectedIndex) {
+                            Text(editTransactionViewModel.myName)
+                                .tag(0)
+                            Text(editTransactionViewModel.partnerName)
+                                .tag(1)
+                        }
+                        .padding(.horizontal)
+                        .pickerStyle(SegmentedPickerStyle())
+                    }
+                    .padding()
 
-            Button ( action: {
-                if editTransactionViewModel.selectedIndex == 0 {
-                    editTransactionViewModel.transaction.creditorId = editTransactionViewModel.myUserId
-                    editTransactionViewModel.transaction.debtorId = editTransactionViewModel.partnerUserId
-                } else {
-                    editTransactionViewModel.transaction.creditorId = editTransactionViewModel.partnerUserId
-                    editTransactionViewModel.transaction.debtorId = editTransactionViewModel.myUserId
+
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("タイトル")
+                        TextField(editTransactionViewModel.beforeTransaction.title, text: $editTransactionViewModel.transaction.title)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal)
+                    }
+                    .padding()
+
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("詳細")
+                        ZStack(alignment: .topLeading) {
+                            TextEditor(text: $editTransactionViewModel.transaction.description)
+                                .frame(height: 100)
+                                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(uiColor: .systemGray5), lineWidth: 1))
+                            if editTransactionViewModel.transaction.description.isEmpty {
+                                Text(editTransactionViewModel.beforeTransaction.description)
+                                    .foregroundColor(Color(uiColor: .placeholderText))
+                                    .allowsHitTesting(false)
+                                    .padding(5)
+                            }
+                        }.padding(.horizontal)
+                    }
+                    .padding()
+
+                    VStack(alignment: .leading, spacing: 3) {
+                        Text("金額")
+                        TextField("\(editTransactionViewModel.beforeTransaction.amount)", value: $editTransactionViewModel.transaction.amount, format: .number)
+                            .keyboardType(.numberPad)
+                            .textFieldStyle(RoundedBorderTextFieldStyle())
+                            .padding(.horizontal)
+                    }
+                    .padding()
+
+                    Button ( action: {
+                        if editTransactionViewModel.selectedIndex == 0 {
+                            editTransactionViewModel.transaction.creditorId = editTransactionViewModel.myUserId
+                            editTransactionViewModel.transaction.debtorId = editTransactionViewModel.partnerUserId
+                        } else {
+                            editTransactionViewModel.transaction.creditorId = editTransactionViewModel.partnerUserId
+                            editTransactionViewModel.transaction.debtorId = editTransactionViewModel.myUserId
+                        }
+                        // 通信
+                        updateTransaction()
+                    }) {
+                        HStack {
+                            Text("上書き")
+                        }
+                        .frame(width: 100.0, height: 25.0)
+                        .padding(10)
+                        .accentColor(Color.black)
+                        .background(Color.white)
+                        .cornerRadius(25)
+                        .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
+                    }
+
                 }
-                // 通信
-                updateTransaction()
-            }) {
-                Text("上書き")
-            }
-
-        }
-        .padding()
-        .alert(isPresented: $showAlert, content: {
-            Alert(title: Text("Transaction Result"),
-                  message: Text(alertMessage),
-                  dismissButton: .default(Text("OK")))
-        })
-
+                .padding()
+                .alert(isPresented: $showAlert, content: {
+                    Alert(title: Text("Transaction Result"),
+                          message: Text(alertMessage),
+                          dismissButton: .default(Text("OK")))
+                })
+                .navigationTitle("追加")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    /// ナビゲーションバー左
+                    ToolbarItem(placement: .navigationBarLeading){
+                        Button(action: {isEditTransactionView = false}) {
+                            Text("キャンセル")
+                        }
+                    }
+                }
+            } // ScrollViewここまで
+        } // NavigationViewここまで
     }
 
     func updateTransaction() {
