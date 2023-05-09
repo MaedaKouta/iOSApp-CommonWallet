@@ -112,10 +112,14 @@ struct ListItems: View {
                         print(index)
                     }
                 }
-            }.onAppear {
+            }
+            .onAppear {
                 Task {
                     try await allLogViewModel.fetchTransactions()
                 }
+            }
+            .refreshable {
+                await Task.sleep(1000000000)
             }
         }
     }
