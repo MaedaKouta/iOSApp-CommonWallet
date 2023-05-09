@@ -73,11 +73,39 @@ struct ListItems: View {
                 ForEach((0 ..< allLogViewModel.resolvedTransactionsByMonth[itemIndex].count).reversed(),  id: \.self) { index in
 
                     HStack {
-                        Text(String(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].amount) + "円")
-                        Text(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].title)
-                        Text(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].createdAt.description)
+
+                        if allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].debtorId != allLogViewModel.myUserId {
+                            Image("SampleIcon")
+                                .resizable()
+                                .scaledToFill()
+                                .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 28, height: 28, alignment: .center)
+                                .clipShape(Circle())
+                        } else {
+                            Image("SamplePartnerIcon")
+                                .resizable()
+                                .scaledToFill()
+                                .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                                .aspectRatio(contentMode: .fit)
+                                .frame(width: 28, height: 28, alignment: .center)
+                                .clipShape(Circle())
+                        }
+
+                        VStack(alignment: .leading) {
+                            Text(self.dateToString(date: allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].createdAt))
+                                .font(.caption)
+                                .foregroundColor(Color.gray)
+                            Text(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].title)
+                        }
+
                         Spacer()
+
+                        VStack(alignment: .trailing) {
+                            Text("¥\(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].amount)")
+                        }
                     }
+                    .padding(3)
                     .foregroundColor(.black)
                     .contentShape(Rectangle())
                     .onTapGesture {
@@ -90,6 +118,24 @@ struct ListItems: View {
                 }
             }
         }
+    }
+
+    private func dateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.dateStyle = .medium
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+
+        return dateFormatter.string(from: date)
+    }
+
+    private func dateToDetailString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.dateStyle = .medium
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
+
+        return dateFormatter.string(from: date)
     }
 }
 

@@ -14,6 +14,7 @@ class AllLogViewModel: ObservableObject {
     @Published var resolvedTransactions: [Transaction] = [Transaction]()
     @Published var resolvedTransactionsByMonth: [[Transaction]] = [[Transaction]]()
     @Published var pagingIndexItems: [PagingIndexItem] = [PagingIndexItem]()
+    @Published var myUserId: String = ""
 
     private let monthCount: Int = CreateUserDateManager().monthsBetweenDates()
 
@@ -26,6 +27,8 @@ class AllLogViewModel: ObservableObject {
         createSelectedIndex()
         initTransactionsByMonth()
         createPagingItem()
+
+        myUserId = self.userDefaultsManager.getUser()?.id ?? ""
     }
 
     // MARK: - イニシャライザ
