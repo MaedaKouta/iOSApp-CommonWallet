@@ -18,7 +18,7 @@ struct MainTabView: View {
                         Text("ホーム")
                     }
                 }.tag(1)
-            LogView(logViewModel: LogViewModel())
+            AllLogView(allLogViewModel: AllLogViewModel())
                 .tabItem {
                     VStack {
                         Image(systemName: "tray.full")

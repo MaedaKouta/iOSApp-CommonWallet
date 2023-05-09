@@ -12,15 +12,47 @@ struct AllLogView: View {
 
     @ObservedObject var allLogViewModel: AllLogViewModel
     @State var currentIndex: Int = 0
+    @State var isSettingView =  false
 
     var body: some View {
 
-        VStack {
-            PageView(items: allLogViewModel.pagingIndexItems, selectedIndex: $allLogViewModel.selectedIndex) { item in
-                ListItems(allLogViewModel: self.allLogViewModel, itemIndex: item.index)
+        NavigationView {
+            VStack {
+                PageView(items: allLogViewModel.pagingIndexItems, selectedIndex: $allLogViewModel.selectedIndex) { item in
+                    ListItems(allLogViewModel: self.allLogViewModel, itemIndex: item.index)
+                }
             }
-        }
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarItems(
+                leading: Button(action: {
+                    print("aa")
+                }) {
+                    //Image(systemName: "trash")
+                    Text("履歴")
+                        .foregroundColor(Color.black)
+                        .font(.title3)
 
+                }, trailing: HStack {
+                    Button(action: {
+                        print("aa")
+                        self.isSettingView = true
+                    }) {
+                        Image("SampleIcon")
+                            .resizable()
+                            .scaledToFill()
+                            .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 28, height: 28, alignment: .center)
+                            .clipShape(Circle()) // 正円形に切り抜く
+                        Text("kota")
+                            .foregroundColor(Color.black)
+                    }
+                    .sheet(isPresented: self.$isSettingView) {
+                        SettingView(isShowSettingView: $isSettingView)
+                    }
+                }
+            )
+        }
     }
 }
 
