@@ -16,7 +16,7 @@ struct AllLogView: View {
 
     var body: some View {
 
-        var pagingOptions = initPagingOption()
+        let pagingOptions = initPagingOption()
 
         NavigationView {
             VStack {
@@ -111,11 +111,11 @@ struct ListItems: View {
                     .listRowSeparator(.hidden)
                     .padding(.top, 100)
                 } else {
-                    
+
                     ForEach((0 ..< allLogViewModel.resolvedTransactionsByMonth[itemIndex].count).reversed(),  id: \.self) { index in
-                        
+
                         HStack {
-                            
+
                             if allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].debtorId != allLogViewModel.myUserId {
                                 Image("SampleIcon")
                                     .resizable()
@@ -133,16 +133,16 @@ struct ListItems: View {
                                     .frame(width: 28, height: 28, alignment: .center)
                                     .clipShape(Circle())
                             }
-                            
+
                             VStack(alignment: .leading) {
                                 Text(self.dateToString(date: allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].createdAt))
                                     .font(.caption)
                                     .foregroundColor(Color.gray)
                                 Text(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].title)
                             }
-                            
+
                             Spacer()
-                            
+
                             VStack(alignment: .trailing) {
                                 Text("¥\(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].amount)")
                             }
