@@ -20,6 +20,21 @@ struct AllLogView: View {
 
         NavigationView {
             VStack {
+
+                ZStack {
+
+                    Rectangle()
+                        .frame(width: 320, height: 70)
+                        .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.black, lineWidth: 4))
+                        .foregroundColor(.white)
+                        .cornerRadius(20)
+
+                    HStack {
+                        Text("合計 \(42423)円").padding()
+                    }
+
+                }.padding()
+
                 PageView(options: pagingOptions, items: allLogViewModel.pagingIndexItems, selectedIndex: $allLogViewModel.selectedIndex) { item in
                     ListItems(allLogViewModel: self.allLogViewModel, itemIndex: item.index)
                 }
@@ -81,51 +96,63 @@ struct ListItems: View {
 
         VStack {
 
-            HStack {
-                Text("合計 \(42423)円").padding()
-            }
-
             List {
-                ForEach((0 ..< allLogViewModel.resolvedTransactionsByMonth[itemIndex].count).reversed(),  id: \.self) { index in
 
-                    HStack {
-
-                        if allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].debtorId != allLogViewModel.myUserId {
-                            Image("SampleIcon")
-                                .resizable()
-                                .scaledToFill()
-                                .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 28, height: 28, alignment: .center)
-                                .clipShape(Circle())
-                        } else {
-                            Image("SamplePartnerIcon")
-                                .resizable()
-                                .scaledToFill()
-                                .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 28, height: 28, alignment: .center)
-                                .clipShape(Circle())
-                        }
-
-                        VStack(alignment: .leading) {
-                            Text(self.dateToString(date: allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].createdAt))
-                                .font(.caption)
-                                .foregroundColor(Color.gray)
-                            Text(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].title)
-                        }
-
-                        Spacer()
-
-                        VStack(alignment: .trailing) {
-                            Text("¥\(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].amount)")
-                        }
+                if allLogViewModel.resolvedTransactionsByMonth[itemIndex].count == 0 {
+                    VStack {
+                        Image("Sample2")
+                            .resizable()
+                            .scaledToFill()
+                            .aspectRatio(contentMode: .fit)
+                            .padding(.top)
+                        Text("リストが空です")
+                            .foregroundColor(.gray)
                     }
-                    .padding(3)
-                    .foregroundColor(.black)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        print(index)
+                    .listRowSeparator(.hidden)
+                    .padding(.top, 100)
+                } else {
+                    
+                    ForEach((0 ..< allLogViewModel.resolvedTransactionsByMonth[itemIndex].count).reversed(),  id: \.self) { index in
+                        
+                        HStack {
+                            
+                            if allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].debtorId != allLogViewModel.myUserId {
+                                Image("SampleIcon")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 28, height: 28, alignment: .center)
+                                    .clipShape(Circle())
+                            } else {
+                                Image("SamplePartnerIcon")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 28, height: 28, alignment: .center)
+                                    .clipShape(Circle())
+                            }
+                            
+                            VStack(alignment: .leading) {
+                                Text(self.dateToString(date: allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].createdAt))
+                                    .font(.caption)
+                                    .foregroundColor(Color.gray)
+                                Text(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].title)
+                            }
+                            
+                            Spacer()
+                            
+                            VStack(alignment: .trailing) {
+                                Text("¥\(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].amount)")
+                            }
+                        }
+                        .padding(3)
+                        .foregroundColor(.black)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            print(index)
+                        }
                     }
                 }
             }
