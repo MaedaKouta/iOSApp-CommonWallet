@@ -12,16 +12,79 @@ struct AllLogView: View {
 
     @ObservedObject var allLogViewModel: AllLogViewModel
     @State var currentIndex: Int = 0
+    @State var isSettingView =  false
 
     var body: some View {
 
-        VStack {
-            PageView(items: allLogViewModel.pagingIndexItems, selectedIndex: $allLogViewModel.selectedIndex) { item in
-                ListItems(allLogViewModel: self.allLogViewModel, itemIndex: item.index)
-            }
-        }
+        let pagingOptions = initPagingOption()
 
+        NavigationView {
+            VStack {
+
+                ZStack {
+
+                    Rectangle()
+                        .frame(width: 320, height: 70)
+                        .overlay(RoundedRectangle(cornerRadius: 20).stroke(Color.black, lineWidth: 4))
+                        .foregroundColor(.white)
+                        .cornerRadius(20)
+
+                    HStack {
+                        Text("合計 \(42423)円").padding()
+                    }
+
+                }.padding()
+
+                PageView(options: pagingOptions, items: allLogViewModel.pagingIndexItems, selectedIndex: $allLogViewModel.selectedIndex) { item in
+                    ListItems(allLogViewModel: self.allLogViewModel, itemIndex: item.index)
+                }
+            }
+            .navigationBarTitle("", displayMode: .inline)
+            .navigationBarItems(
+                leading: Button(action: {
+                    print("aa")
+                }) {
+                    //Image(systemName: "trash")
+                    Text("履歴")
+                        .foregroundColor(Color.black)
+                        .font(.title3)
+
+                }, trailing: HStack {
+                    Button(action: {
+                        print("aa")
+                        self.isSettingView = true
+                    }) {
+                        Image("SampleIcon")
+                            .resizable()
+                            .scaledToFill()
+                            .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 28, height: 28, alignment: .center)
+                            .clipShape(Circle()) // 正円形に切り抜く
+                        Text("kota")
+                            .foregroundColor(Color.black)
+                    }
+                    .sheet(isPresented: self.$isSettingView) {
+                        SettingView(isShowSettingView: $isSettingView)
+                    }
+                }
+            )
+        }.onAppear {
+            // 遊び中
+            //aaa = PagingOptions()
+            //            aaa.backgroundColor = .red
+            //            aaa.indicatorColor = .red
+        }
     }
+
+    func initPagingOption() -> PagingOptions {
+        var pagingOptions = PagingOptions()
+        pagingOptions.textColor = .gray
+        pagingOptions.selectedTextColor = .black
+        pagingOptions.indicatorColor = .black
+        return pagingOptions
+    }
+
 }
 
 struct ListItems: View {
@@ -33,31 +96,94 @@ struct ListItems: View {
 
         VStack {
 
-            HStack {
-                Text("合計 \(42423)円").padding()
-            }
-
             List {
-                ForEach((0 ..< allLogViewModel.resolvedTransactionsByMonth[itemIndex].count).reversed(),  id: \.self) { index in
 
-                    HStack {
-                        Text(String(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].amount) + "円")
-                        Text(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].title)
-                        Text(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].createdAt.description)
-                        Spacer()
+                if allLogViewModel.resolvedTransactionsByMonth[itemIndex].count == 0 {
+                    VStack {
+                        Image("Sample2")
+                            .resizable()
+                            .scaledToFill()
+                            .aspectRatio(contentMode: .fit)
+                            .padding(.top)
+                        Text("リストが空です")
+                            .foregroundColor(.gray)
                     }
-                    .foregroundColor(.black)
-                    .contentShape(Rectangle())
-                    .onTapGesture {
-                        print(index)
+                    .listRowSeparator(.hidden)
+                    .padding(.top, 100)
+                } else {
+
+                    ForEach((0 ..< allLogViewModel.resolvedTransactionsByMonth[itemIndex].count).reversed(),  id: \.self) { index in
+
+                        HStack {
+
+                            if allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].debtorId != allLogViewModel.myUserId {
+                                Image("SampleIcon")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 28, height: 28, alignment: .center)
+                                    .clipShape(Circle())
+                            } else {
+                                Image("SamplePartnerIcon")
+                                    .resizable()
+                                    .scaledToFill()
+                                    .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                                    .aspectRatio(contentMode: .fit)
+                                    .frame(width: 28, height: 28, alignment: .center)
+                                    .clipShape(Circle())
+                            }
+
+                            VStack(alignment: .leading) {
+                                Text(self.dateToString(date: allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].createdAt))
+                                    .font(.caption)
+                                    .foregroundColor(Color.gray)
+                                Text(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].title)
+                            }
+
+                            Spacer()
+
+                            VStack(alignment: .trailing) {
+                                Text("¥\(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].amount)")
+                            }
+                        }
+                        .padding(3)
+                        .foregroundColor(.black)
+                        .contentShape(Rectangle())
+                        .onTapGesture {
+                            print(index)
+                        }
                     }
                 }
-            }.onAppear {
+            }
+            .listStyle(PlainListStyle())
+            .onAppear {
                 Task {
                     try await allLogViewModel.fetchTransactions()
                 }
             }
+            .refreshable {
+                await Task.sleep(1000000000)
+            }
         }
+    }
+
+    private func dateToString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.dateStyle = .medium
+        dateFormatter.dateFormat = "yyyy/MM/dd"
+
+        return dateFormatter.string(from: date)
+    }
+
+    private func dateToDetailString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.locale = Locale(identifier: "ja_JP")
+        dateFormatter.dateStyle = .medium
+        dateFormatter.dateFormat = "yyyy/MM/dd HH:mm"
+
+        return dateFormatter.string(from: date)
     }
 }
 
