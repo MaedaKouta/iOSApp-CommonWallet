@@ -16,9 +16,11 @@ struct AllLogView: View {
 
     var body: some View {
 
+        var aaa = initPagingOption()
+
         NavigationView {
             VStack {
-                PageView(items: allLogViewModel.pagingIndexItems, selectedIndex: $allLogViewModel.selectedIndex) { item in
+                PageView(options: aaa, items: allLogViewModel.pagingIndexItems, selectedIndex: $allLogViewModel.selectedIndex) { item in
                     ListItems(allLogViewModel: self.allLogViewModel, itemIndex: item.index)
                 }
             }
@@ -52,7 +54,21 @@ struct AllLogView: View {
                     }
                 }
             )
+        }.onAppear {
+            // 遊び中
+            //aaa = PagingOptions()
+//            aaa.backgroundColor = .red
+//            aaa.indicatorColor = .red
         }
+    }
+
+    func initPagingOption() -> PagingOptions {
+        var pagingOptions = PagingOptions()
+        pagingOptions.textColor = .gray
+        pagingOptions.selectedTextColor = .black
+        pagingOptions.indicatorColor = .black
+//        pagingOptions.pagingContentBackgroundColor = .black
+        return pagingOptions
     }
 }
 
