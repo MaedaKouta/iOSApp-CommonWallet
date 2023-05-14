@@ -89,32 +89,54 @@ class FireStorePartnerManager: FireStorePartnerManaging {
 
     }
 
-    // 相手が連携削除していたら、自分のUserDefaultから相手を削除する処理。アプリ起動時に毎回行う。
-    // addSnapshotListenerにしてfetchPartnerの命名にしよう
-    func fetchDeletePartner() async {
-        guard let userId = Auth.auth().currentUser?.uid else {
+    // パートナーとの紐付け
+    // パートナー
+    func fetchPartnerInfo(completion: @escaping(User?, Error?) -> Void) {
+        guard let myUserId = Auth.auth().currentUser?.uid else {
+            completion(nil, AuthError.emptyUserId)
             return
         }
 
-        // 自分のpartnerUidに値がセットされているかチェック
-        do {
-            let snapShots = try await db.collection("Users")
-                .whereField("userId", isEqualTo: userId)
-                .getDocuments()
+        guard let myUserInfo = userDefaultManager.getUser() else {
+            completion(nil, UserDefaultsError.emptySomeValue)
+            return
+        }
 
-            snapShots.documents.forEach({ snapShot in
-                let data = snapShot.data()
-                guard let _ = data["partnerUserId"] as? String else {
-                    // partnerUidが空だった
-                    userDefaultManager.deletePartner()
+        // 自分のpartnerが存在しているかチェック
+        db.collection("Users").document(myUserId)
+            .addSnapshotListener { querySnapshot, error in
+
+                if let error = error {
+                    print("FireStore PartnerInfo Fetch Error")
+                    completion(nil, error)
+                }
+                guard let data = querySnapshot?.data(),
+                      let partnerUserId = data["partnerUserId"] as? String else {
+                    completion(nil, InvalidValueError.unexpectedNullValue)
                     return
                 }
-            })
 
-        } catch {
-            // TODO: 例外処理
-            return
-        }
+                // パートナーの名前の取得
+                self.db.collection("Users").document(partnerUserId)
+                    .addSnapshotListener { querySnapshot, error in
+
+                        if let error = error {
+                            print("FireStore PartnerInfo Fetch Error")
+                            completion(nil, error)
+                        }
+
+                        guard let data = querySnapshot?.data(),
+                              let partnerName = data["name"] as? String,
+                              let partnerShareNumber = data["shareNumber"] as? String else {
+                            completion(nil, InvalidValueError.unexpectedNullValue)
+                            return
+                        }
+
+                        let user = User(name: myUserInfo.name, email: myUserInfo.email, shareNumber: myUserInfo.shareNumber, createdAt: myUserInfo.createdAt, partnerUserId: partnerUserId, partnerName: partnerName, partnerShareNumber: partnerShareNumber)
+
+                        completion(user, nil)
+                    } // ネストのdbここまで
+            }// はじめのdbここまで
     }
 
 }

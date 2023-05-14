@@ -33,9 +33,9 @@ struct LaunchScreen: View {
                     .padding()
                     .onAppear {
                         if let _ = Auth.auth().currentUser?.uid {
-                            // サインインがすでにされている処理分岐
+                            // サインインがすでにされている際の処理分岐
                             Task {
-                                await fireStorePartnerManager.fetchDeletePartner()
+                                await launchViewModel.fetchPartnerInfo()
                             }
 
                             // ここでは、アニメーション無しで画面遷移させている

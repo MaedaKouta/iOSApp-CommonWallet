@@ -29,7 +29,6 @@ class UnConnectPartnerViewModel: ObservableObject {
         case .failure(let error):
             print("unConnectPartner failed: \(error.localizedDescription)")
         }
-
     }
 
     // 12桁の文字列を4桁ずつ" - "で区切る関数

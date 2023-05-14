@@ -159,7 +159,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                 guard let snapshots = snapShots, let doc = snapshots.documents.first else { return }
                 let oldestTimestamp = doc.get("createdAt") as? Timestamp
 
-                completion(oldestTimestamp?.dateValue(), error)
+                completion(oldestTimestamp?.dateValue(), nil)
             }
     }
 
