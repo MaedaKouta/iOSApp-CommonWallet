@@ -23,42 +23,13 @@ class FireStoreUserManager: FireStoreUserManaging {
                                              "shareNumber": shareNumber,
                                              "createdAt": Timestamp(),
                                              ]
-        do {
-            try await db.collection("Users").document(userId).setData(user)
-        } catch {
-            throw error
-        }
-    }
+        try await db.collection("Users").document(userId).setData(user)
 
-    func addLastResolvedAt(userId: String, lastResolvedAt: Date) async throws {
-        do {
-            try await db.collection("Users").document(userId)
-                .updateData([
-                    "lastResolvedAt": lastResolvedAt
-                ])
-        } catch {
-            throw error
-        }
-    }
-
-    func addPreviousResolvedAt(userId: String, previousResolvedAt: Date) async throws {
-        do {
-            try await db.collection("Users").document(userId)
-                .updateData([
-                    "previousResolvedAt": previousResolvedAt
-                ])
-        } catch {
-            throw error
-        }
     }
 
     // MARK: Delete
     func deleteUser(userId: String) async throws {
-        do {
-            try await db.collection("Users").document(userId).delete()
-        } catch {
-            throw error
-        }
+        try await db.collection("Users").document(userId).delete()
     }
 
     // MARK: Fetch
