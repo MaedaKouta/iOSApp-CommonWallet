@@ -16,61 +16,44 @@ class FireStorePartnerManager: FireStorePartnerManaging {
     private let db = Firestore.firestore()
     private var userDefaultManager = UserDefaultsManager()
 
-    // TODO: 中に入れるエラー変えよう
     func connectPartner(partnerShareNumber: String) async -> Result<Bool, Error> {
-        guard let userId = Auth.auth().currentUser?.uid else {
-            return .failure(UserDefaultsError.emptyUserIds)
+        guard let myUserId = Auth.auth().currentUser?.uid else {
+            return .failure(AuthError.emptyUserId)
         }
-        var partnerUserId: String = ""
-        var partnerName: String = ""
 
-        // パートナーのshareNumberからUidを探る
         do {
+            // パートナーのshareNumberからpartnerUserIdを探る
             let snapShots = try await db.collection("Users")
                 .whereField("shareNumber", isEqualTo: partnerShareNumber)
                 .getDocuments()
 
-            if snapShots.documents.count == 1 {
-                let data = snapShots.documents[0].data()
-                guard let userId = data["id"] as? String,
-                      let userName = data["name"] as? String else {
-                    return .failure(UserDefaultsError.emptyUserIds)
-                }
-                partnerUserId = userId
-                partnerName = userName
-            } else {
-                return .failure(UserDefaultsError.emptyUserIds)
+            guard let data = snapShots.documents.first?.data(),
+                  let partnerUserId = data["id"] as? String,
+                  let partnerName = data["name"] as? String else {
+                return .failure(InvalidValueError.unexpectedNullValue)
             }
 
-        } catch {
-            // TODO: 例外処理
-            return .failure(UserDefaultsError.emptyUserIds)
-        }
-
-        // お互いにFireStoreにセットする
-        // TODO: 強引にお互いにセットしてるの修正する。相手の承認が必要な感じに
-        do {
+            // 自分のPartnerIdに相手のIdを入れる
             try await db.collection("Users")
-                .document(userId)
+                .document(myUserId)
                 .setData([
                     "partnerUserId": partnerUserId,
                 ], merge: true)
 
+            // 相手のPartnerIdに自分のIdを入れる
             try await db.collection("Users")
                 .document(partnerUserId)
                 .setData([
-                    "partnerUserId": userId,
+                    "partnerUserId": myUserId,
                 ], merge: true)
 
+            // UserDefaultにセットする
+            userDefaultManager.setPartner(userId: partnerUserId, name: partnerName, shareNumber: partnerShareNumber)
+            return .success(true)
+
         } catch {
-            // TODO: 例外処理
-            return .failure(UserDefaultsError.emptyUserIds)
+            return .failure(error)
         }
-
-        // UserDefaultにセットする
-        userDefaultManager.setPartner(userId: partnerUserId, name: partnerName, shareNumber: partnerShareNumber)
-
-        return .success(true)
 
     }
 
@@ -110,6 +93,7 @@ class FireStorePartnerManager: FireStorePartnerManaging {
     }
 
     // 相手が連携削除していたら、自分のUserDefaultから相手を削除する処理。アプリ起動時に毎回行う。
+    // addSnapshotListenerにしてfetchPartnerの命名にしよう
     func fetchDeletePartner() async {
         guard let userId = Auth.auth().currentUser?.uid else {
             return

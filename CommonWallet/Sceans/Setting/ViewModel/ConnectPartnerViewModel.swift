@@ -16,11 +16,10 @@ class ConnectPartnerViewModel: ObservableObject {
     func connectPartner(partnerShareNumber: String) async {
         let result = await fireStorePartnerManager.connectPartner(partnerShareNumber: partnerShareNumber)
         switch result {
-        case .success(let value):
+        case .success(_):
             DispatchQueue.main.async {
                 self.isConnect = true
             }
-            print("connectPartner succeeded: \(value)")
         case .failure(let error):
             print("connectPartner failed: \(error.localizedDescription)")
         }
