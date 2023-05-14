@@ -16,7 +16,7 @@ class AddTransactionViewModel: ObservableObject {
     // ユーザー情報の監視用のPublished変数
     // 値が動的に変わる可能性がある
 
-    //@Published var myUserId = ""
+    @Published var myUserId = ""
     @Published var myName = ""
     @Published var partnerUserId = ""
     @Published var partnerName = ""

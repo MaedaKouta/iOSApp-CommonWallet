@@ -6,10 +6,12 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 class LaunchViewModel: ObservableObject {
 
     private var fireStoreTransactionManager = FireStoreTransactionManager()
+    private var fireStoreUserManager = FireStoreUserManager()
     private var userDefaultsManager = UserDefaultsManager()
 
     func fetchOldestDate() async throws {
@@ -21,6 +23,26 @@ class LaunchViewModel: ObservableObject {
             if let oldestDate = oldestDate {
                 self.userDefaultsManager.setOldestResolvedDate(date: oldestDate)
             }
+        })
+    }
+
+    // ここでUserInfoをfetchする
+    // addSnapListernerだから、更新されるたびに自動でUserDefaultsが更新される
+    func fetchUserInfo() async throws {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("haven't Auth.auth().currentUser?.uid")
+            return
+        }
+        self.fireStoreUserManager.fetchInfo(userId: userId, completion: { user, error in
+            if error != nil {
+                print("error")
+                return
+            }
+            guard let user = user else {
+                print("haven't user")
+                return
+            }
+            self.userDefaultsManager.setUser(user: user)
         })
     }
 }

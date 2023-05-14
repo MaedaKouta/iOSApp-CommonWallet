@@ -64,7 +64,7 @@ class FireStoreUserManager: FireStoreUserManaging {
     // MARK: Fetch
     func fetchInfo(userId: String, completion: @escaping(User?, Error?) -> Void) {
 
-         db.collection("Users").document(userId).getDocument { snapShot, error in
+        db.collection("Users").document(userId).addSnapshotListener { snapShot, error in
             if let error = error {
                 print("FireStore UserInfo Fetch Error")
                 completion(nil, error)
@@ -145,7 +145,5 @@ class FireStoreUserManager: FireStoreUserManaging {
             completion(previousResolvedAt.dateValue(), nil)
         }
     }
-
-
 
 }

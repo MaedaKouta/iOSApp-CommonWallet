@@ -78,6 +78,7 @@ struct LaunchScreen: View {
         }.onAppear {
             Task {
                 try await launchViewModel.fetchOldestDate()
+                try await launchViewModel.fetchUserInfo()
             }
         }
 
