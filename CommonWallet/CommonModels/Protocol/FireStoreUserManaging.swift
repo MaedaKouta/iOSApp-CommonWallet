@@ -21,4 +21,5 @@ protocol FireStoreUserManaging {
 
     // fetch
     func fetchInfo(userId: String, completion: @escaping(User?, Error?) -> Void)
+
 }

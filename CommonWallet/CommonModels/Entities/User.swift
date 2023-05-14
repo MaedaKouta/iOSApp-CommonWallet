@@ -25,18 +25,4 @@ struct User: Codable, Identifiable {
     var partnerName: String?
     var partnerShareNumber: String?
 
-    enum CodingKeys: String, CodingKey {
-        case id = "id"
-        case name = "name"
-        case email = "email"
-        case shareNumber = "shareNumber"
-        case createdAt = "createdAt"
-        case lastResolvedAt = "lastResolvedAt"
-        case previousResolvedAt = "previousResolvedAt"
-        case transactionIds = "transactionIds"
-        case partnerUserId = "partnerUserId"
-        case partnerName = "partnerName"
-        case partnerShareNumber = "partnerShareNumber"
-    }
-
 }

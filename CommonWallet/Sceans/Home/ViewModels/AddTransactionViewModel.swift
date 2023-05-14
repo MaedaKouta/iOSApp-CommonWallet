@@ -14,7 +14,9 @@ class AddTransactionViewModel: ObservableObject {
     private var userDefaultsManager: UserDefaultsManager
 
     // ユーザー情報の監視用のPublished変数
-    @Published var myUserId = ""
+    // 値が動的に変わる可能性がある
+
+    //@Published var myUserId = ""
     @Published var myName = ""
     @Published var partnerUserId = ""
     @Published var partnerName = ""
@@ -23,7 +25,6 @@ class AddTransactionViewModel: ObservableObject {
 
     init(fireStoreTransactionManager: FireStoreTransactionManager,
          userDefaultsManager: UserDefaultsManager) {
-        print("AddTransaction")
         self.fireStoreTransactionManager = fireStoreTransactionManager
         self.userDefaultsManager = userDefaultsManager
 
@@ -36,7 +37,7 @@ class AddTransactionViewModel: ObservableObject {
     }
 
     /// 新規トランザクション追加
-    func addTransaction(creditorId: String, debtorId: String, title: String, description: String, amount: Int) async throws -> Result<Void, Error> {
+    func addTransaction(creditorId: String?, debtorId: String?, title: String, description: String, amount: Int) async throws -> Result<Void, Error> {
 
         do {
             // データベースで調べやすいように、myShareNumberをつける

@@ -16,13 +16,12 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
     private var userDefaultsManager = UserDefaultsManager()
 
     // MARK: Create
-    /// transactionの生成
-    func createTransaction(transactionId: String, creditorId: String, debtorId: String,  title: String, description: String, amount: Int) async throws {
+    func createTransaction(transactionId: String, creditorId: String?, debtorId: String?,  title: String, description: String, amount: Int) async throws {
 
         // Firestoreに書き込むデータの作成
         let transaction: Dictionary<String, Any> = ["id": transactionId,
-                                                    "creditorId": creditorId,
-                                                    "debtorId": debtorId,
+                                                    "creditorId": creditorId ?? NSNull(),
+                                                    "debtorId": debtorId ?? NSNull(),
                                                     "title": title,
                                                     "description": description,
                                                     "amount": amount,
@@ -60,14 +59,11 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
     }
 
     // MARK: Delete
-    /// transactionの削除
     func deleteTransaction(transactionId: String) async throws {
-        // Firestoreへのトランザクション削除
         try await db.collection("Transactions").document(transactionId).delete()
     }
 
     // MARK: Fetch
-    /// 未精算のトランザクションを取得する
     func fetchUnResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void) {
 
         guard let userId = Auth.auth().currentUser?.uid else { return }
@@ -105,7 +101,6 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
             }
     }
 
-    /// 精算済みのトランザクションを取得する
     func fetchResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void) {
 
         guard let userId = Auth.auth().currentUser?.uid else { return }
@@ -157,7 +152,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
             .getDocuments { snapShots, error in
 
                 if let error = error {
-                    print("FirestoreからTransactionsの取得に失敗しました")
+                    print("FireStore OldestDate Fetch Error")
                     completion(nil, error)
                 }
 

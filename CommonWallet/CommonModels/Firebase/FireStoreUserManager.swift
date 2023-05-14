@@ -66,7 +66,7 @@ class FireStoreUserManager: FireStoreUserManaging {
 
          db.collection("Users").document(userId).getDocument { snapShot, error in
             if let error = error {
-                print("Firestoreからユーザ情報の取得に失敗しました")
+                print("FireStore UserInfo Fetch Error")
                 completion(nil, error)
             }
             guard let data = snapShot?.data(),
@@ -75,7 +75,12 @@ class FireStoreUserManager: FireStoreUserManaging {
                   let email = data["email"] as? String,
                   let shareNumber = data["shareNumber"] as? String,
                   let createdAt = data["createdAt"] as? Timestamp else { return }
-             let user = User(id: userId, name: userName, email: email, shareNumber: shareNumber, createdAt: createdAt.dateValue())
+
+             let partnerUserId = data["partnerUserId"] as? String
+             let partnerName = data["partnerName"] as? String
+             let partnerShareNumber = data["partnerShareNumber"] as? String
+
+             let user = User(id: userId, name: userName, email: email, shareNumber: shareNumber, createdAt: createdAt.dateValue(), partnerUserId: partnerUserId, partnerName: partnerName, partnerShareNumber: partnerShareNumber)
 
             completion(user, nil)
         }

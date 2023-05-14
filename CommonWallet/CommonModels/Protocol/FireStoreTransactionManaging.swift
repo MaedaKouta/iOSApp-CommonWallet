@@ -10,7 +10,7 @@ import Foundation
 protocol FireStoreTransactionManaging {
 
     // create
-    func createTransaction(transactionId: String, creditorId: String, debtorId: String,  title: String, description: String, amount: Int) async throws
+    func createTransaction(transactionId: String, creditorId: String?, debtorId: String?,  title: String, description: String, amount: Int) async throws
 
     // push
     func pushResolvedAt(transactionIds: [String], resolvedAt: Date) async throws
