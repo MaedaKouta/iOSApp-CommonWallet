@@ -15,6 +15,7 @@
 		872652F3297B92A8002C76D6 /* FirebaseErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */; };
 		872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F5297BB8AB002C76D6 /* SignInViewModel.swift */; };
 		8732B457297A4DCF0011313D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8732B456297A4DCF0011313D /* FirebaseAnalytics */; };
+		873655602A10E30B00E92EEE /* InvalidValueError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8736555F2A10E30B00E92EEE /* InvalidValueError.swift */; };
 		8737FCEA297E0BDF0064E40D /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF933297CBB5700C94233 /* LaunchScreen.swift */; };
 		8737FCEB297E0BE60064E40D /* FireStoreUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF939297CC8B200C94233 /* FireStoreUserManager.swift */; };
 		8737FCEC297E0BEA0064E40D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF940297D08B100C94233 /* User.swift */; };
@@ -131,6 +132,7 @@
 		8724AD8D29FDF50A0023AEC5 /* LaunchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewModel.swift; sourceTree = "<group>"; };
 		872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseErrorManager.swift; sourceTree = "<group>"; };
 		872652F5297BB8AB002C76D6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		8736555F2A10E30B00E92EEE /* InvalidValueError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvalidValueError.swift; sourceTree = "<group>"; };
 		87391E482987A8AF00897A96 /* ShareNumberManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareNumberManager.swift; sourceTree = "<group>"; };
 		87391E4B298A15B600897A96 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		87391E4F298A189900897A96 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -516,6 +518,7 @@
 				87CD584829E8DB2500472B6B /* FetchUsersError.swift */,
 				87CD584A29EB85DE00472B6B /* AuthError.swift */,
 				874A988429F206DB007CFB74 /* UserDefaultsError.swift */,
+				8736555F2A10E30B00E92EEE /* InvalidValueError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -772,6 +775,7 @@
 				874A988529F206DB007CFB74 /* UserDefaultsError.swift in Sources */,
 				874EF93C297CFC3900C94233 /* UserDefaultsManager.swift in Sources */,
 				8753D7322A06201E0074E04A /* EditTransactionView.swift in Sources */,
+				873655602A10E30B00E92EEE /* InvalidValueError.swift in Sources */,
 				879379EB298B999700D3A47B /* UnConnectPartnerView.swift in Sources */,
 				87CA8FB7297BF73800248187 /* CreateUserViewModel.swift in Sources */,
 				871073B92990CDBE00A0518C /* CreateUserDateManager.swift in Sources */,

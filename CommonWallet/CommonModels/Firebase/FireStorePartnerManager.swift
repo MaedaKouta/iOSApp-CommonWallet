@@ -16,8 +16,11 @@ class FireStorePartnerManager: FireStorePartnerManaging {
     private let db = Firestore.firestore()
     private var userDefaultManager = UserDefaultsManager()
 
-    func connectPartner(partnerShareNumber: String) async -> Bool {
-        guard let userId = Auth.auth().currentUser?.uid else { return false }
+    // TODO: 中に入れるエラー変えよう
+    func connectPartner(partnerShareNumber: String) async -> Result<Bool, Error> {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            return .failure(UserDefaultsError.emptyUserIds)
+        }
         var partnerUserId: String = ""
         var partnerName: String = ""
 
@@ -30,18 +33,18 @@ class FireStorePartnerManager: FireStorePartnerManaging {
             if snapShots.documents.count == 1 {
                 let data = snapShots.documents[0].data()
                 guard let userId = data["id"] as? String,
-                let userName = data["name"] as? String else {
-                    return false
+                      let userName = data["name"] as? String else {
+                    return .failure(UserDefaultsError.emptyUserIds)
                 }
                 partnerUserId = userId
                 partnerName = userName
             } else {
-                return false
+                return .failure(UserDefaultsError.emptyUserIds)
             }
 
         } catch {
             // TODO: 例外処理
-            return false
+            return .failure(UserDefaultsError.emptyUserIds)
         }
 
         // お互いにFireStoreにセットする
@@ -61,13 +64,13 @@ class FireStorePartnerManager: FireStorePartnerManaging {
 
         } catch {
             // TODO: 例外処理
-            return false
+            return .failure(UserDefaultsError.emptyUserIds)
         }
 
         // UserDefaultにセットする
         userDefaultManager.setPartner(userId: partnerUserId, name: partnerName, shareNumber: partnerShareNumber)
 
-        return true
+        return .success(true)
 
     }
 

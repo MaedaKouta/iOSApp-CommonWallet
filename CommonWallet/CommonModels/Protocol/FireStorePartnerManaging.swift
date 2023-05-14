@@ -8,7 +8,7 @@
 import Foundation
 
 protocol FireStorePartnerManaging {
-    func connectPartner(partnerShareNumber: String) async -> Bool
-    func deletePartner() async -> Bool
-    func fetchDeletePartner() async
+//    func connectPartner(partnerShareNumber: String) async -> Bool
+//    func deletePartner() async -> Bool
+//    func fetchDeletePartner() async
 }
