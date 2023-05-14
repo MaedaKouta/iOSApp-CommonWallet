@@ -57,16 +57,15 @@ class FireStorePartnerManager: FireStorePartnerManaging {
 
     }
 
-    func deletePartner() async -> Bool {
+    func deletePartner() async -> Result<Bool, Error> {
         guard let myUserId = Auth.auth().currentUser?.uid else {
-            return false
+            return .failure(AuthError.emptyUserId)
         }
         guard let partnerUserId = userDefaultManager.getPartnerUid() else {
-            return false
+            return .failure(UserDefaultsError.emptyPartnerUserId)
         }
 
         // お互いにFireStoreから削除する
-        // TODO: 強引にお互いにセットしてるの修正する。相手の承認が必要な感じに
         do {
             try await db.collection("Users")
                 .document(myUserId)
@@ -80,15 +79,13 @@ class FireStorePartnerManager: FireStorePartnerManaging {
                     "partnerUserId": FieldValue.delete(),
                 ], merge: true)
 
-        } catch {
-            // TODO: 例外処理
-            return false
-        }
+            // UserDefaultにセットする
+            userDefaultManager.deletePartner()
+            return .success(true)
 
-        // UserDefaultにセットする
-        // TODO: 自分の方はUserDefault削除できるけど、相手方は削除できていない、改善する。
-        userDefaultManager.deletePartner()
-        return true
+        } catch {
+            return .failure(error)
+        }
 
     }
 

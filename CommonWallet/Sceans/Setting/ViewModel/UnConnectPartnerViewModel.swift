@@ -20,10 +20,16 @@ class UnConnectPartnerViewModel: ObservableObject {
     }
 
     func deletePartner() async {
-        let isSuccessDelete = await fireStorePartnerManager.deletePartner()
-        DispatchQueue.main.async {
-            self.isUnConnect = isSuccessDelete
+        let result = await fireStorePartnerManager.deletePartner()
+        switch result {
+        case .success(_):
+            DispatchQueue.main.async {
+                self.isUnConnect = true
+            }
+        case .failure(let error):
+            print("unConnectPartner failed: \(error.localizedDescription)")
         }
+
     }
 
     // 12桁の文字列を4桁ずつ" - "で区切る関数
