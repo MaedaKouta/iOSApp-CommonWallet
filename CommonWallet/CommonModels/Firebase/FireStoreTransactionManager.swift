@@ -52,18 +52,11 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
             batch.updateData(["resolvedAt": Timestamp(date: resolvedAt)], forDocument: documentResolved)
         }
 
-        do {
-            try await batch.commit()
-            print("Batch write succeeded.")
-        } catch {
-            print("Error writing batch \(error)")
-        }
-
+        try await batch.commit()
     }
 
     // MARK: UPDATE
     func updateTransaction(transaction: Transaction) async throws {
-
         let data: Dictionary<String, Any> = ["id": transaction.id,
                                              "creditorId": transaction.creditorId,
                                              "debtorId": transaction.debtorId,
@@ -102,19 +95,20 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                     completion(nil, error)
                 }
 
+                // creditorIdもdebtorIdもパートナー連携していない場合のため空でも許される。
                 var transactions = [Transaction]()
                 snapShots?.documents.forEach({ snapShot in
                     let data = snapShot.data()
                     guard let id = data["id"] as? String,
-                          let creditorId = data["creditorId"] as? String,
-                          let debtorId = data["debtorId"] as? String,
                           let title = data["title"] as? String,
                           let description = data["description"] as? String,
                           let amount = data["amount"] as? Int,
                           let createdAt = data["createdAt"] as? Timestamp  else { return }
 
+                    let debtorId = data["creditorId"] as? String
+                    let creditorId = data["creditorId"] as? String
+
                     let transaction = Transaction(id: id, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount, createdAt: createdAt.dateValue())
-                    print(transaction)
                     transactions.append(transaction)
                 })
                 completion(transactions, nil)

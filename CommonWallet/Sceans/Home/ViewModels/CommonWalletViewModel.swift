@@ -132,7 +132,7 @@ class CommonWalletViewModel: ObservableObject {
         for unResolvedTransaction in self.unResolvedTransactions {
             // 取引の債権者が自分かどうかを判定
             // 自分が債権者の場合、取引金額をtotalAmountに加算。そうでない場合は減算。
-            let isCreditorMe = unResolvedTransaction.creditorId.description == myUserId
+            let isCreditorMe = unResolvedTransaction.creditorId?.description == myUserId
             totalAmount += isCreditorMe ? unResolvedTransaction.amount : -unResolvedTransaction.amount
         }
 

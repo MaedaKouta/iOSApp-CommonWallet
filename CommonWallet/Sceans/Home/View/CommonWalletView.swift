@@ -61,12 +61,10 @@ struct CommonWalletView: View {
                         Text("未精算リスト")
                             .font(.title2)
                         Spacer()
-                        cancelTransactionButton()
                         resolveTransactionButton()
                     }
                     .buttonStyle(BorderlessButtonStyle())
                     .padding(.top, 5)
-                    //.listRowSeparator(.hidden)
 
                     // 未精算履歴のView
                     if commonWalletViewModel.unResolvedTransactions.count != 0 {
@@ -270,38 +268,6 @@ struct CommonWalletView: View {
         }
     }
 
-    /// トランザクション取り消しボタンのView
-    private func cancelTransactionButton() -> some View {
-
-        Button(action: {
-            self.isCancelAlert = true
-        }, label: {
-            HStack(spacing: 3) {
-                Image(systemName: cancelButtonSystemImage)
-                    .font(.caption)
-                Text("取消")
-                    .font(.caption)
-            }
-            .frame(width: 60.0, height: 20.0)
-            .padding(8)
-            .accentColor(Color.black)
-            .background(Color.white)
-            .cornerRadius(20)
-            .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
-        })
-        .alert("取り消し", isPresented: $isCancelAlert){
-            Button("キャンセル"){
-                // ボタンが押された時の処理
-            }
-            Button("OK"){
-                // ボタンが押された時の処理
-            }
-        } message: {
-            Text("直前の精算を取り消しますか？")
-        }
-
-    }
-
     /// 精算ボタンのView
     private func resolveTransactionButton() -> some View {
 
@@ -314,7 +280,7 @@ struct CommonWalletView: View {
                 Text("精算")
                     .font(.caption)
             }
-            .frame(width: 60.0, height: 20.0)
+            .frame(width: 80.0, height: 20.0)
             .padding(8)
             .accentColor(Color.black)
             .background(Color.white)
