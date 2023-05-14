@@ -33,16 +33,6 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
         try await db.collection("Transactions").document(transactionId).setData(transaction)
     }
 
-    // transactionに精算完了時間の追加
-    func pushResolvedAt(transactionId: String, resolvedAt: Date) async throws {
-        // Firestoreへのトランザクション上書き
-        try await db.collection("Transactions")
-            .document(transactionId)
-            .updateData([
-                "resolvedAt": Timestamp(date: resolvedAt)
-            ])
-    }
-
     // TODO: バッチで書き込める上限は500件まで、現状500以上はエラーが起きてしまう
     func pushResolvedAt(transactionIds: [String], resolvedAt: Date) async throws {
         let batch = db.batch()
@@ -58,8 +48,8 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
     // MARK: UPDATE
     func updateTransaction(transaction: Transaction) async throws {
         let data: Dictionary<String, Any> = ["id": transaction.id,
-                                             "creditorId": transaction.creditorId,
-                                             "debtorId": transaction.debtorId,
+                                             "creditorId": transaction.creditorId ?? NSNull(),
+                                             "debtorId": transaction.debtorId ?? NSNull(),
                                              "title": transaction.title,
                                              "description": transaction.description,
                                              "amount": transaction.amount]
@@ -91,11 +81,11 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
             .addSnapshotListener { snapShots, error in
 
                 if let error = error {
-                    print("FirestoreからTransactionsの取得に失敗しました")
+                    print("FireStore UnResolvedTransactions Fetch Error")
                     completion(nil, error)
                 }
 
-                // creditorIdもdebtorIdもパートナー連携していない場合のため空でも許される。
+                // creditorIdもdebtorIdもパートナー連携していない場合のため空でも許される
                 var transactions = [Transaction]()
                 snapShots?.documents.forEach({ snapShot in
                     let data = snapShot.data()
@@ -129,7 +119,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
 
                 // TODO: 初期で２周している
                 if let error = error {
-                    print("FirestoreからTransactionsの取得に失敗しました")
+                    print("FireStore ResolvedTransactions Fetch Error")
                     completion(nil, error)
                 }
 
@@ -137,13 +127,14 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                 snapShots?.documents.forEach({ snapShot in
                     let data = snapShot.data()
                     guard let id = data["id"] as? String,
-                          let creditorId = data["creditorId"] as? String,
-                          let debtorId = data["debtorId"] as? String,
                           let title = data["title"] as? String,
                           let description = data["description"] as? String,
                           let amount = data["amount"] as? Int,
                           let createdAt = data["createdAt"] as? Timestamp,
                           let resolvedAt = data["resolvedAt"] as? Timestamp else { return }
+
+                    let creditorId = data["creditorId"] as? String
+                    let debtorId = data["debtorId"] as? String
 
                     let transaction = Transaction(id: id, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount, createdAt: createdAt.dateValue(), resolvedAt: resolvedAt.dateValue())
                     transactions.append(transaction)
