@@ -15,6 +15,10 @@ struct LaunchScreen: View {
     @Environment(\.managedObjectContext) private var viewContext
     @State private var isSignInView = false
     @State private var isContentView = false
+
+    @State private var isMainTabViewLoading = true
+    @State private var isSignInViewLoading = true
+
     @State private var userDefaultsManager = UserDefaultsManager()
     @State private var fireStoreUserManager = FireStoreUserManager()
     @State private var fireStorePartnerManager = FireStorePartnerManager()
@@ -23,65 +27,51 @@ struct LaunchScreen: View {
 
     var body: some View {
 
-        ZStack {
-
-            Color.black.ignoresSafeArea()
-
-            VStack {
-                Text("LaunchScreen")
-                    .foregroundColor(.white)
-                    .padding()
-                    .onAppear {
-                        if let _ = Auth.auth().currentUser?.uid {
-                            // サインインがすでにされている際の処理分岐
-                            Task {
-                                await launchViewModel.fetchPartnerInfo()
-                            }
-
-                            // ここでは、アニメーション無しで画面遷移させている
-//                            var transaction = Transaction()
-//                            transaction.disablesAnimations = true
-//                            withTransaction(transaction) {
-                                isContentView = true
-                            //}
-                        } else {
-                            // サインインがされていない処理分岐
-                            // とりあえず、チュートリアル画面作成していないため、サインイン画面に全て流す
-                            // ここでは、アニメーション無しで画面遷移させている
-//                            var transaction = Transaction()
-//                            transaction.disablesAnimations = true
-//                            withTransaction(transaction) {
-                                isSignInView = true
-//                            }
-
-                            switch LaunchStatus.launchStatus {
-                            case .FirstLaunch :
-                                // 初回起動
-                                return
-                            case .NewVersionLaunch :
-                                // 新しいバージョン時の起動
-                                return
-                            case .Launched:
-                                // 通常の起動
-                                break
-                            }
-
+        if let _ = Auth.auth().currentUser?.uid {
+            if isMainTabViewLoading {
+                ZStack {
+                    Color(.white)
+                        .ignoresSafeArea() // ステータスバーまで塗り潰すために必要
+                    Image("SampleLogo")
+                }
+                .onAppear {
+                    Task {
+                        await launchViewModel.fetchPartnerInfo()
+                        await launchViewModel.fetchOldestDate()
+                        await launchViewModel.fetchUserInfo()
+                    }
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        withAnimation {
+                            isMainTabViewLoading = false
                         }
                     }
-                    .fullScreenCover(isPresented: self.$isSignInView){
-                        SignInView()
-                    }
-                    .fullScreenCover(isPresented: self.$isContentView){
-                        MainTabView()
-                    }
+                }
+            } else {
+                MainTabView()
             }
-        }.onAppear {
-            Task {
-                try await launchViewModel.fetchOldestDate()
-                try await launchViewModel.fetchUserInfo()
+
+        } else {
+
+            if isSignInViewLoading {
+                ZStack {
+                    Color(.red)
+                        .ignoresSafeArea() // ステータスバーまで塗り潰すために必要
+                    Image("Sample1")
+                        .resizable()
+                        .aspectRatio(contentMode: .fit)
+                        .padding()
+                }
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        withAnimation {
+                            isSignInViewLoading = false
+                        }
+                    }
+                }
+            } else {
+                SignInView()
             }
         }
-
     }
 }
 

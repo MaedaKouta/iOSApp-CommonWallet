@@ -9,6 +9,8 @@ import SwiftUI
 
 struct MainTabView: View {
 
+    @ObservedObject var mainTabViewModel = MainTabViewModel()
+
     var body: some View {
         TabView {
             CommonWalletView(commonWalletViewModel: CommonWalletViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), fireStoreUserManager: FireStoreUserManager(), userDefaultsManager: UserDefaultsManager()))
