@@ -20,6 +20,11 @@ struct SettingView: View {
 
     @State private var test = false
 
+    private var feedbackUrl = "https://forms.gle/ubpATWSmMu5qY4v78"
+    private var twitterUrl = "https://twitter.com/kota_org"
+    private var privacyUrl = "https://kota1970.notion.site/c6a23dc083cf47d6aecef0e61035aaa2"
+    private var ruleUrl = "https://kota1970.notion.site/5125398bba6541558f2bd4479627cb37"
+
     var body: some View {
         NavigationView {
             VStack {
@@ -107,12 +112,6 @@ struct SettingView: View {
                         }
                     } header: {
                         Text("パートナー登録")
-                    }
-
-                    Section {
-                        Text("デフォルトカラー")
-                    } header: {
-                        Text("基本設定")
                     }
 
                     Section {
