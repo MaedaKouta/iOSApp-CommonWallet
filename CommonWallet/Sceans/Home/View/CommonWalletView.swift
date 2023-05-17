@@ -73,7 +73,6 @@ struct CommonWalletView: View {
                             .onAppear {
                                 isEnableResolveButton = true
                             }
-                            //.listRowSeparator(.hidden)
                     } else {
                         // 未精算のものがなければ画像表示
                         unResolvedListIsNullView()
@@ -406,11 +405,14 @@ struct CommonWalletView: View {
                 .scaledToFill()
                 .aspectRatio(contentMode: .fit)
                 .padding(.top)
+                .transition(.opacity)
+
             Text("リストが空です")
                 .foregroundColor(.gray)
         }
         .listRowSeparator(.hidden)
         .padding(.top, 100)
+
     }
 
     // MARK: 通信系
