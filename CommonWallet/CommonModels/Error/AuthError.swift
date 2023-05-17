@@ -8,15 +8,12 @@
 import Foundation
 
 enum AuthError: Error {
-//    case emptyTransactionIds
-//    case emptyTransactionData
-//
-//    var localizedDescription: String {
-//        switch self {
-//        case .emptyTransactionIds:
-//            return "Transaction IDs are empty."
-//        case .emptyTransactionData:
-//            return "Transaction Data are empty."
-//        }
-//    }
+    case emptyUserId
+
+    var localizedDescription: String {
+        switch self {
+        case .emptyUserId:
+            return "User ID are empty."
+        }
+    }
 }

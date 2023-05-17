@@ -16,71 +16,56 @@ class FireStorePartnerManager: FireStorePartnerManaging {
     private let db = Firestore.firestore()
     private var userDefaultManager = UserDefaultsManager()
 
-    func connectPartner(partnerShareNumber: String) async -> Bool {
-        guard let userId = Auth.auth().currentUser?.uid else { return false }
-        var partnerUserId: String = ""
-        var partnerName: String = ""
+    func connectPartner(partnerShareNumber: String) async -> Result<Bool, Error> {
+        guard let myUserId = Auth.auth().currentUser?.uid else {
+            return .failure(AuthError.emptyUserId)
+        }
 
-        // パートナーのshareNumberからUidを探る
         do {
+            // パートナーのshareNumberからpartnerUserIdを探る
             let snapShots = try await db.collection("Users")
                 .whereField("shareNumber", isEqualTo: partnerShareNumber)
                 .getDocuments()
 
-            if snapShots.documents.count == 1 {
-                let data = snapShots.documents[0].data()
-                guard let userId = data["id"] as? String,
-                let userName = data["name"] as? String else {
-                    return false
-                }
-                partnerUserId = userId
-                partnerName = userName
-            } else {
-                return false
+            guard let data = snapShots.documents.first?.data(),
+                  let partnerUserId = data["id"] as? String,
+                  let partnerName = data["name"] as? String else {
+                return .failure(InvalidValueError.unexpectedNullValue)
             }
 
-        } catch {
-            // TODO: 例外処理
-            return false
-        }
-
-        // お互いにFireStoreにセットする
-        // TODO: 強引にお互いにセットしてるの修正する。相手の承認が必要な感じに
-        do {
+            // 自分のPartnerIdに相手のIdを入れる
             try await db.collection("Users")
-                .document(userId)
+                .document(myUserId)
                 .setData([
                     "partnerUserId": partnerUserId,
                 ], merge: true)
 
+            // 相手のPartnerIdに自分のIdを入れる
             try await db.collection("Users")
                 .document(partnerUserId)
                 .setData([
-                    "partnerUserId": userId,
+                    "partnerUserId": myUserId,
                 ], merge: true)
 
+            // UserDefaultにセットする
+            userDefaultManager.setPartner(userId: partnerUserId, name: partnerName, shareNumber: partnerShareNumber)
+            return .success(true)
+
         } catch {
-            // TODO: 例外処理
-            return false
+            return .failure(error)
         }
-
-        // UserDefaultにセットする
-        userDefaultManager.setPartner(userId: partnerUserId, name: partnerName, shareNumber: partnerShareNumber)
-
-        return true
 
     }
 
-    func deletePartner() async -> Bool {
+    func deletePartner() async -> Result<Bool, Error> {
         guard let myUserId = Auth.auth().currentUser?.uid else {
-            return false
+            return .failure(AuthError.emptyUserId)
         }
         guard let partnerUserId = userDefaultManager.getPartnerUid() else {
-            return false
+            return .failure(UserDefaultsError.emptyPartnerUserId)
         }
 
         // お互いにFireStoreから削除する
-        // TODO: 強引にお互いにセットしてるの修正する。相手の承認が必要な感じに
         do {
             try await db.collection("Users")
                 .document(myUserId)
@@ -94,43 +79,64 @@ class FireStorePartnerManager: FireStorePartnerManaging {
                     "partnerUserId": FieldValue.delete(),
                 ], merge: true)
 
-        } catch {
-            // TODO: 例外処理
-            return false
-        }
+            // UserDefaultにセットする
+            userDefaultManager.deletePartner()
+            return .success(true)
 
-        // UserDefaultにセットする
-        // TODO: 自分の方はUserDefault削除できるけど、相手方は削除できていない、改善する。
-        userDefaultManager.deletePartner()
-        return true
+        } catch {
+            return .failure(error)
+        }
 
     }
 
-    // 相手が連携削除していたら、自分のUserDefaultから相手を削除する処理。アプリ起動時に毎回行う。
-    func fetchDeletePartner() async {
-        guard let userId = Auth.auth().currentUser?.uid else {
+    // パートナーとの紐付け
+    // パートナー
+    func fetchPartnerInfo(completion: @escaping(User?, Error?) -> Void) {
+        guard let myUserId = Auth.auth().currentUser?.uid else {
+            completion(nil, AuthError.emptyUserId)
             return
         }
 
-        // 自分のpartnerUidに値がセットされているかチェック
-        do {
-            let snapShots = try await db.collection("Users")
-                .whereField("userId", isEqualTo: userId)
-                .getDocuments()
+        guard let myUserInfo = userDefaultManager.getUser() else {
+            completion(nil, UserDefaultsError.emptySomeValue)
+            return
+        }
 
-            snapShots.documents.forEach({ snapShot in
-                let data = snapShot.data()
-                guard let _ = data["partnerUserId"] as? String else {
-                    // partnerUidが空だった
-                    userDefaultManager.deletePartner()
+        // 自分のpartnerが存在しているかチェック
+        db.collection("Users").document(myUserId)
+            .addSnapshotListener { querySnapshot, error in
+
+                if let error = error {
+                    print("FireStore PartnerInfo Fetch Error")
+                    completion(nil, error)
+                }
+                guard let data = querySnapshot?.data(),
+                      let partnerUserId = data["partnerUserId"] as? String else {
+                    completion(nil, InvalidValueError.unexpectedNullValue)
                     return
                 }
-            })
 
-        } catch {
-            // TODO: 例外処理
-            return
-        }
+                // パートナーの名前の取得
+                self.db.collection("Users").document(partnerUserId)
+                    .addSnapshotListener { querySnapshot, error in
+
+                        if let error = error {
+                            print("FireStore PartnerInfo Fetch Error")
+                            completion(nil, error)
+                        }
+
+                        guard let data = querySnapshot?.data(),
+                              let partnerName = data["name"] as? String,
+                              let partnerShareNumber = data["shareNumber"] as? String else {
+                            completion(nil, InvalidValueError.unexpectedNullValue)
+                            return
+                        }
+
+                        let user = User(name: myUserInfo.name, email: myUserInfo.email, shareNumber: myUserInfo.shareNumber, createdAt: myUserInfo.createdAt, partnerUserId: partnerUserId, partnerName: partnerName, partnerShareNumber: partnerShareNumber)
+
+                        completion(user, nil)
+                    } // ネストのdbここまで
+            }// はじめのdbここまで
     }
 
 }

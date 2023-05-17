@@ -69,11 +69,6 @@ struct AllLogView: View {
                     }
                 }
             )
-        }.onAppear {
-            // 遊び中
-            //aaa = PagingOptions()
-            //            aaa.backgroundColor = .red
-            //            aaa.indicatorColor = .red
         }
     }
 

@@ -9,11 +9,17 @@ import Foundation
 
 enum UserDefaultsError: Error {
     case emptyUserIds
+    case emptyPartnerUserId
+    case emptySomeValue
 
     var localizedDescription: String {
         switch self {
         case .emptyUserIds:
             return "User IDs From UserDefaults are empty."
+        case .emptyPartnerUserId:
+            return "Partner UserId From UserDefaults are empty."
+        case .emptySomeValue:
+            return "Some Value From UserDefaults are empty."
         }
     }
 }

@@ -6,13 +6,16 @@
 //
 
 import Foundation
+import FirebaseAuth
 
 class LaunchViewModel: ObservableObject {
 
     private var fireStoreTransactionManager = FireStoreTransactionManager()
+    private var fireStoreUserManager = FireStoreUserManager()
+    private var fireStorePartnerManager = FireStorePartnerManager()
     private var userDefaultsManager = UserDefaultsManager()
 
-    func fetchOldestDate() async throws {
+    func fetchOldestDate() async {
         fireStoreTransactionManager.fetchOldestDate(completion:  { oldestDate, error in
             if let error = error {
                 print(error)
@@ -22,5 +25,50 @@ class LaunchViewModel: ObservableObject {
                 self.userDefaultsManager.setOldestResolvedDate(date: oldestDate)
             }
         })
+    }
+
+    // ここでUserInfoをfetchする
+    // addSnapListernerだから、更新されるたびに自動でUserDefaultsが更新される
+    func fetchUserInfo() async {
+        guard let userId = Auth.auth().currentUser?.uid else {
+            print("haven't Auth.auth().currentUser?.uid")
+            return
+        }
+        self.fireStoreUserManager.fetchInfo(userId: userId, completion: { user, error in
+            if error != nil {
+                print("error")
+                return
+            }
+            guard let user = user else {
+                print("haven't user")
+                return
+            }
+            self.userDefaultsManager.setUser(user: user)
+        })
+    }
+
+    func fetchPartnerInfo() async {
+
+        fireStorePartnerManager.fetchPartnerInfo(completion: { user, error in
+            if let error = error {
+                print(error)
+                return
+            }
+
+            guard let user = user else {
+                print("haven't partner")
+                return
+            }
+
+            guard let partnerUserId = user.partnerUserId,
+                  let partnerName = user.partnerName,
+                  let partnerShareNumber = user.partnerShareNumber else {
+                return
+            }
+
+            let partnerUserDefaultsName = self.userDefaultsManager.getPartnerName() ?? partnerName
+            self.userDefaultsManager.setPartner(userId: partnerUserId, name: partnerUserDefaultsName, shareNumber: partnerShareNumber)
+        })
+
     }
 }

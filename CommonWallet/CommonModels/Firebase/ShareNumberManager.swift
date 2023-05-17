@@ -9,14 +9,13 @@ import Foundation
 import Firebase
 import FirebaseFirestore
 
-class ShareNumberManager {
+class ShareNumberManager: ShareNumberManaging {
 
     private let db = Firestore.firestore()
 
     /*
      12桁をランダムで生成
      */
-    // TODO: 一生繰り返し処理なったら大変だから、ループの制限作ろう
     func createShareNumber() async -> String {
 
         var shareNumber = createRandom16NumberString()
@@ -47,7 +46,7 @@ class ShareNumberManager {
                 return false
             }
         } catch {
-            // TODO: 例外処理
+            print("Firebase Check Duplicate Number Error")
         }
 
         return false
@@ -55,11 +54,11 @@ class ShareNumberManager {
 
     // 12桁の乱数を生成する関数
     private func createRandom16NumberString() -> String {
-        let firstBreake = String(format: "%04d", Int.random(in: 0..<9999))
-        let secondBreake = String(format: "%04d", Int.random(in: 0..<9999))
-        let thirdBreake = String(format: "%04d", Int.random(in: 0..<9999))
+        let firstBreak = String(format: "%04d", Int.random(in: 0..<9999))
+        let secondBreak = String(format: "%04d", Int.random(in: 0..<9999))
+        let thirdBreak = String(format: "%04d", Int.random(in: 0..<9999))
 
-        return firstBreake + secondBreake + thirdBreake
+        return firstBreak + secondBreak + thirdBreak
     }
 
 }

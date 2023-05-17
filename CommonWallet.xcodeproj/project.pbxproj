@@ -11,10 +11,14 @@
 		871073B22990B36500A0518C /* HeaderLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B12990B36500A0518C /* HeaderLogView.swift */; };
 		871073B42990B7A600A0518C /* AllLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B32990B7A600A0518C /* AllLogView.swift */; };
 		871073B92990CDBE00A0518C /* CreateUserDateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B82990CDBE00A0518C /* CreateUserDateManager.swift */; };
+		871F09EC2A11945000F96394 /* ShareNumberManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F09EB2A11945000F96394 /* ShareNumberManaging.swift */; };
+		871F09EE2A11979600F96394 /* MainTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F09ED2A11979600F96394 /* MainTabViewModel.swift */; };
 		8724AD8E29FDF50A0023AEC5 /* LaunchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8724AD8D29FDF50A0023AEC5 /* LaunchViewModel.swift */; };
 		872652F3297B92A8002C76D6 /* FirebaseErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */; };
 		872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F5297BB8AB002C76D6 /* SignInViewModel.swift */; };
 		8732B457297A4DCF0011313D /* FirebaseAnalytics in Frameworks */ = {isa = PBXBuildFile; productRef = 8732B456297A4DCF0011313D /* FirebaseAnalytics */; };
+		873655602A10E30B00E92EEE /* InvalidValueError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8736555F2A10E30B00E92EEE /* InvalidValueError.swift */; };
+		873655622A10E40100E92EEE /* FireStorePartnerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873655612A10E40100E92EEE /* FireStorePartnerError.swift */; };
 		8737FCEA297E0BDF0064E40D /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF933297CBB5700C94233 /* LaunchScreen.swift */; };
 		8737FCEB297E0BE60064E40D /* FireStoreUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF939297CC8B200C94233 /* FireStoreUserManager.swift */; };
 		8737FCEC297E0BEA0064E40D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF940297D08B100C94233 /* User.swift */; };
@@ -43,7 +47,6 @@
 		87534ACF2981F359009671C3 /* FireStorePayInfoManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87534ACE2981F359009671C3 /* FireStorePayInfoManagerTests.swift */; };
 		8753D7302A06175B0074E04A /* EditTransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753D72F2A06175B0074E04A /* EditTransactionViewModel.swift */; };
 		8753D7322A06201E0074E04A /* EditTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753D7312A06201E0074E04A /* EditTransactionView.swift */; };
-		877CB903297BE9C60005CBD1 /* FirebaseErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */; };
 		877CB904297BE9C90005CBD1 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F5297BB8AB002C76D6 /* SignInViewModel.swift */; };
 		877CB906297BEB2F0005CBD1 /* SignInViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877CB905297BEB2F0005CBD1 /* SignInViewModelTests.swift */; };
 		87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6B297A1A8300184A7C /* AuthManager.swift */; };
@@ -71,7 +74,6 @@
 		879379EF298BBDB800D3A47B /* ChangePartnerNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EE298BBDB800D3A47B /* ChangePartnerNameViewModel.swift */; };
 		87ABC57F29907DC2003E94F3 /* HeaderHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC57E29907DC2003E94F3 /* HeaderHomeView.swift */; };
 		87ABC58129908B17003E94F3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC58029908B17003E94F3 /* MainTabView.swift */; };
-		87ABC58429908B79003E94F3 /* LogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC58329908B79003E94F3 /* LogView.swift */; };
 		87ABC58829908BA1003E94F3 /* AllLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */; };
 		87ABC58B29909BF5003E94F3 /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 87ABC58A29909BF5003E94F3 /* Parchment */; };
 		87C0BADD2A03C52400A02978 /* Flip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C0BADC2A03C52400A02978 /* Flip.swift */; };
@@ -89,7 +91,6 @@
 		87CDAABF297E895400F52887 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAABE297E895400F52887 /* AddTransactionView.swift */; };
 		87CDAAC0297E8CF900F52887 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAABE297E895400F52887 /* AddTransactionView.swift */; };
 		87CDAAC1297E8CFC00F52887 /* CommonWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAAB1297E529F00F52887 /* CommonWalletView.swift */; };
-		87D1A05229E23ABC0058A98F /* LogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D1A05129E23ABC0058A98F /* LogViewModel.swift */; };
 		87D1A05529E770F20058A98F /* FetchTransactionsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D1A05429E770F20058A98F /* FetchTransactionsError.swift */; };
 		87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */; };
 		87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D4B297A1369005CCB6F /* ContentView.swift */; };
@@ -130,9 +131,14 @@
 		871073B12990B36500A0518C /* HeaderLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderLogView.swift; sourceTree = "<group>"; };
 		871073B32990B7A600A0518C /* AllLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLogView.swift; sourceTree = "<group>"; };
 		871073B82990CDBE00A0518C /* CreateUserDateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserDateManager.swift; sourceTree = "<group>"; };
+		871F09EB2A11945000F96394 /* ShareNumberManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareNumberManaging.swift; sourceTree = "<group>"; };
+		871F09ED2A11979600F96394 /* MainTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabViewModel.swift; sourceTree = "<group>"; };
+		871F09F12A12E4D600F96394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8724AD8D29FDF50A0023AEC5 /* LaunchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewModel.swift; sourceTree = "<group>"; };
 		872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseErrorManager.swift; sourceTree = "<group>"; };
 		872652F5297BB8AB002C76D6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		8736555F2A10E30B00E92EEE /* InvalidValueError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvalidValueError.swift; sourceTree = "<group>"; };
+		873655612A10E40100E92EEE /* FireStorePartnerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorePartnerError.swift; sourceTree = "<group>"; };
 		87391E482987A8AF00897A96 /* ShareNumberManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareNumberManager.swift; sourceTree = "<group>"; };
 		87391E4B298A15B600897A96 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		87391E4F298A189900897A96 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -171,7 +177,6 @@
 		879379EE298BBDB800D3A47B /* ChangePartnerNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePartnerNameViewModel.swift; sourceTree = "<group>"; };
 		87ABC57E29907DC2003E94F3 /* HeaderHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderHomeView.swift; sourceTree = "<group>"; };
 		87ABC58029908B17003E94F3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		87ABC58329908B79003E94F3 /* LogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogView.swift; sourceTree = "<group>"; };
 		87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLogViewModel.swift; sourceTree = "<group>"; };
 		87C0BADC2A03C52400A02978 /* Flip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flip.swift; sourceTree = "<group>"; };
 		87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewModel.swift; sourceTree = "<group>"; };
@@ -183,7 +188,6 @@
 		87CDAAB7297E608400F52887 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		87CDAABB297E6ADB00F52887 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		87CDAABE297E895400F52887 /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
-		87D1A05129E23ABC0058A98F /* LogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogViewModel.swift; sourceTree = "<group>"; };
 		87D1A05429E770F20058A98F /* FetchTransactionsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchTransactionsError.swift; sourceTree = "<group>"; };
 		87EE8D46297A1369005CCB6F /* CommonWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CommonWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletApp.swift; sourceTree = "<group>"; };
@@ -242,6 +246,22 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
+		871F09EF2A11979F00F96394 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				87ABC58029908B17003E94F3 /* MainTabView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		871F09F02A1197A700F96394 /* ViewMdels */ = {
+			isa = PBXGroup;
+			children = (
+				871F09ED2A11979600F96394 /* MainTabViewModel.swift */,
+			);
+			path = ViewMdels;
+			sourceTree = "<group>";
+		};
 		8724AD8C29FDF4E40023AEC5 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -258,6 +278,7 @@
 				87402F4029F377C40007320D /* FireStoreTransactionManaging.swift */,
 				87402F4629F37B040007320D /* FireStorePartnerManaging.swift */,
 				87402F4429F378330007320D /* UserDefaultsManaging.swift */,
+				871F09EB2A11945000F96394 /* ShareNumberManaging.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -288,7 +309,6 @@
 				87F53FDF297EA44E00293176 /* FireStoreTransactionManager.swift */,
 				879379E3298B53E600D3A47B /* FireStorePartnerManager.swift */,
 				87391E482987A8AF00897A96 /* ShareNumberManager.swift */,
-				872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -460,8 +480,8 @@
 		87ABC57C29907CD3003E94F3 /* Sceans */ = {
 			isa = PBXGroup;
 			children = (
-				87C0BADB2A03C50200A02978 /* MainTab */,
 				87ABC57829907B56003E94F3 /* Launch */,
+				87C0BADB2A03C50200A02978 /* MainTab */,
 				87ABC571299076ED003E94F3 /* Authentication */,
 				87ABC570299076D7003E94F3 /* Home */,
 				87ABC58229908B65003E94F3 /* Log */,
@@ -492,7 +512,6 @@
 			isa = PBXGroup;
 			children = (
 				871073B12990B36500A0518C /* HeaderLogView.swift */,
-				87ABC58329908B79003E94F3 /* LogView.swift */,
 				871073B32990B7A600A0518C /* AllLogView.swift */,
 			);
 			path = View;
@@ -502,7 +521,6 @@
 			isa = PBXGroup;
 			children = (
 				87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */,
-				87D1A05129E23ABC0058A98F /* LogViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -510,7 +528,8 @@
 		87C0BADB2A03C50200A02978 /* MainTab */ = {
 			isa = PBXGroup;
 			children = (
-				87ABC58029908B17003E94F3 /* MainTabView.swift */,
+				871F09EF2A11979F00F96394 /* View */,
+				871F09F02A1197A700F96394 /* ViewMdels */,
 			);
 			path = MainTab;
 			sourceTree = "<group>";
@@ -518,10 +537,13 @@
 		87D1A05329E770E30058A98F /* Error */ = {
 			isa = PBXGroup;
 			children = (
+				872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */,
 				87D1A05429E770F20058A98F /* FetchTransactionsError.swift */,
 				87CD584829E8DB2500472B6B /* FetchUsersError.swift */,
 				87CD584A29EB85DE00472B6B /* AuthError.swift */,
 				874A988429F206DB007CFB74 /* UserDefaultsError.swift */,
+				8736555F2A10E30B00E92EEE /* InvalidValueError.swift */,
+				873655612A10E40100E92EEE /* FireStorePartnerError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -550,6 +572,7 @@
 		87EE8D48297A1369005CCB6F /* CommonWallet */ = {
 			isa = PBXGroup;
 			children = (
+				871F09F12A12E4D600F96394 /* Info.plist */,
 				874EF931297CB4C600C94233 /* GoogleService-Info.plist */,
 				87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */,
 				87EE8D7C297A1790005CCB6F /* AppDelegate.swift */,
@@ -739,7 +762,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				87402F4329F377D70007320D /* FireStoreUserManaging.swift in Sources */,
+				871F09EE2A11979600F96394 /* MainTabViewModel.swift in Sources */,
 				874EF93F297D04DF00C94233 /* UserDefaultsKey.swift in Sources */,
+				873655622A10E40100E92EEE /* FireStorePartnerError.swift in Sources */,
 				87EE8D7D297A1790005CCB6F /* AppDelegate.swift in Sources */,
 				874EF93A297CC8B200C94233 /* FireStoreUserManager.swift in Sources */,
 				87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */,
@@ -761,7 +786,6 @@
 				87CDAAB5297E5C8000F52887 /* CommonWalletViewModel.swift in Sources */,
 				879379E9298B85E300D3A47B /* AccountViewModel.swift in Sources */,
 				87402F4929F37B960007320D /* AuthManaging.swift in Sources */,
-				87D1A05229E23ABC0058A98F /* LogViewModel.swift in Sources */,
 				87CD584929E8DB2500472B6B /* FetchUsersError.swift in Sources */,
 				8753D7302A06175B0074E04A /* EditTransactionViewModel.swift in Sources */,
 				872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */,
@@ -771,7 +795,6 @@
 				87F53FE0297EA44E00293176 /* FireStoreTransactionManager.swift in Sources */,
 				87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */,
 				87CDAABC297E6ADB00F52887 /* AccountView.swift in Sources */,
-				87ABC58429908B79003E94F3 /* LogView.swift in Sources */,
 				879379E0298B444500D3A47B /* ConnectPartnerView.swift in Sources */,
 				879379EF298BBDB800D3A47B /* ChangePartnerNameViewModel.swift in Sources */,
 				879379ED298B99C700D3A47B /* UnConnectPartnerViewModel.swift in Sources */,
@@ -779,7 +802,9 @@
 				874EF936297CBD1C00C94233 /* LaunchStatus.swift in Sources */,
 				874A988529F206DB007CFB74 /* UserDefaultsError.swift in Sources */,
 				874EF93C297CFC3900C94233 /* UserDefaultsManager.swift in Sources */,
+				871F09EC2A11945000F96394 /* ShareNumberManaging.swift in Sources */,
 				8753D7322A06201E0074E04A /* EditTransactionView.swift in Sources */,
+				873655602A10E30B00E92EEE /* InvalidValueError.swift in Sources */,
 				879379EB298B999700D3A47B /* UnConnectPartnerView.swift in Sources */,
 				87CA8FB7297BF73800248187 /* CreateUserViewModel.swift in Sources */,
 				871073B92990CDBE00A0518C /* CreateUserDateManager.swift in Sources */,
@@ -830,7 +855,6 @@
 				87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */,
 				87CA8FB9297BF76A00248187 /* CreateUserViewModelTests.swift in Sources */,
 				87CDAAB9297E608400F52887 /* SettingView.swift in Sources */,
-				877CB903297BE9C60005CBD1 /* FirebaseErrorManager.swift in Sources */,
 				877CB906297BEB2F0005CBD1 /* SignInViewModelTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -985,10 +1009,9 @@
 				DEVELOPMENT_TEAM = 558ZJSQN67;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CommonWallet/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1015,10 +1038,9 @@
 				DEVELOPMENT_TEAM = 558ZJSQN67;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = CommonWallet/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UIUserInterfaceStyle = Light;
 				LD_RUNPATH_SEARCH_PATHS = (
