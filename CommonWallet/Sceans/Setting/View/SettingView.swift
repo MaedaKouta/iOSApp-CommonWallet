@@ -20,10 +20,10 @@ struct SettingView: View {
 
     @State private var test = false
 
-    private var feedbackUrl = "https://forms.gle/ubpATWSmMu5qY4v78"
-    private var twitterUrl = "https://twitter.com/kota_org"
-    private var privacyUrl = "https://kota1970.notion.site/c6a23dc083cf47d6aecef0e61035aaa2"
-    private var ruleUrl = "https://kota1970.notion.site/5125398bba6541558f2bd4479627cb37"
+    private let feedbackUrl = "https://forms.gle/ubpATWSmMu5qY4v78"
+    private let twitterUrl = "https://twitter.com/kota_org"
+    private let privacyUrl = "https://kota1970.notion.site/c6a23dc083cf47d6aecef0e61035aaa2"
+    private let ruleUrl = "https://kota1970.notion.site/5125398bba6541558f2bd4479627cb37"
 
     var body: some View {
         NavigationView {
@@ -117,7 +117,9 @@ struct SettingView: View {
                     Section {
                         Text("アプリをレビューする")
                         Text("フィードバックを送る")
-                        Text("開発者のTwitter")
+                        if let url = URL(string: twitterUrl) {
+                            openLinkWithSafari(url: url)
+                        }
                         Text("利用規約")
                         Text("プライバシーポリシー")
                         Text("バージョン")
@@ -139,6 +141,23 @@ struct SettingView: View {
                 }
             }
         }
+    }
+
+    // アプリから抜けてSafariでリンクを開く
+    private func openLinkWithSafari(url: URL) -> some View {
+
+        return Link(destination: url, label: {
+            HStack{
+                Text("開発者のTwitter")
+                    .foregroundColor(.black)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+                Image(systemName: "square.on.square")
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 16, height: 16)
+                    .foregroundColor(.gray)
+            }
+        })
 
     }
 }
