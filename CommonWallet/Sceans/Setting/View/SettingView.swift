@@ -20,6 +20,7 @@ struct SettingView: View {
 
     @State private var test = false
 
+    @State private var isWebView = false
     private let feedbackUrl = "https://forms.gle/ubpATWSmMu5qY4v78"
     private let twitterUrl = "https://twitter.com/kota_org"
     private let privacyUrl = "https://kota1970.notion.site/c6a23dc083cf47d6aecef0e61035aaa2"
@@ -116,15 +117,27 @@ struct SettingView: View {
 
                     Section {
                         Text("アプリをレビューする")
-                        Text("フィードバックを送る")
-                        if let url = URL(string: twitterUrl) {
-                            openLinkWithSafari(url: url)
+
+                        if let url = URL(string: feedbackUrl) {
+                            openWebInside(url: url, text: "フィードバックを送る")
                         }
-                        Text("利用規約")
-                        Text("プライバシーポリシー")
+
+                        if let url = URL(string: twitterUrl) {
+                            openWebOutside(url: url, text: "開発者のTwitter")
+                        }
+
+                        if let url = URL(string: ruleUrl) {
+                            openWebInside(url: url, text: "利用規約")
+                        }
+
+
+                        if let url = URL(string: privacyUrl) {
+                            openWebInside(url: url, text: "プライバシーポリシー")
+                        }
+
                         Text("バージョン")
                     } header: {
-                        Text("端末情報")
+                        Text("情報")
                     }
 
                 }// Listここまで
@@ -144,11 +157,10 @@ struct SettingView: View {
     }
 
     // アプリから抜けてSafariでリンクを開く
-    private func openLinkWithSafari(url: URL) -> some View {
-
+    private func openWebOutside(url: URL, text: String) -> some View {
         return Link(destination: url, label: {
             HStack{
-                Text("開発者のTwitter")
+                Text(text)
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
                 Image(systemName: "square.on.square")
@@ -158,8 +170,17 @@ struct SettingView: View {
                     .foregroundColor(.gray)
             }
         })
-
     }
+
+    // アプリ内でWebを開く
+    private func openWebInside(url: URL, text: String) -> some View {
+        NavigationLink(destination: WebView(url: url) ) {
+            Text(text)
+                .foregroundColor(.black)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
 }
 
 //struct SettingView_Previews: PreviewProvider {
