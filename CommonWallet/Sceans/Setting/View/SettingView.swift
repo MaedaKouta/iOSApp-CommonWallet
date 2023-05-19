@@ -116,7 +116,8 @@ struct SettingView: View {
                     }
 
                     Section {
-                        Text("アプリをレビューする")
+                        // TODO: リリース後に開放
+                        //Text("アプリをレビューする")
 
                         if let url = URL(string: feedbackUrl) {
                             openWebInside(url: url, text: "フィードバックを送る")
@@ -130,12 +131,21 @@ struct SettingView: View {
                             openWebInside(url: url, text: "利用規約")
                         }
 
-
                         if let url = URL(string: privacyUrl) {
                             openWebInside(url: url, text: "プライバシーポリシー")
                         }
 
-                        Text("バージョン")
+                        openLicenseView()
+
+                        if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+                            HStack {
+                                Text("バージョン")
+                                Spacer()
+                                Text(version)
+                                    .foregroundColor(.gray)
+                            }
+                        }
+
                     } header: {
                         Text("情報")
                     }
@@ -163,7 +173,7 @@ struct SettingView: View {
                 Text(text)
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
-                Image(systemName: "square.on.square")
+                Image(systemName: "arrowshape.turn.up.right")
                     .resizable()
                     .scaledToFill()
                     .frame(width: 16, height: 16)
@@ -176,6 +186,15 @@ struct SettingView: View {
     private func openWebInside(url: URL, text: String) -> some View {
         NavigationLink(destination: WebView(url: url) ) {
             Text(text)
+                .foregroundColor(.black)
+                .frame(maxWidth: .infinity, alignment: .leading)
+        }
+    }
+
+    // アプリ内でWebを開く
+    private func openLicenseView() -> some View {
+        NavigationLink(destination: LicenseView() ) {
+            Text("ライセンス")
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
