@@ -18,6 +18,7 @@ struct SettingView: View {
     @State private var connectText: String = ""
     @State private var isSelectionShareNumber = false
 
+    @State private var isChangePartnerNameView = false
     @State private var test = false
 
     @State private var isWebView = false
@@ -78,11 +79,12 @@ struct SettingView: View {
 
                         HStack {
                             Text("パートナーの名前")
-                            NavigationLink(destination: ChangePartnerNameView(isShowSettingView: $isShowSettingView) ) {
+                            NavigationLink(destination: ChangePartnerNameView(changePartnerNameViewModel: ChangePartnerNameViewModel(), isChangePartnerNameView: $isChangePartnerNameView), isActive: $isChangePartnerNameView) {
                                 Text(settingViewModel.partnerName)
                                     .foregroundColor(.gray)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
-                            }.onAppear{
+                            }
+                            .onAppear{
                                 settingViewModel.reloadPartnerName()
                             }
                         }
@@ -93,9 +95,9 @@ struct SettingView: View {
                             NavigationLink(destination: {
                                 VStack {
                                     if settingViewModel.isConnectPartner() {
-                                        UnConnectPartnerView(isShowSettingView: $isShowSettingView)
+                                        UnConnectPartnerView(unConnectPartnerViewModel: UnConnectPartnerViewModel())
                                     } else {
-                                        ConnectPartnerView(isShowSettingView: $isShowSettingView)
+                                        ConnectPartnerView(connectPartnerViewModel: ConnectPartnerViewModel())
                                     }
                                 }
                             }, label: {
@@ -184,14 +186,14 @@ struct SettingView: View {
 
     // アプリ内でWebを開く
     private func openWebInside(url: URL, text: String) -> some View {
-        NavigationLink(destination: WebView(url: url) ) {
+        NavigationLink(destination: WebView(url: url)) {
             Text(text)
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
 
-    // アプリ内でWebを開く
+    // ライセンス画面を開く
     private func openLicenseView() -> some View {
         NavigationLink(destination: LicenseView() ) {
             Text("ライセンス")

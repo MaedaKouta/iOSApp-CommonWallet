@@ -9,44 +9,60 @@ import SwiftUI
 
 struct ChangePartnerNameView: View {
 
-    @Binding var isShowSettingView: Bool
-    @ObservedObject var changePartnerNameViewModel = ChangePartnerNameViewModel()
+    @ObservedObject var changePartnerNameViewModel: ChangePartnerNameViewModel
+
+    @Binding var isChangePartnerNameView: Bool
+
     @State private var partnerName: String = ""
-    @State private var isInputPartnerName: Bool = false
+    @State private var isEnableComplete: Bool = false
+
+    @State private var text = ""
 
     var body: some View {
 
         VStack {
-            TextField(changePartnerNameViewModel.beforePartnerName, text: $partnerName)
-                .onChange(of: partnerName, perform: { newValue in
-                    if partnerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        isInputPartnerName = false
-                    } else {
-                        isInputPartnerName = true
+            List {
+                Section {
+                    HStack {
+                        Text("名前")
+                        TextField(changePartnerNameViewModel.beforePartnerName, text: $partnerName)
+                            .onChange(of: partnerName, perform: { newValue in
+                                if partnerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                                    isEnableComplete = false
+                                } else if changePartnerNameViewModel.beforePartnerName == newValue {
+                                    isEnableComplete = false
+                                } else {
+                                    isEnableComplete = true
+                                }
+
+
+                            })
+                            .onAppear{
+                                partnerName = changePartnerNameViewModel.beforePartnerName
+                            }
                     }
-                })
-                .onAppear{
-                    partnerName = changePartnerNameViewModel.beforePartnerName
                 }
-                .textFieldStyle(.roundedBorder)
-                .padding()
-
-            Button(action: {
-                let newPartnerName = partnerName.trimmingCharacters(in: .whitespacesAndNewlines)
-                changePartnerNameViewModel.changePartnerName(newName: newPartnerName)
-            }) {
-                Text("設定する")
             }
-            .disabled(!isInputPartnerName)
-
         }
-
-
+        .navigationTitle("パートナーのニックネーム")
+        .toolbar {
+            /// ナビゲーションバー右
+            ToolbarItem(placement: .navigationBarTrailing){
+                Button(action: {
+                    let newPartnerName = partnerName.trimmingCharacters(in: .whitespacesAndNewlines)
+                    changePartnerNameViewModel.changePartnerName(newName: newPartnerName)
+                    isChangePartnerNameView = false
+                }) {
+                    Text("完了")
+                }
+                .disabled(!isEnableComplete)
+            }
+        }
     }
 }
 
-//struct ChangePartnerNameView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ChangePartnerNameView()
-//    }
-//}
+struct ChangePartnerNameView_Previews: PreviewProvider {
+    static var previews: some View {
+        ChangePartnerNameView(changePartnerNameViewModel: ChangePartnerNameViewModel(), isChangePartnerNameView: .constant(false))
+    }
+}

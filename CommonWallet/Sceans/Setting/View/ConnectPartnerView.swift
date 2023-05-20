@@ -9,9 +9,7 @@ import SwiftUI
 
 struct ConnectPartnerView: View {
 
-    @ObservedObject var connectPartnerViewModel = ConnectPartnerViewModel()
-
-    @Binding var isShowSettingView: Bool
+    @ObservedObject var connectPartnerViewModel: ConnectPartnerViewModel
 
     @State private var firstBreakText: String = ""
     @State private var secondBreakText: String = ""
@@ -76,6 +74,7 @@ struct ConnectPartnerView: View {
             }
             .disabled(!(isInputtedFirstBreakText&&isInputtedSecondBreakText&&isInputtedThirdBreakText))
         }
+
     }
 
 }
