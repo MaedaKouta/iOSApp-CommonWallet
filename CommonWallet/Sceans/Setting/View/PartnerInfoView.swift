@@ -11,8 +11,7 @@ struct PartnerInfoView: View {
 
     @ObservedObject var viewModel: PartnerInfoViewModel
 
-    @State private var isDisConnectPartnerAlert = false
-    @State private var text = ""
+    @State private var isDisconnectAlert = false
 
     var body: some View {
         VStack {
@@ -41,7 +40,7 @@ struct PartnerInfoView: View {
                 Section {
                     Button(action: {
                         Task {
-                            isDisConnectPartnerAlert = true
+                            isDisconnectAlert = true
                         }
                     }) {
                         HStack {
@@ -54,7 +53,7 @@ struct PartnerInfoView: View {
                 }
             }
 
-        }.alert("連携解除", isPresented: $isDisConnectPartnerAlert){
+        }.alert("連携解除", isPresented: $isDisconnectAlert){
             Button("キャンセル"){
             }
             Button("OK"){

@@ -10,7 +10,7 @@ import FirebaseAuth
 
 class PartnerInfoViewModel: ObservableObject {
 
-    @Published var isUnConnect: Bool = false
+    @Published var isDisconnect: Bool = false
 
     private(set) var partnerShareNumber: String = ""
     private(set) var partnerName: String = ""
@@ -30,18 +30,11 @@ class PartnerInfoViewModel: ObservableObject {
         switch result {
         case .success(_):
             DispatchQueue.main.async {
-                self.isUnConnect = true
+                self.isDisconnect = true
             }
         case .failure(let error):
             print("unConnectPartner failed: \(error.localizedDescription)")
         }
-    }
-
-    // 12桁の文字列を4桁ずつ" - "で区切る関数
-    private func splitShareNumber(text: String) -> String {
-        let textArray = text.splitInto(4)
-        let splitShareNumber = textArray.joined(separator : " - ")
-        return splitShareNumber
     }
 
 }
