@@ -9,33 +9,39 @@ import SwiftUI
 
 struct UnConnectPartnerView: View {
 
-    @ObservedObject var unConnectPartnerViewModel: UnConnectPartnerViewModel
+    @ObservedObject var viewModel: UnConnectPartnerViewModel
 
+    @State private var isDisConnectPartnerAlert = false
     @State private var text = ""
 
     var body: some View {
         VStack {
 
             List {
-
                 Section {
                     HStack {
                         Text("連携番号")
-                        TextField("1234 5678 9123", text: $text)
+                        Spacer()
+                        Text("1234 5678 9123")
                     }
-                }
-
-                Section {
                     HStack {
-                        Text("連携番号")
-                        TextField("1234 5678 9123", text: $text)
+                        Text("登録名")
+                        Spacer()
+                        Text("Nifty")
                     }
+                    HStack {
+                        Text("表示名")
+                        Spacer()
+                        Text("にこちゃん")
+                    }
+                } header: {
+                    Text("パートナー情報")
                 }
 
                 Section {
                     Button(action: {
                         Task {
-                            await unConnectPartnerViewModel.deletePartner()
+                            isDisConnectPartnerAlert = true
                         }
                     }) {
                         HStack {
@@ -43,20 +49,21 @@ struct UnConnectPartnerView: View {
                                 .foregroundColor(.red)
                         }
                     }
+                } footer: {
+                    Text("パートナーとの連携を解除できます。解除すると、相手の連携も強制的に解除されます。")
                 }
             }
 
-            Text("パートナーの番号")
-            Text(unConnectPartnerViewModel.partnerShareNumber)
-
-            Button(action: {
+        }.alert("連携解除", isPresented: $isDisConnectPartnerAlert){
+            Button("キャンセル"){
+            }
+            Button("OK"){
                 Task {
-                    await unConnectPartnerViewModel.deletePartner()
+                    await viewModel.deletePartner()
                 }
-            }) {
-                Text("連携を解除する")
             }
-
+        } message: {
+            Text("パートナーとの連携を解除しますか？強制的に相手も連携が解除されます。")
         }
     }
 
@@ -64,6 +71,6 @@ struct UnConnectPartnerView: View {
 
 struct UnConnectView_Previews: PreviewProvider {
     static var previews: some View {
-        UnConnectPartnerView(unConnectPartnerViewModel: UnConnectPartnerViewModel())
+        UnConnectPartnerView(viewModel: UnConnectPartnerViewModel())
     }
 }

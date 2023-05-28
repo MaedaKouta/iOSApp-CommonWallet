@@ -12,6 +12,7 @@ class UnConnectPartnerViewModel: ObservableObject {
 
     @Published var partnerShareNumber: String = ""
     @Published var isUnConnect: Bool = false
+
     private let fireStorePartnerManager = FireStorePartnerManager()
     private var userDefaultsManager = UserDefaultsManager()
 

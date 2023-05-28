@@ -78,7 +78,7 @@ struct SettingView: View {
                     Section {
 
                         HStack {
-                            Text("パートナーの名前")
+                            Text("パートナー表示名")
                             NavigationLink(destination: ChangePartnerNameView(changePartnerNameViewModel: ChangePartnerNameViewModel(), isChangePartnerNameView: $isChangePartnerNameView), isActive: $isChangePartnerNameView) {
                                 Text(settingViewModel.partnerName)
                                     .foregroundColor(.gray)
@@ -95,7 +95,7 @@ struct SettingView: View {
                             NavigationLink(destination: {
                                 VStack {
                                     if settingViewModel.isConnectPartner() {
-                                        UnConnectPartnerView(unConnectPartnerViewModel: UnConnectPartnerViewModel())
+                                        UnConnectPartnerView(viewModel: UnConnectPartnerViewModel())
                                     } else {
                                         ConnectPartnerView(connectPartnerViewModel: ConnectPartnerViewModel())
                                     }
@@ -114,7 +114,9 @@ struct SettingView: View {
                             })
                         }
                     } header: {
-                        Text("パートナー登録")
+                        Text("パートナー")
+                    } footer: {
+                        Text("パートナーと連携することで、お互いに金額を操作できます。")
                     }
 
                     Section {
