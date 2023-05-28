@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseAuth
 
-class ChangePartnerNameViewModel: ObservableObject {
+class PartnerNameEditViewModel: ObservableObject {
 
     @Published var beforePartnerName: String = ""
     private var userDefaultsManager = UserDefaultsManager()

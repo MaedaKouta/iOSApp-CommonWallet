@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct ChangePartnerNameView: View {
+struct PartnerNameEditView: View {
 
-    @ObservedObject var changePartnerNameViewModel: ChangePartnerNameViewModel
+    @ObservedObject var changePartnerNameViewModel: PartnerNameEditViewModel
 
     @Binding var isChangePartnerNameView: Bool
 
@@ -63,6 +63,6 @@ struct ChangePartnerNameView: View {
 
 struct ChangePartnerNameView_Previews: PreviewProvider {
     static var previews: some View {
-        ChangePartnerNameView(changePartnerNameViewModel: ChangePartnerNameViewModel(), isChangePartnerNameView: .constant(false))
+        PartnerNameEditView(changePartnerNameViewModel: PartnerNameEditViewModel(), isChangePartnerNameView: .constant(false))
     }
 }

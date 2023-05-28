@@ -79,7 +79,7 @@ struct SettingView: View {
 
                         HStack {
                             Text("表示名")
-                            NavigationLink(destination: ChangePartnerNameView(changePartnerNameViewModel: ChangePartnerNameViewModel(), isChangePartnerNameView: $isChangePartnerNameView), isActive: $isChangePartnerNameView) {
+                            NavigationLink(destination: PartnerNameEditView(changePartnerNameViewModel: PartnerNameEditViewModel(), isChangePartnerNameView: $isChangePartnerNameView), isActive: $isChangePartnerNameView) {
                                 Text(settingViewModel.partnerName)
                                     .foregroundColor(.gray)
                                     .frame(maxWidth: .infinity, alignment: .trailing)

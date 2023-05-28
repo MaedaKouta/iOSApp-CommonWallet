@@ -65,13 +65,13 @@
 		878C9A952991CB2C003D4816 /* DateCompare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878C9A942991CB2C003D4816 /* DateCompare.swift */; };
 		878C9A972991D3E6003D4816 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878C9A962991D3E6003D4816 /* DateFormatter.swift */; };
 		879379E0298B444500D3A47B /* ConnectPartnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379DF298B444500D3A47B /* ConnectPartnerView.swift */; };
-		879379E2298B4C8D00D3A47B /* ChangePartnerNameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E1298B4C8D00D3A47B /* ChangePartnerNameView.swift */; };
+		879379E2298B4C8D00D3A47B /* PartnerNameEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E1298B4C8D00D3A47B /* PartnerNameEditView.swift */; };
 		879379E4298B53E600D3A47B /* FireStorePartnerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E3298B53E600D3A47B /* FireStorePartnerManager.swift */; };
 		879379E7298B5B4E00D3A47B /* ConnectPartnerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E6298B5B4E00D3A47B /* ConnectPartnerViewModel.swift */; };
 		879379E9298B85E300D3A47B /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E8298B85E300D3A47B /* AccountViewModel.swift */; };
 		879379EB298B999700D3A47B /* PartnerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EA298B999700D3A47B /* PartnerInfoView.swift */; };
 		879379ED298B99C700D3A47B /* PartnerInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EC298B99C700D3A47B /* PartnerInfoViewModel.swift */; };
-		879379EF298BBDB800D3A47B /* ChangePartnerNameViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EE298BBDB800D3A47B /* ChangePartnerNameViewModel.swift */; };
+		879379EF298BBDB800D3A47B /* PartnerNameEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EE298BBDB800D3A47B /* PartnerNameEditViewModel.swift */; };
 		87ABC57F29907DC2003E94F3 /* HeaderHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC57E29907DC2003E94F3 /* HeaderHomeView.swift */; };
 		87ABC58129908B17003E94F3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC58029908B17003E94F3 /* MainTabView.swift */; };
 		87ABC58829908BA1003E94F3 /* AllLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */; };
@@ -172,13 +172,13 @@
 		878C9A942991CB2C003D4816 /* DateCompare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCompare.swift; sourceTree = "<group>"; };
 		878C9A962991D3E6003D4816 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
 		879379DF298B444500D3A47B /* ConnectPartnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectPartnerView.swift; sourceTree = "<group>"; };
-		879379E1298B4C8D00D3A47B /* ChangePartnerNameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePartnerNameView.swift; sourceTree = "<group>"; };
+		879379E1298B4C8D00D3A47B /* PartnerNameEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerNameEditView.swift; sourceTree = "<group>"; };
 		879379E3298B53E600D3A47B /* FireStorePartnerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorePartnerManager.swift; sourceTree = "<group>"; };
 		879379E6298B5B4E00D3A47B /* ConnectPartnerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectPartnerViewModel.swift; sourceTree = "<group>"; };
 		879379E8298B85E300D3A47B /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		879379EA298B999700D3A47B /* PartnerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerInfoView.swift; sourceTree = "<group>"; };
 		879379EC298B99C700D3A47B /* PartnerInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerInfoViewModel.swift; sourceTree = "<group>"; };
-		879379EE298BBDB800D3A47B /* ChangePartnerNameViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePartnerNameViewModel.swift; sourceTree = "<group>"; };
+		879379EE298BBDB800D3A47B /* PartnerNameEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerNameEditViewModel.swift; sourceTree = "<group>"; };
 		87ABC57E29907DC2003E94F3 /* HeaderHomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderHomeView.swift; sourceTree = "<group>"; };
 		87ABC58029908B17003E94F3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLogViewModel.swift; sourceTree = "<group>"; };
@@ -415,7 +415,7 @@
 				879379EA298B999700D3A47B /* PartnerInfoView.swift */,
 				87CDAABB297E6ADB00F52887 /* AccountView.swift */,
 				879379DF298B444500D3A47B /* ConnectPartnerView.swift */,
-				879379E1298B4C8D00D3A47B /* ChangePartnerNameView.swift */,
+				879379E1298B4C8D00D3A47B /* PartnerNameEditView.swift */,
 				87DDCDC62A18342200F51DC8 /* LicenseView.swift */,
 			);
 			path = View;
@@ -428,7 +428,7 @@
 				879379E8298B85E300D3A47B /* AccountViewModel.swift */,
 				879379E6298B5B4E00D3A47B /* ConnectPartnerViewModel.swift */,
 				879379EC298B99C700D3A47B /* PartnerInfoViewModel.swift */,
-				879379EE298BBDB800D3A47B /* ChangePartnerNameViewModel.swift */,
+				879379EE298BBDB800D3A47B /* PartnerNameEditViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -781,7 +781,7 @@
 				87EE8D7D297A1790005CCB6F /* AppDelegate.swift in Sources */,
 				874EF93A297CC8B200C94233 /* FireStoreUserManager.swift in Sources */,
 				87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */,
-				879379E2298B4C8D00D3A47B /* ChangePartnerNameView.swift in Sources */,
+				879379E2298B4C8D00D3A47B /* PartnerNameEditView.swift in Sources */,
 				878C9A952991CB2C003D4816 /* DateCompare.swift in Sources */,
 				874EF934297CBB5700C94233 /* LaunchScreen.swift in Sources */,
 				87391E4C298A15B600897A96 /* SettingViewModel.swift in Sources */,
@@ -810,7 +810,7 @@
 				87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */,
 				87CDAABC297E6ADB00F52887 /* AccountView.swift in Sources */,
 				879379E0298B444500D3A47B /* ConnectPartnerView.swift in Sources */,
-				879379EF298BBDB800D3A47B /* ChangePartnerNameViewModel.swift in Sources */,
+				879379EF298BBDB800D3A47B /* PartnerNameEditViewModel.swift in Sources */,
 				879379ED298B99C700D3A47B /* PartnerInfoViewModel.swift in Sources */,
 				87F53FDE297E919F00293176 /* Transaction.swift in Sources */,
 				874EF936297CBD1C00C94233 /* LaunchStatus.swift in Sources */,
