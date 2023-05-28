@@ -78,7 +78,7 @@ struct SettingView: View {
                     Section {
 
                         HStack {
-                            Text("パートナー表示名")
+                            Text("表示名")
                             NavigationLink(destination: ChangePartnerNameView(changePartnerNameViewModel: ChangePartnerNameViewModel(), isChangePartnerNameView: $isChangePartnerNameView), isActive: $isChangePartnerNameView) {
                                 Text(settingViewModel.partnerName)
                                     .foregroundColor(.gray)
@@ -90,7 +90,7 @@ struct SettingView: View {
                         }
 
                         HStack {
-                            Text("パートナー")
+                            Text("連携情報")
 
                             NavigationLink(destination: {
                                 VStack {
@@ -106,7 +106,7 @@ struct SettingView: View {
                                     .frame(maxWidth: .infinity, alignment: .trailing)
                                     .onAppear {
                                         if settingViewModel.isConnectPartner() {
-                                            connectText = "連携済み"
+                                            connectText = "1234 - 5678 - 9123"
                                         } else {
                                             connectText = "未連携"
                                         }

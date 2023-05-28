@@ -10,14 +10,19 @@ import FirebaseAuth
 
 class PartnerInfoViewModel: ObservableObject {
 
-    @Published var partnerShareNumber: String = ""
     @Published var isUnConnect: Bool = false
+
+    private(set) var partnerShareNumber: String = ""
+    private(set) var partnerName: String = ""
+    private(set) var partnerModifiedName: String = ""
 
     private let fireStorePartnerManager = FireStorePartnerManager()
     private var userDefaultsManager = UserDefaultsManager()
 
     init() {
-        partnerShareNumber = splitShareNumber(text: userDefaultsManager.getPartnerShareNumber() ?? "")
+        partnerShareNumber = userDefaultsManager.getPartnerShareNumber()?.splitBy4Digits(betweenText: " - ") ?? ""
+        partnerName = userDefaultsManager.getPartnerName() ?? ""
+        partnerModifiedName = userDefaultsManager.getPartnerModifiedName() ?? ""
     }
 
     func deletePartner() async {

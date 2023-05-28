@@ -23,6 +23,7 @@ struct UserDefaultsKey {
     let createdAt = "createdAt"
     let partnerUserId = "partnerUserId"
     let partnerName = "partnerName"
+    let partnerModifiedName = "partnerModifiedName"
     let partnerShareNumber = "partnerShareNumber"
     let oldestResolvedDate = "oldestResolvedDate"
 

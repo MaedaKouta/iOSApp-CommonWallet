@@ -67,7 +67,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
     func fetchUnResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void) {
 
         guard let userId = Auth.auth().currentUser?.uid else { return }
-        let partnerId = userDefaultsManager.getPartnerUid() ?? ""
+        let partnerId = userDefaultsManager.getPartnerUserId() ?? ""
 
         // Transactionsコレクションから未精算の取引を取得する
         // inを含むwhereFieldとorderByは同時に使えない
@@ -104,7 +104,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
     func fetchResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void) {
 
         guard let userId = Auth.auth().currentUser?.uid else { return }
-        let partnerId = userDefaultsManager.getPartnerUid() ?? ""
+        let partnerId = userDefaultsManager.getPartnerUserId() ?? ""
 
         // inを含むwhereFieldとorderByは同時に使えない
         db.collection("Transactions")
@@ -142,7 +142,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
     func fetchOldestDate(completion: @escaping(Date?, Error?) -> Void) {
 
         guard let userId = Auth.auth().currentUser?.uid else { return }
-        let partnerId = userDefaultsManager.getPartnerUid() ?? ""
+        let partnerId = userDefaultsManager.getPartnerUserId() ?? ""
 
         // Transactionsコレクションから未精算の取引を取得する
         db.collection("Transactions")

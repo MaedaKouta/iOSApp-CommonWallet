@@ -36,7 +36,7 @@ class EditTransactionViewModel: ObservableObject {
         myUserId = self.userDefaultsManager.getUser()?.id ?? ""
         myName = self.userDefaultsManager.getUser()?.name ?? ""
         partnerName = self.userDefaultsManager.getPartnerName() ?? ""
-        partnerUserId = self.userDefaultsManager.getPartnerUid() ?? ""
+        partnerUserId = self.userDefaultsManager.getPartnerUserId() ?? ""
 
         // 立て替えた人 == 自分なら、selectedIndexを0にする
         if transaction.creditorId == self.userDefaultsManager.getUser()?.id {

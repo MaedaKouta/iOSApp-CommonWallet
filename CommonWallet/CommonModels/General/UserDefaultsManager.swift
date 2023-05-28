@@ -11,7 +11,7 @@ struct UserDefaultsManager {
 
     private let userDefaultsKey = UserDefaultsKey()
 
-    // MARK: - Set
+    // MARK: - Setter
     mutating func setUser(user: User) {
         UserDefaults.standard.set(user.id, forKey: userDefaultsKey.userId)
         UserDefaults.standard.set(user.name, forKey: userDefaultsKey.userName)
@@ -35,6 +35,7 @@ struct UserDefaultsManager {
     mutating func setPartner(userId: String, name: String, shareNumber: String) {
         UserDefaults.standard.set(userId, forKey: userDefaultsKey.partnerUserId)
         UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)
+        UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerModifiedName)
         UserDefaults.standard.set(shareNumber, forKey: userDefaultsKey.partnerShareNumber)
     }
 
@@ -42,11 +43,15 @@ struct UserDefaultsManager {
         UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)
     }
 
+    mutating func setPartnerModifiedName(name: String) {
+        UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerModifiedName)
+    }
+
     mutating func setOldestResolvedDate(date: Date) {
         UserDefaults.standard.set(date, forKey: userDefaultsKey.oldestResolvedDate)
     }
 
-    // MARK: - Get
+    // MARK: - Getter
     mutating func getUser() -> User? {
         guard let userName = UserDefaults.standard.string(forKey: userDefaultsKey.userName),
               let email = UserDefaults.standard.string(forKey: userDefaultsKey.email),
@@ -68,12 +73,16 @@ struct UserDefaultsManager {
         return UserDefaults.standard.string(forKey: userDefaultsKey.shareNumber)
     }
 
-    mutating func getPartnerUid() -> String? {
+    mutating func getPartnerUserId() -> String? {
         return UserDefaults.standard.string(forKey: userDefaultsKey.partnerUserId)
     }
 
     mutating func getPartnerName() -> String? {
         return UserDefaults.standard.string(forKey: userDefaultsKey.partnerName)
+    }
+
+    mutating func getPartnerModifiedName() -> String? {
+        return UserDefaults.standard.string(forKey: userDefaultsKey.partnerModifiedName)
     }
 
     mutating func getPartnerShareNumber() -> String? {

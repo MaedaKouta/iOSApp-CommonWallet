@@ -22,17 +22,17 @@ struct PartnerInfoView: View {
                     HStack {
                         Text("連携番号")
                         Spacer()
-                        Text("1234 5678 9123")
+                        Text(viewModel.partnerShareNumber)
                     }
                     HStack {
                         Text("登録名")
                         Spacer()
-                        Text("Nifty")
+                        Text(viewModel.partnerName)
                     }
                     HStack {
-                        Text("表示名")
+                        Text("本端末での表示名")
                         Spacer()
-                        Text("にこちゃん")
+                        Text(viewModel.partnerModifiedName)
                     }
                 } header: {
                     Text("パートナー情報")

@@ -34,7 +34,7 @@ class CommonWalletViewModel: ObservableObject {
         myUserId = self.userDefaultsManager.getUser()?.id ?? ""
         myName = self.userDefaultsManager.getUser()?.name ?? ""
         partnerName = self.userDefaultsManager.getPartnerName() ?? ""
-        partnerUserId = self.userDefaultsManager.getPartnerUid() ?? ""
+        partnerUserId = self.userDefaultsManager.getPartnerUserId() ?? ""
     }
 
     func getFireStoreTransactionManager() -> FireStoreTransactionManager {

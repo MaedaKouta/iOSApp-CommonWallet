@@ -32,7 +32,7 @@ class SettingViewModel: ObservableObject {
     }
 
     func isConnectPartner() -> Bool {
-        if let _ = userDefaultsManager.getPartnerUid() {
+        if let _ = userDefaultsManager.getPartnerUserId() {
             return true
         } else {
             return false

@@ -61,7 +61,7 @@ class FireStorePartnerManager: FireStorePartnerManaging {
         guard let myUserId = Auth.auth().currentUser?.uid else {
             return .failure(AuthError.emptyUserId)
         }
-        guard let partnerUserId = userDefaultManager.getPartnerUid() else {
+        guard let partnerUserId = userDefaultManager.getPartnerUserId() else {
             return .failure(UserDefaultsError.emptyPartnerUserId)
         }
 

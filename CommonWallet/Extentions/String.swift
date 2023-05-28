@@ -17,4 +17,14 @@ extension String {
         return str.components(separatedBy: ",")
     }
 
+    /*
+     4桁ごとに betweenText を挿入して分割する
+     betweenTextには"-"などを指定する
+     */
+    func splitBy4Digits(betweenText: String) -> String {
+        let textArray = self.splitInto(4)
+        let splitText = textArray.joined(separator : betweenText)
+        return splitText
+    }
+
 }
