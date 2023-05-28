@@ -9,38 +9,19 @@ import SwiftUI
 
 struct PartnerNameEditView: View {
 
-    @ObservedObject var changePartnerNameViewModel: PartnerNameEditViewModel
+    @ObservedObject var viewModel: PartnerNameEditViewModel
 
     @Binding var isChangePartnerNameView: Bool
 
-    @State private var partnerName: String = ""
+    @State private var afterPartnerName: String = ""
     @State private var isEnableComplete: Bool = false
-
-    @State private var text = ""
 
     var body: some View {
 
         VStack {
             List {
                 Section {
-                    HStack {
-                        Text("名前")
-                        TextField(changePartnerNameViewModel.beforePartnerName, text: $partnerName)
-                            .onChange(of: partnerName, perform: { newValue in
-                                if partnerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                                    isEnableComplete = false
-                                } else if changePartnerNameViewModel.beforePartnerName == newValue {
-                                    isEnableComplete = false
-                                } else {
-                                    isEnableComplete = true
-                                }
-
-
-                            })
-                            .onAppear{
-                                partnerName = changePartnerNameViewModel.beforePartnerName
-                            }
-                    }
+                    editPartnerNameView()
                 }
             }
         }
@@ -49,8 +30,8 @@ struct PartnerNameEditView: View {
             /// ナビゲーションバー右
             ToolbarItem(placement: .navigationBarTrailing){
                 Button(action: {
-                    let newPartnerName = partnerName.trimmingCharacters(in: .whitespacesAndNewlines)
-                    changePartnerNameViewModel.changePartnerName(newName: newPartnerName)
+                    let fixedAfterPartnerName = afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines)
+                    viewModel.changePartnerName(newName: fixedAfterPartnerName)
                     isChangePartnerNameView = false
                 }) {
                     Text("完了")
@@ -59,10 +40,30 @@ struct PartnerNameEditView: View {
             }
         }
     }
+
+    private func editPartnerNameView() -> some View {
+        HStack {
+            Text("名前")
+
+            TextField(viewModel.beforePartnerName, text: $afterPartnerName)
+                .onChange(of: afterPartnerName, perform: { newValue in
+                    if afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                        isEnableComplete = false
+                    } else if viewModel.beforePartnerName == newValue {
+                        isEnableComplete = false
+                    } else {
+                        isEnableComplete = true
+                    }
+                })
+                .onAppear{
+                    afterPartnerName = viewModel.beforePartnerName
+                }
+        }
+    }
 }
 
 struct ChangePartnerNameView_Previews: PreviewProvider {
     static var previews: some View {
-        PartnerNameEditView(changePartnerNameViewModel: PartnerNameEditViewModel(), isChangePartnerNameView: .constant(false))
+        PartnerNameEditView(viewModel: PartnerNameEditViewModel(), isChangePartnerNameView: .constant(false))
     }
 }
