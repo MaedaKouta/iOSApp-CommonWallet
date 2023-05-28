@@ -14,6 +14,7 @@ struct SettingView: View {
     @Binding var isShowSettingView: Bool
     @State private var color: Color = .white
     @State private var isActive: Bool = false
+    @State private var isCopyDoneAlert: Bool = false
 
     @State private var connectText: String = ""
     @State private var isSelectionShareNumber = false
@@ -50,9 +51,8 @@ struct SettingView: View {
                         }
 
                         Button(action: {
-                            // TODO: 「クリップボードにコピーしました」みたいなアラート出そう
                             UIPasteboard.general.string = settingViewModel.shareNumber
-                            print("クリップボードコピー：\(String(describing: UIPasteboard.general.string))")
+                            isCopyDoneAlert = true
                         }, label: {
                             HStack {
                                 Text("My共有番号")
@@ -156,6 +156,12 @@ struct SettingView: View {
 
                 }// Listここまで
                 .scrollContentBackground(.visible)
+            }
+            .alert("完了", isPresented: $isCopyDoneAlert){
+                Button("OK"){
+                }
+            } message: {
+                Text("クリップボードにコピーしました")
             }
             .navigationTitle("設定")
             .navigationBarTitleDisplayMode(.inline)
