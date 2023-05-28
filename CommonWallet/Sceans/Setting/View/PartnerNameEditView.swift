@@ -11,7 +11,7 @@ struct PartnerNameEditView: View {
 
     @ObservedObject var viewModel: PartnerNameEditViewModel
 
-    @Binding var isChangePartnerNameView: Bool
+    @Binding var isPartnerNameEditView: Bool
 
     @State private var afterPartnerName: String = ""
     @State private var isEnableComplete: Bool = false
@@ -32,7 +32,7 @@ struct PartnerNameEditView: View {
                 Button(action: {
                     let fixedAfterPartnerName = afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines)
                     viewModel.changePartnerName(newName: fixedAfterPartnerName)
-                    isChangePartnerNameView = false
+                    isPartnerNameEditView = false
                 }) {
                     Text("完了")
                 }
@@ -64,6 +64,6 @@ struct PartnerNameEditView: View {
 
 struct ChangePartnerNameView_Previews: PreviewProvider {
     static var previews: some View {
-        PartnerNameEditView(viewModel: PartnerNameEditViewModel(), isChangePartnerNameView: .constant(false))
+        PartnerNameEditView(viewModel: PartnerNameEditViewModel(), isPartnerNameEditView: .constant(false))
     }
 }

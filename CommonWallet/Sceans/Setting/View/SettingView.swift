@@ -20,6 +20,7 @@ struct SettingView: View {
     @State private var isSelectionShareNumber = false
 
     @State private var isChangePartnerNameView = false
+    @State private var isConnectPartnerView = false
     @State private var test = false
 
     @State private var isWebView = false
@@ -79,8 +80,8 @@ struct SettingView: View {
 
                         HStack {
                             Text("表示名")
-                            NavigationLink(destination: PartnerNameEditView(viewModel: PartnerNameEditViewModel(), isChangePartnerNameView: $isChangePartnerNameView), isActive: $isChangePartnerNameView) {
-                                Text(settingViewModel.partnerName)
+                            NavigationLink(destination: PartnerNameEditView(viewModel: PartnerNameEditViewModel(), isPartnerNameEditView: $isChangePartnerNameView), isActive: $isChangePartnerNameView) {
+                                Text(settingViewModel.partnerModifiedName)
                                     .foregroundColor(.gray)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
                             }
@@ -97,7 +98,7 @@ struct SettingView: View {
                                     if settingViewModel.isConnectPartner() {
                                         PartnerInfoView(viewModel: PartnerInfoViewModel())
                                     } else {
-                                        ConnectPartnerView(connectPartnerViewModel: ConnectPartnerViewModel())
+                                        ConnectPartnerView(viewModel: ConnectPartnerViewModel(), isConnectPartnerView: $isConnectPartnerView)
                                     }
                                 }
                             }, label: {

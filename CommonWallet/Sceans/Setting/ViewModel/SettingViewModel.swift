@@ -11,15 +11,15 @@ import FirebaseAuth
 class SettingViewModel: ObservableObject {
 
     @Published var shareNumber = ""
-    @Published var partnerName = ""
+    @Published var partnerModifiedName = ""
     @Published var userName = ""
     @Published var userEmail = ""
+
     private var userDefaultsManager = UserDefaultsManager()
 
     init() {
-        print("Setting")
         shareNumber = splitShareNumber(text: userDefaultsManager.getShareNumber() ?? "")
-        partnerName = userDefaultsManager.getPartnerName() ?? ""
+        partnerModifiedName = userDefaultsManager.getPartnerModifiedName() ?? ""
         userName = userDefaultsManager.getUser()?.name ?? ""
         userEmail = userDefaultsManager.getUser()?.email ?? ""
     }
@@ -40,7 +40,7 @@ class SettingViewModel: ObservableObject {
     }
 
     func reloadPartnerName() {
-        partnerName = userDefaultsManager.getPartnerName() ?? ""
+        partnerModifiedName = userDefaultsManager.getPartnerName() ?? ""
     }
 
 }
