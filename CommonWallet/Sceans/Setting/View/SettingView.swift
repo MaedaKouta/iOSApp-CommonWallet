@@ -95,7 +95,7 @@ struct SettingView: View {
                             NavigationLink(destination: {
                                 VStack {
                                     if settingViewModel.isConnectPartner() {
-                                        UnConnectPartnerView(viewModel: UnConnectPartnerViewModel())
+                                        PartnerInfoView(viewModel: PartnerInfoViewModel())
                                     } else {
                                         ConnectPartnerView(connectPartnerViewModel: ConnectPartnerViewModel())
                                     }

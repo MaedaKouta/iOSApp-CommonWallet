@@ -8,7 +8,7 @@
 import Foundation
 import FirebaseAuth
 
-class UnConnectPartnerViewModel: ObservableObject {
+class PartnerInfoViewModel: ObservableObject {
 
     @Published var partnerShareNumber: String = ""
     @Published var isUnConnect: Bool = false

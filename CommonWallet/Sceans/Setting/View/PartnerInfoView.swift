@@ -7,9 +7,9 @@
 
 import SwiftUI
 
-struct UnConnectPartnerView: View {
+struct PartnerInfoView: View {
 
-    @ObservedObject var viewModel: UnConnectPartnerViewModel
+    @ObservedObject var viewModel: PartnerInfoViewModel
 
     @State private var isDisConnectPartnerAlert = false
     @State private var text = ""
@@ -71,6 +71,6 @@ struct UnConnectPartnerView: View {
 
 struct UnConnectView_Previews: PreviewProvider {
     static var previews: some View {
-        UnConnectPartnerView(viewModel: UnConnectPartnerViewModel())
+        PartnerInfoView(viewModel: PartnerInfoViewModel())
     }
 }
