@@ -30,3 +30,27 @@ struct PKHUDView: UIViewRepresentable {
     }
 
 }
+
+struct PKHUDViewModifier<Parent: View>: View {
+
+    @Binding var isPresented: Bool
+    var HUDContent: HUDContentType
+    var delay: Double
+    var parent: Parent
+
+    var body: some View {
+        ZStack {
+            parent
+            if isPresented {
+                PKHUDView(isPresented: $isPresented, HUDContent: HUDContent, delay: delay)
+            }
+        }
+    }
+
+}
+
+extension View {
+    public func PKHUD(isPresented: Binding<Bool>, HUDContent: HUDContentType, delay: Double) -> some View {
+        PKHUDViewModifier(isPresented: isPresented, HUDContent: HUDContent, delay: delay, parent: self)
+    }
+}
