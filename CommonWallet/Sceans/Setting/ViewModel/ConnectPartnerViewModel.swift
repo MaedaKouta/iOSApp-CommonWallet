@@ -13,15 +13,17 @@ class ConnectPartnerViewModel: ObservableObject {
     @Published var isConnect: Bool = false
     private let fireStorePartnerManager = FireStorePartnerManager()
 
-    func connectPartner(partnerShareNumber: String) async {
+    func connectPartner(partnerShareNumber: String) async -> Bool {
         let result = await fireStorePartnerManager.connectPartner(partnerShareNumber: partnerShareNumber)
         switch result {
         case .success(_):
-            DispatchQueue.main.async {
-                self.isConnect = true
-            }
+            //DispatchQueue.main.async {
+                //self.isConnect = true
+                return true
+            //}
         case .failure(let error):
             print("connectPartner failed: \(error.localizedDescription)")
+            return false
         }
     }
 

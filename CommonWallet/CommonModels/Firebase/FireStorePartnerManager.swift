@@ -10,11 +10,13 @@ import FirebaseAuth
 import Firebase
 import FirebaseFirestore
 
-// TODO: パートナーの改名もUserDefaultsだけじゃなくFireStoreに保存する処理追加する
 class FireStorePartnerManager: FireStorePartnerManaging {
 
     private let db = Firestore.firestore()
     private var userDefaultManager = UserDefaultsManager()
+
+//    func connectPartner2(partnerShareNumber: String, completion: @escaping(Result<Bool, Error>) -> Void) {
+//    }
 
     func connectPartner(partnerShareNumber: String) async -> Result<Bool, Error> {
         guard let myUserId = Auth.auth().currentUser?.uid else {

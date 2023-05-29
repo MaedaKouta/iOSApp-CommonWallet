@@ -98,7 +98,7 @@ struct SettingView: View {
                                     if settingViewModel.isConnectPartner() {
                                         PartnerInfoView(viewModel: PartnerInfoViewModel())
                                     } else {
-                                        ConnectPartnerView(viewModel: ConnectPartnerViewModel(), isConnectPartnerView: $isConnectPartnerView)
+                                        ConnectPartnerView(viewModel: ConnectPartnerViewModel())
                                     }
                                 }
                             }, label: {

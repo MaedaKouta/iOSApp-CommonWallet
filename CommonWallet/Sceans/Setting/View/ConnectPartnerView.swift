@@ -10,11 +10,17 @@ import Combine
 
 struct ConnectPartnerView: View {
 
+    // presentationMode.wrappedValue.dismiss() で画面戻れる
+    @Environment(\.presentationMode) var presentationMode
+
     @ObservedObject var viewModel: ConnectPartnerViewModel
-    @Binding var isConnectPartnerView: Bool
 
     @State private var inputNumber: String = ""
     @State private var isEnableComplete = false
+
+    @State private var isPKHUDProgress = false
+    @State private var isPKHUDSuccess = false
+    @State private var isPKHUDError = false
 
     private let numberLimit = 12
 
@@ -28,13 +34,27 @@ struct ConnectPartnerView: View {
                 }
             }
         }
+        .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
+        .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
+        .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
         .toolbar {
             /// ナビゲーションバー右
             ToolbarItem(placement: .navigationBarTrailing){
                 Button(action: {
-                    isConnectPartnerView = false
+                    isPKHUDProgress = true
                     Task {
-                        await viewModel.connectPartner(partnerShareNumber: inputNumber)
+                        let result = await viewModel.connectPartner(partnerShareNumber: inputNumber)
+                        if result {
+                            isPKHUDProgress = false
+                            isPKHUDSuccess = true
+                            // PKHUD Suceesのアニメーションが1秒経過してから元の画面に戻る
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                presentationMode.wrappedValue.dismiss()
+                            }
+                        } else {
+                            isPKHUDProgress = false
+                            isPKHUDError = true
+                        }
                     }
                 }) {
                     Text("完了")
@@ -73,6 +93,6 @@ struct ConnectPartnerView: View {
 
 struct ConnectView_Previews: PreviewProvider {
     static var previews: some View {
-        ConnectPartnerView(viewModel: ConnectPartnerViewModel(), isConnectPartnerView: .constant(true))
+        ConnectPartnerView(viewModel: ConnectPartnerViewModel())
     }
 }
