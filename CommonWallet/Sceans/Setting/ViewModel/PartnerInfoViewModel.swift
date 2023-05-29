@@ -10,8 +10,6 @@ import FirebaseAuth
 
 class PartnerInfoViewModel: ObservableObject {
 
-    @Published var isDisconnect: Bool = false
-
     private(set) var partnerShareNumber: String = ""
     private(set) var partnerName: String = ""
     private(set) var partnerModifiedName: String = ""
@@ -25,15 +23,14 @@ class PartnerInfoViewModel: ObservableObject {
         partnerModifiedName = userDefaultsManager.getPartnerModifiedName() ?? ""
     }
 
-    func deletePartner() async {
+    func deletePartner() async -> Bool {
         let result = await fireStorePartnerManager.deletePartner()
         switch result {
         case .success(_):
-            DispatchQueue.main.async {
-                self.isDisconnect = true
-            }
+            return true
         case .failure(let error):
             print("unConnectPartner failed: \(error.localizedDescription)")
+            return false
         }
     }
 

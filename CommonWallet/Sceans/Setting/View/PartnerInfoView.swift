@@ -9,9 +9,15 @@ import SwiftUI
 
 struct PartnerInfoView: View {
 
+    // presentationMode.wrappedValue.dismiss() で画面戻れる
+    @Environment(\.presentationMode) var presentationMode
+
     @ObservedObject var viewModel: PartnerInfoViewModel
 
     @State private var isDisconnectAlert = false
+    @State private var isPKHUDProgress = false
+    @State private var isPKHUDSuccess = false
+    @State private var isPKHUDError = false
 
     var body: some View {
         VStack {
@@ -53,12 +59,29 @@ struct PartnerInfoView: View {
                 }
             }
 
-        }.alert("連携解除", isPresented: $isDisconnectAlert){
+        }
+        .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
+        .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
+        .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
+        .alert("連携解除", isPresented: $isDisconnectAlert){
             Button("キャンセル"){
             }
             Button("OK"){
+                isPKHUDProgress = true
                 Task {
-                    await viewModel.deletePartner()
+                    let result = await viewModel.deletePartner()
+                    if result {
+                        isPKHUDProgress = false
+                        isPKHUDSuccess = true
+                        // PKHUD Suceesのアニメーションが1秒経過してから元の画面に戻る
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            presentationMode.wrappedValue.dismiss()
+                            isPKHUDSuccess = false
+                        }
+                    } else {
+                        isPKHUDProgress = false
+                        isPKHUDError = true
+                    }
                 }
             }
         } message: {
