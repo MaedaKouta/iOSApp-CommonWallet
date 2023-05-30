@@ -12,7 +12,7 @@ struct PartnerInfoView: View {
     // presentationMode.wrappedValue.dismiss() で画面戻れる
     @Environment(\.presentationMode) var presentationMode
 
-    @ObservedObject var viewModel: PartnerInfoViewModel
+    @StateObject var viewModel: PartnerInfoViewModel
 
     @State private var isDisconnectAlert = false
     @State private var isPKHUDProgress = false

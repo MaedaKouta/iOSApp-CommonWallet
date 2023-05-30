@@ -9,7 +9,7 @@ import SwiftUI
 
 struct SettingView: View {
 
-    @ObservedObject var settingViewModel = SettingViewModel()
+    @StateObject var viewModel = SettingViewModel()
 
     @Binding var isShowSettingView: Bool
     @State private var color: Color = .white
@@ -43,23 +43,23 @@ struct SettingView: View {
                                     .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
                                     .frame(width: 45, height: 45)
                                 VStack {
-                                    Text(settingViewModel.userName)
+                                    Text(viewModel.userName)
                                         .frame(maxWidth: .infinity, alignment: .leading)
-                                    Text(settingViewModel.userEmail)
+                                    Text(viewModel.userEmail)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                             }
                         }
 
                         Button(action: {
-                            UIPasteboard.general.string = settingViewModel.shareNumber
+                            UIPasteboard.general.string = viewModel.shareNumber
                             isCopyDoneAlert = true
                         }, label: {
                             HStack {
                                 Text("My共有番号")
                                     .foregroundColor(.black)
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                Text(settingViewModel.shareNumber)
+                                Text(viewModel.shareNumber)
                                     .textSelection(.enabled)
                                     .lineLimit(0)
                                     .minimumScaleFactor(0.5)
@@ -81,38 +81,45 @@ struct SettingView: View {
                         HStack {
                             Text("表示名")
                             NavigationLink(destination: PartnerNameEditView(viewModel: PartnerNameEditViewModel(), isPartnerNameEditView: $isChangePartnerNameView), isActive: $isChangePartnerNameView) {
-                                Text(settingViewModel.partnerModifiedName)
+                                Text(viewModel.partnerModifiedName)
                                     .foregroundColor(.gray)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
                             }
                             .onAppear{
-                                settingViewModel.reloadPartnerName()
+                                viewModel.reloadPartnerName()
                             }
                         }
 
-                        HStack {
-                            Text("連携情報")
-
-                            NavigationLink(destination: {
-                                VStack {
-                                    if settingViewModel.isConnectPartner() {
-                                        PartnerInfoView(viewModel: PartnerInfoViewModel())
-                                    } else {
-                                        ConnectPartnerView(viewModel: ConnectPartnerViewModel())
-                                    }
-                                }
-                            }, label: {
-                                Text(connectText)
-                                    .foregroundColor(.gray)
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                                    .onAppear {
-                                        if settingViewModel.isConnectPartner() {
+                        // 連携情報を、パートナーと接続済みかで表示なよう変える
+                        // 下のような広い条件分岐にしないと、挙動がおかしくなる
+                        if viewModel.isConnectPartner() {
+                            HStack {
+                                Text("連携情報")
+                                NavigationLink(destination: {
+                                    PartnerInfoView(viewModel: PartnerInfoViewModel())
+                                }, label: {
+                                    Text(connectText)
+                                        .foregroundColor(.gray)
+                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                        .onAppear {
                                             connectText = "1234 - 5678 - 9123"
-                                        } else {
+                                        }
+                                })
+                            }
+                        } else {
+                            HStack {
+                                Text("連携情報")
+                                NavigationLink(destination: {
+                                    ConnectPartnerView(viewModel: ConnectPartnerViewModel())
+                                }, label: {
+                                    Text(connectText)
+                                        .foregroundColor(.gray)
+                                        .frame(maxWidth: .infinity, alignment: .trailing)
+                                        .onAppear {
                                             connectText = "未連携"
                                         }
-                                    }
-                            })
+                                })
+                            }
                         }
                     } header: {
                         Text("パートナー")

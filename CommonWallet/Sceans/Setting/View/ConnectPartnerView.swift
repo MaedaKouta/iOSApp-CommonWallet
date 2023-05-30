@@ -13,7 +13,7 @@ struct ConnectPartnerView: View {
     // presentationMode.wrappedValue.dismiss() で画面戻れる
     @Environment(\.presentationMode) var presentationMode
 
-    @ObservedObject var viewModel: ConnectPartnerViewModel
+    @StateObject var viewModel: ConnectPartnerViewModel
 
     @State private var inputNumber: String = ""
     @State private var isEnableComplete = false
@@ -50,7 +50,6 @@ struct ConnectPartnerView: View {
                             // PKHUD Suceesのアニメーションが1秒経過してから元の画面に戻る
                             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                                 presentationMode.wrappedValue.dismiss()
-                                isPKHUDSuccess = false
                             }
                         } else {
                             isPKHUDProgress = false
