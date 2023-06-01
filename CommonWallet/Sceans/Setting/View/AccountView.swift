@@ -9,28 +9,43 @@ import SwiftUI
 
 struct AccountView: View {
 
-    @Binding var isShowSettingView: Bool
+    @StateObject var viewModel: AccountViewModel
+
     let authManager = AuthManager()
     @State var fireStoreUserManager = FireStoreUserManager()
-    @ObservedObject var accountViewModel = AccountViewModel()
+
+    @State var isAccountDeleteAlert = false
+    @State var isAccountImageDialog = false
+    @State var isPKHUDProgress = false
+    @State var isPKHUDSuccess = false
+    @State var isPKHUDError = false
 
     var body: some View {
         VStack {
 
             List {
-                Section {
 
+                Section {
                     HStack {
-                        Text("アイコン")
-                        NavigationLink(destination: {
-                            // TODO: 今はとりあえずContentView
-                            ContentView()
+                        Spacer()
+                        Button(action: {
+                            isAccountImageDialog = true
                         }, label: {
-                            Text("編集する")
-                                .foregroundColor(.gray)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
+                            Image("SampleIcon")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 100, height: 100)
+                                .cornerRadius(75)
+                                .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
                         })
+                        Spacer()
                     }
+                    .listRowBackground(Color.clear)
+                }
+                .listRowSeparator(.hidden)
+                .buttonStyle(BorderlessButtonStyle())
+
+                Section {
 
                     HStack {
                         Text("ユーザー名")
@@ -39,85 +54,56 @@ struct AccountView: View {
                             // TODO: 今はとりあえずContentView
                             ContentView()
                         }, label: {
-                            Text(accountViewModel.userName)
+                            Text(viewModel.userName)
                                 .foregroundColor(.gray)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
                         })
                     }
 
-                    HStack {
-                        Text("メール")
-
-                        NavigationLink(destination: {
-                            // TODO: 今はとりあえずContentView
-                            ContentView()
-                        }, label: {
-                            Text(accountViewModel.userEmail)
-                                .foregroundColor(.gray)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                        })
-                    }
-
-                    HStack {
-                        Text("パスワード")
-
-                        NavigationLink(destination: {
-                            // TODO: 今はとりあえずContentView
-                            ContentView()
-                        }, label: {
-                            Text("******")
-                                .foregroundColor(.gray)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                        })
-                    }
                 }
 
                 Section {
                     Button(action: {
-                        Task {
-                            do {
-                                try await authManager.signOut()
-                            } catch {
-                                print("サインアウト失敗", error)
-                            }
-                        }
+                        isAccountDeleteAlert = true
                     }) {
-                        Text("サインアウト")
+                        Text("アカウントリセット")
+                            .foregroundColor(.red)
                     }
-                }
-
-                Section {
-                    Button(action: {
-                        Task {
-                            do {
-                                try await authManager.deleteUser()
-                            } catch {
-                                print("アカウント削除", error)
-                            }
-                        }
-                    }) {
-                        Text("アカウント削除")
-                    }
+                } footer: {
+                    Text("登録した全データが削除され、現在の共有番号も無効化されます。")
                 }
 
             }// Listここまで
             .scrollContentBackground(.visible)
             .navigationTitle("アカウント")
-            .toolbar {
-                /// ナビゲーションバー左
-                ToolbarItem(placement: .navigationBarTrailing){
-                    Button(action: {isShowSettingView = false}) {
-                        Text("完了")
+        }
+        .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
+        .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
+        .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
+        .confirmationDialog("", isPresented: $isAccountImageDialog, titleVisibility: .hidden) {
+            Button("写真を撮る") {
+            }
+            Button("写真を選択") {
+            }
+        }
+        .alert("リセット", isPresented: $isAccountDeleteAlert){
+            Button("リセット", role: .destructive){
+                Task {
+                    do {
+                        try await authManager.deleteUser()
+                    } catch {
+                        print("アカウント削除", error)
                     }
                 }
             }
-
+        } message: {
+            Text("アカウントをリセットしますか？全てのデータが削除され、復元できません。")
         }
     }
 }
 
-//struct AccountView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        AccountView()
-//    }
-//}
+struct AccountView_Previews: PreviewProvider {
+    static var previews: some View {
+        AccountView(viewModel: AccountViewModel())
+    }
+}

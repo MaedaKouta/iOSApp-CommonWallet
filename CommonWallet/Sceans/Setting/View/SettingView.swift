@@ -35,13 +35,14 @@ struct SettingView: View {
                 List {
 
                     Section {
-                        NavigationLink(destination: AccountView(isShowSettingView: $isShowSettingView) ) {
+                        NavigationLink(destination: AccountView(viewModel: AccountViewModel())) {
                             HStack {
                                 Image("SampleIcon")
                                     .resizable()
                                     .scaledToFill()
-                                    .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
                                     .frame(width: 45, height: 45)
+                                    .cornerRadius(75)
+                                    .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
                                 VStack {
                                     Text(viewModel.userName)
                                         .frame(maxWidth: .infinity, alignment: .leading)
