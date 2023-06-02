@@ -2,8 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>NSCameraUsageDescription</key>
+	<string>カメラへのアクセスを許可しますか？</string>
 	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>カメラロールの使用</string>
+	<string>カメラロールへのアクセスを許可しますか？</string>
 	<key>UILaunchScreen</key>
 	<dict>
 		<key>UIImageName</key>

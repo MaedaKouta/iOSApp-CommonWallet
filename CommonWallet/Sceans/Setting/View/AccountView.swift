@@ -14,8 +14,11 @@ struct AccountView: View {
     let authManager = AuthManager()
     @State var fireStoreUserManager = FireStoreUserManager()
 
+    @State private var accountImage: UIImage?
     @State var isAccountDeleteAlert = false
     @State var isAccountImageDialog = false
+    @State var isImagePickerFromLibrary = false
+    @State var isImagePickerFromCamera = false
     @State var isPKHUDProgress = false
     @State var isPKHUDSuccess = false
     @State var isPKHUDError = false
@@ -80,10 +83,18 @@ struct AccountView: View {
         .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
         .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
         .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
+        .sheet(isPresented: $isImagePickerFromLibrary) {
+            ImagePicker(sourceType: .photoLibrary, selectedImage: $accountImage)
+        }
+        .sheet(isPresented: $isImagePickerFromCamera) {
+            ImagePicker(sourceType: .camera, selectedImage: $accountImage)
+        }
         .confirmationDialog("", isPresented: $isAccountImageDialog, titleVisibility: .hidden) {
             Button("写真を撮る") {
+                isImagePickerFromCamera = true
             }
             Button("写真を選択") {
+                isImagePickerFromLibrary = true
             }
         }
         .alert("リセット", isPresented: $isAccountDeleteAlert){
