@@ -29,19 +29,22 @@ class AccountViewModel: ObservableObject {
         }
     }
 
-    func uploadIconImage(image: UIImage) async {
+    func uploadIconImage(image: UIImage, completion: @escaping(Bool, Error?) -> Void) {
         storageManager.upload(image: image, completion: { path, imageData, error in
             if error != nil {
+                completion(false, error)
                 return
             }
 
             guard let path = path,
                   let imageData = imageData,
                   let image = UIImage(data: imageData) else {
+                completion(false, NSError())
                 return
             }
             self.userDefaultsManager.setMyIcon(path: path, imageData: imageData)
             self.myIconImage = image
+            completion(true, nil)
         })
     }
 

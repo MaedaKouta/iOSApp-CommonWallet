@@ -117,10 +117,21 @@ struct AccountView: View {
     }
 
     func uploadIconImage() async {
+
         guard let accountImage = self.selectedAccountImage else {
+            isPKHUDError = true
             return
         }
-        await viewModel.uploadIconImage(image: accountImage)
+        isPKHUDProgress = true
+        viewModel.uploadIconImage(image: accountImage, completion: { isSuccess, error in
+            if isSuccess {
+                self.isPKHUDProgress = false
+                isPKHUDSuccess = true
+            } else {
+                self.isPKHUDProgress = true
+                isPKHUDError = true
+            }
+        })
     }
 
 }
