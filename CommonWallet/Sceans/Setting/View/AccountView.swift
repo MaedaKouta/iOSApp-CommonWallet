@@ -62,17 +62,6 @@ struct AccountView: View {
                                 .frame(maxWidth: .infinity, alignment: .trailing)
                         })
                     }
-
-                    HStack {
-                        Button(action: {
-                            Task {
-                                await self.uploadIconImage()
-                            }
-                        }, label: {
-                           Text("aaa")
-                        })
-                    }
-
                 }
 
                 Section {
@@ -83,7 +72,7 @@ struct AccountView: View {
                             .foregroundColor(.red)
                     }
                 } footer: {
-                    Text("登録した全データが削除され、現在の共有番号も無効化されます。")
+                    Text("全データが削除され、現在の共有番号も無効化されます。")
                 }
 
             }// Listここまで
@@ -105,6 +94,11 @@ struct AccountView: View {
             }
             Button("写真を選択") {
                 isImagePickerFromLibrary = true
+            }
+        }
+        .onChange(of: selectedAccountImage) { _ in
+            Task {
+                await self.uploadIconImage()
             }
         }
         .alert("リセット", isPresented: $isAccountDeleteAlert){
