@@ -17,6 +17,7 @@ struct UserDefaultsManager {
         UserDefaults.standard.set(user.id, forKey: userDefaultsKey.userId)
         UserDefaults.standard.set(user.name, forKey: userDefaultsKey.userName)
         UserDefaults.standard.set(user.email, forKey: userDefaultsKey.email)
+        UserDefaults.standard.set(user.iconPath, forKey: userDefaultsKey.myIconPath)
         UserDefaults.standard.set(user.shareNumber, forKey: userDefaultsKey.shareNumber)
 
         if let partnerUserId = user.partnerUserId {
@@ -53,8 +54,8 @@ struct UserDefaultsManager {
     }
 
     mutating func setMyIcon(path: String, imageData: Data) {
-        UserDefaults.standard.set(path, forKey: userDefaultsKey.myIconImagePath)
-        UserDefaults.standard.set(imageData, forKey: userDefaultsKey.myIconImageData)
+        UserDefaults.standard.set(path, forKey: userDefaultsKey.myIconPath)
+        UserDefaults.standard.set(imageData, forKey: userDefaultsKey.myIconData)
     }
 
     // MARK: - Getter
@@ -62,6 +63,7 @@ struct UserDefaultsManager {
         guard let userName = UserDefaults.standard.string(forKey: userDefaultsKey.userName),
               let email = UserDefaults.standard.string(forKey: userDefaultsKey.email),
               let userId = UserDefaults.standard.string(forKey: userDefaultsKey.userId),
+              let myIconPath = UserDefaults.standard.string(forKey: userDefaultsKey.myIconPath),
               let shareNumber = UserDefaults.standard.string(forKey: userDefaultsKey.shareNumber)
         else {
             return nil
@@ -71,7 +73,7 @@ struct UserDefaultsManager {
         let partnerName = UserDefaults.standard.string(forKey: userDefaultsKey.partnerName)
         let createdAt = UserDefaults.standard.object(forKey: userDefaultsKey.createdAt) as? Date
 
-        let user = User(id: userId, name: userName, email: email, shareNumber: shareNumber, createdAt: createdAt, partnerUserId: partnerUserId, partnerName: partnerName)
+        let user = User(id: userId, name: userName, email: email, shareNumber: shareNumber, iconPath: myIconPath, createdAt: createdAt, partnerUserId: partnerUserId, partnerName: partnerName)
         return user
     }
 
@@ -100,11 +102,11 @@ struct UserDefaultsManager {
     }
 
     mutating func getMyIconImageData() -> Data? {
-        return UserDefaults.standard.data(forKey: userDefaultsKey.myIconImageData)
+        return UserDefaults.standard.data(forKey: userDefaultsKey.myIconData)
     }
 
     mutating func getMyIconImagePath() -> String? {
-        return UserDefaults.standard.string(forKey: userDefaultsKey.myIconImagePath)
+        return UserDefaults.standard.string(forKey: userDefaultsKey.myIconPath)
     }
 
     // MARK: Delete

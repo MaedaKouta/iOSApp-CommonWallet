@@ -37,7 +37,7 @@ struct SettingView: View {
                     Section {
                         NavigationLink(destination: AccountView(viewModel: AccountViewModel())) {
                             HStack {
-                                Image("SampleIcon")
+                                Image(uiImage: viewModel.iconImage)
                                     .resizable()
                                     .scaledToFill()
                                     .frame(width: 45, height: 45)

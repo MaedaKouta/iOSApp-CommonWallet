@@ -7,6 +7,7 @@
 
 import Foundation
 import FirebaseAuth
+import UIKit
 
 class SettingViewModel: ObservableObject {
 
@@ -14,6 +15,7 @@ class SettingViewModel: ObservableObject {
     @Published var partnerModifiedName = ""
     @Published var userName = ""
     @Published var userEmail = ""
+    @Published var iconImage = UIImage()
 
     private var userDefaultsManager = UserDefaultsManager()
 
@@ -22,6 +24,12 @@ class SettingViewModel: ObservableObject {
         partnerModifiedName = userDefaultsManager.getPartnerModifiedName() ?? ""
         userName = userDefaultsManager.getUser()?.name ?? ""
         userEmail = userDefaultsManager.getUser()?.email ?? ""
+        if let iconImageData = userDefaultsManager.getMyIconImageData(),
+           let iconImage = UIImage(data: iconImageData) {
+            self.iconImage = iconImage
+        } else {
+            self.iconImage = UIImage(named: "icon-not-found")!
+        }
     }
 
     // 12桁の文字列を4桁ずつ" - "で区切る関数

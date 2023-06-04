@@ -87,7 +87,13 @@ class StorageManager: StorageManaging {
      自分のアイコンを更新するときに、古いアイコンを削除する際に利用
      失敗しても大したことないので、エラーハンドリングはしない
      */
-    private func deleteImage(path: String) {
+    internal func deleteImage(path: String) {
+
+        // サンプル画像の場合は削除させない
+        if path.contains("icon-sample-images/") {
+            return
+        }
+
         let imageRef = reference.child(path)
         imageRef.delete { error in
             if error != nil {

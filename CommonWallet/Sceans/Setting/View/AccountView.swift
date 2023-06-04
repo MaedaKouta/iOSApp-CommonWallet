@@ -14,7 +14,7 @@ struct AccountView: View {
     let authManager = AuthManager()
     @State var fireStoreUserManager = FireStoreUserManager()
 
-    @State private var accountImage: UIImage?
+    @State private var selectedAccountImage: UIImage?
     @State var isAccountDeleteAlert = false
     @State var isAccountImageDialog = false
     @State var isImagePickerFromLibrary = false
@@ -34,7 +34,7 @@ struct AccountView: View {
                         Button(action: {
                             isAccountImageDialog = true
                         }, label: {
-                            Image("SampleIcon")
+                            Image(uiImage: viewModel.myIconImage)
                                 .resizable()
                                 .scaledToFill()
                                 .frame(width: 100, height: 100)
@@ -94,10 +94,10 @@ struct AccountView: View {
         .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
         .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
         .sheet(isPresented: $isImagePickerFromLibrary) {
-            ImagePicker(sourceType: .photoLibrary, selectedImage: $accountImage)
+            ImagePicker(sourceType: .photoLibrary, selectedImage: $selectedAccountImage)
         }
         .sheet(isPresented: $isImagePickerFromCamera) {
-            ImagePicker(sourceType: .camera, selectedImage: $accountImage)
+            ImagePicker(sourceType: .camera, selectedImage: $selectedAccountImage)
         }
         .confirmationDialog("", isPresented: $isAccountImageDialog, titleVisibility: .hidden) {
             Button("写真を撮る") {
@@ -123,7 +123,7 @@ struct AccountView: View {
     }
 
     func uploadIconImage() async {
-        guard let accountImage = self.accountImage else {
+        guard let accountImage = self.selectedAccountImage else {
             return
         }
         await viewModel.uploadIconImage(image: accountImage)

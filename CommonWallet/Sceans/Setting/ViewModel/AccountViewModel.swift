@@ -13,7 +13,7 @@ class AccountViewModel: ObservableObject {
 
     @Published var userName = ""
     @Published var userEmail = ""
-    @Published var myIconImage: UIImage = UIImage()
+    @Published var myIconImage: UIImage
 
     private var userDefaultsManager = UserDefaultsManager()
     private var storageManager = StorageManager()
@@ -21,9 +21,14 @@ class AccountViewModel: ObservableObject {
     init() {
         userName = userDefaultsManager.getUser()?.name ?? ""
         userEmail = userDefaultsManager.getUser()?.email ?? ""
+        if let accountImageData =  userDefaultsManager.getMyIconImageData(),
+           let accountImage = UIImage(data: accountImageData) {
+            myIconImage = accountImage
+        } else {
+            myIconImage = UIImage()
+        }
     }
 
-    // TODO: 以前の自分のデータを消す
     func uploadIconImage(image: UIImage) async {
         storageManager.upload(image: image, completion: { path, imageData, error in
             if error != nil {

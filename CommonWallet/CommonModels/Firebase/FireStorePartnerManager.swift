@@ -15,9 +15,6 @@ class FireStorePartnerManager: FireStorePartnerManaging {
     private let db = Firestore.firestore()
     private var userDefaultManager = UserDefaultsManager()
 
-//    func connectPartner2(partnerShareNumber: String, completion: @escaping(Result<Bool, Error>) -> Void) {
-//    }
-
     func connectPartner(partnerShareNumber: String) async -> Result<Bool, Error> {
         guard let myUserId = Auth.auth().currentUser?.uid else {
             return .failure(AuthError.emptyUserId)
@@ -134,7 +131,7 @@ class FireStorePartnerManager: FireStorePartnerManaging {
                             return
                         }
 
-                        let user = User(name: myUserInfo.name, email: myUserInfo.email, shareNumber: myUserInfo.shareNumber, createdAt: myUserInfo.createdAt, partnerUserId: partnerUserId, partnerName: partnerName, partnerShareNumber: partnerShareNumber)
+                        let user = User(name: myUserInfo.name, email: myUserInfo.email, shareNumber: myUserInfo.shareNumber, iconPath: myUserInfo.iconPath, createdAt: myUserInfo.createdAt, partnerUserId: partnerUserId, partnerName: partnerName, partnerShareNumber: partnerShareNumber)
 
                         completion(user, nil)
                     } // ネストのdbここまで

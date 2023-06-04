@@ -16,10 +16,12 @@ class FireStoreUserManager: FireStoreUserManaging {
     private var userDefaultsManager = UserDefaultsManager()
 
     // MARK: Create
-    func createUser(userId: String, userName: String, email: String, shareNumber: String) async throws {
+    func createUser(userId: String, userName: String, email: String, myIconPath: String, shareNumber: String) async throws {
+
         let user: Dictionary<String, Any> = ["id": userId,
                                              "name": userName,
                                              "email": email,
+                                             "myIconPath": myIconPath,
                                              "shareNumber": shareNumber,
                                              "createdAt": Timestamp(),
                                              ]
@@ -44,6 +46,7 @@ class FireStoreUserManager: FireStoreUserManaging {
                   let userId = data["id"] as? String,
                   let userName = data["name"] as? String,
                   let email = data["email"] as? String,
+                  let myIconPath = data["myIconPath"] as? String,
                   let shareNumber = data["shareNumber"] as? String,
                   let createdAt = data["createdAt"] as? Timestamp else { return }
 
@@ -51,7 +54,7 @@ class FireStoreUserManager: FireStoreUserManaging {
              let partnerName = data["partnerName"] as? String
              let partnerShareNumber = data["partnerShareNumber"] as? String
 
-             let user = User(id: userId, name: userName, email: email, shareNumber: shareNumber, createdAt: createdAt.dateValue(), partnerUserId: partnerUserId, partnerName: partnerName, partnerShareNumber: partnerShareNumber)
+            let user = User(id: userId, name: userName, email: email, shareNumber: shareNumber, iconPath: myIconPath, createdAt: createdAt.dateValue(), partnerUserId: partnerUserId, partnerName: partnerName, partnerShareNumber: partnerShareNumber)
 
             completion(user, nil)
         }

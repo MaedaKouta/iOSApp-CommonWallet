@@ -10,7 +10,7 @@ import Foundation
 protocol FireStoreUserManaging {
 
     // create
-    func createUser(userId: String, userName: String, email: String, shareNumber: String) async throws
+    func createUser(userId: String, userName: String, email: String, myIconPath: String, shareNumber: String) async throws
 
     // delete
     func deleteUser(userId: String) async throws
