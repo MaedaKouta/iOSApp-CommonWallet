@@ -6,3 +6,11 @@
 //
 
 import Foundation
+import FirebaseStorage
+import UIKit
+
+protocol StorageManaging {
+    func upload(image: UIImage, completion: @escaping(String?, Data?, StorageError?) -> Void)
+    func download(path: String, completion: @escaping(Data?, Error?) -> Void)
+    func deleteImage(path: String)
+}

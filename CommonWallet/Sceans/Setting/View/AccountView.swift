@@ -63,6 +63,16 @@ struct AccountView: View {
                         })
                     }
 
+                    HStack {
+                        Button(action: {
+                            Task {
+                                await self.uploadIconImage()
+                            }
+                        }, label: {
+                           Text("aaa")
+                        })
+                    }
+
                 }
 
                 Section {
@@ -111,6 +121,14 @@ struct AccountView: View {
             Text("アカウントをリセットしますか？全てのデータが削除され、復元できません。")
         }
     }
+
+    func uploadIconImage() async {
+        guard let accountImage = self.accountImage else {
+            return
+        }
+        await viewModel.uploadIconImage(image: accountImage)
+    }
+
 }
 
 struct AccountView_Previews: PreviewProvider {

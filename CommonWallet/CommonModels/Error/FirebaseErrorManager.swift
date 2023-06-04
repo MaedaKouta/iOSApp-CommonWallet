@@ -41,7 +41,7 @@ class FirebaseErrorManager {
         return "不明なエラー"
     }
 
-    func getFirestoreErrorMessage(_ error:Error?) -> String {
+    func getFireStoreErrorMessage(_ error:Error?) -> String {
         if let error = error as NSError? {
             if let errorCode = FirestoreErrorCode.Code(rawValue: error.code) {
                 switch errorCode {
