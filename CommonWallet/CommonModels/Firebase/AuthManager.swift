@@ -87,7 +87,8 @@ class AuthManager: AuthManaging {
         var userId = String()
         var fireStoreError: Error!
         // 20枚サンプル画像がある下のパスから、ランダムに取得
-        let sampleMyIconPath = "icon-sample-images/sample\(Int.random(in: 1..<20)).jpeg"
+        let sampleMyIconPath = "icon-sample-images/sample\(Int.random(in: 1...20)).jpeg"
+        let samplePartnerIconPath = "icon-sample-images/initial-partner-icon.jpeg"
 
         // FirebaseAuthへのアカウント登録
         do {
@@ -99,15 +100,25 @@ class AuthManager: AuthManaging {
 
         // FireStoreへのアカウント情報追加
         do {
-            try await fireStoreUserManager.createUser(userId: userId, userName: name, email: email, myIconPath: sampleMyIconPath, shareNumber: shareNumber)
+            try await fireStoreUserManager.createUser(userId: userId, userName: name, email: email, iconPath: sampleMyIconPath, shareNumber: shareNumber)
         } catch {
             throw FirebaseErrorType.FireStore(error as NSError)
         }
 
         // sampleIconを取得して、ユーザーデフォルトに入れる
+        // 自分のアイコン
         storageManager.download(path: sampleMyIconPath, completion: { data, error in
             if let data = data {
                 self.userDefaultsManager.setMyIcon(path: sampleMyIconPath, imageData: data)
+            } else {
+                print("AuthManager: アカウント作成時、サンプルアイコンエラー")
+
+            }
+        })
+        // パートナーのアイコン
+        storageManager.download(path: samplePartnerIconPath, completion: { data, error in
+            if let data = data {
+                self.userDefaultsManager.setPartnerIcon(path: samplePartnerIconPath, imageData: data)
             } else {
                 print("AuthManager: アカウント作成時、サンプルアイコンエラー")
             }

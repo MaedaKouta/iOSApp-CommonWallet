@@ -34,6 +34,15 @@ struct UserDefaultsManager {
 
     }
 
+    mutating func setPartner(userId: String, name: String, iconPath: String, iconData: Data, shareNumber: String) {
+        UserDefaults.standard.set(userId, forKey: userDefaultsKey.partnerUserId)
+        UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)
+        UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerModifiedName)
+        UserDefaults.standard.set(iconPath, forKey: userDefaultsKey.partnerIconPath)
+        UserDefaults.standard.set(iconData, forKey: userDefaultsKey.partnerIconData)
+        UserDefaults.standard.set(shareNumber, forKey: userDefaultsKey.partnerShareNumber)
+    }
+
     mutating func setPartner(userId: String, name: String, shareNumber: String) {
         UserDefaults.standard.set(userId, forKey: userDefaultsKey.partnerUserId)
         UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)
@@ -41,8 +50,16 @@ struct UserDefaultsManager {
         UserDefaults.standard.set(shareNumber, forKey: userDefaultsKey.partnerShareNumber)
     }
 
+    mutating func setPartnerUserId(userId: String) {
+        UserDefaults.standard.set(userId, forKey: userDefaultsKey.partnerUserId)
+    }
+
     mutating func setPartnerName(name: String) {
         UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)
+    }
+
+    mutating func setPartnerShareNumber(shareNumber: String) {
+        UserDefaults.standard.set(shareNumber, forKey: userDefaultsKey.partnerShareNumber)
     }
 
     mutating func setPartnerModifiedName(name: String) {
@@ -56,6 +73,11 @@ struct UserDefaultsManager {
     mutating func setMyIcon(path: String, imageData: Data) {
         UserDefaults.standard.set(path, forKey: userDefaultsKey.myIconPath)
         UserDefaults.standard.set(imageData, forKey: userDefaultsKey.myIconData)
+    }
+
+    mutating func setPartnerIcon(path: String, imageData: Data) {
+        UserDefaults.standard.set(path, forKey: userDefaultsKey.partnerIconPath)
+        UserDefaults.standard.set(imageData, forKey: userDefaultsKey.partnerIconData)
     }
 
     // MARK: - Getter
@@ -107,6 +129,14 @@ struct UserDefaultsManager {
 
     mutating func getMyIconImagePath() -> String? {
         return UserDefaults.standard.string(forKey: userDefaultsKey.myIconPath)
+    }
+
+    mutating func getPartnerIconImageData() -> Data? {
+        return UserDefaults.standard.data(forKey: userDefaultsKey.partnerIconData)
+    }
+
+    mutating func getPartnerIconImagePath() -> String? {
+        return UserDefaults.standard.string(forKey: userDefaultsKey.partnerIconPath)
     }
 
     // MARK: Delete

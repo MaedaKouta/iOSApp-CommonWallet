@@ -14,7 +14,11 @@ class FireStorePartnerManager: FireStorePartnerManaging {
 
     private let db = Firestore.firestore()
     private var userDefaultManager = UserDefaultsManager()
+    private var storageManager = StorageManager()
 
+    /*
+     パートナーと接続し、接続した情報を自分のUserdefaultsに格納する
+     */
     func connectPartner(partnerShareNumber: String) async -> Result<Bool, Error> {
         guard let myUserId = Auth.auth().currentUser?.uid else {
             return .failure(AuthError.emptyUserId)
@@ -28,6 +32,7 @@ class FireStorePartnerManager: FireStorePartnerManaging {
 
             guard let data = snapShots.documents.first?.data(),
                   let partnerUserId = data["id"] as? String,
+                  let partnerIconPath = data["iconPath"] as? String,
                   let partnerName = data["name"] as? String else {
                 return .failure(InvalidValueError.unexpectedNullValue)
             }
@@ -47,7 +52,17 @@ class FireStorePartnerManager: FireStorePartnerManaging {
                 ], merge: true)
 
             // UserDefaultにセットする
-            userDefaultManager.setPartner(userId: partnerUserId, name: partnerName, shareNumber: partnerShareNumber)
+            storageManager.download(path: partnerIconPath, completion: { [weak self] data, error in
+                if error != nil {
+                    print("FireStorePartnerManager: storageManager.downloadエラー")
+                    self?.userDefaultManager.setPartnerUserId(userId: partnerUserId)
+                    self?.userDefaultManager.setPartnerName(name: partnerName)
+                    self?.userDefaultManager.setPartnerShareNumber(shareNumber: partnerShareNumber)
+                } else {
+                    self?.userDefaultManager.setPartner(userId: partnerUserId, name: partnerName, iconPath:partnerIconPath, iconData: data! ,shareNumber: partnerShareNumber)
+                }
+            })
+
             return .success(true)
 
         } catch {
@@ -88,8 +103,9 @@ class FireStorePartnerManager: FireStorePartnerManaging {
 
     }
 
-    // パートナーとの紐付け
-    // パートナー
+    /*
+     パートナーの情報を取得し、自分のUserdefaultsを更新する
+     */
     func fetchPartnerInfo(completion: @escaping(User?, Error?) -> Void) {
         guard let myUserId = Auth.auth().currentUser?.uid else {
             completion(nil, AuthError.emptyUserId)
@@ -126,9 +142,22 @@ class FireStorePartnerManager: FireStorePartnerManaging {
 
                         guard let data = querySnapshot?.data(),
                               let partnerName = data["name"] as? String,
+                              let partnerIconPath = data["iconPath"] as? String,
                               let partnerShareNumber = data["shareNumber"] as? String else {
                             completion(nil, InvalidValueError.unexpectedNullValue)
                             return
+                        }
+
+                        // パートナーのIconPathが変更されていた場合、
+                        // 自分のuserdefaultsに保存されてるpartnerIconDataを更新
+                        if let iconPath = self.userDefaultManager.getPartnerIconImagePath(),
+                           let _ = self.userDefaultManager.getPartnerIconImageData() {
+
+                            if partnerIconPath != iconPath {
+                                // UserDefaultにセットする
+
+                            }
+
                         }
 
                         let user = User(name: myUserInfo.name, email: myUserInfo.email, shareNumber: myUserInfo.shareNumber, iconPath: myUserInfo.iconPath, createdAt: myUserInfo.createdAt, partnerUserId: partnerUserId, partnerName: partnerName, partnerShareNumber: partnerShareNumber)

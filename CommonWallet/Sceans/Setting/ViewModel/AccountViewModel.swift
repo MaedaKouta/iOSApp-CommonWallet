@@ -25,7 +25,7 @@ class AccountViewModel: ObservableObject {
            let accountImage = UIImage(data: accountImageData) {
             myIconImage = accountImage
         } else {
-            myIconImage = UIImage()
+            myIconImage = UIImage(named: "icon-not-found")!
         }
     }
 

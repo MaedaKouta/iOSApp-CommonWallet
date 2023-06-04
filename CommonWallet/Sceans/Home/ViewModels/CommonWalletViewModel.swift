@@ -20,11 +20,14 @@ class CommonWalletViewModel: ObservableObject {
     @Published var myName = ""
     @Published var partnerUserId = ""
     @Published var partnerName = ""
+
+    @Published var myIconImage: UIImage
+    @Published var partnerIconImage: UIImage
     
     private var fireStoreTransactionManager: FireStoreTransactionManager
     private var fireStoreUserManager: FireStoreUserManager
     private var userDefaultsManager: UserDefaultsManager
-    
+
     init(fireStoreTransactionManager: FireStoreTransactionManager, fireStoreUserManager: FireStoreUserManager, userDefaultsManager: UserDefaultsManager) {
 
         self.fireStoreTransactionManager = fireStoreTransactionManager
@@ -35,6 +38,20 @@ class CommonWalletViewModel: ObservableObject {
         myName = self.userDefaultsManager.getUser()?.name ?? ""
         partnerName = self.userDefaultsManager.getPartnerName() ?? ""
         partnerUserId = self.userDefaultsManager.getPartnerUserId() ?? ""
+
+        if let accountImageData =  self.userDefaultsManager.getMyIconImageData(),
+           let accountImage = UIImage(data: accountImageData) {
+            myIconImage = accountImage
+        } else {
+            myIconImage = UIImage(named: "icon-not-found")!
+        }
+
+        if let accountImageData =  self.userDefaultsManager.getPartnerIconImageData(),
+           let accountImage = UIImage(data: accountImageData) {
+            partnerIconImage = accountImage
+        } else {
+            partnerIconImage = UIImage(named: "icon-not-found")!
+        }
     }
 
     func getFireStoreTransactionManager() -> FireStoreTransactionManager {
@@ -71,7 +88,6 @@ class CommonWalletViewModel: ObservableObject {
         })
 
     }
-
 
     func deleteTransaction(transactionId: String) async throws {
         try await fireStoreTransactionManager.deleteTransaction(transactionId: transactionId)

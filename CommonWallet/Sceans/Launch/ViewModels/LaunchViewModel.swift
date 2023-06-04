@@ -69,6 +69,6 @@ class LaunchViewModel: ObservableObject {
             let partnerUserDefaultsName = self.userDefaultsManager.getPartnerName() ?? partnerName
             self.userDefaultsManager.setPartner(userId: partnerUserId, name: partnerUserDefaultsName, shareNumber: partnerShareNumber)
         })
-
     }
+
 }
