@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 struct UserDefaultsManager {
 
@@ -51,6 +52,11 @@ struct UserDefaultsManager {
         UserDefaults.standard.set(date, forKey: userDefaultsKey.oldestResolvedDate)
     }
 
+    mutating func setMyIcon(path: String, imageData: Data) {
+        UserDefaults.standard.set(path, forKey: userDefaultsKey.myIconImagePath)
+        UserDefaults.standard.set(imageData, forKey: userDefaultsKey.myIconImageData)
+    }
+
     // MARK: - Getter
     mutating func getUser() -> User? {
         guard let userName = UserDefaults.standard.string(forKey: userDefaultsKey.userName),
@@ -91,6 +97,14 @@ struct UserDefaultsManager {
 
     mutating func getOldestResolvedDate() -> Date? {
         return UserDefaults.standard.object(forKey: userDefaultsKey.oldestResolvedDate) as? Date
+    }
+
+    mutating func getMyIconImageData() -> Data? {
+        return UserDefaults.standard.data(forKey: userDefaultsKey.myIconImageData)
+    }
+
+    mutating func getMyIconImagePath() -> String? {
+        return UserDefaults.standard.string(forKey: userDefaultsKey.myIconImagePath)
     }
 
     // MARK: Delete
