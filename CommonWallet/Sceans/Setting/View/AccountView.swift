@@ -40,6 +40,7 @@ struct AccountView: View {
                                 .frame(width: 100, height: 100)
                                 .cornerRadius(75)
                                 .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
+                                .animation(.default)
                         })
                         Spacer()
                     }
