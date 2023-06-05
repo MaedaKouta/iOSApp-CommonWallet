@@ -128,7 +128,7 @@ struct AccountView: View {
                 self.isPKHUDProgress = false
                 isPKHUDSuccess = true
             } else {
-                self.isPKHUDProgress = true
+                self.isPKHUDProgress = false
                 isPKHUDError = true
             }
         })
