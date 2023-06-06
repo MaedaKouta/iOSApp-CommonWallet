@@ -48,4 +48,8 @@ class AccountViewModel: ObservableObject {
         })
     }
 
+    // UserDefaultの観測イベント
+//    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
+//            //通知された時に処理したい内容
+//    }
 }

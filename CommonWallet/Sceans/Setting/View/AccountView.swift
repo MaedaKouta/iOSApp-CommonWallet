@@ -11,6 +11,7 @@ struct AccountView: View {
 
     @StateObject var viewModel: AccountViewModel
 
+    @AppStorage(UserDefaultsKey().userName) var userName = ""
     let authManager = AuthManager()
     @State var fireStoreUserManager = FireStoreUserManager()
 
@@ -55,10 +56,9 @@ struct AccountView: View {
                         Text("ユーザー名")
 
                         NavigationLink(destination: {
-                            // TODO: 今はとりあえずContentView
-                            ContentView()
+                            MyNameEditView(viewModel: MyNameEditViewModel())
                         }, label: {
-                            Text(viewModel.userName)
+                            Text(userName)
                                 .foregroundColor(.gray)
                                 .frame(maxWidth: .infinity, alignment: .trailing)
                         })

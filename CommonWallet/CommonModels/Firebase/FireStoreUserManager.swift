@@ -15,7 +15,7 @@ class FireStoreUserManager: FireStoreUserManaging {
     private let db = Firestore.firestore()
     private var userDefaultsManager = UserDefaultsManager()
 
-    // MARK: Create
+    // MARK: POST
     func createUser(userId: String, userName: String, email: String, iconPath: String, shareNumber: String) async throws {
 
         let user: Dictionary<String, Any> = ["id": userId,
@@ -26,7 +26,12 @@ class FireStoreUserManager: FireStoreUserManaging {
                                              "createdAt": Timestamp(),
                                              ]
         try await db.collection("Users").document(userId).setData(user)
+    }
 
+    // MARK: PUT
+    func putUserName(userId: String, userName: String) async throws {
+        let user: Dictionary<String, Any> = ["name": userName]
+        try await db.collection("Users").document(userId).setData(user, merge: true)
     }
 
     // MARK: Delete

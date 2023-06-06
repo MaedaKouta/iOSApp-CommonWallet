@@ -107,6 +107,8 @@
 		87DDCDC72A18342200F51DC8 /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DDCDC62A18342200F51DC8 /* LicenseView.swift */; };
 		87DDCDCA2A1836EA00F51DC8 /* PKHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 87DDCDC92A1836EA00F51DC8 /* PKHUD */; };
 		87DDCDCC2A18373200F51DC8 /* PKHUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DDCDCB2A18373200F51DC8 /* PKHUDView.swift */; };
+		87E5E9342A2E9857002CF7B2 /* MyNameEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E5E9332A2E9857002CF7B2 /* MyNameEditView.swift */; };
+		87E5E9362A2E9880002CF7B2 /* MyNameEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E5E9352A2E9880002CF7B2 /* MyNameEditViewModel.swift */; };
 		87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */; };
 		87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D4B297A1369005CCB6F /* ContentView.swift */; };
 		87EE8D4E297A136A005CCB6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87EE8D4D297A136A005CCB6F /* Assets.xcassets */; };
@@ -210,6 +212,8 @@
 		87DDCDC42A16E12000F51DC8 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		87DDCDC62A18342200F51DC8 /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
 		87DDCDCB2A18373200F51DC8 /* PKHUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKHUDView.swift; sourceTree = "<group>"; };
+		87E5E9332A2E9857002CF7B2 /* MyNameEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNameEditView.swift; sourceTree = "<group>"; };
+		87E5E9352A2E9880002CF7B2 /* MyNameEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNameEditViewModel.swift; sourceTree = "<group>"; };
 		87EE8D46297A1369005CCB6F /* CommonWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CommonWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletApp.swift; sourceTree = "<group>"; };
 		87EE8D4B297A1369005CCB6F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -435,6 +439,7 @@
 				879379DF298B444500D3A47B /* ConnectPartnerView.swift */,
 				87DDCDC62A18342200F51DC8 /* LicenseView.swift */,
 				879379E1298B4C8D00D3A47B /* PartnerNameEditView.swift */,
+				87E5E9332A2E9857002CF7B2 /* MyNameEditView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -447,6 +452,7 @@
 				879379E6298B5B4E00D3A47B /* ConnectPartnerViewModel.swift */,
 				879379EC298B99C700D3A47B /* PartnerInfoViewModel.swift */,
 				879379EE298BBDB800D3A47B /* PartnerNameEditViewModel.swift */,
+				87E5E9352A2E9880002CF7B2 /* MyNameEditViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -808,6 +814,7 @@
 				87402F4329F377D70007320D /* FireStoreUserManaging.swift in Sources */,
 				871F09EE2A11979600F96394 /* MainTabViewModel.swift in Sources */,
 				874EF93F297D04DF00C94233 /* UserDefaultsKey.swift in Sources */,
+				87E5E9342A2E9857002CF7B2 /* MyNameEditView.swift in Sources */,
 				873655622A10E40100E92EEE /* FireStorePartnerError.swift in Sources */,
 				87EE8D7D297A1790005CCB6F /* AppDelegate.swift in Sources */,
 				874EF93A297CC8B200C94233 /* FireStoreUserManager.swift in Sources */,
@@ -852,6 +859,7 @@
 				871F09EC2A11945000F96394 /* ShareNumberManaging.swift in Sources */,
 				8753D7322A06201E0074E04A /* EditTransactionView.swift in Sources */,
 				874613A62A2954A50068383B /* ImagePicker.swift in Sources */,
+				87E5E9362A2E9880002CF7B2 /* MyNameEditViewModel.swift in Sources */,
 				873655602A10E30B00E92EEE /* InvalidValueError.swift in Sources */,
 				876EE23E2A26AF310073F1C3 /* WebViewController.swift in Sources */,
 				879379EB298B999700D3A47B /* PartnerInfoView.swift in Sources */,
