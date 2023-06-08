@@ -66,6 +66,7 @@
 		87830E81297A20DB00184A7C /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7F297A20DB00184A7C /* CreateUserView.swift */; };
 		878C9A952991CB2C003D4816 /* DateCompare.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878C9A942991CB2C003D4816 /* DateCompare.swift */; };
 		878C9A972991D3E6003D4816 /* DateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 878C9A962991D3E6003D4816 /* DateFormatter.swift */; };
+		879310242A2FF28200FDD061 /* ImageNameProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879310232A2FF28200FDD061 /* ImageNameProperty.swift */; };
 		879379E0298B444500D3A47B /* ConnectPartnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379DF298B444500D3A47B /* ConnectPartnerView.swift */; };
 		879379E2298B4C8D00D3A47B /* PartnerNameEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E1298B4C8D00D3A47B /* PartnerNameEditView.swift */; };
 		879379E4298B53E600D3A47B /* FireStorePartnerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E3298B53E600D3A47B /* FireStorePartnerManager.swift */; };
@@ -186,6 +187,7 @@
 		87830E7F297A20DB00184A7C /* CreateUserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserView.swift; sourceTree = "<group>"; };
 		878C9A942991CB2C003D4816 /* DateCompare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCompare.swift; sourceTree = "<group>"; };
 		878C9A962991D3E6003D4816 /* DateFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateFormatter.swift; sourceTree = "<group>"; };
+		879310232A2FF28200FDD061 /* ImageNameProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNameProperty.swift; sourceTree = "<group>"; };
 		879379DF298B444500D3A47B /* ConnectPartnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectPartnerView.swift; sourceTree = "<group>"; };
 		879379E1298B4C8D00D3A47B /* PartnerNameEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerNameEditView.swift; sourceTree = "<group>"; };
 		879379E3298B53E600D3A47B /* FireStorePartnerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorePartnerManager.swift; sourceTree = "<group>"; };
@@ -506,6 +508,7 @@
 			children = (
 				874EF93B297CFC3900C94233 /* UserDefaultsManager.swift */,
 				874EF93E297D04DF00C94233 /* UserDefaultsKey.swift */,
+				879310232A2FF28200FDD061 /* ImageNameProperty.swift */,
 			);
 			path = General;
 			sourceTree = "<group>";
@@ -812,6 +815,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				87402F4329F377D70007320D /* FireStoreUserManaging.swift in Sources */,
+				879310242A2FF28200FDD061 /* ImageNameProperty.swift in Sources */,
 				871F09EE2A11979600F96394 /* MainTabViewModel.swift in Sources */,
 				874EF93F297D04DF00C94233 /* UserDefaultsKey.swift in Sources */,
 				87E5E9342A2E9857002CF7B2 /* MyNameEditView.swift in Sources */,

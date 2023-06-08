@@ -22,9 +22,7 @@ class StorageManager: StorageManaging {
         reference = storage.reference()
     }
 
-    /*
-     アイコン画像をアップロードする
-     */
+    /// アイコン画像のアップロード
     func upload(image: UIImage, completion: @escaping(String?, Data?, StorageError?) -> Void) {
 
         guard let data = image.jpegData(compressionQuality: 0.1) else {
@@ -63,41 +61,8 @@ class StorageManager: StorageManaging {
         }
     }
 
-//    func upload(imageData: Data, path: String) async -> Result<Bool, Error> {
-//        let imageRef = reference.child(path)
-//        let metadata = StorageMetadata()
-//        metadata.contentType = "image/jpg"
-//
-//        let uploadTask = imageRef.putData(imageData, metadata: metadata)
-//
-//        uploadTask.observe(.success) { snapshot in
-//            // FireStorageの古いデータを削除する
-//            if let oldIconImagePath = self.userDefaultsManager.getMyIconImagePath() {
-//                self.deleteImage(path: oldIconImagePath)
-//            }
-//            //completion(true, nil)
-//        }
-//
-//        uploadTask.observe(.failure) { snapshot in
-//            if let error = snapshot.error as? NSError {
-//                switch (StorageErrorCode(rawValue: error.code)!) {
-//                case .objectNotFound:
-//                    completion(false, StorageError.objectNotFound("画像が見つかりません。"))
-//                    break
-//                default:
-//                    completion(false,  StorageError.unknown("予期せぬエラーが発生しました。"))
-//                    break
-//                }
-//            } else {
-//                completion(false, StorageError.unknown("予期せぬエラーが発生しました。"))
-//            }
-//        }
-//    }
-
-    /*
-     画像をインポートして、成功するとDate型を返す。
-     UserDefaultsはUIImageは保存不可。Data型しか保存できないから。
-     */
+    /// 画像をインポートして、その画像をDate型を返す
+    /// UIImage型ではなくData型で保存するのは、UserDefaultsがData型しか保存できないため
     func download(path: String, completion: @escaping(Data?, Error?) -> Void) {
 
         let islandRef = reference.child(path)

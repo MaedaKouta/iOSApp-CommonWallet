@@ -11,16 +11,12 @@ import SwiftUI
 
 class AccountViewModel: ObservableObject {
 
-    @Published var userName = ""
-    @Published var userEmail = ""
     @Published var myIconImage: UIImage
 
     private var userDefaultsManager = UserDefaultsManager()
     private var storageManager = StorageManager()
 
     init() {
-        userName = userDefaultsManager.getUser()?.name ?? ""
-        userEmail = userDefaultsManager.getUser()?.email ?? ""
         if let accountImageData =  userDefaultsManager.getMyIconImageData(),
            let accountImage = UIImage(data: accountImageData) {
             myIconImage = accountImage
@@ -30,6 +26,7 @@ class AccountViewModel: ObservableObject {
     }
 
     func uploadIconImage(image: UIImage, completion: @escaping(Bool, Error?) -> Void) {
+        // 画像のアップデート処理
         storageManager.upload(image: image, completion: { path, imageData, error in
             if error != nil {
                 completion(false, error)
@@ -48,8 +45,4 @@ class AccountViewModel: ObservableObject {
         })
     }
 
-    // UserDefaultの観測イベント
-//    override func observeValueForKeyPath(keyPath: String?, ofObject object: AnyObject?, change: [String : AnyObject]?, context: UnsafeMutablePointer<Void>) {
-//            //通知された時に処理したい内容
-//    }
 }

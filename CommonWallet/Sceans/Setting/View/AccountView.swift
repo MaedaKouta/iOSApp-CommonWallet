@@ -2,8 +2,6 @@
 //  AccountView.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/01/23.
-//
 
 import SwiftUI
 
@@ -11,41 +9,31 @@ struct AccountView: View {
 
     @StateObject var viewModel: AccountViewModel
 
-    @AppStorage(UserDefaultsKey().userName) var userName = ""
-    let authManager = AuthManager()
-    @State var fireStoreUserManager = FireStoreUserManager()
+    @AppStorage(UserDefaultsKey().userName) private var userName = String()
+    @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
 
+    @State private var imageNameProperty = ImageNameProperty()
     @State private var selectedAccountImage: UIImage?
-    @State var isAccountDeleteAlert = false
-    @State var isAccountImageDialog = false
-    @State var isImagePickerFromLibrary = false
-    @State var isImagePickerFromCamera = false
-    @State var isPKHUDProgress = false
-    @State var isPKHUDSuccess = false
-    @State var isPKHUDError = false
+
+    // Alert
+    @State private var isAccountDeleteAlert = false
+    @State private var isAccountImageDialog = false
+    // ImagePicker
+    @State private var isImagePickerFromLibrary = false
+    @State private var isImagePickerFromCamera = false
+    // PKHUD
+    @State private var isPKHUDProgress = false
+    @State private var isPKHUDSuccess = false
+    @State private var isPKHUDError = false
+
+    // TODO: あとで削除
+    let authManager = AuthManager()
 
     var body: some View {
         VStack {
-
             List {
-
                 Section {
-                    HStack {
-                        Spacer()
-                        Button(action: {
-                            isAccountImageDialog = true
-                        }, label: {
-                            Image(uiImage: viewModel.myIconImage)
-                                .resizable()
-                                .scaledToFill()
-                                .frame(width: 100, height: 100)
-                                .cornerRadius(75)
-                                .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
-                                .animation(.default)
-                        })
-                        Spacer()
-                    }
-                    .listRowBackground(Color.clear)
+                    myIconView()
                 }
                 .listRowSeparator(.hidden)
                 .buttonStyle(BorderlessButtonStyle())
@@ -117,8 +105,27 @@ struct AccountView: View {
         }
     }
 
-    func uploadIconImage() async {
+    /// アイコンを表示するView。タップで画像変更。
+    private func myIconView() -> some View {
+        return HStack {
+            Spacer()
+            Button(action: {
+                isAccountImageDialog = true
+            }, label: {
+                Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
+                    .resizable()
+                    .scaledToFill()
+                    .frame(width: 100, height: 100)
+                    .cornerRadius(75)
+                    .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
+                    .animation(.default)
+            })
+            Spacer()
+        }
+        .listRowBackground(Color.clear)
+    }
 
+    private func uploadIconImage() async {
         guard let accountImage = self.selectedAccountImage else {
             isPKHUDError = true
             return
