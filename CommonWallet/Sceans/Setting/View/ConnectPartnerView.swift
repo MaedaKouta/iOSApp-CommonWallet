@@ -18,6 +18,7 @@ struct ConnectPartnerView: View {
     @State private var inputNumber: String = ""
     @State private var isEnableComplete = false
 
+    // PKHUD
     @State private var isPKHUDProgress = false
     @State private var isPKHUDSuccess = false
     @State private var isPKHUDError = false
@@ -72,13 +73,13 @@ struct ConnectPartnerView: View {
             TextField("123456781234", text: $inputNumber)
                 .keyboardType(.numberPad)
                 .padding(.leading)
-            // numberLimit(12文字)以上は入力できない
+                // numberLimit(12文字)以上は入力できない
                 .onReceive(Just(inputNumber), perform: { _ in
                     if inputNumber.count > numberLimit {
                         inputNumber = String(inputNumber.prefix(numberLimit))
                     }
                 })
-            // numberrLimit(12文字)入力があった際に完了ボタンを押せる
+                // numberrLimit(12文字)入力があった際に完了ボタンを押せる
                 .onChange(of: inputNumber, perform: { newValue in
                     if inputNumber.trimmingCharacters(in: .whitespacesAndNewlines).count == numberLimit {
                         isEnableComplete = true
