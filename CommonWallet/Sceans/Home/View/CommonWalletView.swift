@@ -118,7 +118,7 @@ struct CommonWalletView: View {
                             .foregroundColor(Color.black)
                     }
                     .sheet(isPresented: self.$isSettingView) {
-                        SettingView(isShowSettingView: $isSettingView)
+                        SettingView(viewModel: SettingViewModel(), isShowSettingView: $isSettingView)
                     }
                 }
             )

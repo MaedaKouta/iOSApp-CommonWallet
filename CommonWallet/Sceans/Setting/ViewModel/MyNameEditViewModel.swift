@@ -25,7 +25,7 @@ class MyNameEditViewModel: ObservableObject {
     func changeMyName(newName: String) async -> Bool {
         do {
             try await fireStoreUserManager.putUserName(userId: myUserId, userName: newName)
-            userDefaultsManager.setPartnerModifiedName(name: newName)
+            userDefaultsManager.setMyUserName(userName: newName)
             return true
         } catch {
             return false

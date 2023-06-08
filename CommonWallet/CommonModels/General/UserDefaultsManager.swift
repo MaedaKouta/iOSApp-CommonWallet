@@ -31,7 +31,10 @@ struct UserDefaultsManager {
         if let createdAt = user.createdAt {
             UserDefaults.standard.set(createdAt, forKey: userDefaultsKey.createdAt)
         }
+    }
 
+    mutating func setMyUserName(userName: String) {
+        UserDefaults.standard.set(userName, forKey: userDefaultsKey.userName)
     }
 
     mutating func setPartner(userId: String, name: String, iconPath: String, iconData: Data, shareNumber: String) {

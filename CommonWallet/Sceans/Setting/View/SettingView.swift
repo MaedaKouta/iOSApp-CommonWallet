@@ -9,9 +9,17 @@ import SwiftUI
 
 struct SettingView: View {
 
-    @StateObject var viewModel = SettingViewModel()
-
+    @StateObject var viewModel: SettingViewModel
     @Binding var isShowSettingView: Bool
+
+    // Userdefaults
+    @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
+    @AppStorage(UserDefaultsKey().shareNumber) private var myShareNumber = String()
+    @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
+    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
+    @State private var imageNameProperty = ImageNameProperty()
+
+
     @State private var color: Color = .white
     @State private var isActive: Bool = false
     @State private var isCopyDoneAlert: Bool = false
@@ -24,6 +32,8 @@ struct SettingView: View {
     @State private var test = false
 
     @State private var isWebView = false
+
+    // URL
     private let feedbackUrl = "https://forms.gle/ubpATWSmMu5qY4v78"
     private let twitterUrl = "https://twitter.com/kota_org"
     private let privacyUrl = "https://kota1970.notion.site/c6a23dc083cf47d6aecef0e61035aaa2"
@@ -37,30 +47,28 @@ struct SettingView: View {
                     Section {
                         NavigationLink(destination: AccountView(viewModel: AccountViewModel())) {
                             HStack {
-                                Image(uiImage: viewModel.iconImage)
+                                Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                                     .resizable()
                                     .scaledToFill()
                                     .frame(width: 45, height: 45)
                                     .cornerRadius(75)
                                     .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
                                 VStack {
-                                    Text(viewModel.userName)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                    Text(viewModel.userEmail)
+                                    Text(myUserName)
                                         .frame(maxWidth: .infinity, alignment: .leading)
                                 }
                             }
                         }
 
                         Button(action: {
-                            UIPasteboard.general.string = viewModel.shareNumber
+                            UIPasteboard.general.string = myShareNumber
                             isCopyDoneAlert = true
                         }, label: {
                             HStack {
                                 Text("My共有番号")
                                     .foregroundColor(.black)
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                Text(viewModel.shareNumber)
+                                Text(myShareNumber.splitBy4Digits(betweenText: " "))
                                     .textSelection(.enabled)
                                     .lineLimit(0)
                                     .minimumScaleFactor(0.5)
@@ -82,7 +90,7 @@ struct SettingView: View {
                         HStack {
                             Text("表示名")
                             NavigationLink(destination: PartnerNameEditView(viewModel: PartnerNameEditViewModel())) {
-                                Text(viewModel.partnerModifiedName)
+                                Text(partnerModifiedName)
                                     .foregroundColor(.gray)
                                     .frame(maxWidth: .infinity, alignment: .trailing)
                             }
@@ -221,8 +229,8 @@ struct SettingView: View {
 
 }
 
-//struct SettingView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        SettingView(isShowSettingView: true)
-//    }
-//}
+struct SettingView_Previews: PreviewProvider {
+    static var previews: some View {
+        SettingView(viewModel: SettingViewModel(), isShowSettingView: .constant(true))
+    }
+}
