@@ -10,15 +10,4 @@ import FirebaseAuth
 
 class PartnerNameEditViewModel: ObservableObject {
 
-    internal let beforePartnerName: String
-    private var userDefaultsManager = UserDefaultsManager()
-
-    init() {
-        beforePartnerName = userDefaultsManager.getPartnerModifiedName() ?? ""
-    }
-
-    func changePartnerName(newName: String) {
-        userDefaultsManager.setPartnerModifiedName(name: newName)
-    }
-
 }

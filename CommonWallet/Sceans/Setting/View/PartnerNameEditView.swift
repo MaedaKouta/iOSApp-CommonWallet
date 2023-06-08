@@ -2,8 +2,6 @@
 //  ChangePartnerNameView.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/02/02.
-//
 
 import SwiftUI
 
@@ -14,9 +12,12 @@ struct PartnerNameEditView: View {
 
     @StateObject var viewModel: PartnerNameEditViewModel
 
+    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
     @State private var afterPartnerName: String = ""
-    @State private var isEnableComplete: Bool = false
 
+    // Alert
+    @State private var isEnableComplete: Bool = false
+    // PKHUD
     @State private var isPKHUDSuccess = false
 
     var body: some View {
@@ -35,7 +36,7 @@ struct PartnerNameEditView: View {
             ToolbarItem(placement: .navigationBarTrailing){
                 Button(action: {
                     let fixedAfterPartnerName = afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines)
-                    viewModel.changePartnerName(newName: fixedAfterPartnerName)
+                    partnerModifiedName = fixedAfterPartnerName
                     isPKHUDSuccess = true
                     // PKHUD Suceesのアニメーションが1秒経過してから元の画面に戻る
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -54,18 +55,18 @@ struct PartnerNameEditView: View {
         HStack {
             Text("名前")
 
-            TextField(viewModel.beforePartnerName, text: $afterPartnerName)
+            TextField(partnerModifiedName, text: $afterPartnerName)
                 .onChange(of: afterPartnerName, perform: { newValue in
                     if afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                         isEnableComplete = false
-                    } else if viewModel.beforePartnerName == newValue {
+                    } else if partnerModifiedName == newValue {
                         isEnableComplete = false
                     } else {
                         isEnableComplete = true
                     }
                 })
                 .onAppear{
-                    afterPartnerName = viewModel.beforePartnerName
+                    afterPartnerName = partnerModifiedName
                 }
         }
     }

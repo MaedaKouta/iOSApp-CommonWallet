@@ -15,6 +15,8 @@ struct PartnerInfoView: View {
     @StateObject var viewModel: PartnerInfoViewModel
 
     @State private var isDisconnectAlert = false
+
+    // PKHUD
     @State private var isPKHUDProgress = false
     @State private var isPKHUDSuccess = false
     @State private var isPKHUDError = false
