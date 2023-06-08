@@ -17,10 +17,10 @@ struct MyNameEditView: View {
     @State private var afterName: String = ""
     @State private var isEnableComplete: Bool = false
 
+    // PKHUD
     @State private var isPKHUDSuccess = false
     @State private var isPKHUDError = false
     @State private var isPKHUDProgress = false
-
 
     var body: some View {
 
@@ -72,7 +72,7 @@ struct MyNameEditView: View {
         }
     }
 
-    func updateName() async {
+    private func updateName() async {
         isPKHUDProgress = true
         let isSuccess = await viewModel.changeMyName(newName: self.afterName)
         if isSuccess {
