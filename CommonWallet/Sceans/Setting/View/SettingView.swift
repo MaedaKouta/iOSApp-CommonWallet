@@ -126,12 +126,9 @@ struct SettingView: View {
                         .frame(maxWidth: .infinity, alignment: .trailing)
                 }
             }
-            .onAppear{
-                viewModel.reloadPartnerName()
-            }
 
             // 条件分岐: パートナーと連携済みorパートナーと未連携
-            if viewModel.isConnectPartner() {
+            if viewModel.isConnectedPartner() {
                 // After tapping: PartnerInfoViewへNavigation遷移
                 NavigationLink(destination: PartnerInfoView(viewModel: PartnerInfoViewModel())) {
                     HStack {
@@ -262,6 +259,6 @@ struct SettingView: View {
 
 struct SettingView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingView(viewModel: SettingViewModel(), isShowSettingView: .constant(true))
+        SettingView(viewModel: SettingViewModel(userDefaultsManager: UserDefaultsManager()), isShowSettingView: .constant(true))
     }
 }

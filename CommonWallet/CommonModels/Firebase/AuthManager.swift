@@ -44,7 +44,7 @@ class AuthManager: AuthManaging {
             throw error
         }
 
-        userDefaultsManager.isSignedIn = true
+        userDefaultsManager.setIsSignedIn(isSignedIn: true)
 
     }
 
@@ -77,7 +77,7 @@ class AuthManager: AuthManaging {
             throw error
         }
 
-        userDefaultsManager.isSignedIn = false
+        userDefaultsManager.setIsSignedIn(isSignedIn: false)
 
     }
 
@@ -136,7 +136,7 @@ class AuthManager: AuthManaging {
             throw error
         }
 
-        userDefaultsManager.isSignedIn = true
+        userDefaultsManager.setIsSignedIn(isSignedIn: true)
 
     }
 
@@ -164,7 +164,7 @@ class AuthManager: AuthManaging {
             throw FirebaseErrorType.Auth(error as NSError)
         }
 
-        userDefaultsManager.isSignedIn = false
+        userDefaultsManager.setIsSignedIn(isSignedIn: false)
     }
 
 }

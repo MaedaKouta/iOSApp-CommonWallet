@@ -11,44 +11,22 @@ import UIKit
 
 class SettingViewModel: ObservableObject {
 
-    @Published var shareNumber = ""
-    @Published var partnerModifiedName = ""
-    @Published var userName = ""
-    @Published var userEmail = ""
-    @Published var iconImage = UIImage()
+    private var userDefaultsManager: UserDefaultsManaging
 
-    private var userDefaultsManager = UserDefaultsManager()
-
-    init() {
-        shareNumber = splitShareNumber(text: userDefaultsManager.getShareNumber() ?? "")
-        partnerModifiedName = userDefaultsManager.getPartnerModifiedName() ?? ""
-        userName = userDefaultsManager.getUser()?.name ?? ""
-        userEmail = userDefaultsManager.getUser()?.email ?? ""
-        if let iconImageData = userDefaultsManager.getMyIconImageData(),
-           let iconImage = UIImage(data: iconImageData) {
-            self.iconImage = iconImage
-        } else {
-            self.iconImage = UIImage(named: "icon-not-found")!
-        }
+    init(userDefaultsManager: UserDefaultsManaging) {
+        self.userDefaultsManager = userDefaultsManager
     }
 
-    // 12桁の文字列を4桁ずつ" - "で区切る関数
-    private func splitShareNumber(text: String) -> String {
-        let textArray = text.splitInto(4)
-        let splitShareNumber = textArray.joined(separator : " - ")
-        return splitShareNumber
-    }
-
-    func isConnectPartner() -> Bool {
+    /**
+     パートナーと連携されているかどうか
+     - Returns: 連携済みならtrue, 未連携ならfalse
+     */
+    func isConnectedPartner() -> Bool {
         if let _ = userDefaultsManager.getPartnerUserId() {
             return true
         } else {
             return false
         }
-    }
-
-    func reloadPartnerName() {
-        partnerModifiedName = userDefaultsManager.getPartnerName() ?? ""
     }
 
 }
