@@ -2,8 +2,6 @@
 //  ContentView.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/02/02.
-//
 
 import SwiftUI
 
@@ -11,11 +9,10 @@ struct PartnerInfoView: View {
 
     // presentationMode.wrappedValue.dismiss() で画面戻れる
     @Environment(\.presentationMode) var presentationMode
-
     @StateObject var viewModel: PartnerInfoViewModel
 
+    // Alert
     @State private var isDisconnectAlert = false
-
     // PKHUD
     @State private var isPKHUDProgress = false
     @State private var isPKHUDSuccess = false

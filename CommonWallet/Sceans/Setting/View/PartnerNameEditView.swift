@@ -9,12 +9,12 @@ struct PartnerNameEditView: View {
 
     // presentationMode.wrappedValue.dismiss() で画面戻れる
     @Environment(\.presentationMode) var presentationMode
-
     @StateObject var viewModel: PartnerNameEditViewModel
 
-    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
     @State private var afterPartnerName: String = ""
 
+    // Userdefaults
+    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
     // Alert
     @State private var isEnableComplete: Bool = false
     // PKHUD
@@ -24,9 +24,7 @@ struct PartnerNameEditView: View {
 
         VStack {
             List {
-                Section {
-                    editPartnerNameView()
-                }
+                editPartnerNameSection()
             }
         }
         .navigationTitle("パートナーのニックネーム")
@@ -51,23 +49,29 @@ struct PartnerNameEditView: View {
 
     }
 
-    private func editPartnerNameView() -> some View {
-        HStack {
-            Text("名前")
-
-            TextField(partnerModifiedName, text: $afterPartnerName)
-                .onChange(of: afterPartnerName, perform: { newValue in
-                    if afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        isEnableComplete = false
-                    } else if partnerModifiedName == newValue {
-                        isEnableComplete = false
-                    } else {
-                        isEnableComplete = true
+    /**
+     パートナーのニックネームを変更するSection.
+     現在のニックネームと重複していない場合のみ, isEnableCompleteをtrueにする.
+     - Returns: View(Section)
+     */
+    private func editPartnerNameSection() -> some View {
+        Section {
+            HStack {
+                Text("名前")
+                TextField(partnerModifiedName, text: $afterPartnerName)
+                    .onChange(of: afterPartnerName, perform: { newValue in
+                        if afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            isEnableComplete = false
+                        } else if partnerModifiedName == newValue {
+                            isEnableComplete = false
+                        } else {
+                            isEnableComplete = true
+                        }
+                    })
+                    .onAppear{
+                        afterPartnerName = partnerModifiedName
                     }
-                })
-                .onAppear{
-                    afterPartnerName = partnerModifiedName
-                }
+            }
         }
     }
 }
