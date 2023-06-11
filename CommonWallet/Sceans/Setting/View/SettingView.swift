@@ -17,21 +17,10 @@ struct SettingView: View {
     @AppStorage(UserDefaultsKey().shareNumber) private var myShareNumber = String()
     @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
     @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
+    @AppStorage(UserDefaultsKey().partnerShareNumber) private var partnerShareNumber = String()
     @State private var imageNameProperty = ImageNameProperty()
 
-
-    @State private var color: Color = .white
-    @State private var isActive: Bool = false
-    @State private var isCopyDoneAlert: Bool = false
-
-    @State private var connectText: String = ""
-    @State private var isSelectionShareNumber = false
-
-    @State private var isChangePartnerNameView = false
-    @State private var isConnectPartnerView = false
-    @State private var test = false
-
-    @State private var isWebView = false
+    @State private var isShareNumberCopyDoneAlert: Bool = false
 
     // URL
     private let feedbackUrl = "https://forms.gle/ubpATWSmMu5qY4v78"
@@ -41,142 +30,13 @@ struct SettingView: View {
 
     var body: some View {
         NavigationView {
-            VStack {
-                List {
-
-                    Section {
-                        NavigationLink(destination: AccountView(viewModel: AccountViewModel())) {
-                            HStack {
-                                Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 45, height: 45)
-                                    .cornerRadius(75)
-                                    .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
-                                VStack {
-                                    Text(myUserName)
-                                        .frame(maxWidth: .infinity, alignment: .leading)
-                                }
-                            }
-                        }
-
-                        Button(action: {
-                            UIPasteboard.general.string = myShareNumber
-                            isCopyDoneAlert = true
-                        }, label: {
-                            HStack {
-                                Text("My共有番号")
-                                    .foregroundColor(.black)
-                                    .frame(maxWidth: .infinity, alignment: .leading)
-                                Text(myShareNumber.splitBy4Digits(betweenText: " "))
-                                    .textSelection(.enabled)
-                                    .lineLimit(0)
-                                    .minimumScaleFactor(0.5)
-                                    .foregroundColor(.gray)
-                                Image(systemName: "square.on.square")
-                                    .resizable()
-                                    .scaledToFill()
-                                    .frame(width: 16, height: 16)
-                                    .foregroundColor(.gray)
-                            }
-                        })
-
-                    } header: {
-                        Text("アカウント")
-                    }
-
-                    Section {
-
-                        HStack {
-                            Text("表示名")
-                            NavigationLink(destination: PartnerNameEditView(viewModel: PartnerNameEditViewModel())) {
-                                Text(partnerModifiedName)
-                                    .foregroundColor(.gray)
-                                    .frame(maxWidth: .infinity, alignment: .trailing)
-                            }
-                            .onAppear{
-                                viewModel.reloadPartnerName()
-                            }
-                        }
-
-                        // 連携情報を、パートナーと接続済みかで表示なよう変える
-                        // 下のような広い条件分岐にしないと、挙動がおかしくなる
-                        if viewModel.isConnectPartner() {
-                            HStack {
-                                Text("連携情報")
-                                NavigationLink(destination: {
-                                    PartnerInfoView(viewModel: PartnerInfoViewModel())
-                                }, label: {
-                                    Text(connectText)
-                                        .foregroundColor(.gray)
-                                        .frame(maxWidth: .infinity, alignment: .trailing)
-                                        .onAppear {
-                                            connectText = "1234 - 5678 - 9123"
-                                        }
-                                })
-                            }
-                        } else {
-                            HStack {
-                                Text("連携情報")
-                                NavigationLink(destination: {
-                                    ConnectPartnerView(viewModel: ConnectPartnerViewModel())
-                                }, label: {
-                                    Text(connectText)
-                                        .foregroundColor(.gray)
-                                        .frame(maxWidth: .infinity, alignment: .trailing)
-                                        .onAppear {
-                                            connectText = "未連携"
-                                        }
-                                })
-                            }
-                        }
-                    } header: {
-                        Text("パートナー")
-                    } footer: {
-                        Text("パートナーと連携することで、お互いに金額を操作できます。")
-                    }
-
-                    Section {
-                        // TODO: リリース後に開放
-                        //Text("アプリをレビューする")
-
-                        if let url = URL(string: feedbackUrl) {
-                            openWebInside(url: url, text: "フィードバックを送る")
-                        }
-
-                        if let url = URL(string: twitterUrl) {
-                            openWebOutside(url: url, text: "開発者のTwitter")
-                        }
-
-                        if let url = URL(string: ruleUrl) {
-                            openWebInside(url: url, text: "利用規約")
-                        }
-
-                        if let url = URL(string: privacyUrl) {
-                            openWebInside(url: url, text: "プライバシーポリシー")
-                        }
-
-                        openLicenseView()
-
-                        if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
-                            HStack {
-                                Text("バージョン")
-                                Spacer()
-                                Text(version)
-                                    .foregroundColor(.gray)
-                            }
-                        }
-
-                    } header: {
-                        Text("情報")
-                    }
-
-                }// Listここまで
-                .scrollContentBackground(.visible)
+            List {
+                accountSection()
+                partnerSection()
+                infoSection()
             }
-            .alert("完了", isPresented: $isCopyDoneAlert){
-                Button("OK"){
-                }
+            .alert("完了", isPresented: $isShareNumberCopyDoneAlert){
+                Button("OK"){}
             } message: {
                 Text("クリップボードにコピーしました")
             }
@@ -193,8 +53,169 @@ struct SettingView: View {
         }
     }
 
-    // アプリから抜けてSafariでリンクを開く
-    private func openWebOutside(url: URL, text: String) -> some View {
+
+    // MARK: - Section
+    /**
+      アカウントのListSection
+     - Description
+        - ユーザ
+        - My共有番号
+     - Returns: View(Section)
+     */
+    private func accountSection() -> some View {
+        Section {
+
+            // タップ後: AccountViewへNavigation遷移
+            NavigationLink(destination: AccountView(viewModel: AccountViewModel())) {
+                HStack {
+                    Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 45, height: 45)
+                        .cornerRadius(75)
+                        .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
+                    VStack {
+                        Text(myUserName)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                    }
+                }
+            }
+
+            // After tapping: 共有番号のクリップボードコピー, アラート表示
+            Button(action: {
+                UIPasteboard.general.string = myShareNumber
+                isShareNumberCopyDoneAlert = true
+            }, label: {
+                HStack {
+                    Text("My共有番号")
+                        .foregroundColor(.black)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text(myShareNumber.splitBy4Digits(betweenText: " "))
+                        .textSelection(.enabled)
+                        .lineLimit(0)
+                        .minimumScaleFactor(0.5)
+                        .foregroundColor(.gray)
+                    Image(systemName: "square.on.square")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 16, height: 16)
+                        .foregroundColor(.gray)
+                }
+            })
+        } header: {
+            Text("アカウント")
+        }
+    }
+
+    /**
+      パートナーのListSection
+     - Description
+        - 表示名
+        - 連携情報
+     - Returns: View(Section)
+     */
+    private func partnerSection() -> some View {
+        Section {
+
+            // After tapping: PartnerNameEditViewへNavigation遷移
+            NavigationLink(destination: PartnerNameEditView(viewModel: PartnerNameEditViewModel())) {
+                HStack {
+                    Text("表示名")
+                    Text(partnerModifiedName)
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                }
+            }
+            .onAppear{
+                viewModel.reloadPartnerName()
+            }
+
+            // 条件分岐: パートナーと連携済みorパートナーと未連携
+            if viewModel.isConnectPartner() {
+                // After tapping: PartnerInfoViewへNavigation遷移
+                NavigationLink(destination: PartnerInfoView(viewModel: PartnerInfoViewModel())) {
+                    HStack {
+                        Text("連携情報")
+                        Spacer()
+                        Text(partnerShareNumber.splitBy4Digits(betweenText: " "))
+                            .foregroundColor(.gray)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                    }
+                }
+            } else {
+                // After tapping: ConnectPartnerViewへNavigation遷移
+                NavigationLink(destination: ConnectPartnerView(viewModel: ConnectPartnerViewModel())) {
+                    HStack {
+                        Text("連携情報")
+                        Spacer()
+                        Text("未連携")
+                            .foregroundColor(.gray)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                    }
+                }
+            }
+        } header: {
+            Text("パートナー")
+        } footer: {
+            Text("パートナーと連携することで、お互いに金額を操作できます。")
+        }
+    }
+
+    /**
+     基本情報のListSection
+     - Description
+        - フィードバック
+        - 開発者のTwitter
+        - 利用規約
+        - プライバシーポリシー
+        - ライセンス
+        - バージョン
+     - Returns: View(Section)
+     */
+    private func infoSection() -> some View {
+        Section {
+            if let url = URL(string: feedbackUrl) {
+                openWebInsideCellView(url: url, text: "フィードバックを送る")
+            }
+
+            if let url = URL(string: twitterUrl) {
+                openWebOutsideCellView(url: url, text: "開発者のTwitter")
+            }
+
+            if let url = URL(string: ruleUrl) {
+                openWebInsideCellView(url: url, text: "利用規約")
+            }
+
+            if let url = URL(string: privacyUrl) {
+                openWebInsideCellView(url: url, text: "プライバシーポリシー")
+            }
+
+            openLicenseCellView()
+
+            if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
+                HStack {
+                    Text("バージョン")
+                    Spacer()
+                    Text(version)
+                        .foregroundColor(.gray)
+                }
+            }
+
+        } header: {
+            Text("情報")
+        }
+    }
+
+
+    // MARK: - Cell
+    /**
+     クリック後, 外部のデフォルトブラウザでリンクを開く
+     - Parameters:
+        - url: URL
+        - text: セルに表示されるテキスト
+     - Returns: View(Cell)
+     */
+    private func openWebOutsideCellView(url: URL, text: String) -> some View {
         return Link(destination: url, label: {
             HStack{
                 Text(text)
@@ -209,8 +230,14 @@ struct SettingView: View {
         })
     }
 
-    // アプリ内でWebを開く
-    private func openWebInside(url: URL, text: String) -> some View {
+    /**
+     クリック後, NavigationLinkで画面遷移してアプリ内でリンクを開く
+     - Parameters:
+        - url: URL
+        - text: セルに表示されるテキスト
+     - Returns: View(Cell)
+     */
+    private func openWebInsideCellView(url: URL, text: String) -> some View {
         NavigationLink(destination: WebView(url: url)) {
             Text(text)
                 .foregroundColor(.black)
@@ -218,8 +245,12 @@ struct SettingView: View {
         }
     }
 
-    // ライセンス画面を開く
-    private func openLicenseView() -> some View {
+
+    /**
+     クリック後, NavigationLinkで画面遷移してライセンスを開く
+     - Returns: View(Cell)
+     */
+    private func openLicenseCellView() -> some View {
         NavigationLink(destination: LicenseView() ) {
             Text("ライセンス")
                 .foregroundColor(.black)
