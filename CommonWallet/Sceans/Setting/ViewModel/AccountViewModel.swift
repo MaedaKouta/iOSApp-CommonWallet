@@ -2,16 +2,11 @@
 //  AccountViewModel.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/02/02.
-//
 
 import Foundation
-import FirebaseAuth
 import SwiftUI
 
 class AccountViewModel: ObservableObject {
-
-    @Published var myIconImage: UIImage
 
     private var userDefaultsManager: UserDefaultsManaging
     private var storageManager: StorageManaging
@@ -19,33 +14,31 @@ class AccountViewModel: ObservableObject {
     init(userDefaultsManager: UserDefaultsManaging, storageManager: StorageManaging) {
         self.userDefaultsManager = userDefaultsManager
         self.storageManager = storageManager
-
-        if let accountImageData =  userDefaultsManager.getMyIconImageData(),
-           let accountImage = UIImage(data: accountImageData) {
-            myIconImage = accountImage
-        } else {
-            myIconImage = UIImage(named: "icon-not-found")!
-        }
     }
 
     internal func uploadIconImage(image: UIImage, completion: @escaping(Bool, Error?) -> Void) {
-        // 画像のアップデート処理
-        storageManager.upload(image: image, completion: { path, imageData, error in
+
+        // 画像のアップロード
+        // 古い画像の削除
+        // Userdefaultsのパス情報・データの更新
+        storageManager.upload(image: image, completion: { [weak self] path, imageData, error in
             if error != nil {
                 completion(false, error)
                 return
             }
 
             guard let path = path,
-                  let imageData = imageData,
-                  let image = UIImage(data: imageData) else {
+                  let imageData = imageData else {
                 completion(false, NSError())
                 return
             }
-            self.userDefaultsManager.setMyIcon(path: path, imageData: imageData)
-            self.myIconImage = image
+            if let oldIconImagePath = self?.userDefaultsManager.getMyIconImagePath() {
+                self?.storageManager.deleteImage(path: oldIconImagePath)
+            }
+            self?.userDefaultsManager.setMyIcon(path: path, imageData: imageData)
             completion(true, nil)
         })
+
     }
 
 }
