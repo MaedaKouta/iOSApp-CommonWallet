@@ -16,11 +16,17 @@ class AccountViewModel: ObservableObject {
         self.storageManager = storageManager
     }
 
+    /**
+     アイコンをFireStorageへアップロード.
+     - Description:
+        - StorageManager.uploadでアイコンのアップロード
+        - StorageManager.deleteで古いアイコンの削除
+        - UserdefaultsのMyIconData・MyIconPathの更新
+     - parameter image: アップロードするUIImage
+     - parameter completion: 成功失敗のBool値 / エラー
+    */
     internal func uploadIconImage(image: UIImage, completion: @escaping(Bool, Error?) -> Void) {
 
-        // 画像のアップロード
-        // 古い画像の削除
-        // Userdefaultsのパス情報・データの更新
         storageManager.upload(image: image, completion: { [weak self] path, imageData, error in
             if error != nil {
                 completion(false, error)
@@ -32,9 +38,12 @@ class AccountViewModel: ObservableObject {
                 completion(false, NSError())
                 return
             }
+
+            // StorageManager.deleteで古いアイコンの削除
             if let oldIconImagePath = self?.userDefaultsManager.getMyIconImagePath() {
                 self?.storageManager.deleteImage(path: oldIconImagePath)
             }
+            // UserdefaultsのMyIconData・MyIconPathの更新
             self?.userDefaultsManager.setMyIcon(path: path, imageData: imageData)
             completion(true, nil)
         })

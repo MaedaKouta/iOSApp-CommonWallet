@@ -5,7 +5,6 @@
 
 import Foundation
 import SwiftUI
-import FirebaseAuth
 import FirebaseStorage
 
 /// FireStorageの操作を行うクラス
@@ -29,7 +28,7 @@ struct StorageManager: StorageManaging {
         - FireStorageに保存するパスは "icon-images/ + UUID().uuidString" とする
             - "icon-images/ + UserId" ではアイコン変更をパートナー側で判別するのが難しいため
      - parameter image: アップロードするUIImage
-     - Returns : アップロードしたパス情報 / アップロードしたアイコンデータ / エラー
+     - parameter completion: アップロードしたパス情報 / アップロードしたアイコンデータ / エラー
     */
     internal func upload(image: UIImage, completion: @escaping(String?, Data?, StorageError?) -> Void) {
 
@@ -73,7 +72,7 @@ struct StorageManager: StorageManaging {
         - ダウンロードは最大10MB(10 * 1024 * 1024 bytes)まで許可
             - 変な処理が発生し、通信容量が増えることでFireStorageの無料枠が超えることを回避している
      - parameter path: ダウンロードするアイコンのパス
-     - Returns : アイコンデータ / エラー
+     - parameter completion: ダウンロードしたアイコンデータ / エラー
     */
     func download(path: String, completion: @escaping(Data?, Error?) -> Void) {
         let islandRef = reference.child(path)
