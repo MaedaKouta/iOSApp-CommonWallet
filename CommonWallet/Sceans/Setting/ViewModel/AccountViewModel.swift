@@ -13,10 +13,13 @@ class AccountViewModel: ObservableObject {
 
     @Published var myIconImage: UIImage
 
-    private var userDefaultsManager = UserDefaultsManager()
-    private var storageManager = StorageManager()
+    private var userDefaultsManager: UserDefaultsManaging
+    private var storageManager: StorageManaging
 
-    init() {
+    init(userDefaultsManager: UserDefaultsManaging, storageManager: StorageManaging) {
+        self.userDefaultsManager = userDefaultsManager
+        self.storageManager = storageManager
+
         if let accountImageData =  userDefaultsManager.getMyIconImageData(),
            let accountImage = UIImage(data: accountImageData) {
             myIconImage = accountImage
@@ -25,7 +28,7 @@ class AccountViewModel: ObservableObject {
         }
     }
 
-    func uploadIconImage(image: UIImage, completion: @escaping(Bool, Error?) -> Void) {
+    internal func uploadIconImage(image: UIImage, completion: @escaping(Bool, Error?) -> Void) {
         // 画像のアップデート処理
         storageManager.upload(image: image, completion: { path, imageData, error in
             if error != nil {

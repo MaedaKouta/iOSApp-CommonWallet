@@ -436,8 +436,8 @@
 			isa = PBXGroup;
 			children = (
 				87CDAAB7297E608400F52887 /* SettingView.swift */,
-				879379EA298B999700D3A47B /* PartnerInfoView.swift */,
 				87CDAABB297E6ADB00F52887 /* AccountView.swift */,
+				879379EA298B999700D3A47B /* PartnerInfoView.swift */,
 				879379DF298B444500D3A47B /* ConnectPartnerView.swift */,
 				87DDCDC62A18342200F51DC8 /* LicenseView.swift */,
 				879379E1298B4C8D00D3A47B /* PartnerNameEditView.swift */,

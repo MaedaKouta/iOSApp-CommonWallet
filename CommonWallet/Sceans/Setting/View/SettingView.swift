@@ -66,7 +66,7 @@ struct SettingView: View {
         Section {
 
             // タップ後: AccountViewへNavigation遷移
-            NavigationLink(destination: AccountView(viewModel: AccountViewModel())) {
+            NavigationLink(destination: AccountView(viewModel: AccountViewModel(userDefaultsManager: UserDefaultsManager(), storageManager: StorageManager()))) {
                 HStack {
                     Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                         .resizable()
@@ -172,22 +172,22 @@ struct SettingView: View {
     private func infoSection() -> some View {
         Section {
             if let url = URL(string: feedbackUrl) {
-                openWebInsideCellView(url: url, text: "フィードバックを送る")
+                openWebInsideCell(url: url, text: "フィードバックを送る")
             }
 
             if let url = URL(string: twitterUrl) {
-                openWebOutsideCellView(url: url, text: "開発者のTwitter")
+                openWebOutsideCell(url: url, text: "開発者のTwitter")
             }
 
             if let url = URL(string: ruleUrl) {
-                openWebInsideCellView(url: url, text: "利用規約")
+                openWebInsideCell(url: url, text: "利用規約")
             }
 
             if let url = URL(string: privacyUrl) {
-                openWebInsideCellView(url: url, text: "プライバシーポリシー")
+                openWebInsideCell(url: url, text: "プライバシーポリシー")
             }
 
-            openLicenseCellView()
+            openLicenseCell()
 
             if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
                 HStack {
@@ -212,7 +212,7 @@ struct SettingView: View {
         - text: セルに表示されるテキスト
      - Returns: View(Cell)
      */
-    private func openWebOutsideCellView(url: URL, text: String) -> some View {
+    private func openWebOutsideCell(url: URL, text: String) -> some View {
         return Link(destination: url, label: {
             HStack{
                 Text(text)
@@ -234,7 +234,7 @@ struct SettingView: View {
         - text: セルに表示されるテキスト
      - Returns: View(Cell)
      */
-    private func openWebInsideCellView(url: URL, text: String) -> some View {
+    private func openWebInsideCell(url: URL, text: String) -> some View {
         NavigationLink(destination: WebView(url: url)) {
             Text(text)
                 .foregroundColor(.black)
@@ -247,7 +247,7 @@ struct SettingView: View {
      クリック後, NavigationLinkで画面遷移してライセンスを開く
      - Returns: View(Cell)
      */
-    private func openLicenseCellView() -> some View {
+    private func openLicenseCell() -> some View {
         NavigationLink(destination: LicenseView() ) {
             Text("ライセンス")
                 .foregroundColor(.black)

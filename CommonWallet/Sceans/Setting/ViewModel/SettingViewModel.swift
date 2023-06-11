@@ -21,7 +21,7 @@ class SettingViewModel: ObservableObject {
      パートナーと連携されているかどうか
      - Returns: 連携済みならtrue, 未連携ならfalse
      */
-    func isConnectedPartner() -> Bool {
+    internal func isConnectedPartner() -> Bool {
         if let _ = userDefaultsManager.getPartnerUserId() {
             return true
         } else {

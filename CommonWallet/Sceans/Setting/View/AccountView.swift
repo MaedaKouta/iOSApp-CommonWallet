@@ -30,44 +30,13 @@ struct AccountView: View {
     let authManager = AuthManager()
 
     var body: some View {
-        VStack {
-            List {
-                Section {
-                    myIconView()
-                }
-                .listRowSeparator(.hidden)
-                .buttonStyle(BorderlessButtonStyle())
-
-                Section {
-
-                    HStack {
-                        Text("ユーザー名")
-
-                        NavigationLink(destination: {
-                            MyNameEditView(viewModel: MyNameEditViewModel())
-                        }, label: {
-                            Text(userName)
-                                .foregroundColor(.gray)
-                                .frame(maxWidth: .infinity, alignment: .trailing)
-                        })
-                    }
-                }
-
-                Section {
-                    Button(action: {
-                        isAccountDeleteAlert = true
-                    }) {
-                        Text("アカウントリセット")
-                            .foregroundColor(.red)
-                    }
-                } footer: {
-                    Text("全データが削除され、現在の共有番号も無効化されます。")
-                }
-
-            }// Listここまで
-            .scrollContentBackground(.visible)
-            .navigationTitle("アカウント")
+        List {
+            myIconSection()
+            myUserNameSection()
+            accountResetSection()
         }
+        .scrollContentBackground(.visible)
+        .navigationTitle("アカウント")
         .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
         .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
         .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
@@ -105,26 +74,80 @@ struct AccountView: View {
         }
     }
 
-    /// アイコンを表示するView。タップで画像変更。
-    private func myIconView() -> some View {
-        return HStack {
-            Spacer()
-            Button(action: {
-                isAccountImageDialog = true
-            }, label: {
-                Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: 100, height: 100)
-                    .cornerRadius(75)
-                    .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
-                    .animation(.default)
-            })
-            Spacer()
+    // MARK: - Section
+
+    /**
+     アイコンを表示するView, タップでアイコン変更
+     - Returns: View(Section)
+     */
+    private func myIconSection() -> some View {
+        Section {
+            HStack {
+                Spacer()
+                Button(action: {
+                    isAccountImageDialog = true
+                }, label: {
+                    Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 100, height: 100)
+                        .cornerRadius(75)
+                        .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
+                        .animation(.default)
+                })
+                Spacer()
+            }
+            .listRowBackground(Color.clear)
         }
-        .listRowBackground(Color.clear)
+        .listRowSeparator(.hidden)
+        .buttonStyle(BorderlessButtonStyle())
     }
 
+    /**
+     MyUserNameを表示するView, タップでMyUserName変更
+     - Returns: View(Section)
+     */
+    private func myUserNameSection() -> some View {
+        Section {
+            HStack {
+                Text("ユーザー名")
+
+                NavigationLink(destination: {
+                    MyNameEditView(viewModel: MyNameEditViewModel())
+                }, label: {
+                    Text(userName)
+                        .foregroundColor(.gray)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                })
+            }
+        }
+    }
+
+    /**
+     アカウントリセットするView, タップでカウントリセットアラート表示
+     - Returns: View(Section)
+     */
+    private func accountResetSection() -> some View {
+        Section {
+            Button(action: {
+                isAccountDeleteAlert = true
+            }) {
+                Text("アカウントリセット")
+                    .foregroundColor(.red)
+            }
+        } footer: {
+            Text("全データが削除され、現在の共有番号も無効化されます。")
+        }
+    }
+
+
+    // MARK: - Logic
+
+    /**
+     アイコンをアップロードする非同期処理.
+     処理中はインジケータを出し, 結果によって成功/失敗PKHUDを表示
+     - Returns: View(Section)
+     */
     private func uploadIconImage() async {
         guard let accountImage = self.selectedAccountImage else {
             isPKHUDError = true
@@ -146,6 +169,6 @@ struct AccountView: View {
 
 struct AccountView_Previews: PreviewProvider {
     static var previews: some View {
-        AccountView(viewModel: AccountViewModel())
+        AccountView(viewModel: AccountViewModel(userDefaultsManager: UserDefaultsManager(), storageManager: StorageManager()))
     }
 }
