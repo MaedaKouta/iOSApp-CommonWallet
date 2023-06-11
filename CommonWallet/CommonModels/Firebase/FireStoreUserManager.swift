@@ -10,7 +10,7 @@ import FirebaseAuth
 import Firebase
 import FirebaseFirestore
 
-class FireStoreUserManager: FireStoreUserManaging {
+struct FireStoreUserManager: FireStoreUserManaging {
 
     private let db = Firestore.firestore()
     private var userDefaultsManager = UserDefaultsManager()

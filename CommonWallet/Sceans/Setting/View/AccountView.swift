@@ -113,7 +113,7 @@ struct AccountView: View {
                 Text("ユーザー名")
 
                 NavigationLink(destination: {
-                    MyNameEditView(viewModel: MyNameEditViewModel())
+                    MyNameEditView(viewModel: MyNameEditViewModel(userDefaultsManager: UserDefaultsManager(), fireStoreUserManager: FireStoreUserManager()))
                 }, label: {
                     Text(userName)
                         .foregroundColor(.gray)
@@ -145,7 +145,7 @@ struct AccountView: View {
 
     /**
      アイコンをアップロードする非同期処理.
-     処理中はインジケータを出し, 結果によって成功/失敗PKHUDを表示
+     処理中はインジケータを出し, 結果によって成功/失敗PKHUDを表示.
      - Returns: View(Section)
      */
     private func uploadIconImage() async {

@@ -9,13 +9,16 @@ import Foundation
 
 protocol FireStoreUserManaging {
 
-    // create
+    // MARK: POST
     func createUser(userId: String, userName: String, email: String, iconPath: String, shareNumber: String) async throws
 
-    // delete
+    // MARK: PUT
+    func putUserName(userId: String, userName: String) async throws
+
+    // MARK: Delete
     func deleteUser(userId: String) async throws
 
-    // fetch
+    // MARK: Fetch
     func fetchInfo(userId: String, completion: @escaping(User?, Error?) -> Void)
 
 }

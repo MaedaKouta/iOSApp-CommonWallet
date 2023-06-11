@@ -12,9 +12,12 @@ struct MyNameEditView: View {
     @Environment(\.presentationMode) var presentationMode
 
     @StateObject var viewModel: MyNameEditViewModel
-    @State private var afterName: String = ""
+
+    @State private var newName: String = ""
     @State private var isEnableComplete: Bool = false
 
+    // Userdefaults
+    @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
     // PKHUD
     @State private var isPKHUDSuccess = false
     @State private var isPKHUDError = false
@@ -24,9 +27,7 @@ struct MyNameEditView: View {
 
         VStack {
             List {
-                Section {
-                    editPartnerNameView()
-                }
+                editMyUserNameSection()
             }
         }
         .navigationTitle("名前")
@@ -38,8 +39,7 @@ struct MyNameEditView: View {
             ToolbarItem(placement: .navigationBarTrailing){
                 Button(action: {
                     Task {
-                        let fixedAfterPartnerName = afterName.trimmingCharacters(in: .whitespacesAndNewlines)
-                        await updateName()
+                        await updateName(newName: self.newName)
                     }
                 }) {
                     Text("完了")
@@ -47,32 +47,47 @@ struct MyNameEditView: View {
                 .disabled(!isEnableComplete)
             }
         }
-
     }
 
-    private func editPartnerNameView() -> some View {
-        HStack {
-            Text("名前")
 
-            TextField(viewModel.beforeMyName, text: $afterName)
-                .onChange(of: afterName, perform: { newValue in
-                    if afterName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
-                        isEnableComplete = false
-                    } else if viewModel.beforeMyName == newValue {
-                        isEnableComplete = false
-                    } else {
-                        isEnableComplete = true
+    // MARK: - Sections
+    /**
+     自身のUserNameを変更するSection.
+     現在のUserNameと被っていない場合のみ, isEnableCompleteをtrueにする.
+     - Returns: View(Section)
+     */
+    private func editMyUserNameSection() -> some View {
+        Section {
+            HStack {
+                Text("名前")
+
+                TextField(myUserName, text: $newName)
+                    .onChange(of: newName, perform: { newValue in
+                        if newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
+                            isEnableComplete = false
+                        } else if myUserName == newValue {
+                            isEnableComplete = false
+                        } else {
+                            isEnableComplete = true
+                        }
+                    })
+                    .onAppear {
+                        newName = myUserName
                     }
-                })
-                .onAppear{
-                    afterName = viewModel.beforeMyName
-                }
+            }
         }
     }
 
-    private func updateName() async {
+
+    // MARK: - Logics
+    /**
+     自身のUserNameを更新する.
+     処理中はインジケータを出す.  失敗時エラー表示, 成功時は成功表示後元の画面へ戻る.
+     - Returns: View(Section)
+     */
+    private func updateName(newName: String) async {
         isPKHUDProgress = true
-        let isSuccess = await viewModel.changeMyName(newName: self.afterName)
+        let isSuccess = await viewModel.changeMyName(newName: newName)
         if isSuccess {
             isPKHUDProgress = false
             isPKHUDSuccess = true
@@ -89,7 +104,7 @@ struct MyNameEditView: View {
 
 struct MyNameEditView_Previews: PreviewProvider {
     static var previews: some View {
-        MyNameEditView(viewModel: MyNameEditViewModel())
+        MyNameEditView(viewModel: MyNameEditViewModel(userDefaultsManager: UserDefaultsManager(), fireStoreUserManager: FireStoreUserManager()))
     }
 }
 

@@ -9,5 +9,4 @@ import Foundation
 import FirebaseAuth
 
 class PartnerNameEditViewModel: ObservableObject {
-
 }
