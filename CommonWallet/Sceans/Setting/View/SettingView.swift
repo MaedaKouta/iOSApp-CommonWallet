@@ -141,7 +141,7 @@ struct SettingView: View {
                 }
             } else {
                 // After tapping: ConnectPartnerViewへNavigation遷移
-                NavigationLink(destination: ConnectPartnerView(viewModel: ConnectPartnerViewModel())) {
+                NavigationLink(destination: ConnectPartnerView(viewModel: ConnectPartnerViewModel(fireStorePartnerManager: FireStorePartnerManager(), userDefaultsManager: UserDefaultsManager()))) {
                     HStack {
                         Text("連携情報")
                         Spacer()

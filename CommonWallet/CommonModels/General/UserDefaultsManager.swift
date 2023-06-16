@@ -35,6 +35,15 @@ struct UserDefaultsManager: UserDefaultsManaging {
         UserDefaults.standard.set(userName, forKey: userDefaultsKey.userName)
     }
 
+    func setPartner(partner: Partner) {
+        UserDefaults.standard.set(partner.userId, forKey: userDefaultsKey.partnerUserId)
+        UserDefaults.standard.set(partner.userName, forKey: userDefaultsKey.partnerName)
+        UserDefaults.standard.set(partner.userName, forKey: userDefaultsKey.partnerModifiedName)
+        UserDefaults.standard.set(partner.iconPath, forKey: userDefaultsKey.partnerIconPath)
+        UserDefaults.standard.set(partner.iconData, forKey: userDefaultsKey.partnerIconData)
+        UserDefaults.standard.set(partner.shareNumber, forKey: userDefaultsKey.partnerShareNumber)
+    }
+
     func setPartner(userId: String, name: String, iconPath: String, iconData: Data, shareNumber: String) {
         UserDefaults.standard.set(userId, forKey: userDefaultsKey.partnerUserId)
         UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)

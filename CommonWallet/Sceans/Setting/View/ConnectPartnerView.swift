@@ -28,19 +28,16 @@ struct ConnectPartnerView: View {
     var body: some View {
         VStack {
             List {
-                Section {
-                    inputPartnerNumberView()
-                } footer: {
-                    Text("連携番号は、パートナーの設定画面から確認できる12桁の番号です。")
-                }
+                inputPartnerNumberSection()
             }
         }
         .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
         .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
         .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
         .toolbar {
-            /// ナビゲーションバー右
-            ToolbarItem(placement: .navigationBarTrailing){
+            // ナビゲーションバー右
+            ToolbarItem(placement: .navigationBarTrailing) {
+                // After tapping: 通信してパートナー連携後, 画面を戻る
                 Button(action: {
                     isPKHUDProgress = true
                     Task {
@@ -65,28 +62,38 @@ struct ConnectPartnerView: View {
         }
     }
 
-    private func inputPartnerNumberView() -> some View {
-        HStack {
-            Text("連携番号")
-            Spacer()
+    // MARK: - Section
+    /**
+     パートナーのニックネームを記述するSection.
+     12桁の入力があった場合のみ, isEnableCompleteをtrueにする.
+     - Returns: View(Section)
+     */
+    private func inputPartnerNumberSection() -> some View {
+        Section {
+            HStack {
+                Text("連携番号")
+                Spacer()
 
-            TextField("123456781234", text: $inputNumber)
-                .keyboardType(.numberPad)
-                .padding(.leading)
-                // numberLimit(12文字)以上は入力できない
-                .onReceive(Just(inputNumber), perform: { _ in
-                    if inputNumber.count > numberLimit {
-                        inputNumber = String(inputNumber.prefix(numberLimit))
-                    }
-                })
-                // numberrLimit(12文字)入力があった際に完了ボタンを押せる
-                .onChange(of: inputNumber, perform: { newValue in
-                    if inputNumber.trimmingCharacters(in: .whitespacesAndNewlines).count == numberLimit {
-                        isEnableComplete = true
-                    } else {
-                        isEnableComplete = false
-                    }
-                })
+                TextField("123456781234", text: $inputNumber)
+                    .keyboardType(.numberPad)
+                    .padding(.leading)
+                    // numberLimit(12文字)以上は入力できない
+                    .onReceive(Just(inputNumber), perform: { _ in
+                        if inputNumber.count > numberLimit {
+                            inputNumber = String(inputNumber.prefix(numberLimit))
+                        }
+                    })
+                    // numberrLimit(12文字)入力があった際に完了ボタンを押せる
+                    .onChange(of: inputNumber, perform: { newValue in
+                        if inputNumber.trimmingCharacters(in: .whitespacesAndNewlines).count == numberLimit {
+                            isEnableComplete = true
+                        } else {
+                            isEnableComplete = false
+                        }
+                    })
+            }
+        } footer: {
+            Text("連携番号は、パートナーの設定画面から確認できる12桁の番号です。")
         }
     }
 
@@ -94,6 +101,6 @@ struct ConnectPartnerView: View {
 
 struct ConnectView_Previews: PreviewProvider {
     static var previews: some View {
-        ConnectPartnerView(viewModel: ConnectPartnerViewModel())
+        ConnectPartnerView(viewModel: ConnectPartnerViewModel(fireStorePartnerManager: FireStorePartnerManager(), userDefaultsManager: UserDefaultsManager()))
     }
 }

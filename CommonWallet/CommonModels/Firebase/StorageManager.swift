@@ -86,6 +86,23 @@ struct StorageManager: StorageManaging {
         }
     }
 
+    func download(path: String) async throws -> Data {
+        try await withCheckedThrowingContinuation { continuation in
+            let islandRef = reference.child(path)
+            islandRef.getData(maxSize: 1 * 1024 * 1024) { data, error in
+                if let error = error {
+                    continuation.resume(throwing: error)
+                }
+                if let data = data {
+                    continuation.resume(returning: data)
+                    print("StorageManager: image download success!")
+                } else {
+                    continuation.resume(throwing: InvalidValueError.unexpectedNullValue)
+                }
+            }
+        }
+    }
+
     /**
      アイコンをFireStorageから削除.
      失敗しても大したことないため, エラーハンドリングはしていない.

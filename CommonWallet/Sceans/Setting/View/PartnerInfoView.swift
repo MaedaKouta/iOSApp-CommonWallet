@@ -68,8 +68,8 @@ struct PartnerInfoView: View {
             Button("OK"){
                 isPKHUDProgress = true
                 Task {
-                    let result = await viewModel.deletePartner()
-                    if result {
+                    do {
+                        try await viewModel.deletePartner()
                         isPKHUDProgress = false
                         isPKHUDSuccess = true
                         // PKHUD Suceesのアニメーションが1秒経過してから元の画面に戻る
@@ -77,7 +77,7 @@ struct PartnerInfoView: View {
                             presentationMode.wrappedValue.dismiss()
                             isPKHUDSuccess = false
                         }
-                    } else {
+                    } catch {
                         isPKHUDProgress = false
                         isPKHUDError = true
                     }

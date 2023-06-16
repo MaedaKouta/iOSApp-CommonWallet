@@ -2,8 +2,6 @@
 //  UnConnectPartnerViewModel.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/02/02.
-//
 
 import Foundation
 import FirebaseAuth
@@ -23,15 +21,13 @@ class PartnerInfoViewModel: ObservableObject {
         partnerModifiedName = userDefaultsManager.getPartnerModifiedName() ?? ""
     }
 
-    func deletePartner() async -> Bool {
-        let result = await fireStorePartnerManager.deletePartner()
-        switch result {
-        case .success(_):
-            return true
-        case .failure(let error):
-            print("unConnectPartner failed: \(error.localizedDescription)")
-            return false
+    func deletePartner() async throws {
+        guard let myUserId = userDefaultsManager.getUser()?.id,
+            let partnerUserId = userDefaultsManager.getPartnerUserId() else {
+            throw UserDefaultsError.emptyMyUserId
         }
+        try await fireStorePartnerManager.deletePartner(myUserId: myUserId, partnerUserId: partnerUserId)
+        userDefaultsManager.deletePartner()
     }
 
 }

@@ -9,6 +9,7 @@ import Foundation
 
 enum UserDefaultsError: Error {
     case emptyUserIds
+    case emptyMyUserId
     case emptyPartnerUserId
     case emptySomeValue
 
@@ -16,6 +17,8 @@ enum UserDefaultsError: Error {
         switch self {
         case .emptyUserIds:
             return "User IDs From UserDefaults are empty."
+        case .emptyMyUserId:
+            return "My User ID From UserDefaults are empty."
         case .emptyPartnerUserId:
             return "Partner UserId From UserDefaults are empty."
         case .emptySomeValue:

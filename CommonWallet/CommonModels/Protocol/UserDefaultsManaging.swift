@@ -12,6 +12,7 @@ protocol UserDefaultsManaging {
     // MARK: - Setter
     func setUser(user: User)
     func setMyUserName(userName: String)
+    func setPartner(partner: Partner)
     func setPartner(userId: String, name: String, iconPath: String, iconData: Data, shareNumber: String)
     func setPartner(userId: String, name: String, shareNumber: String)
     func setPartnerUserId(userId: String)
