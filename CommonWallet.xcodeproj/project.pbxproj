@@ -105,6 +105,7 @@
 		87CDAAC0297E8CF900F52887 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAABE297E895400F52887 /* AddTransactionView.swift */; };
 		87CDAAC1297E8CFC00F52887 /* CommonWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAAB1297E529F00F52887 /* CommonWalletView.swift */; };
 		87D1A05529E770F20058A98F /* FetchTransactionsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D1A05429E770F20058A98F /* FetchTransactionsError.swift */; };
+		87D9CFCA2A3D1E74002BAF8E /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D9CFC92A3D1E74002BAF8E /* OSLog.swift */; };
 		87DDCDC52A16E12000F51DC8 /* WebView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DDCDC42A16E12000F51DC8 /* WebView.swift */; };
 		87DDCDC72A18342200F51DC8 /* LicenseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87DDCDC62A18342200F51DC8 /* LicenseView.swift */; };
 		87DDCDCA2A1836EA00F51DC8 /* PKHUD in Frameworks */ = {isa = PBXBuildFile; productRef = 87DDCDC92A1836EA00F51DC8 /* PKHUD */; };
@@ -213,6 +214,7 @@
 		87CDAABB297E6ADB00F52887 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		87CDAABE297E895400F52887 /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
 		87D1A05429E770F20058A98F /* FetchTransactionsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchTransactionsError.swift; sourceTree = "<group>"; };
+		87D9CFC92A3D1E74002BAF8E /* OSLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSLog.swift; sourceTree = "<group>"; };
 		87DDCDC42A16E12000F51DC8 /* WebView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebView.swift; sourceTree = "<group>"; };
 		87DDCDC62A18342200F51DC8 /* LicenseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LicenseView.swift; sourceTree = "<group>"; };
 		87DDCDCB2A18373200F51DC8 /* PKHUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PKHUDView.swift; sourceTree = "<group>"; };
@@ -321,6 +323,7 @@
 				87391E4F298A189900897A96 /* String.swift */,
 				878C9A962991D3E6003D4816 /* DateFormatter.swift */,
 				874DBA052A2C1392000E1FD1 /* Userdefaults.swift */,
+				87D9CFC92A3D1E74002BAF8E /* OSLog.swift */,
 			);
 			path = Extentions;
 			sourceTree = "<group>";
@@ -843,6 +846,7 @@
 				8724AD8E29FDF50A0023AEC5 /* LaunchViewModel.swift in Sources */,
 				87CDAAB2297E529F00F52887 /* CommonWalletView.swift in Sources */,
 				87DDCDC52A16E12000F51DC8 /* WebView.swift in Sources */,
+				87D9CFCA2A3D1E74002BAF8E /* OSLog.swift in Sources */,
 				87CD584B29EB85DE00472B6B /* AuthError.swift in Sources */,
 				87CDAAB5297E5C8000F52887 /* CommonWalletViewModel.swift in Sources */,
 				879379E9298B85E300D3A47B /* AccountViewModel.swift in Sources */,

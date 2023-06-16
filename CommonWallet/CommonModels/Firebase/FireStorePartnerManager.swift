@@ -14,19 +14,20 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
     private var userDefaultManager = UserDefaultsManager()
     private var storageManager = StorageManager()
 
-    /*
-     パートナーと接続し、接続した情報を自分のUserdefaultsに格納する
+    /**
+     FireStorageでパートナーとの接続登録
+     - Description
+     - 自分と相手のFireStoreの "partnerUserId" にお互いのUserIDを登録する
+     - 登録は並列で非同期処理を行う
+     - parameter myUserId: 引数１詳細
+     - parameter partnerShareNumber: 引数２詳細
+     - Returns: FireStoreで取得したPartner
      */
-    func connectPartner(partnerShareNumber: String) async throws -> Partner {
-        guard let myUserId = Auth.auth().currentUser?.uid else {
-            throw AuthError.emptyUserId
-        }
-
-        // パートナーのshareNumberからpartnerUserIdを探る
+    func connectPartner(myUserId: String, partnerShareNumber: String) async throws -> Partner {
+        // partnerShareNumberからpartner情報を取得
         let snapShots = try await db.collection("Users")
             .whereField("shareNumber", isEqualTo: partnerShareNumber)
             .getDocuments()
-
         guard let data = snapShots.documents.first?.data(),
               let partnerUserId = data["id"] as? String,
               let partnerIconPath = data["iconPath"] as? String,
@@ -34,22 +35,24 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
             throw InvalidValueError.unexpectedNullValue
         }
 
-        // 自分のPartnerIdに相手のIdを入れる
-        try await db.collection("Users")
+        // 非同期1: 自分のPartnerIdに相手のUserIdを入れる
+        async let _ = db.collection("Users")
             .document(myUserId)
             .setData([
                 "partnerUserId": partnerUserId,
             ], merge: true)
 
-        // 相手のPartnerIdに自分のIdを入れる
-        try await db.collection("Users")
+        // 非同期2: 相手のPartnerIdに自分のUserIdを入れる
+        async let _ = db.collection("Users")
             .document(partnerUserId)
             .setData([
                 "partnerUserId": myUserId,
             ], merge: true)
 
-        let partnerIconData = try await storageManager.download(path: partnerIconPath)
-        let partner = Partner(userId: partnerUserId, userName: partnerName, shareNumber: partnerShareNumber, iconPath: partnerIconPath, iconData: partnerIconData)
+        // 非同期3: PartnerIconDataを取得
+        async let partnerIconData = try await storageManager.download(path: partnerIconPath)
+
+        let partner = try await Partner(userId: partnerUserId, userName: partnerName, shareNumber: partnerShareNumber, iconPath: partnerIconPath, iconData: partnerIconData)
         return partner
     }
 

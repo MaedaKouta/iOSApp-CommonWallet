@@ -41,15 +41,12 @@ struct ConnectPartnerView: View {
                 Button(action: {
                     isPKHUDProgress = true
                     Task {
-                        let result = await viewModel.connectPartner(partnerShareNumber: inputNumber)
-                        if result {
+                        do {
+                            try await viewModel.connectPartner(partnerShareNumber: inputNumber)
                             isPKHUDProgress = false
                             isPKHUDSuccess = true
-                            // PKHUD Suceesのアニメーションが1秒経過してから元の画面に戻る
-                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                presentationMode.wrappedValue.dismiss()
-                            }
-                        } else {
+                            presentationMode.wrappedValue.dismiss()
+                        } catch {
                             isPKHUDProgress = false
                             isPKHUDError = true
                         }

@@ -22,21 +22,11 @@ class ConnectPartnerViewModel: ObservableObject {
     /**
      パートナーと連携し, 成功すればその値をUserDefaultsに保存
      - Parameters partnerShareNumber: 連携させるパートナーの共有番号
-     - Returns: View(Section)
          */
-    internal func connectPartner(partnerShareNumber: String) async -> Bool {
-        do {
-            let partner = try await fireStorePartnerManager.connectPartner(partnerShareNumber: partnerShareNumber)
-            print(partner.iconPath)
-            print(partner.shareNumber)
-            print(partner.userId)
-            print(partner.userName)
-            userDefaultsManager.setPartner(partner: partner)
-            return true
-        } catch {
-            return false
-        }
-
+    func connectPartner(partnerShareNumber: String) async throws {
+        guard let myUserId = userDefaultsManager.getUser()?.id else {throw NSError()}
+        let partner = try await fireStorePartnerManager.connectPartner(myUserId: myUserId, partnerShareNumber: partnerShareNumber)
+        userDefaultsManager.setPartner(partner: partner)
     }
 
 }
