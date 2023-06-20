@@ -53,7 +53,7 @@ struct ContentView: View {
         .onAppear {
             Task {
                 let uid = Auth.auth().currentUser!.uid
-                fireStoreUserManager.fetchInfo(userId: uid, completion: { userr, error in
+                fireStoreUserManager.realtimeFetchInfo(userId: uid, completion: { userr, error in
                     if let user = userr {
                         self.user = user
                     }

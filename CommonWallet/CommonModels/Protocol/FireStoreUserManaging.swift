@@ -2,8 +2,6 @@
 //  UserManaging.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/04/22.
-//
 
 import Foundation
 
@@ -19,6 +17,7 @@ protocol FireStoreUserManaging {
     func deleteUser(userId: String) async throws
 
     // MARK: Fetch
-    func fetchInfo(userId: String, completion: @escaping(User?, Error?) -> Void)
+    func fetchInfo(userId: String) async throws -> User?
+    func realtimeFetchInfo(userId: String, completion: @escaping(User?, Error?) -> Void)
 
 }
