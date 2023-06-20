@@ -2,8 +2,6 @@
 //  AuthManager.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/01/20.
-//
 
 import Foundation
 import FirebaseAuth
@@ -33,7 +31,7 @@ class AuthManager: AuthManaging {
         }
 
         // サインインと同時に、UserDefaultsの情報も追加する処理
-        fireStoreUserManager.fetchInfo(userId: userId, completion: { user, error in
+        fireStoreUserManager.realtimeFetchInfo(userId: userId, completion: { user, error in
             if let user = user {
                 self.userDefaultsManager.setUser(user: user)
             } else {
@@ -66,7 +64,7 @@ class AuthManager: AuthManaging {
         }
 
         // サインアウトと同時に、UserDefaultsの情報も削除する処理
-        fireStoreUserManager.fetchInfo(userId: userId, completion: { user, error in
+        fireStoreUserManager.realtimeFetchInfo(userId: userId, completion: { user, error in
             if let user = user {
                 self.userDefaultsManager.setUser(user: user)
             } else {
@@ -125,7 +123,7 @@ class AuthManager: AuthManaging {
         })
 
         // アカウント登録と同時に、UserDefaultsの情報も追加する処理
-        fireStoreUserManager.fetchInfo(userId: userId, completion: { user, error in
+        fireStoreUserManager.realtimeFetchInfo(userId: userId, completion: { user, error in
             if let user = user {
                 self.userDefaultsManager.setUser(user: user)
             } else {
