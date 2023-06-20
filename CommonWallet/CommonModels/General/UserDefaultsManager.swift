@@ -44,19 +44,19 @@ struct UserDefaultsManager: UserDefaultsManaging {
         UserDefaults.standard.set(partner.shareNumber, forKey: userDefaultsKey.partnerShareNumber)
     }
 
-    func setPartner(userId: String, name: String, iconPath: String, iconData: Data, shareNumber: String) {
+    func setPartner(userId: String, name: String, modifiedName: String, iconPath: String, iconData: Data, shareNumber: String) {
         UserDefaults.standard.set(userId, forKey: userDefaultsKey.partnerUserId)
         UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)
-        UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerModifiedName)
+        UserDefaults.standard.set(modifiedName, forKey: userDefaultsKey.partnerModifiedName)
         UserDefaults.standard.set(iconPath, forKey: userDefaultsKey.partnerIconPath)
         UserDefaults.standard.set(iconData, forKey: userDefaultsKey.partnerIconData)
         UserDefaults.standard.set(shareNumber, forKey: userDefaultsKey.partnerShareNumber)
     }
 
-    func setPartner(userId: String, name: String, shareNumber: String) {
+    func setPartner(userId: String, name: String, modifiedName: String, shareNumber: String) {
         UserDefaults.standard.set(userId, forKey: userDefaultsKey.partnerUserId)
         UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)
-        UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerModifiedName)
+        UserDefaults.standard.set(modifiedName, forKey: userDefaultsKey.partnerModifiedName)
         UserDefaults.standard.set(shareNumber, forKey: userDefaultsKey.partnerShareNumber)
     }
 
