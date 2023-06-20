@@ -9,7 +9,9 @@ import FirebaseFirestoreSwift
 
 struct User: Codable, Identifiable {
 
-    @DocumentID var id : String? = UUID().uuidString
+    // TODO: @DocumentID付けときたい
+    // @DocumentID var id : String? = UUID().uuidString
+    var id : String = UUID().uuidString
     var name: String
     var email: String
     var shareNumber: String // 共有番号

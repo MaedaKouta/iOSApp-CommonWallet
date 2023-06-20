@@ -9,7 +9,9 @@ import FirebaseFirestoreSwift
 
 struct Transaction: Codable, Identifiable {
 
-    @DocumentID var id: String? = UUID().uuidString
+    // TODO: @DocumentID付けときたい
+    // @DocumentID var id: String? = UUID().uuidString
+    var id: String = UUID().uuidString
     var creditorId: String? // 支払い者のID
     var debtorId: String? // 未払い者のID
     var title: String // タイトル
