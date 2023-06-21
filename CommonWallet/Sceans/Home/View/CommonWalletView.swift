@@ -2,14 +2,21 @@
 //  CommonWalletTabView.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/01/23.
-//
 
 import SwiftUI
 
 struct CommonWalletView: View {
 
     @ObservedObject var commonWalletViewModel: CommonWalletViewModel
+
+    // Userdefaults
+    @AppStorage(UserDefaultsKey().userId) private var myUserId = String()
+    @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
+    @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
+    @AppStorage(UserDefaultsKey().partnerUserId) private var partnerUserId = String()
+    @AppStorage(UserDefaultsKey().partnerIconData) private var partnerIconData = Data()
+    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
+    @State private var imageNameProperty = ImageNameProperty()
 
     // 画面遷移
     @State var isSettingView = false
@@ -107,14 +114,14 @@ struct CommonWalletView: View {
                     Button(action: {
                         self.isSettingView = true
                     }) {
-                        Image(uiImage: commonWalletViewModel.myIconImage)
+                        Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                             .resizable()
                             .scaledToFill()
                             .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 28, height: 28, alignment: .center)
                             .clipShape(Circle()) // 正円形に切り抜く
-                        Text(commonWalletViewModel.myName)
+                        Text(myUserName)
                             .foregroundColor(Color.black)
                     }
                     .sheet(isPresented: self.$isSettingView) {
@@ -306,8 +313,8 @@ struct CommonWalletView: View {
 
             HStack {
 
-                if commonWalletViewModel.unResolvedTransactions[index].debtorId != commonWalletViewModel.myUserId {
-                    Image(uiImage: commonWalletViewModel.myIconImage)
+                if commonWalletViewModel.unResolvedTransactions[index].debtorId != myUserId {
+                    Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                         .resizable()
                         .scaledToFill()
                         .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
@@ -315,7 +322,7 @@ struct CommonWalletView: View {
                         .frame(width: 28, height: 28, alignment: .center)
                         .clipShape(Circle())
                 } else {
-                    Image(uiImage: commonWalletViewModel.partnerIconImage)
+                    Image(uiImage: UIImage(data: partnerIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                         .resizable()
                         .scaledToFill()
                         .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
@@ -351,7 +358,7 @@ struct CommonWalletView: View {
                 let amount = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].amount
                 let description = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].description
                 let createdAt = self.dateToDetailString(date: commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].createdAt)
-                let debtor = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].debtorId == commonWalletViewModel.partnerUserId ? commonWalletViewModel.myName : commonWalletViewModel.partnerName
+                let debtor = commonWalletViewModel.unResolvedTransactions[self.selectedTransactionIndex].debtorId == partnerUserId ? myUserName : partnerModifiedName
 
                 if description.isEmpty {
                     Text("""

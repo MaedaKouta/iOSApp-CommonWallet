@@ -2,8 +2,6 @@
 //  AllLogView.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/02/06.
-//
 
 import SwiftUI
 import Parchment
@@ -13,6 +11,11 @@ struct AllLogView: View {
     @ObservedObject var allLogViewModel: AllLogViewModel
     @State var currentIndex: Int = 0
     @State var isSettingView =  false
+
+    // Userdefaults
+    @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
+    @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
+    @State private var imageNameProperty = ImageNameProperty()
 
     var body: some View {
 
@@ -42,7 +45,6 @@ struct AllLogView: View {
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarItems(
                 leading: Button(action: {
-                    print("aa")
                 }) {
                     //Image(systemName: "trash")
                     Text("履歴")
@@ -54,14 +56,14 @@ struct AllLogView: View {
                         print("aa")
                         self.isSettingView = true
                     }) {
-                        Image("SampleIcon")
+                        Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                             .resizable()
                             .scaledToFill()
                             .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 28, height: 28, alignment: .center)
                             .clipShape(Circle()) // 正円形に切り抜く
-                        Text("kota")
+                        Text(myUserName)
                             .foregroundColor(Color.black)
                     }
                     .sheet(isPresented: self.$isSettingView) {
@@ -87,6 +89,15 @@ struct ListItems: View {
     @ObservedObject var allLogViewModel: AllLogViewModel
     var itemIndex: Int
 
+    // Userdefaults
+    @AppStorage(UserDefaultsKey().userId) private var myUserId = String()
+    @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
+    @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
+    @AppStorage(UserDefaultsKey().partnerUserId) private var partnerUserId = String()
+    @AppStorage(UserDefaultsKey().partnerName) private var partnerName = String()
+    @AppStorage(UserDefaultsKey().partnerIconData) private var partnerIconData = Data()
+    @State private var imageNameProperty = ImageNameProperty()
+
     var body: some View {
 
         VStack {
@@ -111,8 +122,8 @@ struct ListItems: View {
 
                         HStack {
 
-                            if allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].debtorId != allLogViewModel.myUserId {
-                                Image("SampleIcon")
+                            if allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].debtorId != myUserId {
+                                Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                                     .resizable()
                                     .scaledToFill()
                                     .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
@@ -120,8 +131,7 @@ struct ListItems: View {
                                     .frame(width: 28, height: 28, alignment: .center)
                                     .clipShape(Circle())
                             } else {
-                                Image("SamplePartnerIcon")
-                                    .resizable()
+                                Image(uiImage: UIImage(data: partnerIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)                                    .resizable()
                                     .scaledToFill()
                                     .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
                                     .aspectRatio(contentMode: .fit)
