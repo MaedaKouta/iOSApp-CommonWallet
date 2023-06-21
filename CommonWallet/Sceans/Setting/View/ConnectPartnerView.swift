@@ -39,17 +39,8 @@ struct ConnectPartnerView: View {
             ToolbarItem(placement: .navigationBarTrailing) {
                 // After tapping: 通信してパートナー連携後, 画面を戻る
                 Button(action: {
-                    isPKHUDProgress = true
                     Task {
-                        do {
-                            try await viewModel.connectPartner(partnerShareNumber: inputNumber)
-                            isPKHUDProgress = false
-                            isPKHUDSuccess = true
-                            presentationMode.wrappedValue.dismiss()
-                        } catch {
-                            isPKHUDProgress = false
-                            isPKHUDError = true
-                        }
+                        await addPartner(shareNumber: inputNumber)
                     }
                 }) {
                     Text("完了")
@@ -91,6 +82,28 @@ struct ConnectPartnerView: View {
             }
         } footer: {
             Text("連携番号は、パートナーの設定画面から確認できる12桁の番号です。")
+        }
+    }
+
+    // MARK: - Logics
+    /**
+     パートナーを登録する
+     処理中はインジケータを出す.  失敗時エラー表示, 成功時は成功表示後元の画面へ戻る.
+     - parameter shareNumber: パートナーの共有番号
+     */
+    private func addPartner(shareNumber: String) async {
+        do {
+            isPKHUDProgress = true
+            try await viewModel.connectPartner(partnerShareNumber: inputNumber)
+            isPKHUDProgress = false
+            isPKHUDSuccess = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                presentationMode.wrappedValue.dismiss()
+            }
+        } catch {
+            print(error)
+            isPKHUDProgress = false
+            isPKHUDError = true
         }
     }
 

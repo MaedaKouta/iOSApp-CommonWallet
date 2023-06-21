@@ -2,8 +2,6 @@
 //  LaunchViewModel.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/04/30.
-//
 
 import Foundation
 import FirebaseAuth
@@ -34,7 +32,7 @@ class LaunchViewModel: ObservableObject {
             print("haven't Auth.auth().currentUser?.uid")
             return
         }
-        self.fireStoreUserManager.fetchInfo(userId: userId, completion: { user, error in
+        self.fireStoreUserManager.realtimeFetchInfo(userId: userId, completion: { user, error in
             if error != nil {
                 print("error")
                 return
@@ -49,25 +47,29 @@ class LaunchViewModel: ObservableObject {
 
     func fetchPartnerInfo() async {
 
-        fireStorePartnerManager.fetchPartnerInfo(completion: { user, error in
+        guard let myUserId = userDefaultsManager.getUser()?.id else {
+            return
+        }
+
+        fireStorePartnerManager.realtimeFetchInfo(myUserId: myUserId, completion: { partner, error in
             if let error = error {
-                print(error)
                 return
             }
 
-            guard let user = user else {
+            guard let partner = partner else {
                 print("haven't partner")
                 return
             }
 
-            guard let partnerUserId = user.partnerUserId,
-                  let partnerName = user.partnerName,
-                  let partnerShareNumber = user.partnerShareNumber else {
-                return
-            }
-
-            let partnerUserDefaultsName = self.userDefaultsManager.getPartnerName() ?? partnerName
-            self.userDefaultsManager.setPartner(userId: partnerUserId, name: partnerUserDefaultsName, shareNumber: partnerShareNumber)
+            let partnerUserDefaultsName = self.userDefaultsManager.getPartnerName() ?? partner.userName
+            self.userDefaultsManager.setPartner(
+                userId: partner.userId,
+                name: partner.userName,
+                modifiedName: partnerUserDefaultsName,
+                iconPath: partner.iconPath,
+                iconData: partner.iconData,
+                shareNumber: partner.shareNumber
+            )
         })
     }
 
