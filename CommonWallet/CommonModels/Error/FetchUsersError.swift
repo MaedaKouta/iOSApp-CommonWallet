@@ -2,8 +2,6 @@
 //  FetchUsersError.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/04/14.
-//
 
 import Foundation
 
@@ -11,6 +9,7 @@ enum FetchUsersError: Error {
     case emptyUserIds
     case emptyUserLastResolvedAt
     case emptyUserData
+    case other
 
     var localizedDescription: String {
         switch self {
@@ -20,6 +19,8 @@ enum FetchUsersError: Error {
             return "User LastResolvedAt are empty."
         case .emptyUserData:
             return "User Data are empty."
+        case .other:
+            return "Fetch User Error, details unknown."
         }
     }
 }

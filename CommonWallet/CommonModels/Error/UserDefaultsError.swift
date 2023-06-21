@@ -2,16 +2,17 @@
 //  UserDefaultsError.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/04/21.
-//
 
 import Foundation
 
 enum UserDefaultsError: Error {
     case emptyUserIds
     case emptyMyUserId
+    case emptyMyIcon
     case emptyPartnerUserId
     case emptySomeValue
+    case emptyPartnerIcon
+    case other
 
     var localizedDescription: String {
         switch self {
@@ -23,6 +24,12 @@ enum UserDefaultsError: Error {
             return "Partner UserId From UserDefaults are empty."
         case .emptySomeValue:
             return "Some Value From UserDefaults are empty."
+        case .emptyMyIcon:
+            return "My Icon From UserDefaults are empty."
+        case .emptyPartnerIcon:
+            return "Partner Icon From UserDefaults are empty."
+        case .other:
+            return "Fetch Partner Error, details unknown."
         }
     }
 }

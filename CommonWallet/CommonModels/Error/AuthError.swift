@@ -2,18 +2,19 @@
 //  AuthError.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/04/16.
-//
 
 import Foundation
 
 enum AuthError: Error {
     case emptyUserId
+    case other
 
     var localizedDescription: String {
         switch self {
         case .emptyUserId:
             return "User ID are empty."
+        case .other:
+            return "Auth Error, details unknown."
         }
     }
 }

@@ -22,8 +22,8 @@
 		872B9FD52A41142300D15A84 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 872B9FD42A41142300D15A84 /* FirebaseFirestore */; };
 		872B9FD72A41142300D15A84 /* FirebaseFirestoreSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 872B9FD62A41142300D15A84 /* FirebaseFirestoreSwift */; };
 		872B9FD92A41142300D15A84 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 872B9FD82A41142300D15A84 /* FirebaseStorage */; };
+		872B9FDB2A42F9B100D15A84 /* FetchPartnerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872B9FDA2A42F9B100D15A84 /* FetchPartnerError.swift */; };
 		873655602A10E30B00E92EEE /* InvalidValueError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8736555F2A10E30B00E92EEE /* InvalidValueError.swift */; };
-		873655622A10E40100E92EEE /* FireStorePartnerError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 873655612A10E40100E92EEE /* FireStorePartnerError.swift */; };
 		8737FCEA297E0BDF0064E40D /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF933297CBB5700C94233 /* LaunchScreen.swift */; };
 		8737FCEB297E0BE60064E40D /* FireStoreUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF939297CC8B200C94233 /* FireStoreUserManager.swift */; };
 		8737FCEC297E0BEA0064E40D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF940297D08B100C94233 /* User.swift */; };
@@ -153,8 +153,8 @@
 		8724AD8D29FDF50A0023AEC5 /* LaunchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewModel.swift; sourceTree = "<group>"; };
 		872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseErrorManager.swift; sourceTree = "<group>"; };
 		872652F5297BB8AB002C76D6 /* SignInViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInViewModel.swift; sourceTree = "<group>"; };
+		872B9FDA2A42F9B100D15A84 /* FetchPartnerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchPartnerError.swift; sourceTree = "<group>"; };
 		8736555F2A10E30B00E92EEE /* InvalidValueError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InvalidValueError.swift; sourceTree = "<group>"; };
-		873655612A10E40100E92EEE /* FireStorePartnerError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorePartnerError.swift; sourceTree = "<group>"; };
 		87391E482987A8AF00897A96 /* ShareNumberManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareNumberManager.swift; sourceTree = "<group>"; };
 		87391E4B298A15B600897A96 /* SettingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingViewModel.swift; sourceTree = "<group>"; };
 		87391E4F298A189900897A96 /* String.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = String.swift; sourceTree = "<group>"; };
@@ -592,10 +592,10 @@
 				872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */,
 				87D1A05429E770F20058A98F /* FetchTransactionsError.swift */,
 				87CD584829E8DB2500472B6B /* FetchUsersError.swift */,
+				872B9FDA2A42F9B100D15A84 /* FetchPartnerError.swift */,
 				87CD584A29EB85DE00472B6B /* AuthError.swift */,
 				874A988429F206DB007CFB74 /* UserDefaultsError.swift */,
 				8736555F2A10E30B00E92EEE /* InvalidValueError.swift */,
-				873655612A10E40100E92EEE /* FireStorePartnerError.swift */,
 			);
 			path = Error;
 			sourceTree = "<group>";
@@ -822,8 +822,8 @@
 				871F09EE2A11979600F96394 /* MainTabViewModel.swift in Sources */,
 				874EF93F297D04DF00C94233 /* UserDefaultsKey.swift in Sources */,
 				87E5E9342A2E9857002CF7B2 /* MyNameEditView.swift in Sources */,
-				873655622A10E40100E92EEE /* FireStorePartnerError.swift in Sources */,
 				87EE8D7D297A1790005CCB6F /* AppDelegate.swift in Sources */,
+				872B9FDB2A42F9B100D15A84 /* FetchPartnerError.swift in Sources */,
 				874EF93A297CC8B200C94233 /* FireStoreUserManager.swift in Sources */,
 				87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */,
 				879379E2298B4C8D00D3A47B /* PartnerNameEditView.swift in Sources */,
