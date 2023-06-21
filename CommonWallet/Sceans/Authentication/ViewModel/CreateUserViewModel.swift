@@ -28,7 +28,7 @@ class CreateUserViewModel: ObservableObject {
             let errorMessage = errorMessageManegar.getAuthErrorMessage(error)
             complition(false, errorMessage)
         } catch FirebaseErrorType.FireStore(let error) {
-            let errorMessage = errorMessageManegar.getFirestoreErrorMessage(error)
+            let errorMessage = errorMessageManegar.getFireStoreErrorMessage(error)
             complition(false, errorMessage)
         } catch {
             complition(false, "不明なエラー")

@@ -2,13 +2,11 @@
 //  FireStorePartnerManaging.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/04/22.
-//
 
 import Foundation
 
 protocol FireStorePartnerManaging {
-//    func connectPartner(partnerShareNumber: String) async -> Bool
-//    func deletePartner() async -> Bool
-//    func fetchDeletePartner() async
+    func connectPartner(myUserId: String, partnerShareNumber: String) async throws -> Partner
+    func deletePartner(myUserId: String, partnerUserId: String) async throws
+    func realtimeFetchInfo(myUserId: String, completion: @escaping(Partner?, Error?) -> Void)
 }

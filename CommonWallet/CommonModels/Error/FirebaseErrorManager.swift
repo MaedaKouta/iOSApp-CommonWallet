@@ -2,8 +2,6 @@
 //  FirebaseErrorManager.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/01/21.
-//
 
 import Foundation
 import Firebase
@@ -11,6 +9,7 @@ import FirebaseFirestore
 
 enum FirebaseErrorType: Error {
     case FireStore(NSError)
+    case FireStorage(NSError)
     case Auth(NSError)
     case other(String)
 }
@@ -41,7 +40,7 @@ class FirebaseErrorManager {
         return "不明なエラー"
     }
 
-    func getFirestoreErrorMessage(_ error:Error?) -> String {
+    func getFireStoreErrorMessage(_ error:Error?) -> String {
         if let error = error as NSError? {
             if let errorCode = FirestoreErrorCode.Code(rawValue: error.code) {
                 switch errorCode {

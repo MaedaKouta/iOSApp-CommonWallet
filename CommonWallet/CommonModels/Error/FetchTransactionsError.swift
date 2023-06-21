@@ -2,8 +2,6 @@
 //  FetchError.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/04/13.
-//
 
 import Foundation
 
@@ -11,6 +9,7 @@ enum FetchTransactionsError: Error {
     case emptyTransactionIds
     case emptyTransactionData
     case documentDataNotFound
+    case other
 
     var localizedDescription: String {
         switch self {
@@ -20,6 +19,8 @@ enum FetchTransactionsError: Error {
             return "Transaction Data are empty."
         case .documentDataNotFound:
             return "Document Data Not Found."
+        case .other:
+            return "Fetch Transactions Error, details unknown."
         }
     }
 }

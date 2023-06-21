@@ -42,7 +42,7 @@ struct HeaderHomeView: View {
                 }
                 .sheet(isPresented: self.$isSettingView) {
                     // trueになれば下からふわっと表示
-                    SettingView(isShowSettingView: $isSettingView)
+                    SettingView(viewModel: SettingViewModel(userDefaultsManager: UserDefaultsManager()), isShowSettingView: $isSettingView)
                 }
                 // 下の1行でListをアイコンボタンしかタップできなくしている
                 .buttonStyle(BorderlessButtonStyle())

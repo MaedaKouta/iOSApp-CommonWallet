@@ -105,21 +105,20 @@ struct CommonWalletView: View {
 
                 }, trailing: HStack {
                     Button(action: {
-                        print("aa")
                         self.isSettingView = true
                     }) {
-                        Image("SampleIcon")
+                        Image(uiImage: commonWalletViewModel.myIconImage)
                             .resizable()
                             .scaledToFill()
                             .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 28, height: 28, alignment: .center)
                             .clipShape(Circle()) // 正円形に切り抜く
-                        Text("kota")
+                        Text(commonWalletViewModel.myName)
                             .foregroundColor(Color.black)
                     }
                     .sheet(isPresented: self.$isSettingView) {
-                        SettingView(isShowSettingView: $isSettingView)
+                        SettingView(viewModel: SettingViewModel(userDefaultsManager: UserDefaultsManager()), isShowSettingView: $isSettingView)
                     }
                 }
             )
@@ -308,7 +307,7 @@ struct CommonWalletView: View {
             HStack {
 
                 if commonWalletViewModel.unResolvedTransactions[index].debtorId != commonWalletViewModel.myUserId {
-                    Image("SampleIcon")
+                    Image(uiImage: commonWalletViewModel.myIconImage)
                         .resizable()
                         .scaledToFill()
                         .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
@@ -316,7 +315,7 @@ struct CommonWalletView: View {
                         .frame(width: 28, height: 28, alignment: .center)
                         .clipShape(Circle())
                 } else {
-                    Image("SamplePartnerIcon")
+                    Image(uiImage: commonWalletViewModel.partnerIconImage)
                         .resizable()
                         .scaledToFill()
                         .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))

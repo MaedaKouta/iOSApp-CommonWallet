@@ -6,82 +6,111 @@
 //
 
 import SwiftUI
+import Combine
 
 struct ConnectPartnerView: View {
 
-    @ObservedObject var connectPartnerViewModel = ConnectPartnerViewModel()
+    // presentationMode.wrappedValue.dismiss() で画面戻れる
+    @Environment(\.presentationMode) var presentationMode
 
-    @Binding var isShowSettingView: Bool
+    @StateObject var viewModel: ConnectPartnerViewModel
 
-    @State private var firstBreakText: String = ""
-    @State private var secondBreakText: String = ""
-    @State private var thirdBreakText: String = ""
+    @State private var inputNumber: String = ""
+    @State private var isEnableComplete = false
 
-    @State private var isInputtedFirstBreakText: Bool = false
-    @State private var isInputtedSecondBreakText: Bool = false
-    @State private var isInputtedThirdBreakText: Bool = false
+    // PKHUD
+    @State private var isPKHUDProgress = false
+    @State private var isPKHUDSuccess = false
+    @State private var isPKHUDError = false
+
+    private let numberLimit = 12
 
     var body: some View {
         VStack {
-
-            HStack {
-                TextField("1234", text: $firstBreakText)
-                    .onChange(of: firstBreakText, perform: { newValue in
-                        if(firstBreakText.count == 4) {
-                            isInputtedFirstBreakText = true
-                        } else {
-                            isInputtedFirstBreakText = false
-                        }
-                    })
-                    .keyboardType(.numberPad)
-                    .textFieldStyle(.roundedBorder)
-                    .padding()
-                TextField("1234", text: $secondBreakText)
-                    .onChange(of: secondBreakText, perform: { newValue in
-                        if(secondBreakText.count == 4) {
-                            isInputtedSecondBreakText = true
-                        } else {
-                            isInputtedSecondBreakText = false
-                        }
-                    })
-                    .keyboardType(.numberPad)
-                    .textFieldStyle(.roundedBorder)
-                    .padding()
-                TextField("1234", text: $thirdBreakText)
-                    .onChange(of: thirdBreakText, perform: { newValue in
-                        if(thirdBreakText.count == 4) {
-                            isInputtedThirdBreakText = true
-                        } else {
-                            isInputtedThirdBreakText = false
-                        }
-                    })
-                    .keyboardType(.numberPad)
-                    .textFieldStyle(.roundedBorder)
-                    .padding()
-            }.padding()
-
-            // TODO: 連携前の設定つくる
-//            Toggle(isOn: /*@START_MENU_TOKEN@*//*@PLACEHOLDER=Is On@*/.constant(true)/*@END_MENU_TOKEN@*/) {
-//                Text("連携前に自分のデータを削除する")
-//            }.padding()
-
-            // TODO: 今は強引に連携してるけど、連携の申請して承認したら連携なるようにしよう
-            Button(action: {
-                Task {
-                    let shareNumber = firstBreakText+secondBreakText+thirdBreakText
-                    await connectPartnerViewModel.connectPartner(partnerShareNumber: shareNumber)
-                }
-            }) {
-                Text("連携する")
+            List {
+                inputPartnerNumberSection()
             }
-            .disabled(!(isInputtedFirstBreakText&&isInputtedSecondBreakText&&isInputtedThirdBreakText))
+        }
+        .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
+        .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
+        .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
+        .toolbar {
+            // ナビゲーションバー右
+            ToolbarItem(placement: .navigationBarTrailing) {
+                // After tapping: 通信してパートナー連携後, 画面を戻る
+                Button(action: {
+                    Task {
+                        await addPartner(shareNumber: inputNumber)
+                    }
+                }) {
+                    Text("完了")
+                }
+                .disabled(!isEnableComplete)
+            }
+        }
+    }
+
+    // MARK: - Section
+    /**
+     パートナーのニックネームを記述するSection.
+     12桁の入力があった場合のみ, isEnableCompleteをtrueにする.
+     - Returns: View(Section)
+     */
+    private func inputPartnerNumberSection() -> some View {
+        Section {
+            HStack {
+                Text("連携番号")
+                Spacer()
+
+                TextField("123456781234", text: $inputNumber)
+                    .keyboardType(.numberPad)
+                    .padding(.leading)
+                    // numberLimit(12文字)以上は入力できない
+                    .onReceive(Just(inputNumber), perform: { _ in
+                        if inputNumber.count > numberLimit {
+                            inputNumber = String(inputNumber.prefix(numberLimit))
+                        }
+                    })
+                    // numberrLimit(12文字)入力があった際に完了ボタンを押せる
+                    .onChange(of: inputNumber, perform: { newValue in
+                        if inputNumber.trimmingCharacters(in: .whitespacesAndNewlines).count == numberLimit {
+                            isEnableComplete = true
+                        } else {
+                            isEnableComplete = false
+                        }
+                    })
+            }
+        } footer: {
+            Text("連携番号は、パートナーの設定画面から確認できる12桁の番号です。")
+        }
+    }
+
+    // MARK: - Logics
+    /**
+     パートナーを登録する
+     処理中はインジケータを出す.  失敗時エラー表示, 成功時は成功表示後元の画面へ戻る.
+     - parameter shareNumber: パートナーの共有番号
+     */
+    private func addPartner(shareNumber: String) async {
+        do {
+            isPKHUDProgress = true
+            try await viewModel.connectPartner(partnerShareNumber: inputNumber)
+            isPKHUDProgress = false
+            isPKHUDSuccess = true
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                presentationMode.wrappedValue.dismiss()
+            }
+        } catch {
+            print(error)
+            isPKHUDProgress = false
+            isPKHUDError = true
         }
     }
 
 }
 
-//struct ConnectView_Previews: PreviewProvider {
-//    static var previews: some View {
-//        ConnectPartnerView()
-//    }
-//}
+struct ConnectView_Previews: PreviewProvider {
+    static var previews: some View {
+        ConnectPartnerView(viewModel: ConnectPartnerViewModel(fireStorePartnerManager: FireStorePartnerManager(), userDefaultsManager: UserDefaultsManager()))
+    }
+}

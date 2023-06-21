@@ -7,40 +7,26 @@
 
 import Foundation
 import FirebaseAuth
+import UIKit
 
 class SettingViewModel: ObservableObject {
 
-    @Published var shareNumber = ""
-    @Published var partnerName = ""
-    @Published var userName = ""
-    @Published var userEmail = ""
-    private var userDefaultsManager = UserDefaultsManager()
+    private var userDefaultsManager: UserDefaultsManaging
 
-    init() {
-        print("Setting")
-        shareNumber = splitShareNumber(text: userDefaultsManager.getShareNumber() ?? "")
-        partnerName = userDefaultsManager.getPartnerName() ?? ""
-        userName = userDefaultsManager.getUser()?.name ?? ""
-        userEmail = userDefaultsManager.getUser()?.email ?? ""
+    init(userDefaultsManager: UserDefaultsManaging) {
+        self.userDefaultsManager = userDefaultsManager
     }
 
-    // 12桁の文字列を4桁ずつ" - "で区切る関数
-    private func splitShareNumber(text: String) -> String {
-        let textArray = text.splitInto(4)
-        let splitShareNumber = textArray.joined(separator : " - ")
-        return splitShareNumber
-    }
-
-    func isConnectPartner() -> Bool {
-        if let _ = userDefaultsManager.getPartnerUid() {
+    /**
+     パートナーと連携されているかどうか
+     - Returns: 連携済みならtrue, 未連携ならfalse
+     */
+    internal func isConnectedPartner() -> Bool {
+        if let _ = userDefaultsManager.getPartnerUserId() {
             return true
         } else {
             return false
         }
-    }
-
-    func reloadPartnerName() {
-        partnerName = userDefaultsManager.getPartnerName() ?? ""
     }
 
 }
