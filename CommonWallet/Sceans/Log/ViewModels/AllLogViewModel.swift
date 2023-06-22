@@ -61,7 +61,11 @@ class AllLogViewModel: ObservableObject {
 
     func fetchTransactions() async throws {
 
-        fireStoreTransactionManager.fetchResolvedTransactions(completion: { transactions, error in
+        guard let myUserId = userDefaultsManager.getUser()?.id, let partnerUserId = userDefaultsManager.getPartnerUserId() else {
+            return
+        }
+
+        fireStoreTransactionManager.fetchResolvedTransactions(myUserId: myUserId, partnerUserId: partnerUserId, completion: { transactions, error in
 
             if let error = error {
                 print("fetchTransactions failed with error: \(error)")

@@ -13,16 +13,13 @@ class LaunchViewModel: ObservableObject {
     private var fireStorePartnerManager = FireStorePartnerManager()
     private var userDefaultsManager = UserDefaultsManager()
 
-    func fetchOldestDate() async {
-        fireStoreTransactionManager.fetchOldestDate(completion:  { oldestDate, error in
-            if let error = error {
-                print(error)
-            }
-            // 値がnilでない場合にuserDefaultsに保存しておく
-            if let oldestDate = oldestDate {
-                self.userDefaultsManager.setOldestResolvedDate(date: oldestDate)
-            }
-        })
+    func fetchOldestDate() async throws {
+        guard let myUserId = userDefaultsManager.getUser()?.id,
+              let partnerUserId = userDefaultsManager.getPartnerUserId() else {
+            return
+        }
+        let oldestDate = try await fireStoreTransactionManager.fetchOldestDate(myUserId: myUserId, partnerUserId: partnerUserId)
+        self.userDefaultsManager.setOldestResolvedDate(date: oldestDate)
     }
 
     // ここでUserInfoをfetchする

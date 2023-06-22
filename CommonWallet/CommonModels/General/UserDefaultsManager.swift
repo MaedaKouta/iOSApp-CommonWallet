@@ -76,7 +76,7 @@ struct UserDefaultsManager: UserDefaultsManaging {
         UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerModifiedName)
     }
 
-    func setOldestResolvedDate(date: Date) {
+    func setOldestResolvedDate(date: Date?) {
         UserDefaults.standard.set(date, forKey: userDefaultsKey.oldestResolvedDate)
     }
 

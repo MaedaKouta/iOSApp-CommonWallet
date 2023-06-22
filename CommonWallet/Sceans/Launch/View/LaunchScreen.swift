@@ -37,7 +37,11 @@ struct LaunchScreen: View {
                 .onAppear {
                     Task {
                         await launchViewModel.fetchPartnerInfo()
-                        await launchViewModel.fetchOldestDate()
+                        do {
+                            try await launchViewModel.fetchOldestDate()
+                        } catch {
+                            print("エラーハンドリング")
+                        }
                         await launchViewModel.fetchUserInfo()
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

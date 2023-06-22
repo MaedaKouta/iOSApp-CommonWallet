@@ -2,20 +2,26 @@
 //  FireStorePaymentManager.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/01/23.
-//
 
 import Foundation
 import FirebaseAuth
 import Firebase
 import FirebaseFirestore
 
-class FireStoreTransactionManager: FireStoreTransactionManaging {
+struct FireStoreTransactionManager: FireStoreTransactionManaging {
 
     private let db = Firestore.firestore()
-    private var userDefaultsManager = UserDefaultsManager()
 
-    // MARK: Create
+    // MARK: - POST
+    /**
+     FireStorageにトランザクションを追加
+     - parameter transactionId: transactionId, 生成したものをここに入れる
+     - parameter creditorId: 支払い者のUserId（パートナー未登録の場合のためオプショナル）
+     - parameter debtorId: 未支払い者のUserId（パートナー未登録の場合のためオプショナル）
+     - parameter title: タイトル（空文字不可, 入力前にチェックしておく）
+     - parameter description: 詳細
+     - parameter amount: 金額
+     */
     func createTransaction(transactionId: String, creditorId: String?, debtorId: String?,  title: String, description: String, amount: Int) async throws {
 
         // Firestoreに書き込むデータの作成
@@ -27,52 +33,77 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                                                     "amount": amount,
                                                     "createdAt": Timestamp(),
                                                     "resolvedAt": NSNull()]
-
-        // Firestoreへのトランザクション書き込み
         try await db.collection("Transactions").document(transactionId).setData(transaction)
     }
 
-    // TODO: バッチで書き込める上限は500件まで、現状500以上はエラーが起きてしまう
-    func pushResolvedAt(transactionIds: [String], resolvedAt: Date) async throws {
-        let batch = db.batch()
 
-        for transactionId in transactionIds {
-            let documentResolved = db.collection("Transactions").document(transactionId)
-            batch.updateData(["resolvedAt": Timestamp(date: resolvedAt)], forDocument: documentResolved)
+    // MARK: - PUT
+    /**
+     FireStorageで未精算トランザクションを精算する
+     - Description
+     - 内部でバッチでまとめて書き込む処理をしている
+     - バッチで書き込める上限は500件まで
+     - 上限の制約を満たすために300件ごとに分割して、分割したものを繰り返しバッチで書き込む
+     - parameter transactionIds: 生産完了にしたいtransactionIdの配列
+     - parameter resolvedAt: 精算日時
+     */
+    func updateResolvedAt(transactionIds: [String], resolvedAt: Date) async throws {
+
+        let splitTransactionIds = transactionIds.splitIntoChunks(ofSize: 300)
+        for transactionIds in splitTransactionIds {
+            let batch = db.batch()
+            for transactionId in transactionIds {
+                let documentResolved = db.collection("Transactions").document(transactionId)
+                batch.updateData(["resolvedAt": Timestamp(date: resolvedAt)], forDocument: documentResolved)
+            }
+            try await batch.commit()
         }
 
-        try await batch.commit()
     }
 
-    // MARK: UPDATE
+
+    /**
+     FireStorageのトランザクションを上書きする
+     - parameter transaction: 上書きするtransactionデータ
+     */
     func updateTransaction(transaction: Transaction) async throws {
         let data: Dictionary<String, Any> = ["id": transaction.id,
                                              "creditorId": transaction.creditorId ?? NSNull(),
                                              "debtorId": transaction.debtorId ?? NSNull(),
                                              "title": transaction.title,
                                              "description": transaction.description,
-                                             "amount": transaction.amount]
+                                             "amount": transaction.amount,
+                                             "createdAt": transaction.createdAt,
+                                             "resolvedAt": transaction.resolvedAt ?? NSNull()]
 
         try await db.collection("Transactions")
             .document(transaction.id)
             .setData(data, merge: true)
     }
 
-    // MARK: Delete
+
+    // MARK: - Delete
+    /**
+     FireStorageのトランザクションを削除する
+     - parameter transactionId: 削除するtransactionId
+     */
     func deleteTransaction(transactionId: String) async throws {
         try await db.collection("Transactions").document(transactionId).delete()
     }
 
-    // MARK: Fetch
-    func fetchUnResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void) {
 
-        guard let userId = Auth.auth().currentUser?.uid else { return }
-        let partnerId = userDefaultsManager.getPartnerUserId() ?? ""
+    // MARK: - GET
+    /**
+     未精算のトランザクションを取得する
+     - parameter myUserId: 自分のUserId
+     - parameter partnerUserId: パートナーのUserId
+     */
+    func fetchUnResolvedTransactions(myUserId: String, partnerUserId: String, completion: @escaping([Transaction]?, Error?) -> Void) {
 
         // Transactionsコレクションから未精算の取引を取得する
         // inを含むwhereFieldとorderByは同時に使えない
         db.collection("Transactions")
-            .whereField("creditorId", in: [partnerId, userId])
+            .whereField("creditorId", in: [partnerUserId, myUserId])
             .whereField("resolvedAt", isEqualTo: NSNull())
             .addSnapshotListener { snapShots, error in
 
@@ -81,7 +112,6 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                     completion(nil, error)
                 }
 
-                // creditorIdもdebtorIdもパートナー連携していない場合のため空でも許される
                 var transactions = [Transaction]()
                 snapShots?.documents.forEach({ snapShot in
                     let data = snapShot.data()
@@ -91,6 +121,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                           let amount = data["amount"] as? Int,
                           let createdAt = data["createdAt"] as? Timestamp  else { return }
 
+                    // creditorIdもdebtorIdもパートナー連携していない場合のため空でも許される
                     let debtorId = data["creditorId"] as? String
                     let creditorId = data["creditorId"] as? String
 
@@ -101,18 +132,19 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
             }
     }
 
-    func fetchResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void) {
-
-        guard let userId = Auth.auth().currentUser?.uid else { return }
-        let partnerId = userDefaultsManager.getPartnerUserId() ?? ""
+    /**
+     精算済のトランザクションを取得する
+     - parameter myUserId: 自分のUserId
+     - parameter partnerUserId: パートナーのUserId
+     */
+    func fetchResolvedTransactions(myUserId: String, partnerUserId: String, completion: @escaping([Transaction]?, Error?) -> Void) {
 
         // inを含むwhereFieldとorderByは同時に使えない
         db.collection("Transactions")
-            .whereField("creditorId", in: [partnerId, userId])
+            .whereField("creditorId", in: [partnerUserId, myUserId])
             .whereField("resolvedAt", isNotEqualTo: NSNull())
             .addSnapshotListener { snapShots, error in
 
-                // TODO: 初期で２周している
                 if let error = error {
                     print("FireStore ResolvedTransactions Fetch Error")
                     completion(nil, error)
@@ -128,6 +160,7 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
                           let createdAt = data["createdAt"] as? Timestamp,
                           let resolvedAt = data["resolvedAt"] as? Timestamp else { return }
 
+                    // creditorIdもdebtorIdもパートナー連携していない場合のため空でも許される
                     let creditorId = data["creditorId"] as? String
                     let debtorId = data["debtorId"] as? String
 
@@ -138,29 +171,20 @@ class FireStoreTransactionManager: FireStoreTransactionManaging {
             }
     }
 
-    /// 一番古いトランザクションデータを取得する
-    func fetchOldestDate(completion: @escaping(Date?, Error?) -> Void) {
-
-        guard let userId = Auth.auth().currentUser?.uid else { return }
-        let partnerId = userDefaultsManager.getPartnerUserId() ?? ""
-
+    // TODO: 毎回これ使うとアクセス数すごい。使わないでおこう
+    /// 精算済みの中で一番古いトランザクションデータを取得する
+    func fetchOldestDate(myUserId: String, partnerUserId: String) async throws -> Date? {
         // Transactionsコレクションから未精算の取引を取得する
-        db.collection("Transactions")
-            .whereField("creditorId", in: [partnerId, userId])
+        let querySnapshot = try await db.collection("Transactions")
+            .whereField("creditorId", in: [partnerUserId, myUserId])
             .whereField("resolvedAt", isNotEqualTo: NSNull())
             .limit(to: 1)
-            .getDocuments { snapShots, error in
+            .getDocuments()
 
-                if let error = error {
-                    print("FireStore OldestDate Fetch Error")
-                    completion(nil, error)
-                }
-
-                guard let snapshots = snapShots, let doc = snapshots.documents.first else { return }
-                let oldestTimestamp = doc.get("createdAt") as? Timestamp
-
-                completion(oldestTimestamp?.dateValue(), nil)
-            }
+        guard let doc = querySnapshot.documents.first,
+              let oldestTimestamp = doc.get("createdAt") as? Timestamp else
+        { return nil }
+        return oldestTimestamp.dateValue()
     }
 
 }

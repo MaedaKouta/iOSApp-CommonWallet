@@ -68,8 +68,12 @@ class CommonWalletViewModel: ObservableObject {
 
     func fetchTransactions() async throws {
 
+        guard let myUserId = userDefaultsManager.getUser()?.id, let partnerUserId = userDefaultsManager.getPartnerUserId() else {
+            return
+        }
+
         // 精算済みのデータ取得・更新
-        fireStoreTransactionManager.fetchUnResolvedTransactions(completion: { transactions, error in
+        fireStoreTransactionManager.fetchUnResolvedTransactions(myUserId: myUserId, partnerUserId: partnerUserId, completion: { transactions, error in
 
             if let error = error {
                 print("fetchTransactions failed with error: \(error)")
@@ -98,7 +102,7 @@ class CommonWalletViewModel: ObservableObject {
         do {
             // 未精算のトランザクションに対して、resultTimeを登録
             let ids = unResolvedTransactions.map { $0.id }
-            try await fireStoreTransactionManager.pushResolvedAt(transactionIds: ids, resolvedAt: Date())
+            try await fireStoreTransactionManager.updateResolvedAt(transactionIds: ids, resolvedAt: Date())
 
             // 成功した場合
             return .success(())
