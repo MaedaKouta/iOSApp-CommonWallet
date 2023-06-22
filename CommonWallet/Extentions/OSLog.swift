@@ -2,6 +2,7 @@
 //  OSLog.swift
 //  CommonWallet
 //
+
 import os
 
 extension OSLog {
