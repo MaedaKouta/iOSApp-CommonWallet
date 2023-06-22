@@ -19,7 +19,7 @@ protocol UserDefaultsManaging {
     func setPartnerName(name: String)
     func setPartnerShareNumber(shareNumber: String)
     func setPartnerModifiedName(name: String)
-    func setOldestResolvedDate(date: Date)
+    func setOldestResolvedDate(date: Date?)
     func setMyIcon(path: String, imageData: Data)
     func setPartnerIcon(path: String, imageData: Data)
     func setIsSignedIn(isSignedIn: Bool)

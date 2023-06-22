@@ -7,17 +7,19 @@ import Foundation
 
 protocol FireStoreTransactionManaging {
 
-    // create
+    // POST
     func createTransaction(transactionId: String, creditorId: String?, debtorId: String?,  title: String, description: String, amount: Int) async throws
 
-    // push
-    func pushResolvedAt(transactionIds: [String], resolvedAt: Date) async throws
+    // PUT
+    func updateResolvedAt(transactionIds: [String], resolvedAt: Date) async throws
+    func updateTransaction(transaction: Transaction) async throws
 
-    // delete
+    // DELETE
     func deleteTransaction(transactionId: String) async throws
 
-    // fetch
-    func fetchUnResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void)
-    func fetchResolvedTransactions(completion: @escaping([Transaction]?, Error?) -> Void)
+    // GET
+    func fetchUnResolvedTransactions(myUserId: String, partnerUserId: String, completion: @escaping([Transaction]?, Error?) -> Void)
+    func fetchResolvedTransactions(myUserId: String, partnerUserId: String, completion: @escaping([Transaction]?, Error?) -> Void)
+    func fetchOldestDate(myUserId: String, partnerUserId: String) async throws -> Date?
 
 }
