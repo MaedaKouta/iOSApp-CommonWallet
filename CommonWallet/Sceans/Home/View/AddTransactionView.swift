@@ -18,6 +18,9 @@ struct AddTransactionView: View {
 
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
+
+    @AppStorage(UserDefaultsKey().userId) private var myUserId = String()
+    @AppStorage(UserDefaultsKey().partnerUserId) private var partnerUserId = String()
     
     var body: some View {
 
@@ -141,7 +144,7 @@ struct AddTransactionView: View {
     /// 遷移元のViewのTransaction情報を更新するために、遷移元のviewModelを操作
     private func fetchTransactions() {
         Task{
-            try await commonWalletViewModel.fetchTransactions()
+            try await commonWalletViewModel.realtimeFetchTransactions(myUserId: myUserId, partnerUserId: partnerUserId)
         }
     }
 

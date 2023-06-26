@@ -12,6 +12,7 @@ protocol FireStoreTransactionManaging {
 
     // PUT
     func updateResolvedAt(transactionIds: [String], resolvedAt: Date) async throws
+    func updateResolvedAt(transactionId: String, resolvedAt: Date) async throws
     func updateTransaction(transaction: Transaction) async throws
 
     // DELETE

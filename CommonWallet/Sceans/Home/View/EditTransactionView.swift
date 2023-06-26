@@ -2,8 +2,6 @@
 //  EditTransactionView.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/05/06.
-//
 
 import SwiftUI
 
@@ -16,6 +14,9 @@ struct EditTransactionView: View {
     @State private var selectedIndex = 0
     @State private var showAlert: Bool = false
     @State private var alertMessage: String = ""
+
+    @AppStorage(UserDefaultsKey().userId) private var myUserId = String()
+    @AppStorage(UserDefaultsKey().partnerUserId) private var partnerUserId = String()
 
     var body: some View {
 
@@ -139,7 +140,7 @@ struct EditTransactionView: View {
     /// 遷移元のViewのTransaction情報を更新するために、遷移元のviewModelを操作
     private func fetchTransactions() {
         Task{
-            try await commonWalletViewModel.fetchTransactions()
+            try await commonWalletViewModel.realtimeFetchTransactions(myUserId: myUserId, partnerUserId: partnerUserId)
         }
     }
 

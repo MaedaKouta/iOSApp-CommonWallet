@@ -39,7 +39,7 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
 
     // MARK: - PUT
     /**
-     FireStorageで未精算トランザクションを精算する
+     FireStorageで複数の未精算トランザクションを精算する
      - Description
      - 内部でバッチでまとめて書き込む処理をしている
      - バッチで書き込める上限は500件まで
@@ -58,7 +58,16 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
             }
             try await batch.commit()
         }
+    }
 
+    /**
+     FireStorageで1つの未精算トランザクションを精算する
+     - parameter transactionIds: 生産完了にしたいtransactionIdの配列
+     - parameter resolvedAt: 精算日時
+     */
+    func updateResolvedAt(transactionId: String, resolvedAt: Date) async throws {
+        let transaction: Dictionary<String, Any> = ["resolvedAt": Timestamp(date: resolvedAt)]
+        try await db.collection("Users").document(transactionId).setData(transaction, merge: true)
     }
 
 
