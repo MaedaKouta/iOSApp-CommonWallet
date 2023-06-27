@@ -1,12 +1,12 @@
 //
-//  File.swift
+//  LogListsViewModel.swift
 //  CommonWallet
 //
 
 import Foundation
 import Parchment
 
-class AllLogViewModel: ObservableObject {
+class LogListsViewModel: ObservableObject {
 
     @Published var selectedIndex: Int = Int()
     @Published var resolvedTransactions: [Transaction] = [Transaction]()

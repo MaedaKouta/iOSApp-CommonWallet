@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		8702F3ED2A4BA1C7002925A0 /* LogListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8702F3EC2A4BA1C7002925A0 /* LogListsView.swift */; };
+		8702F3EF2A4BA28B002925A0 /* LogListsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8702F3EE2A4BA28B002925A0 /* LogListsViewModel.swift */; };
 		871073B02990B35100A0518C /* HeaderHomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC57E29907DC2003E94F3 /* HeaderHomeView.swift */; };
 		871073B22990B36500A0518C /* HeaderLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B12990B36500A0518C /* HeaderLogView.swift */; };
 		871073B42990B7A600A0518C /* AllLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B32990B7A600A0518C /* AllLogView.swift */; };
@@ -145,6 +147,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		8702F3EC2A4BA1C7002925A0 /* LogListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogListsView.swift; sourceTree = "<group>"; };
+		8702F3EE2A4BA28B002925A0 /* LogListsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogListsViewModel.swift; sourceTree = "<group>"; };
 		871073B12990B36500A0518C /* HeaderLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeaderLogView.swift; sourceTree = "<group>"; };
 		871073B32990B7A600A0518C /* AllLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLogView.swift; sourceTree = "<group>"; };
 		871073B82990CDBE00A0518C /* CreateUserDateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserDateManager.swift; sourceTree = "<group>"; };
@@ -546,9 +550,9 @@
 		87ABC58229908B65003E94F3 /* Log */ = {
 			isa = PBXGroup;
 			children = (
-				87ABC58629908B82003E94F3 /* ViewModels */,
 				871073B72990CD1000A0518C /* Models */,
 				87ABC58529908B7D003E94F3 /* View */,
+				87ABC58629908B82003E94F3 /* ViewModels */,
 			);
 			path = Log;
 			sourceTree = "<group>";
@@ -558,6 +562,7 @@
 			children = (
 				871073B12990B36500A0518C /* HeaderLogView.swift */,
 				871073B32990B7A600A0518C /* AllLogView.swift */,
+				8702F3EC2A4BA1C7002925A0 /* LogListsView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -566,6 +571,7 @@
 			isa = PBXGroup;
 			children = (
 				87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */,
+				8702F3EE2A4BA28B002925A0 /* LogListsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -839,6 +845,7 @@
 				876821102A3683C3003EC091 /* Partner.swift in Sources */,
 				871073B42990B7A600A0518C /* AllLogView.swift in Sources */,
 				87F53FE3297EA70B00293176 /* AddTransactionViewModel.swift in Sources */,
+				8702F3ED2A4BA1C7002925A0 /* LogListsView.swift in Sources */,
 				874EF941297D08B100C94233 /* User.swift in Sources */,
 				872652F3297B92A8002C76D6 /* FirebaseErrorManager.swift in Sources */,
 				879379E7298B5B4E00D3A47B /* ConnectPartnerViewModel.swift in Sources */,
@@ -875,6 +882,7 @@
 				87E5E9362A2E9880002CF7B2 /* MyNameEditViewModel.swift in Sources */,
 				873655602A10E30B00E92EEE /* InvalidValueError.swift in Sources */,
 				876EE23E2A26AF310073F1C3 /* WebViewController.swift in Sources */,
+				8702F3EF2A4BA28B002925A0 /* LogListsViewModel.swift in Sources */,
 				879379EB298B999700D3A47B /* PartnerInfoView.swift in Sources */,
 				87CA8FB7297BF73800248187 /* CreateUserViewModel.swift in Sources */,
 				871073B92990CDBE00A0518C /* CreateUserDateManager.swift in Sources */,
