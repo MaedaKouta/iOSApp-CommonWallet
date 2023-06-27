@@ -30,17 +30,15 @@ struct CommonWalletView: View {
     @State private var isPKHUDProgress = false
     @State private var isPKHUDSuccess = false
     @State private var isPKHUDError = false
-
+    // UserDefaults
     @AppStorage(UserDefaultsKey().userId) private var myUserId = String()
     @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
     @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
     @AppStorage(UserDefaultsKey().partnerUserId) private var partnerUserId = String()
     @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
     @AppStorage(UserDefaultsKey().partnerIconData) private var partnerIconData = Data()
-
     // 画像のSystemImage
     private let imageNameProperty = ImageNameProperty()
-
     // バックグラウンドかフォアグラウンドを検知
     @Environment(\.scenePhase) private var scenePhase
 
@@ -387,6 +385,20 @@ struct CommonWalletView: View {
             .onTapGesture {
                 self.selectedTransactionIndex = index
                 self.isTransactionDescriptionAlert = true
+            }
+            .contextMenu {
+                Button() {
+                    self.selectedEditTransactionIndex = index
+                    self.isEditTransactionView = true
+                } label: {
+                    Label("編集", systemImage: imageNameProperty.pencilSystemImage)
+                }
+                Button() {
+                    self.selectedDeleteTransactionIndex = index
+                    self.isDeleteTransactionAlert = true
+                } label: {
+                    Label("削除", systemImage: imageNameProperty.trashFillSystemImage)
+                }
             }
             // セルをタップで、詳細アラートを表示
             .alert("\(viewModel.unResolvedTransactions[self.selectedTransactionIndex].title)", isPresented: $isTransactionDescriptionAlert){
