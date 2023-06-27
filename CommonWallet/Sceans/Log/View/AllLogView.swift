@@ -2,17 +2,20 @@
 //  AllLogView.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/02/06.
-//
 
 import SwiftUI
 import Parchment
 
 struct AllLogView: View {
 
-    @ObservedObject var allLogViewModel: AllLogViewModel
+    @ObservedObject var viewModel: AllLogViewModel
     @State var currentIndex: Int = 0
-    @State var isSettingView =  false
+    @State var isSettingView = false
+    // UserDefaults
+    @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
+    @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
+    // 画像のSystemImage
+    private let imageNameProperty = ImageNameProperty()
 
     var body: some View {
 
@@ -35,14 +38,13 @@ struct AllLogView: View {
 
                 }.padding()
 
-                PageView(options: pagingOptions, items: allLogViewModel.pagingIndexItems, selectedIndex: $allLogViewModel.selectedIndex) { item in
-                    ListItems(allLogViewModel: self.allLogViewModel, itemIndex: item.index)
+                PageView(options: pagingOptions, items: viewModel.pagingIndexItems, selectedIndex: $viewModel.selectedIndex) { item in
+                    ListItems(allLogViewModel: self.viewModel, itemIndex: item.index)
                 }
             }
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarItems(
                 leading: Button(action: {
-                    print("aa")
                 }) {
                     //Image(systemName: "trash")
                     Text("履歴")
@@ -54,14 +56,14 @@ struct AllLogView: View {
                         print("aa")
                         self.isSettingView = true
                     }) {
-                        Image("SampleIcon")
+                        Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                             .resizable()
                             .scaledToFill()
                             .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 28, height: 28, alignment: .center)
                             .clipShape(Circle()) // 正円形に切り抜く
-                        Text("kota")
+                        Text(myUserName)
                             .foregroundColor(Color.black)
                     }
                     .sheet(isPresented: self.$isSettingView) {
@@ -86,13 +88,17 @@ struct ListItems: View {
 
     @ObservedObject var allLogViewModel: AllLogViewModel
     var itemIndex: Int
+    // UserDefaults
+    @AppStorage(UserDefaultsKey().userId) private var myUserId = String()
+    @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
+    @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
+    @AppStorage(UserDefaultsKey().partnerIconData) private var partnerIconData = Data()
+    // 画像のSystemImage
+    private let imageNameProperty = ImageNameProperty()
 
     var body: some View {
-
         VStack {
-
             List {
-
                 if allLogViewModel.resolvedTransactionsByMonth[itemIndex].count == 0 {
                     VStack {
                         Image("Sample2")
@@ -110,9 +116,8 @@ struct ListItems: View {
                     ForEach((0 ..< allLogViewModel.resolvedTransactionsByMonth[itemIndex].count).reversed(),  id: \.self) { index in
 
                         HStack {
-
-                            if allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].debtorId != allLogViewModel.myUserId {
-                                Image("SampleIcon")
+                            if allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].debtorId != myUserId {
+                                Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                                     .resizable()
                                     .scaledToFill()
                                     .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
@@ -120,8 +125,7 @@ struct ListItems: View {
                                     .frame(width: 28, height: 28, alignment: .center)
                                     .clipShape(Circle())
                             } else {
-                                Image("SamplePartnerIcon")
-                                    .resizable()
+                                Image(uiImage: UIImage(data: partnerIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)                                    .resizable()
                                     .scaledToFill()
                                     .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
                                     .aspectRatio(contentMode: .fit)
@@ -142,6 +146,12 @@ struct ListItems: View {
                                 Text("¥\(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].amount)")
                             }
                         }
+                        .contextMenu
+                        {
+                            Button(action: {print("削除")}) {
+                                Label("削除", systemImage: "trash")
+                            }
+                        }
                         .padding(3)
                         .foregroundColor(.black)
                         .contentShape(Rectangle())
@@ -156,9 +166,6 @@ struct ListItems: View {
                 Task {
                     try await allLogViewModel.fetchTransactions()
                 }
-            }
-            .refreshable {
-                await Task.sleep(1000000000)
             }
         }
     }

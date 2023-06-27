@@ -2,14 +2,16 @@
 //  LogHeaderView.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/02/06.
-//
 
 import SwiftUI
 
 struct HeaderLogView: View {
 
     @State private var isSettingView = false
+    // 画像のSystemImage
+    private let imageNameProperty = ImageNameProperty()
+    // UserDefaults
+    @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
 
     var body: some View {
 
@@ -22,7 +24,7 @@ struct HeaderLogView: View {
             Button ( action: {
                 isSettingView = true
             }) {
-                Image("SampleIcon")
+                Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                     .resizable()
                     .scaledToFill()
                     .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
