@@ -449,7 +449,7 @@ struct CommonWalletView: View {
                     self.deleteTransaction(transactionId: viewModel.unResolvedTransactions[self.selectedDeleteTransactionIndex].id)
                 }
             } message: {
-                Text("削除してもよろしいですか？")
+                Text("「\(viewModel.unResolvedTransactions[self.selectedDeleteTransactionIndex].title)」を本当に削除してもよろしいですか？")
             } // alertここまで
         }
     }
