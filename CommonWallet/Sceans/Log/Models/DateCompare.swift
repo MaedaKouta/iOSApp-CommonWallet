@@ -2,29 +2,50 @@
 //  PayInfoDivide.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/02/07.
-//
 
 import Foundation
 
-class DateCompare {
+struct DateCompare {
 
-    private let nowDate = Date()
+    private let currentDate = Date()
+    private let calendar = Calendar.current
+    private let dateFormatter: DateFormatter = {
+        let formatter = DateFormatter()
+        formatter.setTemplate(.yearMonth)
+        return formatter
+    }()
 
-    // 第一引数に、今月から何ヶ月戻った月と比較するかを取る
-    func isEqualMonth(fromNowMonth: Int, compareDate: Date) -> Bool {
-        guard let compareSourceDate = Calendar.current.date(byAdding: .month, value: -1*fromNowMonth, to: nowDate) else { return false }
-        return Calendar.current.isDate(compareSourceDate, equalTo: compareDate, toGranularity: .month)
+    /**
+     指定された月数の前の月と比較対象の日付が同じ月かどうかを確認する
+     - Parameter monthsAgo : 現在から何ヶ月前の月と比較するかを表す整数値
+     - Parameter compareDate : 比較対象の日付
+     - returns: 比較結果を示すブール値
+     */
+    func checkSameMonth(monthsAgo: Int, compareDate: Date) -> Bool {
+
+        // 比較元の日付を計算
+        guard let compareSourceDate = calendar.date(byAdding: .month, value: -monthsAgo, to: currentDate) else {
+            return false
+        }
+
+        // 月の粒度で比較
+        return calendar.isDate(compareSourceDate, equalTo: compareDate, toGranularity: .month)
     }
 
-    // 第一引数に、今月から何ヶ月戻った月と比較するかを取る
-    func createStringMonthDate(fromNowMonth: Int) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.setTemplate(.yearMonth)
-        guard let date = Calendar.current.date(byAdding: .month, value: -1*fromNowMonth, to: nowDate) else { return "エラー" }
+    /**
+     指定された月数だけ前の月を取得する関数
+     - Parameter monthAgo : 今日から何ヶ月前の月を取得したいか、をInt型で指定
+     - returns: 指定された月数だけ前の月を表す年と月を`yyyy/MM`形式の文字列で返す
+     */
+    func getPreviousYearMonth(monthsAgo: Int) -> String {
 
-        return dateFormatter.string(from: date)
+        // 指定された月数だけ前の月を計算
+        guard let previousYearMonth = calendar.date(byAdding: .month, value: -monthsAgo, to: currentDate) else {
+            return "Error: Failed to calculate previous year and month."
+        }
 
+        // 月の値を文字列に変換して返す
+        return dateFormatter.string(from: previousYearMonth)
     }
 
 }

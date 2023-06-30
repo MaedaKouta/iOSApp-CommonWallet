@@ -15,12 +15,19 @@ class LogListsViewModel: ObservableObject {
 
     private let monthCount: Int = CreateUserDateManager().monthsBetweenDates()
 
-    private var fireStoreTransactionManager = FireStoreTransactionManager()
-    private var userDefaultsManager = UserDefaultsManager()
-    private var createUserDateManager = CreateUserDateManager()
-    private var dateCompare = DateCompare()
+    private var fireStoreTransactionManager: FireStoreTransactionManager
+    private var userDefaultsManager: UserDefaultsManager
+    private var createUserDateManager: CreateUserDateManager
+    private var dateCompare: DateCompare
 
-    init() {
+    init(fireStoreTransactionManager: FireStoreTransactionManager,
+         userDefaultsManager: UserDefaultsManager,
+         createUserDateManager: CreateUserDateManager,
+         dateCompare: DateCompare) {
+        self.fireStoreTransactionManager = fireStoreTransactionManager
+        self.userDefaultsManager = userDefaultsManager
+        self.createUserDateManager = createUserDateManager
+        self.dateCompare = dateCompare
         createSelectedIndex()
         initTransactionsByMonth()
         createPagingItem()
@@ -44,7 +51,7 @@ class LogListsViewModel: ObservableObject {
     private func createPagingItem() {
         for i in (0 ..< monthCount) {
             // (monthCount-1)しないと、現在の月を除いた３ヶ月前のデータが取得される
-            let title = dateCompare.createStringMonthDate(fromNowMonth: (monthCount-1)-i)
+            let title = dateCompare.getPreviousYearMonth(monthsAgo: (monthCount-1)-i)
             pagingIndexItems.append(PagingIndexItem(index: i, title: title))
         }
     }
@@ -83,7 +90,7 @@ class LogListsViewModel: ObservableObject {
             // 多次元配列を扱うときは、appendでからの要素の追加を明示しないと、〇〇[i].appendが出来なかった
             for transaction in resolvedTransactions {
                 // (monthCount-1)しないと、現在の月を除いた３ヶ月前のデータが取得される
-                if self.dateCompare.isEqualMonth(fromNowMonth: (monthCount-1)-i, compareDate: transaction.createdAt) {
+                if self.dateCompare.checkSameMonth(monthsAgo: (monthCount-1)-i, compareDate: transaction.createdAt) {
                     newResolvedTransactionsByMonth[i].append(transaction)
                 }
             }
