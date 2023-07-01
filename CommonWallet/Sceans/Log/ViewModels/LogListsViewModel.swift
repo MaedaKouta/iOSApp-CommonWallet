@@ -13,21 +13,21 @@ class LogListsViewModel: ObservableObject {
     @Published var resolvedTransactionsByMonth: [[Transaction]] = [[Transaction]]()
     @Published var pagingIndexItems: [PagingIndexItem] = [PagingIndexItem]()
 
-    private let monthCount: Int = CreateUserDateManager().monthsBetweenDates()
-
+    private let monthCount: Int
     private var fireStoreTransactionManager: FireStoreTransactionManager
     private var userDefaultsManager: UserDefaultsManager
-    private var createUserDateManager: CreateUserDateManager
+    private var createUserDateManager: DateCalculator
     private var dateCompare: DateCompare
 
     init(fireStoreTransactionManager: FireStoreTransactionManager,
          userDefaultsManager: UserDefaultsManager,
-         createUserDateManager: CreateUserDateManager,
+         createUserDateManager: DateCalculator,
          dateCompare: DateCompare) {
         self.fireStoreTransactionManager = fireStoreTransactionManager
         self.userDefaultsManager = userDefaultsManager
         self.createUserDateManager = createUserDateManager
         self.dateCompare = dateCompare
+        monthCount = DateCalculator().calculateMonthsBetweenDates(startDate: userDefaultsManager.getOldestResolvedDate())
         createSelectedIndex()
         initTransactionsByMonth()
         createPagingItem()
