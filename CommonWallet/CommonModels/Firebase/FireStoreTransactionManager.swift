@@ -180,8 +180,12 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
             }
     }
 
-    // TODO: 毎回これ使うとアクセス数すごい。使わないでおこう
-    /// 精算済みの中で一番古いトランザクションデータを取得する
+    /**
+     最も古い精算済のトランザクションの日付を取得する
+     - parameter myUserId: 自分のUserId
+     - parameter partnerUserId: パートナーのUserId
+     - returns: 最も古い日付
+     */
     func fetchOldestDate(myUserId: String, partnerUserId: String) async throws -> Date? {
         // Transactionsコレクションから未精算の取引を取得する
         let querySnapshot = try await db.collection("Transactions")

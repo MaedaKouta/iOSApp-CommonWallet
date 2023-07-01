@@ -8,29 +8,25 @@ import Parchment
 
 class LogListsViewModel: ObservableObject {
 
-    @Published var selectedIndex: Int = Int()
-    @Published var resolvedTransactions: [Transaction] = [Transaction]()
+    // 次ごとのTransactionを二次元配列で
     @Published var resolvedTransactionsByMonth: [[Transaction]] = [[Transaction]]()
-    @Published var pagingIndexItems: [PagingIndexItem] = [PagingIndexItem]()
 
+    // 全てのTransaction
+    private var resolvedTransactions: [Transaction] = [Transaction]()
     private let monthCount: Int
     private var fireStoreTransactionManager: FireStoreTransactionManager
     private var userDefaultsManager: UserDefaultsManager
-    private var createUserDateManager: DateCalculator
     private var dateCompare: DateCompare
 
     init(fireStoreTransactionManager: FireStoreTransactionManager,
          userDefaultsManager: UserDefaultsManager,
-         createUserDateManager: DateCalculator,
-         dateCompare: DateCompare) {
+         dateCompare: DateCompare
+    ) {
         self.fireStoreTransactionManager = fireStoreTransactionManager
         self.userDefaultsManager = userDefaultsManager
-        self.createUserDateManager = createUserDateManager
         self.dateCompare = dateCompare
         monthCount = DateCalculator().calculateMonthsBetweenDates(startDate: userDefaultsManager.getOldestResolvedDate())
-        createSelectedIndex()
         initTransactionsByMonth()
-        createPagingItem()
     }
 
     // MARK: - イニシャライザ
@@ -45,23 +41,13 @@ class LogListsViewModel: ObservableObject {
         }
     }
 
-    /*
-     Parchmentの上タブの数を決めて、上タブのタイトルも設定する
+    // ここをよく考える。
+    // 毎回一撃で全部取得してたら重くなるよね...
+    // でも、addSnapshotListnerで端末内にデータも入れてるから、想像以上に重くならないのか？
+    /**
+     トランザクションをまとめて全て取得する
      */
-    private func createPagingItem() {
-        for i in (0 ..< monthCount) {
-            // (monthCount-1)しないと、現在の月を除いた３ヶ月前のデータが取得される
-            let title = dateCompare.getPreviousYearMonth(monthsAgo: (monthCount-1)-i)
-            pagingIndexItems.append(PagingIndexItem(index: i, title: title))
-        }
-    }
-
-    private func createSelectedIndex() {
-        // IndexOutOfRangeしないように-1する
-        selectedIndex = monthCount - 1
-    }
-
-    func fetchTransactions() async throws {
+    func fetchTransactions() async {
 
         guard let myUserId = userDefaultsManager.getUser()?.id, let partnerUserId = userDefaultsManager.getPartnerUserId() else {
             return
@@ -75,15 +61,24 @@ class LogListsViewModel: ObservableObject {
             }
 
             guard let transactions = transactions else { return }
-            // [Payments]を取得
-            self.resolvedTransactions = transactions
+
+            // トランザクションを時系列ごとに並べ替える
+            let sortedTransactions = transactions.sorted(by: { (a, b) -> Bool in
+                return a.createdAt > b.createdAt
+            })
+            // [Payments]を格納
+            self.resolvedTransactions = sortedTransactions
             // 月ごとに[[Payments]]へ多次元配列へ分割
             self.transactionsDivideByMonth()
         })
     }
 
+    /**
+     トランザクションを月ごとに分割する
+     */
     private func transactionsDivideByMonth() {
-        //initTransactionsByMonth()
+
+        // 二次元配列の中に全ての月数分の配列を用意する
         var newResolvedTransactionsByMonth: [[Transaction]] = Array(repeating: [], count: monthCount)
 
         for i in 0 ..< monthCount {

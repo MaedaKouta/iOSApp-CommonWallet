@@ -7,7 +7,8 @@ import SwiftUI
 
 struct LogListView: View {
 
-    @ObservedObject var allLogViewModel: AllLogViewModel
+    @ObservedObject var viewModel: LogListsViewModel
+    // 選択されてる月のインデックス
     var itemIndex: Int
     // UserDefaults
     @AppStorage(UserDefaultsKey().userId) private var myUserId = String()
@@ -20,77 +21,94 @@ struct LogListView: View {
     var body: some View {
         VStack {
             List {
-                if allLogViewModel.resolvedTransactionsByMonth[itemIndex].count == 0 {
-                    VStack {
-                        Image("Sample2")
-                            .resizable()
-                            .scaledToFill()
-                            .aspectRatio(contentMode: .fit)
-                            .padding(.top)
-                        Text("リストが空です")
-                            .foregroundColor(.gray)
-                    }
-                    .listRowSeparator(.hidden)
-                    .padding(.top, 100)
+                if viewModel.resolvedTransactionsByMonth[itemIndex].count == 0 {
+                    unResolvedListIsNullView()
                 } else {
-
-                    ForEach((0 ..< allLogViewModel.resolvedTransactionsByMonth[itemIndex].count).reversed(),  id: \.self) { index in
-
-                        HStack {
-                            if allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].debtorId != myUserId {
-                                Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
-                                    .resizable()
-                                    .scaledToFill()
-                                    .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 28, height: 28, alignment: .center)
-                                    .clipShape(Circle())
-                            } else {
-                                Image(uiImage: UIImage(data: partnerIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)                                    .resizable()
-                                    .scaledToFill()
-                                    .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
-                                    .aspectRatio(contentMode: .fit)
-                                    .frame(width: 28, height: 28, alignment: .center)
-                                    .clipShape(Circle())
-                            }
-
-                            VStack(alignment: .leading) {
-                                Text(self.dateToString(date: allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].createdAt))
-                                    .font(.caption)
-                                    .foregroundColor(Color.gray)
-                                Text(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].title)
-                            }
-
-                            Spacer()
-
-                            VStack(alignment: .trailing) {
-                                Text("¥\(allLogViewModel.resolvedTransactionsByMonth[itemIndex][index].amount)")
-                            }
-                        }
-                        .contextMenu
-                        {
-                            Button(action: {print("削除")}) {
-                                Label("削除", systemImage: "trash")
-                            }
-                        }
-                        .padding(3)
-                        .foregroundColor(.black)
-                        .contentShape(Rectangle())
-                        .onTapGesture {
-                            print(index)
-                        }
-                    }
+                    resolvedListView()
                 }
             }
             .listStyle(PlainListStyle())
             .onAppear {
                 Task {
-                    try await allLogViewModel.fetchTransactions()
+                    await viewModel.fetchTransactions()
                 }
             }
         }
     }
 
+    // MARK: - Views
+    /**
+     リストが空の際に表示する画像と文言
+     */
+    private func unResolvedListIsNullView() -> some View {
+        VStack {
+            Image(imageNameProperty.sittingCatDark)
+                .resizable()
+                .scaledToFill()
+                .aspectRatio(contentMode: .fit)
+                .padding(.top)
+                .transition(.opacity)
+
+            Text("リストが空です")
+                .foregroundColor(.gray)
+        }
+        .listRowSeparator(.hidden)
+        .padding(.top, 100)
+    }
+
+    /**
+     精算リストのView
+     */
+    private func resolvedListView() -> some View {
+        ForEach((0 ..< viewModel.resolvedTransactionsByMonth[itemIndex].count).reversed(),  id: \.self) { index in
+
+            HStack {
+                if viewModel.resolvedTransactionsByMonth[itemIndex][index].debtorId != myUserId {
+                    Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
+                        .resizable()
+                        .scaledToFill()
+                        .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 28, height: 28, alignment: .center)
+                        .clipShape(Circle())
+                } else {
+                    Image(uiImage: UIImage(data: partnerIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)                                    .resizable()
+                        .scaledToFill()
+                        .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
+                        .aspectRatio(contentMode: .fit)
+                        .frame(width: 28, height: 28, alignment: .center)
+                        .clipShape(Circle())
+                }
+
+                VStack(alignment: .leading) {
+                    Text(self.dateToString(date: viewModel.resolvedTransactionsByMonth[itemIndex][index].createdAt))
+                        .font(.caption)
+                        .foregroundColor(Color.gray)
+                    Text(viewModel.resolvedTransactionsByMonth[itemIndex][index].title)
+                }
+
+                Spacer()
+
+                VStack(alignment: .trailing) {
+                    Text("¥\(viewModel.resolvedTransactionsByMonth[itemIndex][index].amount)")
+                }
+            }
+            .contextMenu
+            {
+                Button(action: {print("削除")}) {
+                    Label("削除", systemImage: "trash")
+                }
+            }
+            .padding(3)
+            .foregroundColor(.black)
+            .contentShape(Rectangle())
+            .onTapGesture {
+                print(index)
+            }
+        }
+    }
+
+    // MARK: - Logics
     private func dateToString(date: Date) -> String {
         let dateFormatter = DateFormatter()
         dateFormatter.locale = Locale(identifier: "ja_JP")
@@ -113,6 +131,6 @@ struct LogListView: View {
 
 //struct LogListsView_Previews: PreviewProvider {
 //    static var previews: some View {
-//        LogListView(allLogViewModel: <#T##AllLogViewModel#>, itemIndex: <#T##Int#>)
+//        LogListView(viewModel: <#T##AllLogViewModel#>, itemIndex: <#T##Int#>)
 //    }
 //}

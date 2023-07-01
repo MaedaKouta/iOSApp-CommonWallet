@@ -9,37 +9,30 @@ import Parchment
 class AllLogViewModel: ObservableObject {
 
     @Published var selectedIndex: Int = Int()
-    @Published var resolvedTransactions: [Transaction] = [Transaction]()
-    @Published var resolvedTransactionsByMonth: [[Transaction]] = [[Transaction]]()
     @Published var pagingIndexItems: [PagingIndexItem] = [PagingIndexItem]()
 
     private let monthCount: Int
-    private var fireStoreTransactionManager = FireStoreTransactionManager()
-    private var userDefaultsManager = UserDefaultsManager()
-    private var createUserDateManager = DateCalculator()
-    private var dateCompare = DateCompare()
+    private var userDefaultsManager: UserDefaultsManager
+    private var dateCalculator: DateCalculator
+    private var dateCompare: DateCompare
 
-    init() {
-        monthCount = DateCalculator().calculateMonthsBetweenDates(startDate: userDefaultsManager.getOldestResolvedDate())
+    init(userDefaultsManager: UserDefaultsManager,
+         dateCalculator: DateCalculator,
+         dateCompare: DateCompare) {
+        self.userDefaultsManager = userDefaultsManager
+        self.dateCalculator = dateCalculator
+        self.dateCompare = dateCompare
+        // userDefaultsのOldestResolvedDateは、毎回起動するたびにセットしている
+        monthCount = dateCalculator.calculateMonthsBetweenDates(startDate: userDefaultsManager.getOldestResolvedDate())
         createSelectedIndex()
-        initTransactionsByMonth()
         createPagingItem()
     }
 
-    // MARK: - イニシャライザ
-    /*
-     paidPaymentsByMonthの多次元配列がそのままの初期化だと、取得時にIndexOutOfRangeエラーが起こる
-     空の配列を月数だけ格納しておくことでこれを回避する関数
-     */
-    private func initTransactionsByMonth() {
-        resolvedTransactionsByMonth = [[Transaction]]()
-        for _ in 0 ..< monthCount {
-            resolvedTransactionsByMonth.append([Transaction]())
-        }
-    }
-
-    /*
-     Parchmentの上タブの数を決めて、上タブのタイトルも設定する
+    // MARK: - イニシャライザ（呼び出す順番守る）
+    /**
+     Parchmentの上タブの数を決め、タイトルも設定する
+     - Description
+     - [[2023/05], [2023/06], [2023/07]]みたいに入る
      */
     private func createPagingItem() {
         for i in (0 ..< monthCount) {
@@ -49,48 +42,12 @@ class AllLogViewModel: ObservableObject {
         }
     }
 
+    /*
+     デフォルトで最新の月を選択された状態にする
+     */
     private func createSelectedIndex() {
         // IndexOutOfRangeしないように-1する
         selectedIndex = monthCount - 1
-    }
-
-    func fetchTransactions() async throws {
-
-        guard let myUserId = userDefaultsManager.getUser()?.id, let partnerUserId = userDefaultsManager.getPartnerUserId() else {
-            return
-        }
-
-        fireStoreTransactionManager.fetchResolvedTransactions(myUserId: myUserId, partnerUserId: partnerUserId, completion: { transactions, error in
-
-            if let error = error {
-                print("fetchTransactions failed with error: \(error)")
-                return
-            }
-
-            guard let transactions = transactions else { return }
-            // [Payments]を取得
-            self.resolvedTransactions = transactions
-            // 月ごとに[[Payments]]へ多次元配列へ分割
-            self.transactionsDivideByMonth()
-        })
-    }
-
-    private func transactionsDivideByMonth() {
-        //initTransactionsByMonth()
-        var newResolvedTransactionsByMonth: [[Transaction]] = Array(repeating: [], count: monthCount)
-
-        for i in 0 ..< monthCount {
-            // 多次元配列を扱うときは、appendでからの要素の追加を明示しないと、〇〇[i].appendが出来なかった
-            for transaction in resolvedTransactions {
-                // (monthCount-1)しないと、現在の月を除いた３ヶ月前のデータが取得される
-                if self.dateCompare.checkSameMonth(monthsAgo: (monthCount-1)-i, compareDate: transaction.createdAt) {
-                    newResolvedTransactionsByMonth[i].append(transaction)
-                }
-            }
-        }
-
-        self.resolvedTransactionsByMonth = newResolvedTransactionsByMonth
-        print(self.resolvedTransactionsByMonth)
     }
 
 }

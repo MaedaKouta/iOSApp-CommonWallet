@@ -459,7 +459,6 @@ struct CommonWalletView: View {
      */
     private func unResolvedListIsNullView() -> some View {
         VStack {
-            // TODO: リストが空の際に表示する画像
             Image(imageNameProperty.sittingCatDark)
                 .resizable()
                 .scaledToFill()

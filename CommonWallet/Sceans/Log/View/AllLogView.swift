@@ -39,21 +39,19 @@ struct AllLogView: View {
                 }.padding()
 
                 PageView(options: pagingOptions, items: viewModel.pagingIndexItems, selectedIndex: $viewModel.selectedIndex) { item in
-                    LogListView(allLogViewModel: self.viewModel, itemIndex: item.index)
+                    LogListView(viewModel: LogListsViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), userDefaultsManager: UserDefaultsManager(),  dateCompare: DateCompare()), itemIndex: item.index)
                 }
             }
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarItems(
-                leading: Button(action: {
-                }) {
-                    //Image(systemName: "trash")
-                    Text("履歴")
-                        .foregroundColor(Color.black)
-                        .font(.title3)
-
+                leading: HStack {
+                    HStack {
+                        Text("履歴")
+                            .foregroundColor(Color.black)
+                            .font(.title2)
+                    }
                 }, trailing: HStack {
                     Button(action: {
-                        print("aa")
                         self.isSettingView = true
                     }) {
                         Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
@@ -86,6 +84,6 @@ struct AllLogView: View {
 
 struct AllLogView_Previews: PreviewProvider {
     static var previews: some View {
-        AllLogView(viewModel: AllLogViewModel())
+        AllLogView(viewModel: AllLogViewModel(userDefaultsManager: UserDefaultsManager(), dateCalculator: DateCalculator(), dateCompare: DateCompare()))
     }
 }
