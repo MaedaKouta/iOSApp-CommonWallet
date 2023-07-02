@@ -24,6 +24,7 @@ class AllLogViewModel: ObservableObject {
         self.dateCompare = dateCompare
         // userDefaultsのOldestResolvedDateは、毎回起動するたびにセットしている
         monthCount = dateCalculator.calculateMonthsBetweenDates(startDate: userDefaultsManager.getOldestResolvedDate())
+        print(monthCount)
         createSelectedIndex()
         createPagingItem()
     }

@@ -32,7 +32,7 @@ struct DateCalculator {
 
         // 差を求めるだけだと8月から9月は、9-8で1ヶ月しかないことになる
         // 実際当月も含めて2ヶ月だから、+1しないといけない
-        let monthsCount = month + 1
+        let monthsCount = month + 2
         return max(minimumMonths, monthsCount)
     }
 
