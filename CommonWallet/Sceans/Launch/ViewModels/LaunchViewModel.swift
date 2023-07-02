@@ -19,6 +19,7 @@ class LaunchViewModel: ObservableObject {
             return
         }
         let oldestDate = try await fireStoreTransactionManager.fetchOldestDate(myUserId: myUserId, partnerUserId: partnerUserId)
+        print("fetchOldestDate:", oldestDate)
         self.userDefaultsManager.setOldestResolvedDate(date: oldestDate)
     }
 

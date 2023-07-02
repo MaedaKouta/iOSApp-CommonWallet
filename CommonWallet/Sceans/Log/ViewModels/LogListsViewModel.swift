@@ -8,8 +8,10 @@ import Parchment
 
 class LogListsViewModel: ObservableObject {
 
-    // 次ごとのTransactionを二次元配列で
+    // 月ごとのTransactionを二次元配列で
     @Published var resolvedTransactionsByMonth: [[Transaction]] = [[Transaction]]()
+    // 月ごとのTransactionの合計値を二次元配列で
+    @Published var resolvedTransactionsAmountByMonth: [Int] = [Int]()
 
     // 全てのTransaction
     private var resolvedTransactions: [Transaction] = [Transaction]()
@@ -80,6 +82,7 @@ class LogListsViewModel: ObservableObject {
 
         // 二次元配列の中に全ての月数分の配列を用意する
         var newResolvedTransactionsByMonth: [[Transaction]] = Array(repeating: [], count: monthCount)
+        var newResolvedTransactionsAmountByMonth: [Int] = Array(repeating: 0, count: monthCount)
 
         for i in 0 ..< monthCount {
             // 多次元配列を扱うときは、appendでからの要素の追加を明示しないと、〇〇[i].appendが出来なかった
@@ -87,12 +90,14 @@ class LogListsViewModel: ObservableObject {
                 // (monthCount-1)しないと、現在の月を除いた３ヶ月前のデータが取得される
                 if self.dateCompare.checkSameMonth(monthsAgo: (monthCount-1)-i, compareDate: transaction.createdAt) {
                     newResolvedTransactionsByMonth[i].append(transaction)
+                    newResolvedTransactionsAmountByMonth[i] += transaction.amount
                 }
             }
         }
 
         self.resolvedTransactionsByMonth = newResolvedTransactionsByMonth
-        print(self.resolvedTransactionsByMonth)
+        self.resolvedTransactionsAmountByMonth = newResolvedTransactionsAmountByMonth
+        print(self.resolvedTransactionsAmountByMonth)
     }
 
 }

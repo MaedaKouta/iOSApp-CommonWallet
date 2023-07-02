@@ -180,21 +180,33 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
             }
     }
 
+    // TODO: FireStoreのアクセス数がこれでバク上がる気がして、この関数嫌だ
     /**
      最も古い精算済のトランザクションの日付を取得する
+     - Note: FireStoreのアクセス数がこれでバク上がる気がして、ちょっとこれ嫌だ
      - parameter myUserId: 自分のUserId
      - parameter partnerUserId: パートナーのUserId
      - returns: 最も古い日付
      */
     func fetchOldestDate(myUserId: String, partnerUserId: String) async throws -> Date? {
+        let currentTimestamp = Timestamp(date: Date())
+        let currentDate = Date()
         // Transactionsコレクションから未精算の取引を取得する
         let querySnapshot = try await db.collection("Transactions")
-            .whereField("creditorId", in: [partnerUserId, myUserId])
             .whereField("resolvedAt", isNotEqualTo: NSNull())
-            .limit(to: 1)
+            .whereField("creditorId", in: [partnerUserId, myUserId])
+//            .order(by: "createdAt")
+//            .limit(to: 1)
             .getDocuments()
 
-        guard let doc = querySnapshot.documents.first,
+        print("here")
+
+        // トランザクションを時系列ごとに並べ替える
+        let sortedDocuments = querySnapshot.documents.sorted(by: { (a, b) -> Bool in
+            return (a.get("createdAt") as? Timestamp)?.dateValue() ?? currentDate  < (b.get("createdAt") as? Timestamp)?.dateValue() ?? currentDate
+        })
+
+        guard let doc = sortedDocuments.first,
               let oldestTimestamp = doc.get("createdAt") as? Timestamp else
         { return nil }
         return oldestTimestamp.dateValue()
