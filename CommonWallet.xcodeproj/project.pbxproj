@@ -87,7 +87,6 @@
 		879379ED298B99C700D3A47B /* PartnerInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EC298B99C700D3A47B /* PartnerInfoViewModel.swift */; };
 		879379EF298BBDB800D3A47B /* PartnerNameEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EE298BBDB800D3A47B /* PartnerNameEditViewModel.swift */; };
 		87ABC58129908B17003E94F3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC58029908B17003E94F3 /* MainTabView.swift */; };
-		87ABC58829908BA1003E94F3 /* AllLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */; };
 		87ABC58B29909BF5003E94F3 /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 87ABC58A29909BF5003E94F3 /* Parchment */; };
 		87C0BADD2A03C52400A02978 /* Flip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C0BADC2A03C52400A02978 /* Flip.swift */; };
 		87C162CB2A2AB93A00382061 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C162CA2A2AB93A00382061 /* StorageManager.swift */; };
@@ -207,7 +206,6 @@
 		879379EC298B99C700D3A47B /* PartnerInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerInfoViewModel.swift; sourceTree = "<group>"; };
 		879379EE298BBDB800D3A47B /* PartnerNameEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerNameEditViewModel.swift; sourceTree = "<group>"; };
 		87ABC58029908B17003E94F3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLogViewModel.swift; sourceTree = "<group>"; };
 		87C0BADC2A03C52400A02978 /* Flip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flip.swift; sourceTree = "<group>"; };
 		87C162CA2A2AB93A00382061 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewModel.swift; sourceTree = "<group>"; };
@@ -579,7 +577,6 @@
 		87ABC58629908B82003E94F3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */,
 				8702F3EE2A4BA28B002925A0 /* LogListsViewModel.swift */,
 			);
 			path = ViewModels;
@@ -874,7 +871,6 @@
 				87CD584929E8DB2500472B6B /* FetchUsersError.swift in Sources */,
 				8753D7302A06175B0074E04A /* EditTransactionViewModel.swift in Sources */,
 				872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */,
-				87ABC58829908BA1003E94F3 /* AllLogViewModel.swift in Sources */,
 				87391E50298A189900897A96 /* String.swift in Sources */,
 				87F53FE0297EA44E00293176 /* FireStoreTransactionManager.swift in Sources */,
 				87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */,
