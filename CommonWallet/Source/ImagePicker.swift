@@ -2,8 +2,6 @@
 //  ImagePicker.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/06/02.
-//
 
 import Foundation
 import SwiftUI

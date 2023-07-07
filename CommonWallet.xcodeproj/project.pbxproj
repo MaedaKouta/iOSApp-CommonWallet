@@ -280,13 +280,13 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
-		871073B72990CD1000A0518C /* Models */ = {
+		871073B72990CD1000A0518C /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				871073B82990CDBE00A0518C /* DateCalculator.swift */,
 				878C9A942991CB2C003D4816 /* DateCompare.swift */,
 			);
-			path = Models;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		871F09EF2A11979F00F96394 /* View */ = {
@@ -382,7 +382,7 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		87830E6A297A1A6000184A7C /* CommonModels */ = {
+		87830E6A297A1A6000184A7C /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				87402F3F29F377210007320D /* Protocol */,
@@ -390,7 +390,7 @@
 				874EF943297D0F3700C94233 /* Firebase */,
 				87ABC57B29907C54003E94F3 /* General */,
 			);
-			path = CommonModels;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		87830E76297A1C1900184A7C /* Frameworks */ = {
@@ -404,7 +404,7 @@
 			isa = PBXGroup;
 			children = (
 				87ABC5742990772A003E94F3 /* View */,
-				87ABC5752990793C003E94F3 /* ViewModel */,
+				87ABC5752990793C003E94F3 /* ViewModels */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -422,7 +422,7 @@
 			isa = PBXGroup;
 			children = (
 				87ABC57729907999003E94F3 /* View */,
-				87ABC57629907988003E94F3 /* ViewModel */,
+				87ABC57629907988003E94F3 /* ViewModels */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -461,7 +461,7 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		87ABC5752990793C003E94F3 /* ViewModel */ = {
+		87ABC5752990793C003E94F3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				87391E4B298A15B600897A96 /* SettingViewModel.swift */,
@@ -471,16 +471,16 @@
 				879379EE298BBDB800D3A47B /* PartnerNameEditViewModel.swift */,
 				87E5E9352A2E9880002CF7B2 /* MyNameEditViewModel.swift */,
 			);
-			path = ViewModel;
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		87ABC57629907988003E94F3 /* ViewModel */ = {
+		87ABC57629907988003E94F3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				872652F5297BB8AB002C76D6 /* SignInViewModel.swift */,
 				87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */,
 			);
-			path = ViewModel;
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		87ABC57729907999003E94F3 /* View */ = {
@@ -495,7 +495,7 @@
 		87ABC57829907B56003E94F3 /* Launch */ = {
 			isa = PBXGroup;
 			children = (
-				87ABC57A29907B7C003E94F3 /* Models */,
+				87ABC57A29907B7C003E94F3 /* Model */,
 				87ABC57929907B70003E94F3 /* View */,
 				8724AD8C29FDF4E40023AEC5 /* ViewModels */,
 			);
@@ -510,12 +510,12 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		87ABC57A29907B7C003E94F3 /* Models */ = {
+		87ABC57A29907B7C003E94F3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				874EF935297CBD1C00C94233 /* LaunchStatus.swift */,
 			);
-			path = Models;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		87ABC57B29907C54003E94F3 /* General */ = {
@@ -555,7 +555,7 @@
 		87ABC58229908B65003E94F3 /* Log */ = {
 			isa = PBXGroup;
 			children = (
-				871073B72990CD1000A0518C /* Models */,
+				871073B72990CD1000A0518C /* Model */,
 				87ABC58529908B7D003E94F3 /* View */,
 				87ABC58629908B82003E94F3 /* ViewModels */,
 			);
@@ -641,7 +641,7 @@
 				87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */,
 				87EE8D7C297A1790005CCB6F /* AppDelegate.swift */,
 				87EE8D4B297A1369005CCB6F /* ContentView.swift */,
-				87830E6A297A1A6000184A7C /* CommonModels */,
+				87830E6A297A1A6000184A7C /* Models */,
 				8702F3F22A51068E002925A0 /* CoreData */,
 				87C162DB2A2ACE9300382061 /* Domain */,
 				87ABC57C29907CD3003E94F3 /* Sceans */,
