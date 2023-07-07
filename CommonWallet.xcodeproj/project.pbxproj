@@ -10,7 +10,6 @@
 		8702F3ED2A4BA1C7002925A0 /* LogListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8702F3EC2A4BA1C7002925A0 /* LogListsView.swift */; };
 		8702F3EF2A4BA28B002925A0 /* LogListsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8702F3EE2A4BA28B002925A0 /* LogListsViewModel.swift */; };
 		8702F3F42A5106FF002925A0 /* TransactionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8702F3F32A5106FF002925A0 /* TransactionData.swift */; };
-		8702F3F62A5110DD002925A0 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8702F3F52A5110DD002925A0 /* UserData.swift */; };
 		871073B42990B7A600A0518C /* AllLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B32990B7A600A0518C /* AllLogView.swift */; };
 		871073B92990CDBE00A0518C /* DateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B82990CDBE00A0518C /* DateCalculator.swift */; };
 		871F09EC2A11945000F96394 /* ShareNumberManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F09EB2A11945000F96394 /* ShareNumberManaging.swift */; };
@@ -87,7 +86,6 @@
 		879379ED298B99C700D3A47B /* PartnerInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EC298B99C700D3A47B /* PartnerInfoViewModel.swift */; };
 		879379EF298BBDB800D3A47B /* PartnerNameEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EE298BBDB800D3A47B /* PartnerNameEditViewModel.swift */; };
 		87ABC58129908B17003E94F3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC58029908B17003E94F3 /* MainTabView.swift */; };
-		87ABC58829908BA1003E94F3 /* AllLogViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */; };
 		87ABC58B29909BF5003E94F3 /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 87ABC58A29909BF5003E94F3 /* Parchment */; };
 		87C0BADD2A03C52400A02978 /* Flip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C0BADC2A03C52400A02978 /* Flip.swift */; };
 		87C162CB2A2AB93A00382061 /* StorageManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C162CA2A2AB93A00382061 /* StorageManager.swift */; };
@@ -150,7 +148,6 @@
 		8702F3EC2A4BA1C7002925A0 /* LogListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogListsView.swift; sourceTree = "<group>"; };
 		8702F3EE2A4BA28B002925A0 /* LogListsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogListsViewModel.swift; sourceTree = "<group>"; };
 		8702F3F32A5106FF002925A0 /* TransactionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionData.swift; sourceTree = "<group>"; };
-		8702F3F52A5110DD002925A0 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		871073B32990B7A600A0518C /* AllLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLogView.swift; sourceTree = "<group>"; };
 		871073B82990CDBE00A0518C /* DateCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCalculator.swift; sourceTree = "<group>"; };
 		871F09EB2A11945000F96394 /* ShareNumberManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareNumberManaging.swift; sourceTree = "<group>"; };
@@ -207,7 +204,6 @@
 		879379EC298B99C700D3A47B /* PartnerInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerInfoViewModel.swift; sourceTree = "<group>"; };
 		879379EE298BBDB800D3A47B /* PartnerNameEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerNameEditViewModel.swift; sourceTree = "<group>"; };
 		87ABC58029908B17003E94F3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
-		87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLogViewModel.swift; sourceTree = "<group>"; };
 		87C0BADC2A03C52400A02978 /* Flip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flip.swift; sourceTree = "<group>"; };
 		87C162CA2A2AB93A00382061 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
 		87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateUserViewModel.swift; sourceTree = "<group>"; };
@@ -280,18 +276,17 @@
 			children = (
 				8773B4A32A56EDB1003E6306 /* SelectedEditTransaction.swift */,
 				8702F3F32A5106FF002925A0 /* TransactionData.swift */,
-				8702F3F52A5110DD002925A0 /* UserData.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
 		};
-		871073B72990CD1000A0518C /* Models */ = {
+		871073B72990CD1000A0518C /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				871073B82990CDBE00A0518C /* DateCalculator.swift */,
 				878C9A942991CB2C003D4816 /* DateCompare.swift */,
 			);
-			path = Models;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		871F09EF2A11979F00F96394 /* View */ = {
@@ -387,7 +382,7 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		87830E6A297A1A6000184A7C /* CommonModels */ = {
+		87830E6A297A1A6000184A7C /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				87402F3F29F377210007320D /* Protocol */,
@@ -395,7 +390,7 @@
 				874EF943297D0F3700C94233 /* Firebase */,
 				87ABC57B29907C54003E94F3 /* General */,
 			);
-			path = CommonModels;
+			path = Models;
 			sourceTree = "<group>";
 		};
 		87830E76297A1C1900184A7C /* Frameworks */ = {
@@ -409,7 +404,7 @@
 			isa = PBXGroup;
 			children = (
 				87ABC5742990772A003E94F3 /* View */,
-				87ABC5752990793C003E94F3 /* ViewModel */,
+				87ABC5752990793C003E94F3 /* ViewModels */,
 			);
 			path = Setting;
 			sourceTree = "<group>";
@@ -427,7 +422,7 @@
 			isa = PBXGroup;
 			children = (
 				87ABC57729907999003E94F3 /* View */,
-				87ABC57629907988003E94F3 /* ViewModel */,
+				87ABC57629907988003E94F3 /* ViewModels */,
 			);
 			path = Authentication;
 			sourceTree = "<group>";
@@ -466,7 +461,7 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		87ABC5752990793C003E94F3 /* ViewModel */ = {
+		87ABC5752990793C003E94F3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				87391E4B298A15B600897A96 /* SettingViewModel.swift */,
@@ -476,16 +471,16 @@
 				879379EE298BBDB800D3A47B /* PartnerNameEditViewModel.swift */,
 				87E5E9352A2E9880002CF7B2 /* MyNameEditViewModel.swift */,
 			);
-			path = ViewModel;
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
-		87ABC57629907988003E94F3 /* ViewModel */ = {
+		87ABC57629907988003E94F3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
 				872652F5297BB8AB002C76D6 /* SignInViewModel.swift */,
 				87CA8FB6297BF73800248187 /* CreateUserViewModel.swift */,
 			);
-			path = ViewModel;
+			path = ViewModels;
 			sourceTree = "<group>";
 		};
 		87ABC57729907999003E94F3 /* View */ = {
@@ -500,7 +495,7 @@
 		87ABC57829907B56003E94F3 /* Launch */ = {
 			isa = PBXGroup;
 			children = (
-				87ABC57A29907B7C003E94F3 /* Models */,
+				87ABC57A29907B7C003E94F3 /* Model */,
 				87ABC57929907B70003E94F3 /* View */,
 				8724AD8C29FDF4E40023AEC5 /* ViewModels */,
 			);
@@ -515,12 +510,12 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		87ABC57A29907B7C003E94F3 /* Models */ = {
+		87ABC57A29907B7C003E94F3 /* Model */ = {
 			isa = PBXGroup;
 			children = (
 				874EF935297CBD1C00C94233 /* LaunchStatus.swift */,
 			);
-			path = Models;
+			path = Model;
 			sourceTree = "<group>";
 		};
 		87ABC57B29907C54003E94F3 /* General */ = {
@@ -560,7 +555,7 @@
 		87ABC58229908B65003E94F3 /* Log */ = {
 			isa = PBXGroup;
 			children = (
-				871073B72990CD1000A0518C /* Models */,
+				871073B72990CD1000A0518C /* Model */,
 				87ABC58529908B7D003E94F3 /* View */,
 				87ABC58629908B82003E94F3 /* ViewModels */,
 			);
@@ -579,7 +574,6 @@
 		87ABC58629908B82003E94F3 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				87ABC58729908BA1003E94F3 /* AllLogViewModel.swift */,
 				8702F3EE2A4BA28B002925A0 /* LogListsViewModel.swift */,
 			);
 			path = ViewModels;
@@ -647,7 +641,7 @@
 				87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */,
 				87EE8D7C297A1790005CCB6F /* AppDelegate.swift */,
 				87EE8D4B297A1369005CCB6F /* ContentView.swift */,
-				87830E6A297A1A6000184A7C /* CommonModels */,
+				87830E6A297A1A6000184A7C /* Models */,
 				8702F3F22A51068E002925A0 /* CoreData */,
 				87C162DB2A2ACE9300382061 /* Domain */,
 				87ABC57C29907CD3003E94F3 /* Sceans */,
@@ -852,7 +846,6 @@
 				87391E4C298A15B600897A96 /* SettingViewModel.swift in Sources */,
 				87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */,
 				87CDAAB8297E608400F52887 /* SettingView.swift in Sources */,
-				8702F3F62A5110DD002925A0 /* UserData.swift in Sources */,
 				876821102A3683C3003EC091 /* Partner.swift in Sources */,
 				871073B42990B7A600A0518C /* AllLogView.swift in Sources */,
 				87F53FE3297EA70B00293176 /* AddTransactionViewModel.swift in Sources */,
@@ -874,7 +867,6 @@
 				87CD584929E8DB2500472B6B /* FetchUsersError.swift in Sources */,
 				8753D7302A06175B0074E04A /* EditTransactionViewModel.swift in Sources */,
 				872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */,
-				87ABC58829908BA1003E94F3 /* AllLogViewModel.swift in Sources */,
 				87391E50298A189900897A96 /* String.swift in Sources */,
 				87F53FE0297EA44E00293176 /* FireStoreTransactionManager.swift in Sources */,
 				87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */,
@@ -1026,7 +1018,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1080,7 +1072,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
@@ -1157,7 +1149,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 558ZJSQN67;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.tetoblog.CommonWalletTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1177,7 +1169,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 558ZJSQN67;
 				GENERATE_INFOPLIST_FILE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = org.tetoblog.CommonWalletTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
