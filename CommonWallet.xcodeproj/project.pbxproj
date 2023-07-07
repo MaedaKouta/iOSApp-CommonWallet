@@ -320,11 +320,22 @@
 				87402F4229F377D70007320D /* FireStoreUserManaging.swift */,
 				87402F4029F377C40007320D /* FireStoreTransactionManaging.swift */,
 				87402F4629F37B040007320D /* FireStorePartnerManaging.swift */,
-				87402F4429F378330007320D /* UserDefaultsManaging.swift */,
 				871F09EB2A11945000F96394 /* ShareNumberManaging.swift */,
 				874DBA072A2C1FF8000E1FD1 /* StorageManaging.swift */,
 			);
 			path = Protocol;
+			sourceTree = "<group>";
+		};
+		874C19792A58D6F6002812D5 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				87830E6A297A1A6000184A7C /* Firebase */,
+				87ABC57B29907C54003E94F3 /* UserDefaults */,
+				87D1A05329E770E30058A98F /* Error */,
+				87C162DB2A2ACE9300382061 /* Domain */,
+				8702F3F22A51068E002925A0 /* CoreData */,
+			);
+			path = Models;
 			sourceTree = "<group>";
 		};
 		874EF93D297D040000C94233 /* Extentions */ = {
@@ -382,15 +393,13 @@
 			path = ViewModel;
 			sourceTree = "<group>";
 		};
-		87830E6A297A1A6000184A7C /* Models */ = {
+		87830E6A297A1A6000184A7C /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
 				87402F3F29F377210007320D /* Protocol */,
-				87D1A05329E770E30058A98F /* Error */,
 				874EF943297D0F3700C94233 /* Firebase */,
-				87ABC57B29907C54003E94F3 /* General */,
 			);
-			path = Models;
+			path = Firebase;
 			sourceTree = "<group>";
 		};
 		87830E76297A1C1900184A7C /* Frameworks */ = {
@@ -518,14 +527,15 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		87ABC57B29907C54003E94F3 /* General */ = {
+		87ABC57B29907C54003E94F3 /* UserDefaults */ = {
 			isa = PBXGroup;
 			children = (
+				87402F4429F378330007320D /* UserDefaultsManaging.swift */,
 				874EF93B297CFC3900C94233 /* UserDefaultsManager.swift */,
 				874EF93E297D04DF00C94233 /* UserDefaultsKey.swift */,
 				879310232A2FF28200FDD061 /* ImageNameProperty.swift */,
 			);
-			path = General;
+			path = UserDefaults;
 			sourceTree = "<group>";
 		};
 		87ABC57C29907CD3003E94F3 /* Sceans */ = {
@@ -541,7 +551,7 @@
 			path = Sceans;
 			sourceTree = "<group>";
 		};
-		87ABC57D29907DA2003E94F3 /* Source */ = {
+		87ABC57D29907DA2003E94F3 /* ViewTools */ = {
 			isa = PBXGroup;
 			children = (
 				876EE23B2A26AEFC0073F1C3 /* WebView */,
@@ -549,7 +559,7 @@
 				874613A52A2954A50068383B /* ImagePicker.swift */,
 				87DDCDCB2A18373200F51DC8 /* PKHUDView.swift */,
 			);
-			path = Source;
+			path = ViewTools;
 			sourceTree = "<group>";
 		};
 		87ABC58229908B65003E94F3 /* Log */ = {
@@ -641,11 +651,9 @@
 				87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */,
 				87EE8D7C297A1790005CCB6F /* AppDelegate.swift */,
 				87EE8D4B297A1369005CCB6F /* ContentView.swift */,
-				87830E6A297A1A6000184A7C /* Models */,
-				8702F3F22A51068E002925A0 /* CoreData */,
-				87C162DB2A2ACE9300382061 /* Domain */,
+				874C19792A58D6F6002812D5 /* Models */,
 				87ABC57C29907CD3003E94F3 /* Sceans */,
-				87ABC57D29907DA2003E94F3 /* Source */,
+				87ABC57D29907DA2003E94F3 /* ViewTools */,
 				874EF93D297D040000C94233 /* Extentions */,
 				87EE8D4D297A136A005CCB6F /* Assets.xcassets */,
 				87EE8D4F297A136A005CCB6F /* Preview Content */,
@@ -1018,7 +1026,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1072,7 +1080,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 15.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
