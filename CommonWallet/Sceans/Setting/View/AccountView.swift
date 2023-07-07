@@ -35,7 +35,7 @@ struct AccountView: View {
             myUserNameSection()
             accountResetSection()
         }
-        .scrollContentBackground(.visible)
+        //.scrollContentBackground(.visible)
         .navigationTitle("アカウント")
         .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
         .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
