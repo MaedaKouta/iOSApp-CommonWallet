@@ -10,7 +10,6 @@
 		8702F3ED2A4BA1C7002925A0 /* LogListsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8702F3EC2A4BA1C7002925A0 /* LogListsView.swift */; };
 		8702F3EF2A4BA28B002925A0 /* LogListsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8702F3EE2A4BA28B002925A0 /* LogListsViewModel.swift */; };
 		8702F3F42A5106FF002925A0 /* TransactionData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8702F3F32A5106FF002925A0 /* TransactionData.swift */; };
-		8702F3F62A5110DD002925A0 /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8702F3F52A5110DD002925A0 /* UserData.swift */; };
 		871073B42990B7A600A0518C /* AllLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B32990B7A600A0518C /* AllLogView.swift */; };
 		871073B92990CDBE00A0518C /* DateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B82990CDBE00A0518C /* DateCalculator.swift */; };
 		871F09EC2A11945000F96394 /* ShareNumberManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F09EB2A11945000F96394 /* ShareNumberManaging.swift */; };
@@ -149,7 +148,6 @@
 		8702F3EC2A4BA1C7002925A0 /* LogListsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogListsView.swift; sourceTree = "<group>"; };
 		8702F3EE2A4BA28B002925A0 /* LogListsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LogListsViewModel.swift; sourceTree = "<group>"; };
 		8702F3F32A5106FF002925A0 /* TransactionData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionData.swift; sourceTree = "<group>"; };
-		8702F3F52A5110DD002925A0 /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		871073B32990B7A600A0518C /* AllLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLogView.swift; sourceTree = "<group>"; };
 		871073B82990CDBE00A0518C /* DateCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCalculator.swift; sourceTree = "<group>"; };
 		871F09EB2A11945000F96394 /* ShareNumberManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareNumberManaging.swift; sourceTree = "<group>"; };
@@ -278,7 +276,6 @@
 			children = (
 				8773B4A32A56EDB1003E6306 /* SelectedEditTransaction.swift */,
 				8702F3F32A5106FF002925A0 /* TransactionData.swift */,
-				8702F3F52A5110DD002925A0 /* UserData.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -849,7 +846,6 @@
 				87391E4C298A15B600897A96 /* SettingViewModel.swift in Sources */,
 				87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */,
 				87CDAAB8297E608400F52887 /* SettingView.swift in Sources */,
-				8702F3F62A5110DD002925A0 /* UserData.swift in Sources */,
 				876821102A3683C3003EC091 /* Partner.swift in Sources */,
 				871073B42990B7A600A0518C /* AllLogView.swift in Sources */,
 				87F53FE3297EA70B00293176 /* AddTransactionViewModel.swift in Sources */,
