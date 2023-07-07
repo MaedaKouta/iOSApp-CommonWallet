@@ -9,6 +9,12 @@ import SwiftUI
 
 final class CommonWalletViewModel: ObservableObject {
 
+    @Published var resolvedTransactions = [Transaction]()
+    @Published var unResolvedTransactions = [Transaction]()
+    @Published var unResolvedAmount = Int()
+    @Published var payFromName = ""
+    @Published var payToName = ""
+    
     private var fireStoreTransactionManager: FireStoreTransactionManager
     private var fireStoreUserManager: FireStoreUserManager
 
@@ -19,6 +25,7 @@ final class CommonWalletViewModel: ObservableObject {
     init(fireStoreTransactionManager: FireStoreTransactionManager, fireStoreUserManager: FireStoreUserManager) {
         self.fireStoreTransactionManager = fireStoreTransactionManager
         self.fireStoreUserManager = fireStoreUserManager
+
     }
 
     /**

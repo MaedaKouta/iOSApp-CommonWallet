@@ -13,6 +13,15 @@ struct CommonWalletView: View {
     // バックグラウンドかフォアグラウンドを検知
     @Environment(\.scenePhase) private var scenePhase
 
+    // Userdefaults
+    @AppStorage(UserDefaultsKey().userId) private var myUserId = String()
+    @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
+    @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
+    @AppStorage(UserDefaultsKey().partnerUserId) private var partnerUserId = String()
+    @AppStorage(UserDefaultsKey().partnerIconData) private var partnerIconData = Data()
+    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
+    @State private var imageNameProperty = ImageNameProperty()
+
     // 画面遷移
     @State var isSettingView: Bool = false
     @State var isAddTransactionView: Bool = false
@@ -359,6 +368,7 @@ struct CommonWalletView: View {
                 // もし自分が立替者だったら、自分のアイコンを表示
                 // もしパートナーが立替者だったら、パートナーのアイコンを表示
                 if transactionData.unResolvedTransactions[index].debtorId == myUserId {
+
                     Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                         .resizable()
                         .scaledToFill()
