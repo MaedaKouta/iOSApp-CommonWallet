@@ -14,11 +14,13 @@ struct PKHUDView: UIViewRepresentable {
     var delay: Double
 
     func makeUIView(context: UIViewRepresentableContext<PKHUDView>) -> UIView {
+        HUD.hide()
         return UIView()
     }
 
     func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<PKHUDView>) {
         if isPresented {
+            HUD.hide()
             HUD.flash(HUDContent, delay: delay) { finished in
                 isPresented = false
             }

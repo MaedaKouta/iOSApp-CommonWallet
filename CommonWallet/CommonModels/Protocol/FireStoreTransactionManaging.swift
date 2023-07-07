@@ -14,11 +14,13 @@ protocol FireStoreTransactionManaging {
     func updateResolvedAt(transactionIds: [String], resolvedAt: Date) async throws
     func updateResolvedAt(transactionId: String, resolvedAt: Date) async throws
     func updateTransaction(transaction: Transaction) async throws
+    func updateCancelResolvedAt(transactionId: String) async throws
 
     // DELETE
     func deleteTransaction(transactionId: String) async throws
 
     // GET
+    func fetchTransactions(myUserId: String, partnerUserId: String?, completion: @escaping([Transaction]?, Error?) -> Void)
     func fetchUnResolvedTransactions(myUserId: String, partnerUserId: String, completion: @escaping([Transaction]?, Error?) -> Void)
     func fetchResolvedTransactions(myUserId: String, partnerUserId: String, completion: @escaping([Transaction]?, Error?) -> Void)
     func fetchOldestDate(myUserId: String, partnerUserId: String) async throws -> Date?

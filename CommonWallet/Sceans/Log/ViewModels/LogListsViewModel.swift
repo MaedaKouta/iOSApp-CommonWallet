@@ -8,96 +8,27 @@ import Parchment
 
 class LogListsViewModel: ObservableObject {
 
-    // 月ごとのTransactionを二次元配列で
-    @Published var resolvedTransactionsByMonth: [[Transaction]] = [[Transaction]]()
-    // 月ごとのTransactionの合計値を二次元配列で
-    @Published var resolvedTransactionsAmountByMonth: [Int] = [Int]()
-
-    // 全てのTransaction
-    private var resolvedTransactions: [Transaction] = [Transaction]()
-    private let monthCount: Int
     private var fireStoreTransactionManager: FireStoreTransactionManager
-    private var userDefaultsManager: UserDefaultsManager
-    private var dateCompare: DateCompare
 
-    init(fireStoreTransactionManager: FireStoreTransactionManager,
-         userDefaultsManager: UserDefaultsManager,
-         dateCompare: DateCompare
-    ) {
+    init(fireStoreTransactionManager: FireStoreTransactionManager) {
         self.fireStoreTransactionManager = fireStoreTransactionManager
-        self.userDefaultsManager = userDefaultsManager
-        self.dateCompare = dateCompare
-        monthCount = DateCalculator().calculateMonthsBetweenDates(startDate: userDefaultsManager.getOldestResolvedDate())
-        initTransactionsByMonth()
-    }
-
-    // MARK: - イニシャライザ
-    /*
-     paidPaymentsByMonthの多次元配列がそのままの初期化だと、取得時にIndexOutOfRangeエラーが起こる
-     空の配列を月数だけ格納しておくことでこれを回避する関数
-     */
-    private func initTransactionsByMonth() {
-        resolvedTransactionsByMonth = [[Transaction]]()
-        for _ in 0 ..< monthCount {
-            resolvedTransactionsByMonth.append([Transaction]())
-        }
-    }
-
-    // ここをよく考える。
-    // 毎回一撃で全部取得してたら重くなるよね...
-    // でも、addSnapshotListnerで端末内にデータも入れてるから、想像以上に重くならないのか？
-    /**
-     トランザクションをまとめて全て取得する
-     */
-    func fetchTransactions() async {
-
-        guard let myUserId = userDefaultsManager.getUser()?.id, let partnerUserId = userDefaultsManager.getPartnerUserId() else {
-            return
-        }
-
-        fireStoreTransactionManager.fetchResolvedTransactions(myUserId: myUserId, partnerUserId: partnerUserId, completion: { transactions, error in
-
-            if let error = error {
-                print("fetchTransactions failed with error: \(error)")
-                return
-            }
-
-            guard let transactions = transactions else { return }
-
-            // トランザクションを時系列ごとに並べ替える
-            let sortedTransactions = transactions.sorted(by: { (a, b) -> Bool in
-                return a.createdAt > b.createdAt
-            })
-            // [Payments]を格納
-            self.resolvedTransactions = sortedTransactions
-            // 月ごとに[[Payments]]へ多次元配列へ分割
-            self.transactionsDivideByMonth()
-        })
     }
 
     /**
-     トランザクションを月ごとに分割する
+     精算済みのトランザクションを未清算に戻す
+     - parameter transactionId: 未清算に戻すトランザクションID
      */
-    private func transactionsDivideByMonth() {
-
-        // 二次元配列の中に全ての月数分の配列を用意する
-        var newResolvedTransactionsByMonth: [[Transaction]] = Array(repeating: [], count: monthCount)
-        var newResolvedTransactionsAmountByMonth: [Int] = Array(repeating: 0, count: monthCount)
-
-        for i in 0 ..< monthCount {
-            // 多次元配列を扱うときは、appendでからの要素の追加を明示しないと、〇〇[i].appendが出来なかった
-            for transaction in resolvedTransactions {
-                // (monthCount-1)しないと、現在の月を除いた３ヶ月前のデータが取得される
-                if self.dateCompare.checkSameMonth(monthsAgo: (monthCount-1)-i, compareDate: transaction.createdAt) {
-                    newResolvedTransactionsByMonth[i].append(transaction)
-                    newResolvedTransactionsAmountByMonth[i] += transaction.amount
-                }
-            }
-        }
-
-        self.resolvedTransactionsByMonth = newResolvedTransactionsByMonth
-        self.resolvedTransactionsAmountByMonth = newResolvedTransactionsAmountByMonth
-        print(self.resolvedTransactionsAmountByMonth)
+    func updateCancelResolvedAt(transactionId: String) async throws {
+        try await fireStoreTransactionManager.updateCancelResolvedAt(transactionId: transactionId)
     }
+
+    /**
+     指定したトランザクションを削除する
+     - parameter transactionId: 削除するトランザクションID
+     */
+    func deleteTransaction(transactionId: String) async throws {
+        try await fireStoreTransactionManager.deleteTransaction(transactionId: transactionId)
+    }
+
 
 }

@@ -8,8 +8,9 @@ import Parchment
 
 struct AllLogView: View {
 
-    @ObservedObject var viewModel: AllLogViewModel
-    @State var currentIndex: Int = 0
+    @EnvironmentObject var transactionData: TransactionData
+
+    @State var selectedIndex = 0
     @State var isSettingView = false
     // UserDefaults
     @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
@@ -33,13 +34,15 @@ struct AllLogView: View {
                         .cornerRadius(20)
 
                     HStack {
-                        Text("合計 \(42423)円").padding()
+                        Text("合計 \(transactionData.resolvedTransactionsAmountByMonth[transactionData.selectedResolvedPagingIndex])円")
+                            .animation(.default)
+                            .padding()
                     }
 
                 }.padding()
 
-                PageView(options: pagingOptions, items: viewModel.pagingIndexItems, selectedIndex: $viewModel.selectedIndex) { item in
-                    LogListView(viewModel: LogListsViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), userDefaultsManager: UserDefaultsManager(),  dateCompare: DateCompare()), itemIndex: item.index)
+                PageView(options: pagingOptions, items: transactionData.resolvedPagingIndexItems, selectedIndex: $transactionData.selectedResolvedPagingIndex) { item in
+                    LogListView(viewModel: LogListsViewModel(fireStoreTransactionManager: FireStoreTransactionManager()), itemIndex: item.index)
                 }
             }
             .navigationBarTitle("", displayMode: .inline)
@@ -72,7 +75,7 @@ struct AllLogView: View {
         }
     }
 
-    func initPagingOption() -> PagingOptions {
+    private func initPagingOption() -> PagingOptions {
         var pagingOptions = PagingOptions()
         pagingOptions.textColor = .gray
         pagingOptions.selectedTextColor = .black
@@ -84,6 +87,6 @@ struct AllLogView: View {
 
 struct AllLogView_Previews: PreviewProvider {
     static var previews: some View {
-        AllLogView(viewModel: AllLogViewModel(userDefaultsManager: UserDefaultsManager(), dateCalculator: DateCalculator(), dateCompare: DateCompare()))
+        AllLogView()
     }
 }

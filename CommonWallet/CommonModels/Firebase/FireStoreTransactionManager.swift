@@ -62,12 +62,21 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
 
     /**
      FireStorageで1つの未精算トランザクションを精算する
-     - parameter transactionIds: 生産完了にしたいtransactionIdの配列
+     - parameter transactionIds: 精算完了にしたいtransactionIdの配列
      - parameter resolvedAt: 精算日時
      */
     func updateResolvedAt(transactionId: String, resolvedAt: Date) async throws {
         let transaction: Dictionary<String, Any> = ["resolvedAt": Timestamp(date: resolvedAt)]
-        try await db.collection("Users").document(transactionId).setData(transaction, merge: true)
+        try await db.collection("Transactions").document(transactionId).setData(transaction, merge: true)
+    }
+
+    /**
+     精算済みのトランザクションを未清算に戻す
+     - parameter transactionIds: 精算を未清算に戻したいtransactionIdの配列
+     */
+    func updateCancelResolvedAt(transactionId: String) async throws {
+        let transaction: Dictionary<String, Any> = ["resolvedAt": NSNull()]
+        try await db.collection("Transactions").document(transactionId).setData(transaction, merge: true)
     }
 
 
@@ -107,6 +116,44 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
      - parameter myUserId: 自分のUserId
      - parameter partnerUserId: パートナーのUserId
      */
+    /**
+     精算済のトランザクションを取得する
+     - parameter myUserId: 自分のUserId
+     - parameter partnerUserId: パートナーのUserId
+     */
+    func fetchTransactions(myUserId: String, partnerUserId: String?, completion: @escaping([Transaction]?, Error?) -> Void) {
+
+        // inを含むwhereFieldとorderByは同時に使えない
+        db.collection("Transactions")
+            .whereField("creditorId", in: [partnerUserId, myUserId])
+            .addSnapshotListener { snapShots, error in
+
+                if let error = error {
+                    print("FireStore ResolvedTransactions Fetch Error")
+                    completion(nil, error)
+                }
+
+                var transactions = [Transaction]()
+                snapShots?.documents.forEach({ snapShot in
+                    let data = snapShot.data()
+                    guard let id = data["id"] as? String,
+                          let title = data["title"] as? String,
+                          let description = data["description"] as? String,
+                          let amount = data["amount"] as? Int,
+                          let createdAt = data["createdAt"] as? Timestamp else { return }
+
+                    // creditorIdもdebtorIdもパートナー連携していない場合のため空でも許される
+                    let creditorId = data["creditorId"] as? String
+                    let debtorId = data["debtorId"] as? String
+                    let resolvedAt = data["resolvedAt"] as? Timestamp
+
+                    let transaction = Transaction(id: id, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount, createdAt: createdAt.dateValue(), resolvedAt: resolvedAt?.dateValue())
+                    transactions.append(transaction)
+                })
+                completion(transactions, nil)
+            }
+    }
+
     func fetchUnResolvedTransactions(myUserId: String, partnerUserId: String, completion: @escaping([Transaction]?, Error?) -> Void) {
 
         // Transactionsコレクションから未精算の取引を取得する

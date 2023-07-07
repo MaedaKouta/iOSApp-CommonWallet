@@ -2,8 +2,6 @@
 //  TabView.swift
 //  CommonWallet
 //
-//  Created by 前田航汰 on 2023/02/06.
-//
 
 import SwiftUI
 
@@ -20,7 +18,7 @@ struct MainTabView: View {
                         Text("ホーム")
                     }
                 }.tag(1)
-            AllLogView(viewModel: AllLogViewModel(userDefaultsManager: UserDefaultsManager(), dateCalculator: DateCalculator(), dateCompare: DateCompare()))
+            AllLogView()
                 .tabItem {
                     VStack {
                         Image(systemName: "tray.full")
@@ -29,7 +27,6 @@ struct MainTabView: View {
                 }.tag(2)
         }
     }
-
 
 }
 

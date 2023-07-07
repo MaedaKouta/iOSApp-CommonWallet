@@ -8,6 +8,10 @@ import SwiftUI
 struct CommonWalletView: View {
 
     @ObservedObject var viewModel: CommonWalletViewModel
+    @EnvironmentObject var selectedEditTransaction: SelectedEditTransaction
+    @EnvironmentObject var transactionData: TransactionData
+    // バックグラウンドかフォアグラウンドを検知
+    @Environment(\.scenePhase) private var scenePhase
 
     // 画面遷移
     @State var isSettingView: Bool = false
@@ -17,15 +21,16 @@ struct CommonWalletView: View {
     // カードViewの表裏
     @State var isCardViewFront: Bool = true
     // アラート
-    @State var isResolveAlert: Bool = false
+    @State var isAllResolveAlert: Bool = false
+    @State var isOnlyResolveAlert: Bool = false
     @State var isEnableResolveButton: Bool = false
     @State var isCancelAlert: Bool = false
     @State var isTransactionDescriptionAlert: Bool = false
     @State var isDeleteTransactionAlert: Bool = false
     // セルの選択
     @State var selectedTransactionIndex = 0
+    @State var selectedResolveTransactionIndex = 0
     @State var selectedDeleteTransactionIndex = 0
-    @State var selectedEditTransactionIndex = 0
     // PKHUD
     @State private var isPKHUDProgress = false
     @State private var isPKHUDSuccess = false
@@ -39,8 +44,6 @@ struct CommonWalletView: View {
     @AppStorage(UserDefaultsKey().partnerIconData) private var partnerIconData = Data()
     // 画像のSystemImage
     private let imageNameProperty = ImageNameProperty()
-    // バックグラウンドかフォアグラウンドを検知
-    @Environment(\.scenePhase) private var scenePhase
 
     var body: some View {
         NavigationView {
@@ -74,7 +77,7 @@ struct CommonWalletView: View {
                     .padding(.top, 5)
 
                     // 未精算履歴のView
-                    if viewModel.unResolvedTransactions.count != 0 {
+                    if transactionData.unResolvedTransactions.count != 0 {
                          // 未精算のものがあればリスト表示
                         unResolvedListView()
                             .onAppear {
@@ -97,8 +100,8 @@ struct CommonWalletView: View {
 
             }
             .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
-            .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
-            .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
+            .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 0.7)
+            .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 0.7)
             .navigationBarTitle("", displayMode: .inline)
             .navigationBarItems(
                 leading: HStack {
@@ -124,10 +127,6 @@ struct CommonWalletView: View {
             )
         }
         .animation(.default)
-        // 初回1回目に呼び出される処理
-        .onAppear{
-            self.realtimeFetchTransactions()
-        }
         // フォアグラウンド直前に毎回呼び出される処理
         .onChange(of: scenePhase) { phase in
             if phase == .active {
@@ -153,15 +152,28 @@ struct CommonWalletView: View {
             VStack {
                 Spacer()
                 HStack(spacing: 5) {
-                    Text("\(viewModel.payFromName)")
-                        .foregroundColor(.black)
-                    Text("から")
-                        .foregroundColor(.gray)
-                    Text("\(viewModel.payToName)")
-                        .foregroundColor(.black)
-                    Text("へ")
-                        .foregroundColor(.gray)
-                    Spacer()
+                    if (transactionData.unResolvedAmounts < 0) {
+                        Text("\(myUserName)")
+                            .foregroundColor(.black)
+                        Text("から")
+                            .foregroundColor(.gray)
+                        Text("\(partnerModifiedName)")
+                            .foregroundColor(.black)
+                        Text("へ")
+                            .foregroundColor(.gray)
+                        Spacer()
+                    } else {
+                        Text("\(partnerModifiedName)")
+                            .foregroundColor(.black)
+                        Text("から")
+                            .foregroundColor(.gray)
+                        Text("\(myUserName)")
+                            .foregroundColor(.black)
+                        Text("へ")
+                            .foregroundColor(.gray)
+                        Spacer()
+                    }
+
                 }.padding(.leading, 30)
 
                 Spacer()
@@ -170,7 +182,7 @@ struct CommonWalletView: View {
                     Text("￥")
                         .foregroundColor(.black)
                         .baselineOffset(-5)
-                    Text("\(viewModel.unResolvedAmount)")
+                    Text("\(abs(transactionData.unResolvedAmounts))")
                         .font(.title)
                         .foregroundColor(.black)
                 }
@@ -216,8 +228,8 @@ struct CommonWalletView: View {
                 .padding()
 
                 VStack() {
-                    Text("\(myUserName) ¥\(viewModel.myUnResolvedAmount)")
-                    Text("\(partnerModifiedName) ¥\(viewModel.partnerUnResolvedAmount)")
+                    Text("\(myUserName) ¥\(transactionData.unResolvedMyAmounts)")
+                    Text("\(partnerModifiedName) ¥\(transactionData.unResolvedPartnerAmounts)")
                 }
                 .foregroundColor(.black)
                 .padding([.leading, .trailing])
@@ -273,8 +285,7 @@ struct CommonWalletView: View {
                 }
                 .sheet(isPresented: self.$isEditTransactionView) {
                     EditTransactionView(
-                        editTransactionViewModel: EditTransactionViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), userDefaultsManager: UserDefaultsManager(), transaction: viewModel.unResolvedTransactions[self.selectedEditTransactionIndex]),
-                        commonWalletViewModel: self.viewModel,
+                        viewModel: EditTransactionViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), userDefaultsManager: UserDefaultsManager(), transaction: transactionData.unResolvedTransactions[self.selectedEditTransaction.index]),
                         isEditTransactionView: $isEditTransactionView
                     )
                     .presentationDetents([.large])
@@ -310,7 +321,7 @@ struct CommonWalletView: View {
      */
     private func resolveTransactionButton() -> some View {
         Button(action: {
-            self.isResolveAlert = true
+            self.isAllResolveAlert = true
         }, label: {
             HStack(spacing: 3) {
                 Image(systemName: imageNameProperty.checkmarkCircleSystemImage)
@@ -326,7 +337,7 @@ struct CommonWalletView: View {
             .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
         })
         .disabled(!isEnableResolveButton)
-        .alert("精算", isPresented: $isResolveAlert){
+        .alert("精算", isPresented: $isAllResolveAlert){
             Button("キャンセル"){
             }
             Button("OK"){
@@ -343,11 +354,11 @@ struct CommonWalletView: View {
      未精算リストのView
      */
     private func unResolvedListView() -> some View {
-        ForEach(0 ..< viewModel.unResolvedTransactions.count,  id: \.self) { index in
+        ForEach(0 ..< transactionData.unResolvedTransactions.count,  id: \.self) { index in
             HStack {
                 // もし自分が立替者だったら、自分のアイコンを表示
                 // もしパートナーが立替者だったら、パートナーのアイコンを表示
-                if viewModel.unResolvedTransactions[index].debtorId == myUserId {
+                if transactionData.unResolvedTransactions[index].debtorId == myUserId {
                     Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                         .resizable()
                         .scaledToFill()
@@ -367,16 +378,16 @@ struct CommonWalletView: View {
 
                 // アイコンの隣に登録した日時とタイトルを表示
                 VStack(alignment: .leading) {
-                    Text(self.dateToString(date: viewModel.unResolvedTransactions[index].createdAt))
+                    Text(self.dateToString(date: transactionData.unResolvedTransactions[index].createdAt))
                         .font(.caption)
                         .foregroundColor(Color.gray)
-                    Text(viewModel.unResolvedTransactions[index].title)
+                    Text(transactionData.unResolvedTransactions[index].title)
                 }
                 Spacer()
 
                 // リストの一番右側に金額を表示
                 VStack(alignment: .trailing) {
-                    Text("¥\(viewModel.unResolvedTransactions[index].amount)")
+                    Text("¥\(transactionData.unResolvedTransactions[index].amount)")
                 }
             }
             .padding(3)
@@ -388,7 +399,13 @@ struct CommonWalletView: View {
             }
             .contextMenu {
                 Button() {
-                    self.selectedEditTransactionIndex = index
+                    self.selectedResolveTransactionIndex = index
+                    self.isOnlyResolveAlert = true
+                } label: {
+                    Label("精算", systemImage: imageNameProperty.checkmarkCircleSystemImage)
+                }
+                Button() {
+                    self.selectedEditTransaction.index = index
                     self.isEditTransactionView = true
                 } label: {
                     Label("編集", systemImage: imageNameProperty.pencilSystemImage)
@@ -401,14 +418,14 @@ struct CommonWalletView: View {
                 }
             }
             // セルをタップで、詳細アラートを表示
-            .alert("\(viewModel.unResolvedTransactions[self.selectedTransactionIndex].title)", isPresented: $isTransactionDescriptionAlert){
+            .alert("\(transactionData.unResolvedTransactions[self.selectedTransactionIndex].title)", isPresented: $isTransactionDescriptionAlert){
                 Button("OK") {
                 }
             } message: {
-                let amount = viewModel.unResolvedTransactions[self.selectedTransactionIndex].amount
-                let description = viewModel.unResolvedTransactions[self.selectedTransactionIndex].description
-                let createdAt = self.dateToDetailString(date: viewModel.unResolvedTransactions[self.selectedTransactionIndex].createdAt)
-                let debtor = viewModel.unResolvedTransactions[self.selectedTransactionIndex].debtorId == myUserId ? myUserName : partnerModifiedName
+                let amount = transactionData.unResolvedTransactions[self.selectedTransactionIndex].amount
+                let description = transactionData.unResolvedTransactions[self.selectedTransactionIndex].description
+                let createdAt = self.dateToDetailString(date: transactionData.unResolvedTransactions[self.selectedTransactionIndex].createdAt)
+                let debtor = transactionData.unResolvedTransactions[self.selectedTransactionIndex].debtorId == myUserId ? myUserName : partnerModifiedName
 
                 if description.isEmpty {
                     Text("""
@@ -425,6 +442,24 @@ struct CommonWalletView: View {
                         """)
                 }
             } // alertここまで
+            .alert("注意", isPresented: $isDeleteTransactionAlert){
+                Button("キャンセル") {
+                }
+                Button("OK") {
+                    self.deleteTransaction(transactionId: transactionData.unResolvedTransactions[self.selectedDeleteTransactionIndex].id)
+                }
+            } message: {
+                Text("「\(transactionData.unResolvedTransactions[self.selectedDeleteTransactionIndex].title)」を本当に削除してもよろしいですか？")
+            } // alertここまで
+            .alert("精算", isPresented: $isOnlyResolveAlert){
+                Button("キャンセル") {
+                }
+                Button("OK") {
+                    self.updateResolvedTransaction(transactionId: transactionData.unResolvedTransactions[self.selectedResolveTransactionIndex].id)
+                }
+            } message: {
+                Text("「\(transactionData.unResolvedTransactions[self.selectedResolveTransactionIndex].title)」を精算してよろしいですか？")
+            } // alertここまで
             .swipeActions(edge: .trailing, allowsFullSwipe: false)  {
                 Button(role: .none) {
                     self.selectedDeleteTransactionIndex = index
@@ -435,22 +470,22 @@ struct CommonWalletView: View {
                 .tint(.red)
 
                 Button(role: .none) {
-                    self.selectedEditTransactionIndex = index
+                    self.selectedEditTransaction.index = index
                     self.isEditTransactionView = true
                 } label: {
                     Image(systemName: imageNameProperty.pencilSystemImage)
                 }
                 .tint(.orange)
+
+                Button(role: .none) {
+                    self.selectedResolveTransactionIndex = index
+                    self.isOnlyResolveAlert = true
+                } label: {
+                    Image(systemName: imageNameProperty.checkmarkCircleSystemImage)
+                }
+                .tint(.green)
             }
-            .alert("注意", isPresented: $isDeleteTransactionAlert){
-                Button("キャンセル") {
-                }
-                Button("OK") {
-                    self.deleteTransaction(transactionId: viewModel.unResolvedTransactions[self.selectedDeleteTransactionIndex].id)
-                }
-            } message: {
-                Text("「\(viewModel.unResolvedTransactions[self.selectedDeleteTransactionIndex].title)」を本当に削除してもよろしいですか？")
-            } // alertここまで
+
         }
     }
 
@@ -474,27 +509,20 @@ struct CommonWalletView: View {
     }
 
     // MARK: - Logics
-    /**
-     トランザクションをリアルタイムで取得する
-     */
-    private func realtimeFetchTransactions() {
-        Task{
-            try await viewModel.realtimeFetchTransactions(myUserId: myUserId, partnerUserId: partnerUserId)
-        }
-    }
 
     /**
      未精算のトランザクションを精算する
      */
     private func pushResolvedTransaction() {
         Task{
-            isPKHUDProgress = true
             do {
-                try await viewModel.updateResolvedTransactions()
+                isPKHUDProgress = true
+                let ids = transactionData.unResolvedTransactions.map { $0.id }
+                try await viewModel.updateResolvedTransactions(transactionIds: ids)
                 isPKHUDProgress = false
                 isPKHUDSuccess = true
             } catch {
-                print("error: viewModel.updateResolvedTransactions, \(error)")
+                print(#function, error)
                 isPKHUDProgress = false
                 isPKHUDError = true
             }
@@ -507,8 +535,8 @@ struct CommonWalletView: View {
      */
     private func deleteTransaction(transactionId: String) {
         Task{
-            isPKHUDProgress = true
             do {
+                isPKHUDProgress = true
                 // ここでindexを0にしないと、out of range になる
                 self.selectedDeleteTransactionIndex = 0
                 self.selectedTransactionIndex = 0
@@ -516,7 +544,29 @@ struct CommonWalletView: View {
                 isPKHUDProgress = false
                 isPKHUDSuccess = true
             } catch {
-                print("transactionの削除に失敗：", error)
+                print(#function, error)
+                isPKHUDProgress = false
+                isPKHUDError = true
+            }
+        }
+    }
+
+    /**
+     指定したトランザクションの精算
+     - parameter transactionId: 精算するトランザクションのID
+     */
+    private func updateResolvedTransaction(transactionId: String) {
+        Task{
+            do {
+                isPKHUDProgress = true
+                // ここでindexを0にしないと、out of range になる
+                self.selectedResolveTransactionIndex = 0
+                self.selectedTransactionIndex = 0
+                try await viewModel.updateResolvedTransaction(transactionId: transactionId)
+                isPKHUDProgress = false
+                isPKHUDSuccess = true
+            } catch {
+                print(#function, error)
                 isPKHUDProgress = false
                 isPKHUDError = true
             }

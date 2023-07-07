@@ -13,6 +13,7 @@ import FirebaseAuth
 struct LaunchScreen: View {
 
     @Environment(\.managedObjectContext) private var viewContext
+    @EnvironmentObject var transactionData: TransactionData
     @State private var isSignInView = false
     @State private var isContentView = false
 
@@ -37,11 +38,6 @@ struct LaunchScreen: View {
                 .onAppear {
                     Task {
                         await launchViewModel.fetchPartnerInfo()
-                        do {
-                            try await launchViewModel.fetchOldestDate()
-                        } catch {
-                            print("エラーハンドリング")
-                        }
                         await launchViewModel.fetchUserInfo()
                     }
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {

@@ -4,6 +4,7 @@
 //
 
 import SwiftUI
+import PKHUD
 
 struct AddTransactionView: View {
 
@@ -15,136 +16,171 @@ struct AddTransactionView: View {
     @State var title: String = ""
     @State var description: String = ""
     @State var amount: Int?
-
-    @State private var showAlert: Bool = false
-    @State private var alertMessage: String = ""
-
+    @State private var isEnableComplete: Bool = false
+    // キーボード
+    @FocusState private var isKeyboardActive: Bool
+    // PKHUD
+    @State private var isPKHUDProgress = false
+    @State private var isPKHUDSuccess = false
+    @State private var isPKHUDError = false
+    // UserDefaults
     @AppStorage(UserDefaultsKey().userId) private var myUserId = String()
+    @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
     @AppStorage(UserDefaultsKey().partnerUserId) private var partnerUserId = String()
-    
-    var body: some View {
+    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
 
+    var body: some View {
         NavigationView {
             ScrollView {
                 VStack(spacing: 0) {
 
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text("立て替え者")
-                        Picker("", selection: self.$selectedIndex) {
-                            Text(addTransactionViewModel.myName)
-                                .tag(0)
-                            Text(addTransactionViewModel.partnerName)
-                                .tag(1)
-                        }
-                        .padding(.horizontal)
-                        .pickerStyle(SegmentedPickerStyle())
-                    }
-                    .padding()
+                    creditorInputView()
+                        .padding()
 
+                    titleInputView()
+                        .padding()
 
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text("タイトル")
-                        TextField("駅前の薬局", text: $title)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    .padding()
+                    descriptionInputView()
+                        .padding()
 
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text("詳細")
-                        ZStack(alignment: .topLeading) {
-                            TextEditor(text: $description)
-                                .frame(height: 100)
-                                .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(uiColor: .systemGray5), lineWidth: 1))
-                            if description.isEmpty {
-                                Text("帰宅時にあわてて購入した洗剤")
-                                    .foregroundColor(Color(uiColor: .placeholderText))
-                                    .allowsHitTesting(false)
-                                    .padding(5)
-                            }
-                        }.padding(.horizontal)
-                    }
-                    .padding()
-
-                    VStack(alignment: .leading, spacing: 3) {
-                        Text("金額")
-                        TextField("480円", value: $amount, format: .number)
-                            .keyboardType(.numberPad)
-                            .textFieldStyle(RoundedBorderTextFieldStyle())
-                            .padding(.horizontal)
-                    }
-                    .padding()
-
-                    Button ( action: {
-                        addTransaction(
-                            creditorId: selectedIndex == 0 ? addTransactionViewModel.myUserId : addTransactionViewModel.partnerUserId,
-                            debtorId: selectedIndex == 0 ? addTransactionViewModel.partnerUserId : addTransactionViewModel.myUserId,
-                            title: title,
-                            description: description,
-                            amount: amount ?? 0)
-                    }) {
-                        HStack {
-                            Text("登録")
-                        }
-                        .frame(width: 100.0, height: 25.0)
-                        .padding(10)
-                        .accentColor(Color.black)
-                        .background(Color.white)
-                        .cornerRadius(25)
-                        .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
-                    }
-
+                    amountInputView()
+                        .padding()
                 }
                 .padding()
-
-                .alert(isPresented: $showAlert, content: {
-                    Alert(title: Text("Transaction Result"),
-                          message: Text(alertMessage),
-                          dismissButton: .default(Text("OK")))
-                })
                 .navigationTitle("追加")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
-                    /// ナビゲーションバー左
+                    // ナビゲーションバー左
                     ToolbarItem(placement: .navigationBarLeading){
                         Button(action: {isAddTransactionView = false}) {
                             Text("キャンセル")
                         }
                     }
+                    // ナビゲーションバー右
+                    ToolbarItem(placement: .navigationBarTrailing){
+                        Button(action: {
+                            let submitTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
+                            let submitDescription = description.trimmingCharacters(in: .whitespacesAndNewlines)
+                            addTransaction(
+                                creditorId: selectedIndex == 0 ? myUserId : partnerUserId,
+                                debtorId: selectedIndex == 0 ? partnerUserId : myUserId,
+                                title: submitTitle,
+                                description: submitDescription,
+                                amount: amount ?? 0)
+                        }) {
+                            Text("完了")
+                        }
+                        .disabled(!isEnableComplete)
+                    }
+
+                    // キーボードのツールバー
+                    ToolbarItemGroup(placement: .keyboard) {
+                        Spacer()         // 右寄せにする
+                        Button("閉じる") {
+                            isKeyboardActive = false  //  フォーカスを外す
+                        }
+                    }
                 }
             } // ScrollViewここまで
         } // NavigationViewここまで
-
+        .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
+        .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .labeledSuccess(title: nil, subtitle: "追加完了"), delay: 0.75)
+        .PKHUD(isPresented: $isPKHUDError, HUDContent: .labeledError(title: nil, subtitle: "予期せぬエラーが発生しました"), delay: 0.75)
     }
 
-    func addTransaction(creditorId: String?, debtorId: String?, title: String, description: String, amount: Int) {
-        Task{
 
+    // MARK: - Views
+    private func creditorInputView() -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text("立て替え者")
+            Picker("", selection: $selectedIndex) {
+                Text(myUserName)
+                    .tag(0)
+                Text(partnerModifiedName)
+                    .tag(1)
+            }
+            .padding(.horizontal)
+            .pickerStyle(SegmentedPickerStyle())
+        }
+    }
+
+    // タイトル
+    private func titleInputView() -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text("タイトル")
+            TextField("駅前の薬局", text: $title)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.horizontal)
+                .focused($isKeyboardActive)
+                .onChange(of: title, perform: { newValue in
+                    self.checkEnableComplete()
+                })
+        }
+    }
+
+    // 詳細
+    private func descriptionInputView() -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text("詳細")
+            ZStack(alignment: .topLeading) {
+                TextEditor(text: $description)
+                    .frame(height: 100)
+                    .focused($isKeyboardActive)
+                    .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(uiColor: .systemGray5), lineWidth: 1))
+                if description.isEmpty {
+                    Text("帰宅時にあわてて購入した洗剤")
+                        .foregroundColor(Color(uiColor: .placeholderText))
+                        .allowsHitTesting(false)
+                        .padding(5)
+                }
+            }.padding(.horizontal)
+        }
+    }
+
+    // 詳細
+    private func amountInputView() -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text("金額")
+            TextField("480円", value: $amount, format: .number)
+                .keyboardType(.numberPad)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.horizontal)
+                .focused($isKeyboardActive)
+                .onChange(of: amount, perform: { newValue in
+                    self.checkEnableComplete()
+                })
+        }
+    }
+
+    // MARK: -Logics
+    private func checkEnableComplete() {
+        let submitTitle = title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
+        let submitAmount = amount
+
+        if (submitTitle.description.isEmpty == true || submitAmount == nil) {
+            isEnableComplete = false
+        } else {
+            isEnableComplete = true
+        }
+    }
+
+    private func addTransaction(creditorId: String?, debtorId: String?, title: String, description: String, amount: Int) {
+        Task{
+            isPKHUDProgress = true
             let result = try await addTransactionViewModel.addTransaction(creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
 
             switch result {
             case .success:
-                // 成功した場合の処理
-                print("Transactionの登録成功")
-                //self.fetchTransactions()
-                self.alertMessage = "Transaction succeeded!"
+                isPKHUDProgress = false
+                isPKHUDSuccess = true
                 self.isAddTransactionView = false
-                self.showAlert = true
                 break
             case .failure(let error):
-                // 失敗した場合の処理
-                print("Transactionの登録失敗")
-                self.alertMessage = "Transaction failed with error: \(error.localizedDescription)"
-                self.showAlert = true
+                print(#function, error)
+                isPKHUDProgress = false
+                isPKHUDError = true
                 break
             }
-        }
-    }
-
-    /// 遷移元のViewのTransaction情報を更新するために、遷移元のviewModelを操作
-    private func fetchTransactions() {
-        Task{
-            try await commonWalletViewModel.realtimeFetchTransactions(myUserId: myUserId, partnerUserId: partnerUserId)
         }
     }
 

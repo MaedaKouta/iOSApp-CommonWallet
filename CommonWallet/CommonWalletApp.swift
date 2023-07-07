@@ -15,6 +15,8 @@ struct CommonWalletApp: App {
     var body: some Scene {
         WindowGroup {
             LaunchScreen()
+                .environmentObject(TransactionData())
+                .environmentObject(SelectedEditTransaction())
         }
     }
 

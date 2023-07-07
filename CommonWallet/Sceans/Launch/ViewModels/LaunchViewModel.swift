@@ -13,16 +13,6 @@ class LaunchViewModel: ObservableObject {
     private var fireStorePartnerManager = FireStorePartnerManager()
     private var userDefaultsManager = UserDefaultsManager()
 
-    func fetchOldestDate() async throws {
-        guard let myUserId = userDefaultsManager.getUser()?.id,
-              let partnerUserId = userDefaultsManager.getPartnerUserId() else {
-            return
-        }
-        let oldestDate = try await fireStoreTransactionManager.fetchOldestDate(myUserId: myUserId, partnerUserId: partnerUserId)
-        print("fetchOldestDate:", oldestDate)
-        self.userDefaultsManager.setOldestResolvedDate(date: oldestDate)
-    }
-
     // ここでUserInfoをfetchする
     // addSnapListernerだから、更新されるたびに自動でUserDefaultsが更新される
     func fetchUserInfo() async {
