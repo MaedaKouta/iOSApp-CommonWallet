@@ -7,6 +7,8 @@ import SwiftUI
 
 struct MainTabView: View {
 
+    @ObservedObject var viewModel = MainTabViewModel()
+
     var body: some View {
         TabView {
             CommonWalletView(viewModel: CommonWalletViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), fireStoreUserManager: FireStoreUserManager()))
@@ -23,6 +25,11 @@ struct MainTabView: View {
                         Text("履歴")
                     }
                 }.tag(2)
+        }.onAppear {
+            Task {
+                await viewModel.realtimeFetchPartnerInfo()
+                await viewModel.realtimeFetchUserInfo()
+            }
         }
     }
 

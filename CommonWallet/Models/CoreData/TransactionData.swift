@@ -53,20 +53,19 @@ final public class TransactionData: ObservableObject {
     private var addSnapShotListenerCount: Int = 0
 
     init() {
-        fetchTransactions()
+        realtimeFetchTransactions()
     }
 
-    private func fetchTransactions() {
+    private func realtimeFetchTransactions() {
 
         fireStoreTransactionManager.fetchTransactions(myUserId: myUserId, partnerUserId: partnerUserId, completion: { [weak self] transactions, error in
 
             if let error = error {
                 print(error)
-            }
-
-            guard let transactions = transactions else {
                 return
             }
+
+            guard let transactions = transactions else { return }
 
             // トランザクションを時系列ごとに並べ替える
             let sortedTransactions = transactions.sorted(by: { (a, b) -> Bool in

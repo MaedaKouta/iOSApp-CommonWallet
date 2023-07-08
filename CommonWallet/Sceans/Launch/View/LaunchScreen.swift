@@ -35,12 +35,7 @@ struct LaunchScreen: View {
                     Image("SampleLogo")
                 }
                 .onAppear {
-                    Task {
-                        await viewModel.fetchPartnerInfo()
-                        await viewModel.fetchUserInfo()
-                        print("アカウント作成済んでました！")
-
-                    }
+                    print("アカウント作成済み")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         withAnimation {
                             isMainTabViewLoading = false
@@ -81,7 +76,6 @@ struct LaunchScreen: View {
                     }
                 }
             } else {
-                //SignInView()
                 MainTabView()
             }
         }

@@ -12,10 +12,19 @@ struct UserDefaultsManager: UserDefaultsManaging {
 
     // MARK: - Setter
     func createUser(user: User) {
-        // 非オプショナル
         UserDefaults.standard.set(user.id, forKey: userDefaultsKey.userId)
         UserDefaults.standard.set(user.name, forKey: userDefaultsKey.userName)
         UserDefaults.standard.set(user.iconPath, forKey: userDefaultsKey.myIconPath)
+        UserDefaults.standard.set(user.iconData, forKey: userDefaultsKey.myIconData)
+        UserDefaults.standard.set(user.shareNumber, forKey: userDefaultsKey.shareNumber)
+        UserDefaults.standard.set(user.createdAt, forKey: userDefaultsKey.createdAt)
+    }
+
+    func setUser(user: User) {
+        UserDefaults.standard.set(user.id, forKey: userDefaultsKey.userId)
+        UserDefaults.standard.set(user.name, forKey: userDefaultsKey.userName)
+        UserDefaults.standard.set(user.iconPath, forKey: userDefaultsKey.myIconPath)
+        UserDefaults.standard.set(user.iconData, forKey: userDefaultsKey.myIconData)
         UserDefaults.standard.set(user.shareNumber, forKey: userDefaultsKey.shareNumber)
         UserDefaults.standard.set(user.createdAt, forKey: userDefaultsKey.createdAt)
     }
