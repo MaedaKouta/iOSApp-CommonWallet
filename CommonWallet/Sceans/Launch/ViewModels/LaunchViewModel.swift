@@ -9,10 +9,12 @@ import FirebaseAuth
 class LaunchViewModel: ObservableObject {
 
     private var authManager = AuthManager()
-    private var storageManager = StorageManager()
     private var shareNumberManager = ShareNumberManager()
-    private var userDefaultsManager = UserDefaultsManager()
+    private var fireStoreTransactionManager = FireStoreTransactionManager()
     private var fireStoreUserManager = FireStoreUserManager()
+    private var fireStorePartnerManager = FireStorePartnerManager()
+    private var storageManager = StorageManager()
+    private var userDefaultsManager = UserDefaultsManager()
 
     func createUser(myUserName: String, partnerUserName: String) async throws {
         // アカウント作成
