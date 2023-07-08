@@ -8,6 +8,7 @@ import FirebaseAuth
 
 class LaunchViewModel: ObservableObject {
 
+<<<<<<< HEAD
     private var fireStoreTransactionManager = FireStoreTransactionManager()
     private var fireStoreUserManager = FireStoreUserManager()
     private var fireStorePartnerManager = FireStorePartnerManager()
@@ -60,5 +61,12 @@ class LaunchViewModel: ObservableObject {
             )
         })
     }
+=======
+    private var authManager = AuthManager()
+    private var storageManager = StorageManager()
+    private var shareNumberManager = ShareNumberManager()
+    private var userDefaultsManager = UserDefaultsManager()
+    private var fireStoreUserManager = FireStoreUserManager()
+>>>>>>> 91231b0 (fix: addSnapshotListenerの修正)
 
 }
