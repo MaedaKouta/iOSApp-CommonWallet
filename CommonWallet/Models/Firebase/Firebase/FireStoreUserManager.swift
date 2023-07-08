@@ -12,21 +12,18 @@ import FirebaseFirestoreSwift
 struct FireStoreUserManager: FireStoreUserManaging {
 
     private let db = Firestore.firestore()
-    private var userDefaultsManager = UserDefaultsManager()
 
     // MARK: POST
     /**
      User情報を初期登録
      - parameter userId: ユーザーID
      - parameter userName: ユーザー名
-     - parameter email: メール
      - parameter iconPath: アイコンのパス
      - parameter shareNumber: 共有番号
      */
-    func createUser(userId: String, userName: String, email: String, iconPath: String, shareNumber: String) async throws {
+    func createUser(userId: String, userName: String, iconPath: String, shareNumber: String) async throws {
         let user: Dictionary<String, Any> = ["id": userId,
                                              "name": userName,
-                                             "email": email,
                                              "iconPath": iconPath,
                                              "shareNumber": shareNumber,
                                              "createdAt": Timestamp(),
@@ -85,7 +82,6 @@ struct FireStoreUserManager: FireStoreUserManaging {
             guard let data = snapShot?.data(),
                   let userId = data["id"] as? String,
                   let userName = data["name"] as? String,
-                  let email = data["email"] as? String,
                   let iconPath = data["iconPath"] as? String,
                   let shareNumber = data["shareNumber"] as? String,
                   let createdAt = data["createdAt"] as? Timestamp else { return }
@@ -94,7 +90,7 @@ struct FireStoreUserManager: FireStoreUserManaging {
              let partnerName = data["partnerName"] as? String
              let partnerShareNumber = data["partnerShareNumber"] as? String
 
-            let user = User(id: userId, name: userName, email: email, shareNumber: shareNumber, iconPath: iconPath, createdAt: createdAt.dateValue(), partnerUserId: partnerUserId, partnerName: partnerName, partnerShareNumber: partnerShareNumber)
+            let user = User(id: userId, name: userName, shareNumber: shareNumber, iconPath: iconPath, createdAt: createdAt.dateValue(), partnerUserId: partnerUserId, partnerName: partnerName, partnerShareNumber: partnerShareNumber)
 
             completion(user, nil)
         }

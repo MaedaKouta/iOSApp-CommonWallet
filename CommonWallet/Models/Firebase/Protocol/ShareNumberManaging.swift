@@ -6,5 +6,5 @@
 import Foundation
 
 protocol ShareNumberManaging {
-    func createShareNumber() async -> String
+    func createShareNumber() async throws -> String
 }

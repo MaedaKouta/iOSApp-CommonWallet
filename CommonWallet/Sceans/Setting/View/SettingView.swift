@@ -64,7 +64,7 @@ struct SettingView: View {
         Section {
 
             // タップ後: AccountViewへNavigation遷移
-            NavigationLink(destination: AccountView(viewModel: AccountViewModel(userDefaultsManager: UserDefaultsManager(), storageManager: StorageManager()))) {
+            NavigationLink(destination:AccountView(viewModel: AccountViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), fireStoreUserManager: FireStoreUserManager(), userDefaultsManager: UserDefaultsManager(), storageManager: StorageManager(), authManager: AuthManager()))) {
                 HStack {
                     Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                         .resizable()

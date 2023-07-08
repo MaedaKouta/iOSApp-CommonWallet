@@ -13,7 +13,6 @@
 		871073B42990B7A600A0518C /* AllLogView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B32990B7A600A0518C /* AllLogView.swift */; };
 		871073B92990CDBE00A0518C /* DateCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871073B82990CDBE00A0518C /* DateCalculator.swift */; };
 		871F09EC2A11945000F96394 /* ShareNumberManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F09EB2A11945000F96394 /* ShareNumberManaging.swift */; };
-		871F09EE2A11979600F96394 /* MainTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F09ED2A11979600F96394 /* MainTabViewModel.swift */; };
 		8724AD8E29FDF50A0023AEC5 /* LaunchViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8724AD8D29FDF50A0023AEC5 /* LaunchViewModel.swift */; };
 		872652F3297B92A8002C76D6 /* FirebaseErrorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */; };
 		872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872652F5297BB8AB002C76D6 /* SignInViewModel.swift */; };
@@ -69,7 +68,6 @@
 		87830E73297A1ACB00184A7C /* CreateUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E71297A1ACB00184A7C /* CreateUserTests.swift */; };
 		87830E74297A1B9E00184A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D7C297A1790005CCB6F /* AppDelegate.swift */; };
 		87830E75297A1BA100184A7C /* CommonWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */; };
-		87830E7B297A1C6A00184A7C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D4B297A1369005CCB6F /* ContentView.swift */; };
 		87830E7D297A201F00184A7C /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7C297A201F00184A7C /* SignInView.swift */; };
 		87830E7E297A201F00184A7C /* SignInView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7C297A201F00184A7C /* SignInView.swift */; };
 		87830E80297A20DB00184A7C /* CreateUserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E7F297A20DB00184A7C /* CreateUserView.swift */; };
@@ -113,7 +111,6 @@
 		87E5E9342A2E9857002CF7B2 /* MyNameEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E5E9332A2E9857002CF7B2 /* MyNameEditView.swift */; };
 		87E5E9362A2E9880002CF7B2 /* MyNameEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87E5E9352A2E9880002CF7B2 /* MyNameEditViewModel.swift */; };
 		87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */; };
-		87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D4B297A1369005CCB6F /* ContentView.swift */; };
 		87EE8D4E297A136A005CCB6F /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87EE8D4D297A136A005CCB6F /* Assets.xcassets */; };
 		87EE8D51297A136A005CCB6F /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 87EE8D50297A136A005CCB6F /* Preview Assets.xcassets */; };
 		87EE8D65297A136A005CCB6F /* CommonWalletUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D64297A136A005CCB6F /* CommonWalletUITests.swift */; };
@@ -151,7 +148,6 @@
 		871073B32990B7A600A0518C /* AllLogView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllLogView.swift; sourceTree = "<group>"; };
 		871073B82990CDBE00A0518C /* DateCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCalculator.swift; sourceTree = "<group>"; };
 		871F09EB2A11945000F96394 /* ShareNumberManaging.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShareNumberManaging.swift; sourceTree = "<group>"; };
-		871F09ED2A11979600F96394 /* MainTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabViewModel.swift; sourceTree = "<group>"; };
 		871F09F12A12E4D600F96394 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8724AD8D29FDF50A0023AEC5 /* LaunchViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchViewModel.swift; sourceTree = "<group>"; };
 		872652F2297B92A8002C76D6 /* FirebaseErrorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseErrorManager.swift; sourceTree = "<group>"; };
@@ -224,7 +220,6 @@
 		87E5E9352A2E9880002CF7B2 /* MyNameEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MyNameEditViewModel.swift; sourceTree = "<group>"; };
 		87EE8D46297A1369005CCB6F /* CommonWallet.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CommonWallet.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonWalletApp.swift; sourceTree = "<group>"; };
-		87EE8D4B297A1369005CCB6F /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		87EE8D4D297A136A005CCB6F /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		87EE8D50297A136A005CCB6F /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		87EE8D56297A136A005CCB6F /* CommonWalletTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = CommonWalletTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -289,22 +284,6 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		871F09EF2A11979F00F96394 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				87ABC58029908B17003E94F3 /* MainTabView.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		871F09F02A1197A700F96394 /* ViewMdels */ = {
-			isa = PBXGroup;
-			children = (
-				871F09ED2A11979600F96394 /* MainTabViewModel.swift */,
-			);
-			path = ViewMdels;
-			sourceTree = "<group>";
-		};
 		8724AD8C29FDF4E40023AEC5 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
@@ -336,6 +315,14 @@
 				8702F3F22A51068E002925A0 /* CoreData */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		874C197A2A58D885002812D5 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				87402F4429F378330007320D /* UserDefaultsManaging.swift */,
+			);
+			path = Protocol;
 			sourceTree = "<group>";
 		};
 		874EF93D297D040000C94233 /* Extentions */ = {
@@ -530,7 +517,7 @@
 		87ABC57B29907C54003E94F3 /* UserDefaults */ = {
 			isa = PBXGroup;
 			children = (
-				87402F4429F378330007320D /* UserDefaultsManaging.swift */,
+				874C197A2A58D885002812D5 /* Protocol */,
 				874EF93B297CFC3900C94233 /* UserDefaultsManager.swift */,
 				874EF93E297D04DF00C94233 /* UserDefaultsKey.swift */,
 				879310232A2FF28200FDD061 /* ImageNameProperty.swift */,
@@ -592,8 +579,7 @@
 		87C0BADB2A03C50200A02978 /* MainTab */ = {
 			isa = PBXGroup;
 			children = (
-				871F09EF2A11979F00F96394 /* View */,
-				871F09F02A1197A700F96394 /* ViewMdels */,
+				87ABC58029908B17003E94F3 /* MainTabView.swift */,
 			);
 			path = MainTab;
 			sourceTree = "<group>";
@@ -650,7 +636,6 @@
 				874EF931297CB4C600C94233 /* GoogleService-Info.plist */,
 				87EE8D49297A1369005CCB6F /* CommonWalletApp.swift */,
 				87EE8D7C297A1790005CCB6F /* AppDelegate.swift */,
-				87EE8D4B297A1369005CCB6F /* ContentView.swift */,
 				874C19792A58D6F6002812D5 /* Models */,
 				87ABC57C29907CD3003E94F3 /* Sceans */,
 				87ABC57D29907DA2003E94F3 /* ViewTools */,
@@ -840,7 +825,6 @@
 			files = (
 				87402F4329F377D70007320D /* FireStoreUserManaging.swift in Sources */,
 				879310242A2FF28200FDD061 /* ImageNameProperty.swift in Sources */,
-				871F09EE2A11979600F96394 /* MainTabViewModel.swift in Sources */,
 				874EF93F297D04DF00C94233 /* UserDefaultsKey.swift in Sources */,
 				87E5E9342A2E9857002CF7B2 /* MyNameEditView.swift in Sources */,
 				87EE8D7D297A1790005CCB6F /* AppDelegate.swift in Sources */,
@@ -877,7 +861,6 @@
 				872652F6297BB8AB002C76D6 /* SignInViewModel.swift in Sources */,
 				87391E50298A189900897A96 /* String.swift in Sources */,
 				87F53FE0297EA44E00293176 /* FireStoreTransactionManager.swift in Sources */,
-				87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */,
 				87CDAABC297E6ADB00F52887 /* AccountView.swift in Sources */,
 				879379E0298B444500D3A47B /* ConnectPartnerView.swift in Sources */,
 				879379EF298BBDB800D3A47B /* PartnerNameEditViewModel.swift in Sources */,
@@ -932,7 +915,6 @@
 				8737FCEA297E0BDF0064E40D /* LaunchScreen.swift in Sources */,
 				87830E70297A1AB900184A7C /* SignInTests.swift in Sources */,
 				87F53FE1297EA44E00293176 /* FireStoreTransactionManager.swift in Sources */,
-				87830E7B297A1C6A00184A7C /* ContentView.swift in Sources */,
 				87C162DC2A2ACEA300382061 /* Transaction.swift in Sources */,
 				87CDAAC0297E8CF900F52887 /* AddTransactionView.swift in Sources */,
 				87CDAAB6297E5C8000F52887 /* CommonWalletViewModel.swift in Sources */,

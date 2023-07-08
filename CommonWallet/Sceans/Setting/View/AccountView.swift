@@ -8,6 +8,7 @@ import SwiftUI
 struct AccountView: View {
 
     @StateObject var viewModel: AccountViewModel
+    @EnvironmentObject var transactionData: TransactionData
 
     @AppStorage(UserDefaultsKey().userName) private var userName = String()
     @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
@@ -63,7 +64,7 @@ struct AccountView: View {
             Button("リセット", role: .destructive){
                 Task {
                     do {
-                        try await authManager.deleteUser()
+                        try await viewModel.clearAccount(transactions: transactionData.transactions)
                     } catch {
                         print("アカウント削除", error)
                     }
@@ -75,7 +76,6 @@ struct AccountView: View {
     }
 
     // MARK: - Section
-
     /**
      アイコンを表示するView, タップでアイコン変更
      - Returns: View(Section)
@@ -169,6 +169,6 @@ struct AccountView: View {
 
 struct AccountView_Previews: PreviewProvider {
     static var previews: some View {
-        AccountView(viewModel: AccountViewModel(userDefaultsManager: UserDefaultsManager(), storageManager: StorageManager()))
+        AccountView(viewModel: AccountViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), fireStoreUserManager: FireStoreUserManager(), userDefaultsManager: UserDefaultsManager(), storageManager: StorageManager(), authManager: AuthManager()))
     }
 }

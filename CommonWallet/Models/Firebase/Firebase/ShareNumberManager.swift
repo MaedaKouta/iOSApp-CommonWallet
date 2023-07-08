@@ -11,43 +11,36 @@ class ShareNumberManager: ShareNumberManaging {
 
     private let db = Firestore.firestore()
 
-    /*
+    /**
      12桁をランダムで生成
      */
-    func createShareNumber() async -> String {
+    func createShareNumber() async throws -> String {
 
         var shareNumber = createRandom16NumberString()
-        var duplicateCheck = await checkDuplicateNumber(number: shareNumber)
+        var duplicateCheck = try await checkDuplicateNumber(number: shareNumber)
 
         // もしshareNumberが重複した場合に作り直す処理
         while !duplicateCheck {
             sleep(1)
             shareNumber = createRandom16NumberString()
-            duplicateCheck = await checkDuplicateNumber(number: shareNumber)
+            duplicateCheck = try await checkDuplicateNumber(number: shareNumber)
         }
 
         return shareNumber
 
     }
 
-    private func checkDuplicateNumber(number: String) async -> Bool {
+    private func checkDuplicateNumber(number: String) async throws -> Bool {
+        let snapShots = try await db.collection("Users")
+            .whereField("shareNumber", isEqualTo: number)
+            .getDocuments()
 
-        do {
-            let snapShots = try await db.collection("Users")
-                .whereField("shareNumber", isEqualTo: number)
-                .getDocuments()
-
-            // もしドキュメントに同じ値が存在しなければtrueを返す
-            if snapShots.documents.count == 0 {
-                return true
-            } else {
-                return false
-            }
-        } catch {
-            print("Firebase Check Duplicate Number Error")
+        // もしドキュメントに同じ値が存在しなければtrueを返す
+        if snapShots.documents.count == 0 {
+            return true
+        } else {
+            return false
         }
-
-        return false
     }
 
     // 12桁の乱数を生成する関数

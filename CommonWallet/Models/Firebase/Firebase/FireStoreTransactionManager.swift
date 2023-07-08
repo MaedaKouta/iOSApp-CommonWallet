@@ -48,7 +48,6 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
      - parameter resolvedAt: 精算日時
      */
     func updateResolvedAt(transactionIds: [String], resolvedAt: Date) async throws {
-
         let splitTransactionIds = transactionIds.splitIntoChunks(ofSize: 300)
         for transactionIds in splitTransactionIds {
             let batch = db.batch()
@@ -99,14 +98,93 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
             .setData(data, merge: true)
     }
 
+    /**
+     複数のFireStorageのトランザクションを上書きする
+     - parameter transaction: 上書きするtransactionデータの配列
+     */
+    func updateTransactions(transactions: [Transaction]) async throws {
+        let splitTransactions = transactions.splitIntoChunks(ofSize: 300)
+
+        for transactions in splitTransactions {
+            let batch = db.batch()
+            for transaction in transactions {
+                let document = db.collection("Transactions").document(transaction.id)
+                let data: Dictionary<String, Any> = ["id": transaction.id,
+                                                     "creditorId": transaction.creditorId ?? NSNull(),
+                                                     "debtorId": transaction.debtorId ?? NSNull(),
+                                                     "title": transaction.title,
+                                                     "description": transaction.description,
+                                                     "amount": transaction.amount,
+                                                     "createdAt": transaction.createdAt,
+                                                     "resolvedAt": transaction.resolvedAt ?? NSNull()]
+                batch.updateData(data, forDocument: document)
+            }
+            try await batch.commit()
+        }
+    }
+
+    /**
+     FireStorageトランザクションのCreditorをNullにする
+     - parameter transaction: Nullにするtransactionデータの配列
+     */
+    func updateCreditorNullOnTransactionIds(transactionIds: [String]) async throws {
+        let creditorNullOnTransaction: Dictionary<String, Any> = ["creditorId": NSNull()]
+        let splitTransactionIds = transactionIds.splitIntoChunks(ofSize: 300)
+
+        for transactionIds in splitTransactionIds {
+            let batch = db.batch()
+            for transactionId in transactionIds {
+                let document = db.collection("Transactions").document(transactionId)
+                batch.updateData(creditorNullOnTransaction, forDocument: document)
+            }
+            try await batch.commit()
+        }
+    }
+
+    /**
+     FireStorageトランザクションのdebtorをNullにする
+     - parameter transaction: Nullにするtransactionデータの配列
+     */
+    func updateDebtorNullOnTransactionIds(transactionIds: [String]) async throws {
+        let creditorNullOnTransaction: Dictionary<String, Any> = ["debtorId": NSNull()]
+        let splitTransactionIds = transactionIds.splitIntoChunks(ofSize: 300)
+
+        for transactionIds in splitTransactionIds {
+            let batch = db.batch()
+            for transactionId in transactionIds {
+                let document = db.collection("Transactions").document(transactionId)
+                batch.updateData(creditorNullOnTransaction, forDocument: document)
+            }
+            try await batch.commit()
+        }
+    }
+
 
     // MARK: - Delete
     /**
-     FireStorageのトランザクションを削除する
+     単一のFireStorageのトランザクションを削除する
      - parameter transactionId: 削除するtransactionId
      */
     func deleteTransaction(transactionId: String) async throws {
         try await db.collection("Transactions").document(transactionId).delete()
+    }
+
+    /**
+     複数のFireStorageのトランザクションを削除する
+     - Description
+     - アカウント削除する際に利用
+     - parameter transactionIds: 削除するtransactionIdの配列
+     */
+    func deleteTransactions(transactionIds: [String]) async throws {
+        let splitTransactionIds = transactionIds.splitIntoChunks(ofSize: 300)
+        for transactionIds in splitTransactionIds {
+            let batch = db.batch()
+            for transactionId in transactionIds {
+                let document = db.collection("Transactions").document(transactionId)
+                batch.deleteDocument(document)
+            }
+            try await batch.commit()
+        }
     }
 
 
@@ -242,11 +320,7 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
         let querySnapshot = try await db.collection("Transactions")
             .whereField("resolvedAt", isNotEqualTo: NSNull())
             .whereField("creditorId", in: [partnerUserId, myUserId])
-//            .order(by: "createdAt")
-//            .limit(to: 1)
             .getDocuments()
-
-        print("here")
 
         // トランザクションを時系列ごとに並べ替える
         let sortedDocuments = querySnapshot.documents.sorted(by: { (a, b) -> Bool in
