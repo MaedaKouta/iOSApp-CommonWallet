@@ -25,8 +25,5 @@ protocol FireStoreTransactionManaging {
 
     // GET
     func fetchTransactions(myUserId: String, partnerUserId: String?, completion: @escaping([Transaction]?, Error?) -> Void)
-    func fetchUnResolvedTransactions(myUserId: String, partnerUserId: String, completion: @escaping([Transaction]?, Error?) -> Void)
-    func fetchResolvedTransactions(myUserId: String, partnerUserId: String, completion: @escaping([Transaction]?, Error?) -> Void)
-    func fetchOldestDate(myUserId: String, partnerUserId: String) async throws -> Date?
 
 }
