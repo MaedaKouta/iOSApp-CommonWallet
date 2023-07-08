@@ -11,16 +11,14 @@ struct UserDefaultsManager: UserDefaultsManaging {
     internal let userDefaultsKey = UserDefaultsKey()
 
     // MARK: - Setter
-<<<<<<< HEAD:CommonWallet/Models/General/UserDefaultsManager.swift
-    func setUser(user: User) {
-=======
+
     func createUser(user: User) {
->>>>>>> 91231b0 (fix: addSnapshotListenerの修正):CommonWallet/Models/UserDefaults/UserDefaultsManager.swift
+
         UserDefaults.standard.set(user.id, forKey: userDefaultsKey.userId)
         UserDefaults.standard.set(user.name, forKey: userDefaultsKey.userName)
         UserDefaults.standard.set(user.email, forKey: userDefaultsKey.email)
         UserDefaults.standard.set(user.iconPath, forKey: userDefaultsKey.myIconPath)
-        UserDefaults.standard.set(user.iconData, forKey: userDefaultsKey.myIconData)
+        //UserDefaults.standard.set(user.iconData, forKey: userDefaultsKey.myIconData)
         UserDefaults.standard.set(user.shareNumber, forKey: userDefaultsKey.shareNumber)
         UserDefaults.standard.set(user.createdAt, forKey: userDefaultsKey.createdAt)
     }
@@ -29,7 +27,7 @@ struct UserDefaultsManager: UserDefaultsManaging {
         UserDefaults.standard.set(user.id, forKey: userDefaultsKey.userId)
         UserDefaults.standard.set(user.name, forKey: userDefaultsKey.userName)
         UserDefaults.standard.set(user.iconPath, forKey: userDefaultsKey.myIconPath)
-        UserDefaults.standard.set(user.iconData, forKey: userDefaultsKey.myIconData)
+        //UserDefaults.standard.set(user.iconData, forKey: userDefaultsKey.myIconData)
         UserDefaults.standard.set(user.shareNumber, forKey: userDefaultsKey.shareNumber)
 
         if let partnerUserId = user.partnerUserId {
@@ -50,6 +48,15 @@ struct UserDefaultsManager: UserDefaultsManaging {
     }
 
     func setPartner(partner: Partner) {
+        UserDefaults.standard.set(partner.userId, forKey: userDefaultsKey.partnerUserId)
+        UserDefaults.standard.set(partner.userName, forKey: userDefaultsKey.partnerName)
+        UserDefaults.standard.set(partner.userName, forKey: userDefaultsKey.partnerModifiedName)
+        UserDefaults.standard.set(partner.iconPath, forKey: userDefaultsKey.partnerIconPath)
+        UserDefaults.standard.set(partner.iconData, forKey: userDefaultsKey.partnerIconData)
+        UserDefaults.standard.set(partner.shareNumber, forKey: userDefaultsKey.partnerShareNumber)
+    }
+
+    func createPartner(partner: Partner) {
         UserDefaults.standard.set(partner.userId, forKey: userDefaultsKey.partnerUserId)
         UserDefaults.standard.set(partner.userName, forKey: userDefaultsKey.partnerName)
         UserDefaults.standard.set(partner.userName, forKey: userDefaultsKey.partnerModifiedName)

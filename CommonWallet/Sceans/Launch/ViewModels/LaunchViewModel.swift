@@ -8,7 +8,6 @@ import FirebaseAuth
 
 class LaunchViewModel: ObservableObject {
 
-<<<<<<< HEAD
     private var fireStoreTransactionManager = FireStoreTransactionManager()
     private var fireStoreUserManager = FireStoreUserManager()
     private var fireStorePartnerManager = FireStorePartnerManager()
@@ -51,22 +50,16 @@ class LaunchViewModel: ObservableObject {
             }
 
             let partnerUserDefaultsName = self.userDefaultsManager.getPartnerName() ?? partner.userName
-            self.userDefaultsManager.setPartner(
-                userId: partner.userId,
-                name: partner.userName,
-                modifiedName: partnerUserDefaultsName,
-                iconPath: partner.iconPath,
-                iconData: partner.iconData,
-                shareNumber: partner.shareNumber
-            )
+//            self.userDefaultsManager.setPartner(
+//                userId: partner.userId,
+//                name: partner.userName,
+//                modifiedName: partnerUserDefaultsName,
+//                iconPath: partner.iconPath,
+//                iconData: partner.iconData,
+//                shareNumber: partner.shareNumber
+//            )
         })
     }
-=======
-    private var authManager = AuthManager()
-    private var storageManager = StorageManager()
-    private var shareNumberManager = ShareNumberManager()
-    private var userDefaultsManager = UserDefaultsManager()
-    private var fireStoreUserManager = FireStoreUserManager()
->>>>>>> 91231b0 (fix: addSnapshotListenerの修正)
+
 
 }

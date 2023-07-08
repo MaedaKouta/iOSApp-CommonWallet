@@ -34,14 +34,8 @@ struct LaunchScreen: View {
                     Image("SampleLogo")
                 }
                 .onAppear {
-<<<<<<< HEAD
-                    Task {
-                        await launchViewModel.fetchPartnerInfo()
-                        await launchViewModel.fetchUserInfo()
-                    }
-=======
+
                     print("アカウント作成済み")
->>>>>>> 91231b0 (fix: addSnapshotListenerの修正)
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         withAnimation {
                             isMainTabViewLoading = false
@@ -71,11 +65,8 @@ struct LaunchScreen: View {
                     }
                 }
             } else {
-<<<<<<< HEAD
-                SignInView()
-=======
+
                 MainTabView()
->>>>>>> 91231b0 (fix: addSnapshotListenerの修正)
             }
         }
     }

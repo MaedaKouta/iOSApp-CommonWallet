@@ -7,11 +7,7 @@ import SwiftUI
 
 struct MainTabView: View {
 
-<<<<<<< HEAD:CommonWallet/Sceans/MainTab/View/MainTabView.swift
-    @ObservedObject var mainTabViewModel = MainTabViewModel()
-=======
     @ObservedObject var viewModel = MainTabViewModel()
->>>>>>> 91231b0 (fix: addSnapshotListenerの修正):CommonWallet/Sceans/MainTab/MainTabView.swift
 
     var body: some View {
         TabView {

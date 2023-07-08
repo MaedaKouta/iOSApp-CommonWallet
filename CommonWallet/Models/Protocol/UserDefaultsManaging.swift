@@ -10,14 +10,10 @@ protocol UserDefaultsManaging {
     var userDefaultsKey: UserDefaultsKey { get }
 
     // MARK: - Setter
-<<<<<<< HEAD:CommonWallet/Models/Protocol/UserDefaultsManaging.swift
-    func setUser(user: User)
-    func setMyUserName(userName: String)
-=======
+
     func createUser(user: User)
     func createPartner(partner: Partner)
     func setUser(user: User)
->>>>>>> 91231b0 (fix: addSnapshotListenerの修正):CommonWallet/Models/UserDefaults/Protocol/UserDefaultsManaging.swift
     func setPartner(partner: Partner)
     func setMyUserName(userName: String)
     func setPartner(userId: String, name: String, modifiedName: String, iconPath: String, iconData: Data, shareNumber: String)
