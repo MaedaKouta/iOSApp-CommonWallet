@@ -17,6 +17,8 @@ struct ImageNameProperty {
     let sittingCatDark = "sitting-cat-dark"
 
     // SystemImage
+    let houseSystemImage = "house"
+    let trayFullSystemImage = "tray.full"
     let checkmarkCircleSystemImage = "checkmark.circle"
     let arrowCounterclockwiseCircleSystemImage = "arrow.counterclockwise.circle"
     let arrowUturnBackwardCircleSystemImage = "arrow.uturn.backward.circle"
