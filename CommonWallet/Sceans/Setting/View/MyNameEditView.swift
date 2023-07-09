@@ -15,7 +15,8 @@ struct MyNameEditView: View {
 
     @State private var newName: String = ""
     @State private var isEnableComplete: Bool = false
-
+    // キーボード
+    @FocusState private var isKeyboardActive: Bool
     // Userdefaults
     @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
     // PKHUD
@@ -46,6 +47,15 @@ struct MyNameEditView: View {
                 }
                 .disabled(!isEnableComplete)
             }
+
+            // キーボードのツールバー
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()         // 右寄せにする
+                Button("閉じる") {
+                    isKeyboardActive = false  //  フォーカスを外す
+                }
+            }
+
         }
     }
 
@@ -62,6 +72,7 @@ struct MyNameEditView: View {
                 Text("名前")
 
                 TextField(myUserName, text: $newName)
+                    .focused(self.$isKeyboardActive)
                     .onChange(of: newName, perform: { newValue in
                         if newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                             isEnableComplete = false
