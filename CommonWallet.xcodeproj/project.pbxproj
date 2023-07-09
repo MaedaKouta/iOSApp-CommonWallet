@@ -280,6 +280,14 @@
 			path = CoreData;
 			sourceTree = "<group>";
 		};
+		870A533B2A5A67530082FC22 /* Image */ = {
+			isa = PBXGroup;
+			children = (
+				879310232A2FF28200FDD061 /* ImageNameProperty.swift */,
+			);
+			path = Image;
+			sourceTree = "<group>";
+		};
 		871073B72990CD1000A0518C /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -369,10 +377,11 @@
 		87830E6A297A1A6000184A7C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				870A533B2A5A67530082FC22 /* Image */,
 				87402F3F29F377210007320D /* Protocol */,
 				87D1A05329E770E30058A98F /* Error */,
 				874EF943297D0F3700C94233 /* Firebase */,
-				87ABC57B29907C54003E94F3 /* General */,
+				87ABC57B29907C54003E94F3 /* UserDefaults */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -502,14 +511,13 @@
 			path = Model;
 			sourceTree = "<group>";
 		};
-		87ABC57B29907C54003E94F3 /* General */ = {
+		87ABC57B29907C54003E94F3 /* UserDefaults */ = {
 			isa = PBXGroup;
 			children = (
 				874EF93B297CFC3900C94233 /* UserDefaultsManager.swift */,
 				874EF93E297D04DF00C94233 /* UserDefaultsKey.swift */,
-				879310232A2FF28200FDD061 /* ImageNameProperty.swift */,
 			);
-			path = General;
+			path = UserDefaults;
 			sourceTree = "<group>";
 		};
 		87ABC57C29907CD3003E94F3 /* Sceans */ = {
