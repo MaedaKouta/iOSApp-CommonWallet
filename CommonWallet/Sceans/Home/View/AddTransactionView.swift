@@ -26,6 +26,7 @@ struct AddTransactionView: View {
     // UserDefaults
     @AppStorage(UserDefaultsKey().userId) private var myUserId = String()
     @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
+    @AppStorage(UserDefaultsKey().shareNumber) private var myShareNumber = String()
     @AppStorage(UserDefaultsKey().partnerUserId) private var partnerUserId = String()
     @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
 
@@ -167,7 +168,7 @@ struct AddTransactionView: View {
     private func addTransaction(creditorId: String?, debtorId: String?, title: String, description: String, amount: Int) {
         Task{
             isPKHUDProgress = true
-            let result = try await addTransactionViewModel.addTransaction(creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
+            let result = try await addTransactionViewModel.addTransaction(myShareNumber: myShareNumber, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
 
             switch result {
             case .success:

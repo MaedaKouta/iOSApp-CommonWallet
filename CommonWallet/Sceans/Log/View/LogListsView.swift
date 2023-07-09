@@ -78,7 +78,8 @@ struct LogListView: View {
         ForEach((0 ..< transactionData.resolvedTransactionsByMonth[itemIndex].count).reversed(),  id: \.self) { index in
 
             HStack {
-                if transactionData.resolvedTransactionsByMonth[itemIndex][index].debtorId != myUserId {
+                // もし自分が立替者だったら、自分のアイコンを表示
+                if transactionData.resolvedTransactionsByMonth[itemIndex][index].creditorId == myUserId {
                     Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                         .resizable()
                         .scaledToFill()
@@ -86,8 +87,10 @@ struct LogListView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 28, height: 28, alignment: .center)
                         .clipShape(Circle())
+                // もしパートナーが立替者だったら、パートナーのアイコンを表示
                 } else {
-                    Image(uiImage: UIImage(data: partnerIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)                                    .resizable()
+                    Image(uiImage: UIImage(data: partnerIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
+                        .resizable()
                         .scaledToFill()
                         .overlay(RoundedRectangle(cornerRadius: 56).stroke(Color.gray, lineWidth: 1))
                         .aspectRatio(contentMode: .fit)
