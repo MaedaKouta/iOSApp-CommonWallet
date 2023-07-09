@@ -37,11 +37,12 @@ struct EditTransactionView: View {
                     titleInputView()
                         .padding()
 
+                    amountInputView()
+                        .padding()
+
                     descriptionInputView()
                         .padding()
 
-                    amountInputView()
-                        .padding()
                 }
                 .padding()
                 .navigationTitle("上書き")
@@ -119,10 +120,25 @@ struct EditTransactionView: View {
         }
     }
 
+    // 金額
+    private func amountInputView() -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text("金額")
+            TextField("\(viewModel.beforeTransaction.amount)", value: $viewModel.newTransaction.amount, format: .number)
+                .keyboardType(.numberPad)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.horizontal)
+                .onChange(of: viewModel.newTransaction.amount, perform: { newValue in
+                    self.checkEnableComplete()
+                })
+        }
+    }
+
     // 詳細
     private func descriptionInputView() -> some View {
         VStack(alignment: .leading, spacing: 3) {
             Text("詳細")
+                .foregroundColor(.gray)
             ZStack(alignment: .topLeading) {
                 TextEditor(text: $viewModel.newTransaction.description)
                     .frame(height: 100)
@@ -140,19 +156,6 @@ struct EditTransactionView: View {
         }
     }
 
-    // 詳細
-    private func amountInputView() -> some View {
-        VStack(alignment: .leading, spacing: 3) {
-            Text("金額")
-            TextField("\(viewModel.beforeTransaction.amount)", value: $viewModel.newTransaction.amount, format: .number)
-                .keyboardType(.numberPad)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
-                .onChange(of: viewModel.newTransaction.amount, perform: { newValue in
-                    self.checkEnableComplete()
-                })
-        }
-    }
 
     // MARK: -Logics
     private func checkEnableComplete() {
