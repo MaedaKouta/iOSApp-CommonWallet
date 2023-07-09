@@ -18,7 +18,7 @@ struct ImageNameProperty {
 
     // SystemImage
     let checkmarkCircleSystemImage = "checkmark.circle"
-    let arrowCounterclockwiseCircle = "arrow.counterclockwise.circle"
+    let arrowCounterclockwiseCircleSystemImage = "arrow.counterclockwise.circle"
     let arrowUturnBackwardCircleSystemImage = "arrow.uturn.backward.circle"
     let plusSystemImage = "plus"
     let handTapSystemImage = "hand.tap"

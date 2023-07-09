@@ -458,7 +458,7 @@ struct CommonWalletView: View {
                     self.updateResolvedTransaction(transactionId: transactionData.unResolvedTransactions[self.selectedResolveTransactionIndex].id)
                 }
             } message: {
-                Text("「\(transactionData.unResolvedTransactions[self.selectedResolveTransactionIndex].title)」を精算してよろしいですか？")
+                Text("「\(transactionData.unResolvedTransactions[self.selectedResolveTransactionIndex].title)」を精算済にしてもよろしいですか？")
             } // alertここまで
             .swipeActions(edge: .trailing, allowsFullSwipe: false)  {
                 Button(role: .none) {
@@ -483,7 +483,6 @@ struct CommonWalletView: View {
                 } label: {
                     Image(systemName: imageNameProperty.checkmarkCircleSystemImage)
                 }
-                .tint(.green)
             }
 
         }
