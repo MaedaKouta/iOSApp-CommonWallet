@@ -357,8 +357,7 @@ struct CommonWalletView: View {
         ForEach(0 ..< transactionData.unResolvedTransactions.count,  id: \.self) { index in
             HStack {
                 // もし自分が立替者だったら、自分のアイコンを表示
-                // もしパートナーが立替者だったら、パートナーのアイコンを表示
-                if transactionData.unResolvedTransactions[index].debtorId == myUserId {
+                if transactionData.unResolvedTransactions[index].creditorId == myUserId {
                     Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                         .resizable()
                         .scaledToFill()
@@ -366,6 +365,7 @@ struct CommonWalletView: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 28, height: 28, alignment: .center)
                         .clipShape(Circle())
+                // もしパートナーが立替者だったら、パートナーのアイコンを表示
                 } else {
                     Image(uiImage: UIImage(data: partnerIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                         .resizable()
