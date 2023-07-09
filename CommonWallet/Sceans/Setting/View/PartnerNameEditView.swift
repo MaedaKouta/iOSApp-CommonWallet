@@ -34,6 +34,7 @@ struct PartnerNameEditView: View {
             /// ナビゲーションバー右
             ToolbarItem(placement: .navigationBarTrailing){
                 Button(action: {
+                    isKeyboardActive = false  //  フォーカスを外す
                     let fixedAfterPartnerName = afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines)
                     partnerModifiedName = fixedAfterPartnerName
                     isPKHUDSuccess = true

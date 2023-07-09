@@ -29,7 +29,7 @@ struct PartnerInfoView: View {
                         Text(viewModel.partnerShareNumber)
                     }
                     HStack {
-                        Text("登録名")
+                        Text("パートナーの登録名")
                         Spacer()
                         Text(viewModel.partnerName)
                     }

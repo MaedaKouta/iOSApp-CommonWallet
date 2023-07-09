@@ -26,8 +26,8 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
 
         // Firestoreに書き込むデータの作成
         let transaction: Dictionary<String, Any> = ["id": transactionId,
-                                                    "creditorId": creditorId ?? NSNull(),
-                                                    "debtorId": debtorId ?? NSNull(),
+                                                    "creditorId": creditorId ?? "",
+                                                    "debtorId": debtorId ?? "",
                                                     "title": title,
                                                     "description": description,
                                                     "amount": amount,
@@ -48,7 +48,6 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
      - parameter resolvedAt: 精算日時
      */
     func updateResolvedAt(transactionIds: [String], resolvedAt: Date) async throws {
-
         let splitTransactionIds = transactionIds.splitIntoChunks(ofSize: 300)
         for transactionIds in splitTransactionIds {
             let batch = db.batch()
@@ -86,8 +85,8 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
      */
     func updateTransaction(transaction: Transaction) async throws {
         let data: Dictionary<String, Any> = ["id": transaction.id,
-                                             "creditorId": transaction.creditorId ?? NSNull(),
-                                             "debtorId": transaction.debtorId ?? NSNull(),
+                                             "creditorId": transaction.creditorId ?? "",
+                                             "debtorId": transaction.debtorId ?? "",
                                              "title": transaction.title,
                                              "description": transaction.description,
                                              "amount": transaction.amount,
@@ -99,14 +98,93 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
             .setData(data, merge: true)
     }
 
+    /**
+     複数のFireStorageのトランザクションを上書きする
+     - parameter transaction: 上書きするtransactionデータの配列
+     */
+    func updateTransactions(transactions: [Transaction]) async throws {
+        let splitTransactions = transactions.splitIntoChunks(ofSize: 300)
+
+        for transactions in splitTransactions {
+            let batch = db.batch()
+            for transaction in transactions {
+                let document = db.collection("Transactions").document(transaction.id)
+                let data: Dictionary<String, Any> = ["id": transaction.id,
+                                                     "creditorId": transaction.creditorId ?? "",
+                                                     "debtorId": transaction.debtorId ?? "",
+                                                     "title": transaction.title,
+                                                     "description": transaction.description,
+                                                     "amount": transaction.amount,
+                                                     "createdAt": transaction.createdAt,
+                                                     "resolvedAt": transaction.resolvedAt ?? NSNull()]
+                batch.updateData(data, forDocument: document)
+            }
+            try await batch.commit()
+        }
+    }
+
+    /**
+     FireStorageトランザクションのCreditorをNullにする
+     - parameter transaction: Nullにするtransactionデータの配列
+     */
+    func updateCreditorNullOnTransactionIds(transactionIds: [String]) async throws {
+        let creditorNullOnTransaction: Dictionary<String, Any> = ["creditorId": ""]
+        let splitTransactionIds = transactionIds.splitIntoChunks(ofSize: 300)
+
+        for transactionIds in splitTransactionIds {
+            let batch = db.batch()
+            for transactionId in transactionIds {
+                let document = db.collection("Transactions").document(transactionId)
+                batch.updateData(creditorNullOnTransaction, forDocument: document)
+            }
+            try await batch.commit()
+        }
+    }
+
+    /**
+     FireStorageトランザクションのdebtorをNullにする
+     - parameter transaction: Nullにするtransactionデータの配列
+     */
+    func updateDebtorNullOnTransactionIds(transactionIds: [String]) async throws {
+        let creditorNullOnTransaction: Dictionary<String, Any> = ["debtorId": ""]
+        let splitTransactionIds = transactionIds.splitIntoChunks(ofSize: 300)
+
+        for transactionIds in splitTransactionIds {
+            let batch = db.batch()
+            for transactionId in transactionIds {
+                let document = db.collection("Transactions").document(transactionId)
+                batch.updateData(creditorNullOnTransaction, forDocument: document)
+            }
+            try await batch.commit()
+        }
+    }
+
 
     // MARK: - Delete
     /**
-     FireStorageのトランザクションを削除する
+     単一のFireStorageのトランザクションを削除する
      - parameter transactionId: 削除するtransactionId
      */
     func deleteTransaction(transactionId: String) async throws {
         try await db.collection("Transactions").document(transactionId).delete()
+    }
+
+    /**
+     複数のFireStorageのトランザクションを削除する
+     - Description
+     - アカウント削除する際に利用
+     - parameter transactionIds: 削除するtransactionIdの配列
+     */
+    func deleteTransactions(transactionIds: [String]) async throws {
+        let splitTransactionIds = transactionIds.splitIntoChunks(ofSize: 300)
+        for transactionIds in splitTransactionIds {
+            let batch = db.batch()
+            for transactionId in transactionIds {
+                let document = db.collection("Transactions").document(transactionId)
+                batch.deleteDocument(document)
+            }
+            try await batch.commit()
+        }
     }
 
 
@@ -123,9 +201,18 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
      */
     func fetchTransactions(myUserId: String, partnerUserId: String?, completion: @escaping([Transaction]?, Error?) -> Void) {
 
+        // パートナーが""で渡ってくるので、ほぼ全検索みたいな状態になってしまう。
+        // 空文字列で来た際は、"xxx"をFireStoreで調べるようにして、全検索にならないようにする
+        var searchPartnerUserId = partnerUserId
+        if let partnerUserId = partnerUserId {
+            if partnerUserId.isEmpty {
+                searchPartnerUserId = "xxx"
+            }
+        }
+
         // inを含むwhereFieldとorderByは同時に使えない
         db.collection("Transactions")
-            .whereField("creditorId", in: [partnerUserId, myUserId])
+            .whereField("creditorId", in: [searchPartnerUserId, myUserId])
             .addSnapshotListener { snapShots, error in
 
                 if let error = error {
@@ -154,114 +241,4 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
             }
     }
 
-    func fetchUnResolvedTransactions(myUserId: String, partnerUserId: String, completion: @escaping([Transaction]?, Error?) -> Void) {
-
-        // Transactionsコレクションから未精算の取引を取得する
-        // inを含むwhereFieldとorderByは同時に使えない
-        db.collection("Transactions")
-            .whereField("creditorId", in: [partnerUserId, myUserId])
-            .whereField("resolvedAt", isEqualTo: NSNull())
-            .addSnapshotListener { snapShots, error in
-
-                if let error = error {
-                    print("FireStore UnResolvedTransactions Fetch Error")
-                    completion(nil, error)
-                }
-
-                var transactions = [Transaction]()
-                snapShots?.documents.forEach({ snapShot in
-                    let data = snapShot.data()
-                    guard let id = data["id"] as? String,
-                          let title = data["title"] as? String,
-                          let description = data["description"] as? String,
-                          let amount = data["amount"] as? Int,
-                          let createdAt = data["createdAt"] as? Timestamp  else { return }
-
-                    // creditorIdもdebtorIdもパートナー連携していない場合のため空でも許される
-                    let debtorId = data["creditorId"] as? String
-                    let creditorId = data["creditorId"] as? String
-
-                    let transaction = Transaction(id: id, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount, createdAt: createdAt.dateValue())
-                    transactions.append(transaction)
-                })
-                completion(transactions, nil)
-            }
-    }
-
-    /**
-     精算済のトランザクションを取得する
-     - parameter myUserId: 自分のUserId
-     - parameter partnerUserId: パートナーのUserId
-     */
-    func fetchResolvedTransactions(myUserId: String, partnerUserId: String, completion: @escaping([Transaction]?, Error?) -> Void) {
-
-        // inを含むwhereFieldとorderByは同時に使えない
-        db.collection("Transactions")
-            .whereField("creditorId", in: [partnerUserId, myUserId])
-            .whereField("resolvedAt", isNotEqualTo: NSNull())
-            .addSnapshotListener { snapShots, error in
-
-                if let error = error {
-                    print("FireStore ResolvedTransactions Fetch Error")
-                    completion(nil, error)
-                }
-
-                var transactions = [Transaction]()
-                snapShots?.documents.forEach({ snapShot in
-                    let data = snapShot.data()
-                    guard let id = data["id"] as? String,
-                          let title = data["title"] as? String,
-                          let description = data["description"] as? String,
-                          let amount = data["amount"] as? Int,
-                          let createdAt = data["createdAt"] as? Timestamp,
-                          let resolvedAt = data["resolvedAt"] as? Timestamp else { return }
-
-                    // creditorIdもdebtorIdもパートナー連携していない場合のため空でも許される
-                    let creditorId = data["creditorId"] as? String
-                    let debtorId = data["debtorId"] as? String
-
-                    let transaction = Transaction(id: id, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount, createdAt: createdAt.dateValue(), resolvedAt: resolvedAt.dateValue())
-                    transactions.append(transaction)
-                })
-                completion(transactions, nil)
-            }
-    }
-
-    // TODO: FireStoreのアクセス数がこれでバク上がる気がして、この関数嫌だ
-    /**
-     最も古い精算済のトランザクションの日付を取得する
-     - Note: FireStoreのアクセス数がこれでバク上がる気がして、ちょっとこれ嫌だ
-     - parameter myUserId: 自分のUserId
-     - parameter partnerUserId: パートナーのUserId
-     - returns: 最も古い日付
-     */
-    func fetchOldestDate(myUserId: String, partnerUserId: String) async throws -> Date? {
-        let currentTimestamp = Timestamp(date: Date())
-        let currentDate = Date()
-        // Transactionsコレクションから未精算の取引を取得する
-        let querySnapshot = try await db.collection("Transactions")
-            .whereField("resolvedAt", isNotEqualTo: NSNull())
-            .whereField("creditorId", in: [partnerUserId, myUserId])
-//            .order(by: "createdAt")
-//            .limit(to: 1)
-            .getDocuments()
-
-        print("here")
-
-        // トランザクションを時系列ごとに並べ替える
-        let sortedDocuments = querySnapshot.documents.sorted(by: { (a, b) -> Bool in
-            return (a.get("createdAt") as? Timestamp)?.dateValue() ?? currentDate  < (b.get("createdAt") as? Timestamp)?.dateValue() ?? currentDate
-        })
-
-        guard let doc = sortedDocuments.first,
-              let oldestTimestamp = doc.get("createdAt") as? Timestamp else
-        { return nil }
-        return oldestTimestamp.dateValue()
-    }
-
 }
-
-
-
-
-

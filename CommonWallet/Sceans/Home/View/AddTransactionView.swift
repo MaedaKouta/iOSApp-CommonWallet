@@ -60,6 +60,7 @@ struct AddTransactionView: View {
                     // ナビゲーションバー右
                     ToolbarItem(placement: .navigationBarTrailing){
                         Button(action: {
+                            isKeyboardActive = false  //  フォーカスを外す
                             let submitTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
                             let submitDescription = description.trimmingCharacters(in: .whitespacesAndNewlines)
                             addTransaction(
@@ -85,8 +86,8 @@ struct AddTransactionView: View {
             } // ScrollViewここまで
         } // NavigationViewここまで
         .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
-        .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .labeledSuccess(title: nil, subtitle: "追加完了"), delay: 0.75)
-        .PKHUD(isPresented: $isPKHUDError, HUDContent: .labeledError(title: nil, subtitle: "予期せぬエラーが発生しました"), delay: 0.75)
+        .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 0.7)
+        .PKHUD(isPresented: $isPKHUDError, HUDContent: .labeledError(title: nil, subtitle: "エラー"), delay: 0.7)
     }
 
 

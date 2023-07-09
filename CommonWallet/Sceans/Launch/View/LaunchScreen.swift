@@ -22,10 +22,11 @@ struct LaunchScreen: View {
     @State private var fireStoreUserManager = FireStoreUserManager()
     @State private var fireStorePartnerManager = FireStorePartnerManager()
 
-    @ObservedObject var launchViewModel = LaunchViewModel()
+    @ObservedObject var viewModel = LaunchViewModel()
 
     var body: some View {
 
+        // 既に匿名ログインが済んでいる場合
         if let _ = Auth.auth().currentUser?.uid {
             if isMainTabViewLoading {
                 ZStack {
@@ -34,7 +35,6 @@ struct LaunchScreen: View {
                     Image("SampleLogo")
                 }
                 .onAppear {
-
                     print("アカウント作成済み")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         withAnimation {
@@ -46,18 +46,29 @@ struct LaunchScreen: View {
                 MainTabView()
             }
 
+        // 匿名ログインが済んでいない場合
         } else {
-
             if isSignInViewLoading {
                 ZStack {
                     Color(.red)
                         .ignoresSafeArea() // ステータスバーまで塗り潰すために必要
+                    Text("アカウント作成中...")
                     Image("Sample1")
                         .resizable()
                         .aspectRatio(contentMode: .fit)
                         .padding()
                 }
                 .onAppear {
+                    // アカウント作成
+                    Task {
+                        do {
+                            try await viewModel.createUser(myUserName: "ユーザー", partnerUserName: "パートナー")
+                            print("アカウント作成しました！")
+                        } catch {
+                            print(#function, error)
+                        }
+                    }
+
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         withAnimation {
                             isSignInViewLoading = false
@@ -65,7 +76,6 @@ struct LaunchScreen: View {
                     }
                 }
             } else {
-
                 MainTabView()
             }
         }

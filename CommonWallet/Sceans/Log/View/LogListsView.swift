@@ -45,7 +45,7 @@ struct LogListView: View {
         }
         .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
         .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 0.7)
-        .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 0.7)
+        .PKHUD(isPresented: $isPKHUDError, HUDContent: .labeledError(title: nil, subtitle: "エラー"), delay: 0.7)
         .onAppear {
             HUD.hide()
         }

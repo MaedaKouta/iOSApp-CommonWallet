@@ -40,6 +40,7 @@ struct MyNameEditView: View {
             ToolbarItem(placement: .navigationBarTrailing){
                 Button(action: {
                     Task {
+                        isKeyboardActive = false  //  フォーカスを外す
                         await updateName(newName: self.newName)
                     }
                 }) {

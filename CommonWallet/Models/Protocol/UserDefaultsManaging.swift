@@ -10,7 +10,6 @@ protocol UserDefaultsManaging {
     var userDefaultsKey: UserDefaultsKey { get }
 
     // MARK: - Setter
-
     func createUser(user: User)
     func createPartner(partner: Partner)
     func setUser(user: User)
@@ -45,6 +44,6 @@ protocol UserDefaultsManaging {
 
     // MARK: Delete
     func clearUser()
-    func deletePartner()
+    func clearPartner()
 
 }
