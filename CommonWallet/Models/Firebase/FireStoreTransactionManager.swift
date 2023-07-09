@@ -189,30 +189,20 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
 
 
     // MARK: - GET
-    /**
-     未精算のトランザクションを取得する
-     - parameter myUserId: 自分のUserId
-     - parameter partnerUserId: パートナーのUserId
-     */
-    /**
-     精算済のトランザクションを取得する
-     - parameter myUserId: 自分のUserId
-     - parameter partnerUserId: パートナーのUserId
-     */
+//    /**
+//     精算済のトランザクションを取得する
+//     - parameter myUserId: 自分のUserId
+//     - parameter partnerUserId: パートナーのUserId
+//     */
     func fetchTransactions(myUserId: String, partnerUserId: String?, completion: @escaping([Transaction]?, Error?) -> Void) {
-
-        // パートナーが""で渡ってくるので、ほぼ全検索みたいな状態になってしまう。
-        // 空文字列で来た際は、"xxx"をFireStoreで調べるようにして、全検索にならないようにする
-        var searchPartnerUserId = partnerUserId
-        if let partnerUserId = partnerUserId {
-            if partnerUserId.isEmpty {
-                searchPartnerUserId = "xxx"
-            }
-        }
 
         // inを含むwhereFieldとorderByは同時に使えない
         db.collection("Transactions")
-            .whereField("creditorId", in: [searchPartnerUserId, myUserId])
+            .whereFilter(
+                Filter.orFilter([
+                    Filter.whereField("creditorId", isEqualTo: myUserId),
+                    Filter.whereField("debtorId", isEqualTo: myUserId),
+            ]))
             .addSnapshotListener { snapShots, error in
 
                 if let error = error {
