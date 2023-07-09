@@ -35,7 +35,6 @@ struct UserDefaultsKey {
     let userId = "userId"
     let userName = "userName"
     let shareNumber = "shareNumber"
-    let email = "email"
     let myIconPath = "myIconPath"
     let myIconData = "myIconData"
     let createdAt = "createdAt"

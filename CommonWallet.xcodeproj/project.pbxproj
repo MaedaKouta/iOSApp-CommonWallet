@@ -537,9 +537,9 @@
 			isa = PBXGroup;
 			children = (
 				876EE23B2A26AEFC0073F1C3 /* WebView */,
+				87DDCDCB2A18373200F51DC8 /* PKHUDView.swift */,
 				87C0BADC2A03C52400A02978 /* Flip.swift */,
 				874613A52A2954A50068383B /* ImagePicker.swift */,
-				87DDCDCB2A18373200F51DC8 /* PKHUDView.swift */,
 			);
 			path = Source;
 			sourceTree = "<group>";

@@ -8,6 +8,7 @@ import SwiftUI
 struct AccountView: View {
 
     @StateObject var viewModel: AccountViewModel
+    @EnvironmentObject var transactionData: TransactionData
 
     @AppStorage(UserDefaultsKey().userName) private var userName = String()
     @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
@@ -35,11 +36,11 @@ struct AccountView: View {
             myUserNameSection()
             accountResetSection()
         }
-        //.scrollContentBackground(.visible)
+        .scrollContentBackground(.visible)
         .navigationTitle("アカウント")
         .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
-        .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
-        .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
+        .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 0.7)
+        .PKHUD(isPresented: $isPKHUDError, HUDContent: .labeledError(title: nil, subtitle: "エラー"), delay: 0.7)
         .sheet(isPresented: $isImagePickerFromLibrary) {
             ImagePicker(sourceType: .photoLibrary, selectedImage: $selectedAccountImage)
         }
@@ -62,11 +63,7 @@ struct AccountView: View {
         .alert("リセット", isPresented: $isAccountDeleteAlert){
             Button("リセット", role: .destructive){
                 Task {
-                    do {
-                        try await authManager.deleteUser()
-                    } catch {
-                        print("アカウント削除", error)
-                    }
+                    await self.clearAccount()
                 }
             }
         } message: {
@@ -75,7 +72,6 @@ struct AccountView: View {
     }
 
     // MARK: - Section
-
     /**
      アイコンを表示するView, タップでアイコン変更
      - Returns: View(Section)
@@ -165,10 +161,28 @@ struct AccountView: View {
         })
     }
 
+    /**
+     アカウントリセット.
+     処理中はインジケータを出し, 結果によって成功/失敗PKHUDを表示.
+     - Returns: View(Section)
+     */
+    private func clearAccount() async {
+        do {
+            self.isPKHUDProgress = true
+            try await viewModel.clearAccount(transactions: transactionData.transactions)
+            self.isPKHUDProgress = false
+            self.isPKHUDSuccess = false
+        } catch {
+            self.isPKHUDProgress = false
+            self.isPKHUDError = false
+            print(#function, error)
+        }
+    }
+
 }
 
 struct AccountView_Previews: PreviewProvider {
     static var previews: some View {
-        AccountView(viewModel: AccountViewModel(userDefaultsManager: UserDefaultsManager(), storageManager: StorageManager()))
+        AccountView(viewModel: AccountViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), fireStoreUserManager: FireStoreUserManager(), userDefaultsManager: UserDefaultsManager(), storageManager: StorageManager(), authManager: AuthManager()))
     }
 }

@@ -27,7 +27,7 @@ class PartnerInfoViewModel: ObservableObject {
             throw UserDefaultsError.emptyMyUserId
         }
         try await fireStorePartnerManager.deletePartner(myUserId: myUserId, partnerUserId: partnerUserId)
-        userDefaultsManager.deletePartner()
+        userDefaultsManager.clearPartner()
     }
 
 }

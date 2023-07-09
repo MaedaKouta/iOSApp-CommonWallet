@@ -4,16 +4,28 @@
 //
 
 import Foundation
+import FirebaseAuth
 import SwiftUI
 
 class AccountViewModel: ObservableObject {
 
+    private var fireStoreTransactionManager: FireStoreTransactionManaging
+    private var shareNumberManager =  ShareNumberManager()
+    private var fireStoreUserManager: FireStoreUserManaging
     private var userDefaultsManager: UserDefaultsManaging
     private var storageManager: StorageManaging
+    private var authManager: AuthManaging
 
-    init(userDefaultsManager: UserDefaultsManaging, storageManager: StorageManaging) {
+    init(fireStoreTransactionManager: FireStoreTransactionManaging,
+         fireStoreUserManager: FireStoreUserManaging,
+         userDefaultsManager: UserDefaultsManaging,
+         storageManager: StorageManaging,
+         authManager: AuthManaging) {
+        self.fireStoreTransactionManager = fireStoreTransactionManager
+        self.fireStoreUserManager = fireStoreUserManager
         self.userDefaultsManager = userDefaultsManager
         self.storageManager = storageManager
+        self.authManager = authManager
     }
 
     /**
@@ -48,6 +60,67 @@ class AccountViewModel: ObservableObject {
             completion(true, nil)
         })
 
+    }
+
+    /**
+     アカウントリセットを行う
+     - Description
+     - トランザクションの削除
+     - fireStoreのUserを削除
+     - authから削除
+     - UserDefaultsのクリーン
+     - parameter transactions: 今持っている全てのトランザクション
+     */
+    internal func clearAccount(transactions: [Transaction]) async throws {
+
+        guard let myUserId = Auth.auth().currentUser?.uid else { return }
+
+        // トランザクションの削除
+        // パートナーが空の場合、そのトランザションは削除
+        let userNullTransactionIds = transactions
+            .filter{
+                ($0.debtorId == myUserId && $0.creditorId == "") ||
+                ($0.debtorId == "" && $0.creditorId == myUserId)
+            }
+            .map { $0.id }
+        // creditorIdに自分のIdが含まれていて、パートナーが存在する場合は、そこをnullにしてアップデート
+        let myCreditorTransactionIds = transactions
+            .filter{ ($0.creditorId == myUserId && $0.debtorId != "") }
+            .map { $0.id }
+        // debtorIdに自分のIdが含まれていて、パートナーが存在する場合は、そこをnullにしてアップデート
+        let myDebtorTransactionIds = transactions
+            .filter{ ($0.debtorId == myUserId && $0.creditorId != "") }
+            .map { $0.id }
+
+        // ここは非同期で並列処理。関数を抜けるまでには必ず処理される。
+        async let _ = fireStoreTransactionManager.deleteTransactions(transactionIds: userNullTransactionIds)
+        async let _ = fireStoreTransactionManager.updateCreditorNullOnTransactionIds(transactionIds: myCreditorTransactionIds)
+        async let _ = fireStoreTransactionManager.updateDebtorNullOnTransactionIds(transactionIds: myDebtorTransactionIds)
+
+        // IconImageの削除
+        if let myIconPath = userDefaultsManager.getMyIconImagePath() {
+            storageManager.deleteImage(path: myIconPath)
+        }
+
+        // 初期情報定義
+        let myUserName = "ユーザー"
+        let partnerUserName = "パートナー"
+        let sampleMyIconPath = "icon-sample-images/sample\(Int.random(in: 1...20)).jpeg"
+        let samplePartnerIconPath = "icon-sample-images/initial-partner-icon.jpeg"
+        let sampleMyIconData = try await storageManager.download(path: sampleMyIconPath)
+        let samplePartnerIconData = try await storageManager.download(path: samplePartnerIconPath)
+        let shareNumber = try await shareNumberManager.createShareNumber()
+
+        // トランザクションにアカウント登録
+        try await fireStoreUserManager.createUser(userId: myUserId, userName: myUserName, iconPath: sampleMyIconPath, shareNumber: shareNumber)
+
+        // Userdefaultsに保存
+        userDefaultsManager.clearUser()
+        userDefaultsManager.clearPartner()
+        let user = User(id: myUserId, name: myUserName, shareNumber: shareNumber, iconPath: sampleMyIconPath, iconData: sampleMyIconData, createdAt: Date())
+        let partner = Partner(userName: partnerUserName, iconPath: samplePartnerIconPath, iconData: samplePartnerIconData)
+        userDefaultsManager.createUser(user: user)
+        userDefaultsManager.createPartner(partner: partner)
     }
 
 }

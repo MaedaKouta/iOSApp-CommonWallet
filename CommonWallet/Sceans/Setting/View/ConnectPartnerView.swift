@@ -39,6 +39,7 @@ struct ConnectPartnerView: View {
                 // After tapping: 通信してパートナー連携後, 画面を戻る
                 Button(action: {
                     Task {
+                        isKeyboardActive = false  //  フォーカスを外す
                         await addPartner(shareNumber: inputNumber)
                     }
                 }) {
