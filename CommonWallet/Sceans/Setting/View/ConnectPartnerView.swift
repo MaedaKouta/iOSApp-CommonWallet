@@ -17,6 +17,10 @@ struct ConnectPartnerView: View {
     @State private var isEnableComplete = false
     // キーボード
     @FocusState private var isKeyboardActive: Bool
+    // アラート
+    @State private var isMyShareNumberAlert = false
+    // UserDefaults
+    @AppStorage(UserDefaultsKey().shareNumber) private var myShareNumber = String()
     // PKHUD
     @State private var isPKHUDProgress = false
     @State private var isPKHUDSuccess = false
@@ -32,7 +36,10 @@ struct ConnectPartnerView: View {
         }
         .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
         .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
-        .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
+        .PKHUD(isPresented: $isPKHUDError, HUDContent: .labeledError(title: nil, subtitle: "エラー"), delay: 1.0)
+        .alert(isPresented: $isMyShareNumberAlert) {
+            Alert(title: Text("自身の共有番号は登録できません。"))
+        }
         .toolbar {
             // ナビゲーションバー右
             ToolbarItem(placement: .navigationBarTrailing) {
@@ -101,6 +108,12 @@ struct ConnectPartnerView: View {
      - parameter shareNumber: パートナーの共有番号
      */
     private func addPartner(shareNumber: String) async {
+
+        if shareNumber == myShareNumber {
+            self.isMyShareNumberAlert = true
+            return
+        }
+
         do {
             isPKHUDProgress = true
             try await viewModel.connectPartner(partnerShareNumber: inputNumber)
