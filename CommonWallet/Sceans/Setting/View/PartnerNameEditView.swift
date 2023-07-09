@@ -12,7 +12,8 @@ struct PartnerNameEditView: View {
     @StateObject var viewModel: PartnerNameEditViewModel
 
     @State private var afterPartnerName: String = ""
-
+    // キーボード
+    @FocusState private var isKeyboardActive: Bool
     // Userdefaults
     @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
     // Alert
@@ -45,6 +46,14 @@ struct PartnerNameEditView: View {
                 }
                 .disabled(!isEnableComplete)
             }
+
+            // キーボードのツールバー
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()         // 右寄せにする
+                Button("閉じる") {
+                    isKeyboardActive = false  //  フォーカスを外す
+                }
+            }
         }
 
     }
@@ -59,6 +68,7 @@ struct PartnerNameEditView: View {
             HStack {
                 Text("名前")
                 TextField(partnerModifiedName, text: $afterPartnerName)
+                    .focused(self.$isKeyboardActive)
                     .onChange(of: afterPartnerName, perform: { newValue in
                         if afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                             isEnableComplete = false

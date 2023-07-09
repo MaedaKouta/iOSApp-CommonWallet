@@ -112,6 +112,7 @@ struct EditTransactionView: View {
         VStack(alignment: .leading, spacing: 3) {
             Text("タイトル")
             TextField(viewModel.beforeTransaction.title, text: $viewModel.newTransaction.title)
+                .focused(self.$isKeyboardActive)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
                 .onChange(of: viewModel.newTransaction.title, perform: { newValue in
@@ -125,6 +126,7 @@ struct EditTransactionView: View {
         VStack(alignment: .leading, spacing: 3) {
             Text("金額")
             TextField("\(viewModel.beforeTransaction.amount)", value: $viewModel.newTransaction.amount, format: .number)
+                .focused(self.$isKeyboardActive)
                 .keyboardType(.numberPad)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
@@ -141,6 +143,7 @@ struct EditTransactionView: View {
                 .foregroundColor(.gray)
             ZStack(alignment: .topLeading) {
                 TextEditor(text: $viewModel.newTransaction.description)
+                    .focused(self.$isKeyboardActive)
                     .frame(height: 100)
                     .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(uiColor: .systemGray5), lineWidth: 1))
                     .onChange(of: viewModel.newTransaction.description, perform: { newValue in

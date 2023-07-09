@@ -110,6 +110,7 @@ struct AddTransactionView: View {
         VStack(alignment: .leading, spacing: 3) {
             Text("タイトル")
             TextField("駅前の薬局", text: $title)
+                .focused(self.$isKeyboardActive)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
                 .focused($isKeyboardActive)
@@ -124,6 +125,7 @@ struct AddTransactionView: View {
         VStack(alignment: .leading, spacing: 3) {
             Text("金額")
             TextField("480円", value: $amount, format: .number)
+                .focused(self.$isKeyboardActive)
                 .keyboardType(.numberPad)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)

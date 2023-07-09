@@ -15,7 +15,8 @@ struct ConnectPartnerView: View {
 
     @State private var inputNumber: String = ""
     @State private var isEnableComplete = false
-
+    // キーボード
+    @FocusState private var isKeyboardActive: Bool
     // PKHUD
     @State private var isPKHUDProgress = false
     @State private var isPKHUDSuccess = false
@@ -45,6 +46,14 @@ struct ConnectPartnerView: View {
                 }
                 .disabled(!isEnableComplete)
             }
+
+            // キーボードのツールバー
+            ToolbarItemGroup(placement: .keyboard) {
+                Spacer()         // 右寄せにする
+                Button("閉じる") {
+                    isKeyboardActive = false  //  フォーカスを外す
+                }
+            }
         }
     }
 
@@ -61,6 +70,7 @@ struct ConnectPartnerView: View {
                 Spacer()
 
                 TextField("123456781234", text: $inputNumber)
+                    .focused(self.$isKeyboardActive)
                     .keyboardType(.numberPad)
                     .padding(.leading)
                     // numberLimit(12文字)以上は入力できない
