@@ -171,10 +171,10 @@ struct AccountView: View {
             self.isPKHUDProgress = true
             try await viewModel.clearAccount(transactions: transactionData.transactions)
             self.isPKHUDProgress = false
-            self.isPKHUDSuccess = false
+            self.isPKHUDSuccess = true
         } catch {
             self.isPKHUDProgress = false
-            self.isPKHUDError = false
+            self.isPKHUDError = true
             print(#function, error)
         }
     }
