@@ -41,10 +41,10 @@ struct AddTransactionView: View {
                     titleInputView()
                         .padding()
 
-                    descriptionInputView()
+                    amountInputView()
                         .padding()
 
-                    amountInputView()
+                    descriptionInputView()
                         .padding()
                 }
                 .padding()
@@ -120,9 +120,25 @@ struct AddTransactionView: View {
     }
 
     // 詳細
+    private func amountInputView() -> some View {
+        VStack(alignment: .leading, spacing: 3) {
+            Text("金額")
+            TextField("480円", value: $amount, format: .number)
+                .keyboardType(.numberPad)
+                .textFieldStyle(RoundedBorderTextFieldStyle())
+                .padding(.horizontal)
+                .focused($isKeyboardActive)
+                .onChange(of: amount, perform: { newValue in
+                    self.checkEnableComplete()
+                })
+        }
+    }
+
+    // 詳細
     private func descriptionInputView() -> some View {
         VStack(alignment: .leading, spacing: 3) {
             Text("詳細")
+                .foregroundColor(.gray)
             ZStack(alignment: .topLeading) {
                 TextEditor(text: $description)
                     .frame(height: 100)
@@ -138,20 +154,6 @@ struct AddTransactionView: View {
         }
     }
 
-    // 詳細
-    private func amountInputView() -> some View {
-        VStack(alignment: .leading, spacing: 3) {
-            Text("金額")
-            TextField("480円", value: $amount, format: .number)
-                .keyboardType(.numberPad)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding(.horizontal)
-                .focused($isKeyboardActive)
-                .onChange(of: amount, perform: { newValue in
-                    self.checkEnableComplete()
-                })
-        }
-    }
 
     // MARK: -Logics
     private func checkEnableComplete() {
