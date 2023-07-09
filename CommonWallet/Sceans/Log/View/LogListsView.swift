@@ -117,7 +117,7 @@ struct LogListView: View {
                     self.selectedCancelTransactionIndex = index
                     self.isCancelResolvedAlert = true
                 } label: {
-                    Label("未清算に戻す", systemImage: imageNameProperty.checkmarkCircleSystemImage)
+                    Label("未清算に戻す", systemImage: imageNameProperty.arrowCounterclockwiseCircle)
                 }
 
                 Button() {
