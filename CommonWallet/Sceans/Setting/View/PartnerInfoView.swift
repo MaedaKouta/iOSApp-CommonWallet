@@ -29,14 +29,9 @@ struct PartnerInfoView: View {
                         Text(viewModel.partnerShareNumber)
                     }
                     HStack {
-                        Text("パートナーの登録名")
+                        Text("ユーザー名")
                         Spacer()
                         Text(viewModel.partnerName)
-                    }
-                    HStack {
-                        Text("本端末での表示名")
-                        Spacer()
-                        Text(viewModel.partnerModifiedName)
                     }
                 } header: {
                     Text("パートナー情報")
