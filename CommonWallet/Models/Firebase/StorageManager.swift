@@ -30,23 +30,18 @@ struct StorageManager: StorageManaging {
      - parameter image: アップロードするUIImage
      - parameter completion: アップロードしたパス情報 / アップロードしたアイコンデータ / エラー
     */
-    internal func upload(image: UIImage, completion: @escaping(String?, Data?, StorageError?) -> Void) {
-
-        guard let data = image.jpegData(compressionQuality: 0.1) else {
-            completion(nil, nil, StorageError.unknown("予期せぬエラーが発生しました。"))
-            return
-        }
+    internal func upload(imageData: Data, completion: @escaping(String?, StorageError?) -> Void) {
 
         let path = "icon-images/" + UUID().uuidString
         let imageRef = reference.child(path)
         let metadata = StorageMetadata()
         metadata.contentType = "image/jpg"
 
-        let uploadTask = imageRef.putData(data, metadata: metadata)
+        let uploadTask = imageRef.putData(imageData, metadata: metadata)
 
         uploadTask.observe(.success) { snapshot in
             print("StorageManager: image upload success!")
-            completion(path, data, nil)
+            completion(path, nil)
         }
 
         uploadTask.observe(.failure) { snapshot in
@@ -54,14 +49,14 @@ struct StorageManager: StorageManaging {
             if let error = snapshot.error as? NSError {
                 switch (StorageErrorCode(rawValue: error.code)!) {
                 case .objectNotFound:
-                    completion(nil, nil, StorageError.objectNotFound("画像が見つかりません。"))
+                    completion(nil, StorageError.objectNotFound("画像が見つかりません。"))
                     break
                 default:
-                    completion(nil, nil,  StorageError.unknown("予期せぬエラーが発生しました。"))
+                    completion(nil,  StorageError.unknown("予期せぬエラーが発生しました。"))
                     break
                 }
             } else {
-                completion(nil, nil, StorageError.unknown("予期せぬエラーが発生しました。"))
+                completion(nil, StorageError.unknown("予期せぬエラーが発生しました。"))
             }
         }
     }

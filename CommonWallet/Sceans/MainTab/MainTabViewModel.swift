@@ -4,22 +4,22 @@
 //
 
 import Foundation
+import SwiftUI
 
 class MainTabViewModel: ObservableObject {
-    private var authManager = AuthManager()
-    private var shareNumberManager = ShareNumberManager()
-    private var fireStoreTransactionManager = FireStoreTransactionManager()
     private var fireStoreUserManager = FireStoreUserManager()
     private var fireStorePartnerManager = FireStorePartnerManager()
-    private var storageManager = StorageManager()
     private var userDefaultsManager = UserDefaultsManager()
 
-    // ここでUserInfoをfetchする
-    // addSnapListernerだから、更新されるたびに自動でUserDefaultsが更新される
-    func realtimeFetchUserInfo() async {
+    @AppStorage(UserDefaultsKey().userId) private var myUserId: String?
+    @AppStorage(UserDefaultsKey().partnerUserId) private var partnerUserId: String?
 
-        guard let myUserId = userDefaultsManager.getUser()?.id else { return }
-        self.fireStoreUserManager.realtimeFetchInfo(userId: myUserId, completion: { [weak self] user, error in
+    /**
+     FireStorageから自分の情報をリアルタイム取得
+     */
+    func realtimeFetchUserInfo() async {
+        guard let myUserId = myUserId else { return }
+        self.fireStoreUserManager.realtimeFetchInfo(userId: myUserId, completion: { user, error in
 
             if let error = error {
                 print(error)
@@ -27,24 +27,29 @@ class MainTabViewModel: ObservableObject {
             }
 
             guard let user = user else { return }
-            self?.userDefaultsManager.setUser(user: user)
+            self.userDefaultsManager.setUser(user: user)
         })
     }
 
+    /**
+     FireStorageからパートナーの情報をリアルタイム取得
+     */
     func realtimeFetchPartnerInfo() async {
+        guard let partnerUserId = partnerUserId else { return }
+        if !partnerUserId.isEmpty {
+            fireStorePartnerManager.realtimeFetchPartnerInfo(partnerUserId: partnerUserId, completion: { partner, error in
 
-        guard let myUserId = userDefaultsManager.getUser()?.id else { return }
+                if let error = error {
+                    print(error)
+                    return
+                }
 
-        fireStorePartnerManager.realtimeFetchInfo(myUserId: myUserId, completion: { [weak self] partner, error in
-
-            if let error = error {
-                print(error)
-                return
-            }
-
-            guard let partner = partner else { return }
-            self?.userDefaultsManager.setPartner(partner: partner)
-        })
+                guard let partner = partner else { return }
+                if self.partnerUserId == partner.userId {
+                    self.userDefaultsManager.setPartner(partner: partner)
+                }
+            })
+        }
     }
 
 }

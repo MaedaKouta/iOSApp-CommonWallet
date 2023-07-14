@@ -189,11 +189,11 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
 
 
     // MARK: - GET
-//    /**
-//     精算済のトランザクションを取得する
-//     - parameter myUserId: 自分のUserId
-//     - parameter partnerUserId: パートナーのUserId
-//     */
+    /**
+     精算済のトランザクションを取得する
+     - parameter myUserId: 自分のUserId
+     - parameter partnerUserId: パートナーのUserId
+     */
     func fetchTransactions(myUserId: String, partnerUserId: String?, completion: @escaping([Transaction]?, Error?) -> Void) {
 
         // inを含むwhereFieldとorderByは同時に使えない

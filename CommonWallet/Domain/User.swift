@@ -24,18 +24,4 @@ struct User: Codable, Identifiable {
     var oldestResolvedDate: Date? // 精算の最も古い日時
     var partnerShareNumber: String?
 
-//    enum CodingKeys: String, CodingKey {
-//        case id
-//        case name
-//        case email
-//        case shareNumber
-//        case iconPath
-//        case iconData
-//        case createdAt
-//        case oldestResolvedDate
-//        case partnerUserId
-//        case partnerName
-//        case partnerShareNumber
-//    }
-
 }

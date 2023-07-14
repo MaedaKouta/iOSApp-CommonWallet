@@ -26,10 +26,11 @@ struct MainTabView: View {
                         Text("履歴")
                     }
                 }.tag(2)
-        }.onAppear {
+        }
+        .onAppear {
             Task {
-                await viewModel.realtimeFetchPartnerInfo()
                 await viewModel.realtimeFetchUserInfo()
+                await viewModel.realtimeFetchPartnerInfo()
             }
         }
     }
