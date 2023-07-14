@@ -28,7 +28,7 @@ struct PartnerNameEditView: View {
                 editPartnerNameSection()
             }
         }
-        .navigationTitle("パートナーのニックネーム")
+        .navigationTitle("パートナーの表示名")
         .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
         .toolbar {
             /// ナビゲーションバー右
@@ -67,7 +67,7 @@ struct PartnerNameEditView: View {
     private func editPartnerNameSection() -> some View {
         Section {
             HStack {
-                Text("名前")
+                Text("表示名")
                 TextField(partnerModifiedName, text: $afterPartnerName)
                     .focused(self.$isKeyboardActive)
                     .onChange(of: afterPartnerName, perform: { newValue in
