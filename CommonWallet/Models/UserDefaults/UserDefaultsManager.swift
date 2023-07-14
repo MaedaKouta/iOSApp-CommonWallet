@@ -9,7 +9,7 @@ import SwiftUI
 struct UserDefaultsManager: UserDefaultsManaging {
 
     internal let userDefaultsKey = UserDefaultsKey()
-    
+    @AppStorage(UserDefaultsKey().partnerName) private var partnerName: String?
 
     // MARK: - Setter
     func createUser(user: User) {
@@ -53,15 +53,6 @@ struct UserDefaultsManager: UserDefaultsManaging {
         UserDefaults.standard.set(partner.iconPath, forKey: userDefaultsKey.partnerIconPath)
         UserDefaults.standard.set(partner.iconData, forKey: userDefaultsKey.partnerIconData)
     }
-
-//    func setPartner(userId: String, name: String, modifiedName: String, iconPath: String, iconData: Data, shareNumber: String) {
-//        UserDefaults.standard.set(userId, forKey: userDefaultsKey.partnerUserId)
-//        UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)
-//        UserDefaults.standard.set(modifiedName, forKey: userDefaultsKey.partnerModifiedName)
-//        UserDefaults.standard.set(iconPath, forKey: userDefaultsKey.partnerIconPath)
-//        UserDefaults.standard.set(iconData, forKey: userDefaultsKey.partnerIconData)
-//        UserDefaults.standard.set(shareNumber, forKey: userDefaultsKey.partnerShareNumber)
-//    }
 
     func setPartner(userId: String, name: String, modifiedName: String, shareNumber: String) {
         UserDefaults.standard.set(userId, forKey: userDefaultsKey.partnerUserId)
