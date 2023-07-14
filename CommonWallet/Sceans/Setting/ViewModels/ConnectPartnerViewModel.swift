@@ -26,5 +26,4 @@ class ConnectPartnerViewModel: ObservableObject {
         let partner = try await fireStorePartnerManager.connectPartner(myUserId: myUserId, partnerShareNumber: partnerShareNumber)
         userDefaultsManager.setPartner(partner: partner)
     }
-
 }

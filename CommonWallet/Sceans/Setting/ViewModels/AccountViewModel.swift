@@ -6,6 +6,7 @@
 import Foundation
 import FirebaseAuth
 import SwiftUI
+import FirebaseStorage
 
 class AccountViewModel: ObservableObject {
 
@@ -15,6 +16,9 @@ class AccountViewModel: ObservableObject {
     private var userDefaultsManager: UserDefaultsManaging
     private var storageManager: StorageManaging
     private var authManager: AuthManaging
+
+    @AppStorage(UserDefaultsKey().userId) private var myUserId = String()
+    @AppStorage(UserDefaultsKey().myIconPath) private var myIconPath = String()
 
     init(fireStoreTransactionManager: FireStoreTransactionManaging,
          fireStoreUserManager: FireStoreUserManaging,
@@ -33,32 +37,27 @@ class AccountViewModel: ObservableObject {
      - Description:
         - StorageManager.uploadでアイコンのアップロード
         - StorageManager.deleteで古いアイコンの削除
+        - fireStoreUserManager.putIconPathでFireStoreの更新
         - UserdefaultsのMyIconData・MyIconPathの更新
      - parameter image: アップロードするUIImage
-     - parameter completion: 成功失敗のBool値 / エラー
+     - parameter completion: アップロードしたパス / エラー
     */
-    internal func uploadIconImage(image: UIImage, completion: @escaping(Bool, Error?) -> Void) {
+    internal func uploadIcon(image: UIImage) async throws {
 
-        storageManager.upload(image: image, completion: { [weak self] path, imageData, error in
-            if error != nil {
-                completion(false, error)
-                return
-            }
+        guard let imageData = image.jpegData(compressionQuality: 0.1) else {
+            throw StorageError.unknown("予期せぬエラーが発生しました。")
+        }
+        let uploadPath = try await self.uploadIconAsync(imageData: imageData)
 
-            guard let path = path,
-                  let imageData = imageData else {
-                completion(false, NSError())
-                return
-            }
+        // StorageManager.deleteで古いアイコンの削除
+        let oldIconImagePath = self.myIconPath
+        self.storageManager.deleteImage(path: oldIconImagePath)
 
-            // StorageManager.deleteで古いアイコンの削除
-            if let oldIconImagePath = self?.userDefaultsManager.getMyIconImagePath() {
-                self?.storageManager.deleteImage(path: oldIconImagePath)
-            }
-            // UserdefaultsのMyIconData・MyIconPathの更新
-            self?.userDefaultsManager.setMyIcon(path: path, imageData: imageData)
-            completion(true, nil)
-        })
+        // FireStoreのMyIconPathの更新
+        try await self.fireStoreUserManager.putIconPath(userId: myUserId, path: uploadPath)
+
+        // UserdefaultsのMyIconData・MyIconPathの更新
+        self.userDefaultsManager.setMyIcon(path: uploadPath, imageData: imageData)
 
     }
 
@@ -121,6 +120,25 @@ class AccountViewModel: ObservableObject {
         let partner = Partner(userName: partnerUserName, iconPath: samplePartnerIconPath, iconData: samplePartnerIconData)
         userDefaultsManager.createUser(user: user)
         userDefaultsManager.createPartner(partner: partner)
+    }
+
+
+    // async
+    private func uploadIconAsync(imageData: Data) async throws -> String {
+        try await withCheckedThrowingContinuation { continuation in
+            storageManager.upload(imageData: imageData, completion: { path, error in
+
+                if let error = error {
+                    continuation.resume(throwing: error)
+                }
+
+                if let path = path {
+                    continuation.resume(returning: path)
+                } else {
+                    continuation.resume(throwing: NSError())
+                }
+            })
+        }
     }
 
 }

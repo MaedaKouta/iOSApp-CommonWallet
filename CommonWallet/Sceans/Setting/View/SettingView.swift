@@ -15,7 +15,7 @@ struct SettingView: View {
     @AppStorage(UserDefaultsKey().shareNumber) private var myShareNumber = String()
     @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
     @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
-    @AppStorage(UserDefaultsKey().partnerShareNumber) private var partnerShareNumber = String()
+    @AppStorage(UserDefaultsKey().partnerShareNumber) private var partnerShareNumber: String?
     @State private var imageNameProperty = ImageNameProperty()
 
     @State private var isShareNumberCopyDoneAlert: Bool = false
@@ -126,13 +126,13 @@ struct SettingView: View {
             }
 
             // 条件分岐: パートナーと連携済みorパートナーと未連携
-            if viewModel.isConnectedPartner() {
+            if partnerShareNumber != nil {
                 // After tapping: PartnerInfoViewへNavigation遷移
                 NavigationLink(destination: PartnerInfoView(viewModel: PartnerInfoViewModel())) {
                     HStack {
                         Text("連携情報")
                         Spacer()
-                        Text(partnerShareNumber.splitBy4Digits(betweenText: " "))
+                        Text(partnerShareNumber!.splitBy4Digits(betweenText: " "))
                             .foregroundColor(.gray)
                             .frame(maxWidth: .infinity, alignment: .trailing)
                     }

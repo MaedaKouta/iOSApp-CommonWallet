@@ -12,9 +12,9 @@ protocol FireStoreUserManaging {
 
     // MARK: PUT
     func putUserName(userId: String, userName: String) async throws
+    func putIconPath(userId: String, path: String) async throws
 
     // MARK: Fetch
-    func fetchInfo(userId: String) async throws -> User?
     func realtimeFetchInfo(userId: String, completion: @escaping(User?, Error?) -> Void)
 
 }

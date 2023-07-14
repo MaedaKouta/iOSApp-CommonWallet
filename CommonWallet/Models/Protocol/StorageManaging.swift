@@ -8,7 +8,7 @@ import FirebaseStorage
 import UIKit
 
 protocol StorageManaging {
-    func upload(image: UIImage, completion: @escaping(String?, Data?, StorageError?) -> Void)
+    func upload(imageData: Data, completion: @escaping(String?, StorageError?) -> Void)
     func download(path: String) async throws -> Data
     func deleteImage(path: String)
 }

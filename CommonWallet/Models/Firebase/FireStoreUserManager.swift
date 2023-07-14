@@ -12,6 +12,7 @@ import FirebaseFirestoreSwift
 struct FireStoreUserManager: FireStoreUserManaging {
 
     private let db = Firestore.firestore()
+    private let userDefaultsManager = UserDefaultsManager()
 
     // MARK: POST
     /**
@@ -31,6 +32,7 @@ struct FireStoreUserManager: FireStoreUserManaging {
         try await db.collection("Users").document(userId).setData(user)
     }
 
+
     // MARK: PUT
     /**
      自分のUserNameを更新
@@ -42,29 +44,17 @@ struct FireStoreUserManager: FireStoreUserManaging {
         try await db.collection("Users").document(userId).setData(user, merge: true)
     }
 
-    // MARK: Delete
     /**
-     自分のUser情報を削除
-     - parameter userId: 自分のユーザーID
+     自分のIconPathを更新
+     - parameter path: 新しいパス
      */
-    func deleteUser(userId: String) async throws {
-        try await db.collection("Users").document(userId).delete()
+    func putIconPath(userId: String, path: String) async throws {
+        let iconPath: Dictionary<String, Any> = ["iconPath": path]
+        try await db.collection("Users").document(userId).setData(iconPath, merge: true)
     }
+
 
     // MARK: Fetch
-    /**
-     Uesr情報を返す
-     - Description
-     - FireStoreのアクセス回数が増えるため使用注意
-     - parameter userId: 自分のユーザーID
-     - Returns: Userを返す
-     */
-    func fetchInfo(userId: String) async throws -> User? {
-        let user = try await db.collection("Users").document(userId)
-            .getDocument(as: User.self)
-        return user
-    }
-
     /**
      リアルタイムに自分のUser情報を取得する
      - Description
@@ -89,9 +79,19 @@ struct FireStoreUserManager: FireStoreUserManaging {
              let partnerUserId = data["partnerUserId"] as? String
              let partnerName = data["partnerName"] as? String
              let partnerShareNumber = data["partnerShareNumber"] as? String
+             let iconData = userDefaultsManager.getMyIconImageData()
 
-            let user = User(id: userId, name: userName, shareNumber: shareNumber, iconPath: iconPath, createdAt: createdAt.dateValue(), partnerUserId: partnerUserId, partnerName: partnerName, partnerShareNumber: partnerShareNumber)
-
+            let user = User(
+                id: userId,
+                name: userName,
+                shareNumber: shareNumber,
+                iconPath: iconPath,
+                iconData: iconData,
+                createdAt: createdAt.dateValue(),
+                partnerUserId: partnerUserId,
+                partnerName: partnerName,
+                partnerShareNumber: partnerShareNumber
+            )
             completion(user, nil)
         }
     }

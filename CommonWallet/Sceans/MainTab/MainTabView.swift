@@ -8,27 +8,29 @@ import SwiftUI
 struct MainTabView: View {
 
     @ObservedObject var viewModel = MainTabViewModel()
+    private let imageNameProperty = ImageNameProperty()
 
     var body: some View {
         TabView {
             CommonWalletView(viewModel: CommonWalletViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), fireStoreUserManager: FireStoreUserManager()))
                 .tabItem {
                     VStack {
-                        Image(systemName: "house")
+                        Image(systemName: imageNameProperty.houseSystemImage)
                         Text("ホーム")
                     }
                 }.tag(1)
             AllLogView()
                 .tabItem {
                     VStack {
-                        Image(systemName: "tray.full")
+                        Image(systemName: imageNameProperty.trayFullSystemImage)
                         Text("履歴")
                     }
                 }.tag(2)
-        }.onAppear {
+        }
+        .onAppear {
             Task {
-                await viewModel.realtimeFetchPartnerInfo()
                 await viewModel.realtimeFetchUserInfo()
+                await viewModel.realtimeFetchPartnerInfo()
             }
         }
     }

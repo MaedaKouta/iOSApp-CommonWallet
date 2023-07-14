@@ -149,16 +149,15 @@ struct AccountView: View {
             isPKHUDError = true
             return
         }
-        isPKHUDProgress = true
-        viewModel.uploadIconImage(image: accountImage, completion: { isSuccess, error in
-            if isSuccess {
-                self.isPKHUDProgress = false
-                isPKHUDSuccess = true
-            } else {
-                self.isPKHUDProgress = false
-                isPKHUDError = true
-            }
-        })
+        do {
+            isPKHUDProgress = true
+            try await viewModel.uploadIcon(image: accountImage)
+            self.isPKHUDProgress = false
+            self.isPKHUDSuccess = true
+        } catch {
+            self.isPKHUDProgress = false
+            self.isPKHUDError = true
+        }
     }
 
     /**
