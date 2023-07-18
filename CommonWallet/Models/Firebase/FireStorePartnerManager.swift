@@ -23,7 +23,7 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
      - parameter partnerShareNumber: 引数２詳細
      - Returns: FireStoreで取得したPartner
      */
-    func connectPartner(myUserId: String, partnerShareNumber: String) async throws -> Partner {
+    func connectPartner(myUserId: String, partnerShareNumber: String) async throws -> User {
         guard let myShareNumber = userDefaultManager.getMyShareNumber() else {
             throw UserDefaultsError.emptySomeValue
         }
@@ -32,9 +32,9 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
             .whereField("shareNumber", isEqualTo: partnerShareNumber)
             .getDocuments()
         guard let data = snapShots.documents.first?.data(),
-              let partnerUserId = data["id"] as? String,
-              let partnerIconPath = data["iconPath"] as? String,
-              let partnerName = data["name"] as? String else {
+              let id = data["id"] as? String,
+              let iconPath = data["iconPath"] as? String,
+              let name = data["name"] as? String else {
             throw InvalidValueError.unexpectedNullValue
         }
 
@@ -42,29 +42,32 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
         async let _ = db.collection("Users")
             .document(myUserId)
             .setData([
-                "partnerUserId": partnerUserId,
+                "partnerUserId": id,
                 "partnerShareNumber": partnerShareNumber,
             ], merge: true)
 
         // 非同期2: 相手のPartnerIdに自分のUserIdを入れる
         async let _ = db.collection("Users")
-            .document(partnerUserId)
+            .document(id)
             .setData([
                 "partnerUserId": myUserId,
                 "partnerShareNumber": myShareNumber,
             ], merge: true)
 
         // 非同期3: PartnerIconDataを取得
-        async let partnerIconData = try await storageManager.download(path: partnerIconPath)
+        async let partnerIconData = try await storageManager.download(path: iconPath)
 
-        let partner = try await Partner(
-            userId: partnerUserId,
-            userName: partnerName,
+        let partnerUser = try await User(
+            id: id,
+            name: name,
             shareNumber: partnerShareNumber,
-            iconPath: partnerIconPath,
-            iconData: partnerIconData
+            iconPath: iconPath,
+            iconData: partnerIconData,
+            partnerUserId: myUserId,
+            partnerName: userDefaultManager.getMyUserName(),
+            partnerShareNumber: myShareNumber
         )
-        return partner
+        return partnerUser
     }
 
     /**
@@ -76,6 +79,7 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
      - parameter partnerUserId: パートナーのユーザーID
      */
     func deletePartner(myUserId: String, partnerUserId: String) async throws {
+        print(myUserId, partnerUserId)
         async let _ = db.collection("Users")
             .document(myUserId)
             .setData([
@@ -96,7 +100,7 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
      - Description
      - parameter myUserId: 自身のユーザーID
      */
-    func realtimeFetchPartnerInfo(partnerUserId: String, completion: @escaping(Partner?, Error?) -> Void) {
+    func realtimeFetchPartnerInfo(partnerUserId: String, completion: @escaping(User?, Error?) -> Void) {
 
         // partnerUserIdからpartnerのデータを取得
         db.collection("Users").document(partnerUserId)
@@ -108,37 +112,41 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
                 }
 
                 guard let data = querySnapshot?.data(),
-                      let partnerUserName = data["name"] as? String,
-                      let partnerIconPath = data["iconPath"] as? String,
-                      let partnerShareNumber = data["shareNumber"] as? String else {
+                      let id = data["id"] as? String,
+                      let name = data["name"] as? String,
+                      let iconPath = data["iconPath"] as? String,
+                      let shareNumber = data["shareNumber"] as? String else {
                     completion(nil, InvalidValueError.unexpectedNullValue)
                     return
                 }
 
-                let myShareNumber = data["partnerShareNumber"] as? String
+                let partnerUserId = data["partnerUserId"] as? String
+                let partnerShareNumber = data["partnerShareNumber"] as? String
 
                 // パートナーのIconDataを取得する
-                self.storageManager.download(path: partnerIconPath, completion: { data, error in
+                self.storageManager.download(path: iconPath, completion: { data, error in
 
                     if let error = error {
                         completion(nil, error)
                     }
 
-                    guard let data = data else {
+                    guard let iconData = data else {
                         completion(nil, NSError())
                         return
                     }
-                    print(partnerShareNumber)
+
                     // return処理
-                    let partner = Partner(
-                        userId: partnerUserId,
-                        userName: partnerUserName,
-                        shareNumber: partnerShareNumber,
-                        iconPath: partnerIconPath,
-                        iconData: data,
-                        partnerShareNumber: myShareNumber
+                    let partnerUser = User(
+                        id: id,
+                        name: name,
+                        shareNumber: shareNumber,
+                        iconPath: iconPath,
+                        iconData: iconData,
+                        partnerUserId: partnerUserId,
+                        partnerName: userDefaultManager.getMyUserName(),
+                        partnerShareNumber: partnerShareNumber
                     )
-                    completion(partner, nil)
+                    completion(partnerUser, nil)
                 })
             }
     }

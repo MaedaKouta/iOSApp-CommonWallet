@@ -22,6 +22,7 @@ class LaunchViewModel: ObservableObject {
 
         // 自分の情報定義
         let myUserId = authResult.user.uid
+        let createdAt = Date()
         let sampleMyIconPath = "icon-sample-images/sample\(Int.random(in: 1...20)).jpeg"
         let sampleMyIconData = try await storageManager.download(path: sampleMyIconPath)
         let myShareNumber = try await shareNumberManager.createShareNumber()
@@ -29,14 +30,23 @@ class LaunchViewModel: ObservableObject {
         let samplePartnerIconPath = "icon-sample-images/initial-partner-icon.jpeg"
         let samplePartnerIconData = try await storageManager.download(path: samplePartnerIconPath)
 
-        // トランザクションにアカウント登録
-        try await fireStoreUserManager.createUser(userId: myUserId, userName: myUserName, iconPath: sampleMyIconPath, shareNumber: myShareNumber)
+        // FireStoreにアカウント登録
+        try await fireStoreUserManager.createUser(userId: myUserId, userName: myUserName, iconPath: sampleMyIconPath, shareNumber: myShareNumber, createdAt: createdAt)
 
         // Userdefaultsに保存
-        let user = User(id: myUserId, name: myUserName, shareNumber: myShareNumber, iconPath: sampleMyIconPath, iconData: sampleMyIconData, createdAt: Date())
-        let partner = Partner(userName: partnerUserName, iconPath: samplePartnerIconPath, iconData: samplePartnerIconData)
-        userDefaultsManager.createUser(user: user)
-        userDefaultsManager.createPartner(partner: partner)
+        let user = User(
+            id: myUserId,
+            name: myUserName,
+            shareNumber: myShareNumber,
+            iconPath: sampleMyIconPath,
+            iconData: sampleMyIconData,
+            partnerUserId: nil,
+            partnerName: partnerUserName,
+            partnerShareNumber: nil
+        )
+        userDefaultsManager.setUser(user: user)
+        userDefaultsManager.setPartnerIcon(path: samplePartnerIconPath, imageData: samplePartnerIconData)
+        userDefaultsManager.setCreatedAt(createdAt)
     }
 
 }

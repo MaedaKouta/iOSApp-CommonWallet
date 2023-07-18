@@ -11,6 +11,8 @@ class ConnectPartnerViewModel: ObservableObject {
     @Published var isConnect: Bool = false
     private let fireStorePartnerManager: FireStorePartnerManaging
     private let userDefaultsManager: UserDefaultsManaging
+    private let imageProperty = ImageProperty()
+
 
     init(fireStorePartnerManager: FireStorePartnerManaging, userDefaultsManager: UserDefaultsManaging) {
         self.fireStorePartnerManager = fireStorePartnerManager
@@ -22,8 +24,15 @@ class ConnectPartnerViewModel: ObservableObject {
      - Parameters partnerShareNumber: 連携させるパートナーの共有番号
          */
     func connectPartner(partnerShareNumber: String) async throws {
-        guard let myUserId = userDefaultsManager.getMyUserId() else {throw NSError()}
-        let partner = try await fireStorePartnerManager.connectPartner(myUserId: myUserId, partnerShareNumber: partnerShareNumber)
-        userDefaultsManager.setPartner(partner: partner)
+        guard let myUserId = Auth.auth().currentUser?.uid else {throw NSError()}
+        let partnerUser = try await fireStorePartnerManager.connectPartner(myUserId: myUserId, partnerShareNumber: partnerShareNumber)
+        userDefaultsManager.setPartnerInfo(
+            partnerUserId: partnerUser.id,
+            partnerName: partnerUser.name,
+            partnerShareNumber: partnerUser.shareNumber,
+            partnerIconPath: partnerUser.iconPath,
+            partnerIconData: partnerUser.iconData ?? imageProperty.getIconNotFoundData()
+        )
     }
+
 }

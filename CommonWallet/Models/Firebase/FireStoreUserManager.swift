@@ -22,12 +22,28 @@ struct FireStoreUserManager: FireStoreUserManaging {
      - parameter iconPath: アイコンのパス
      - parameter shareNumber: 共有番号
      */
-    func createUser(userId: String, userName: String, iconPath: String, shareNumber: String) async throws {
+    func createUser(userId: String, userName: String, iconPath: String, shareNumber: String, createdAt: Date) async throws {
         let user: Dictionary<String, Any> = ["id": userId,
                                              "name": userName,
                                              "iconPath": iconPath,
                                              "shareNumber": shareNumber,
-                                             "createdAt": Timestamp(),
+                                             "createdAt": createdAt,
+                                             ]
+        try await db.collection("Users").document(userId).setData(user)
+    }
+
+    /**
+     User情報を初期登録
+     - parameter userId: ユーザーID
+     - parameter userName: ユーザー名
+     - parameter iconPath: アイコンのパス
+     - parameter shareNumber: 共有番号
+     */
+    func resetUser(userId: String, userName: String, iconPath: String, shareNumber: String) async throws {
+        let user: Dictionary<String, Any> = ["id": userId,
+                                             "name": userName,
+                                             "iconPath": iconPath,
+                                             "shareNumber": shareNumber,
                                              ]
         try await db.collection("Users").document(userId).setData(user)
     }
@@ -70,23 +86,21 @@ struct FireStoreUserManager: FireStoreUserManaging {
                 completion(nil, error)
             }
             guard let data = snapShot?.data(),
-                  let userId = data["id"] as? String,
-                  let userName = data["name"] as? String,
+                  let id = data["id"] as? String,
+                  let name = data["name"] as? String,
                   let iconPath = data["iconPath"] as? String,
-                  let shareNumber = data["shareNumber"] as? String,
-                  let createdAt = data["createdAt"] as? Timestamp else { return }
+                  let shareNumber = data["shareNumber"] as? String else { return }
 
              let partnerUserId = data["partnerUserId"] as? String
              let partnerShareNumber = data["partnerShareNumber"] as? String
              let iconData = userDefaultsManager.getMyIconData()
 
             let user = User(
-                id: userId,
-                name: userName,
+                id: id,
+                name: name,
                 shareNumber: shareNumber,
                 iconPath: iconPath,
                 iconData: iconData,
-                createdAt: createdAt.dateValue(),
                 partnerUserId: partnerUserId,
                 partnerShareNumber: partnerShareNumber
             )

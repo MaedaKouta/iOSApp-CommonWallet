@@ -38,6 +38,7 @@ struct UserDefaultsKey {
     let myIconPath = "myIconPath"
     let myIconData = "myIconData"
     let createdAt = "createdAt"
+    // いらない？
     let oldestResolvedDate = "oldestResolvedDate"
 
     // Partnerユーザー情報
@@ -47,10 +48,10 @@ struct UserDefaultsKey {
     let partnerIconData = "partnerIconData"
     let partnerShareNumber = "partnerShareNumber"
 
-    // サインイン情報
+    // サインイン情報（いらない）
     let isSignedIn = "isSignedIn"
 
-    // バージョン情報
+    // バージョン情報（現状いる？）
     let launchedVersion = "launchedVersion"
 
 }

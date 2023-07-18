@@ -13,7 +13,7 @@ class AccountViewModel: ObservableObject {
     private var fireStoreTransactionManager: FireStoreTransactionManaging
     private var shareNumberManager =  ShareNumberManager()
     private var fireStoreUserManager: FireStoreUserManaging
-    private var userDefaultsManager: UserDefaultsManaging
+    private var userDefaultsManager: UserDefaultsManager
     private var storageManager: StorageManaging
     private var authManager: AuthManaging
 
@@ -22,7 +22,7 @@ class AccountViewModel: ObservableObject {
 
     init(fireStoreTransactionManager: FireStoreTransactionManaging,
          fireStoreUserManager: FireStoreUserManaging,
-         userDefaultsManager: UserDefaultsManaging,
+         userDefaultsManager: UserDefaultsManager,
          storageManager: StorageManaging,
          authManager: AuthManaging) {
         self.fireStoreTransactionManager = fireStoreTransactionManager
@@ -111,15 +111,23 @@ class AccountViewModel: ObservableObject {
         let shareNumber = try await shareNumberManager.createShareNumber()
 
         // トランザクションにアカウント登録
-        try await fireStoreUserManager.createUser(userId: myUserId, userName: myUserName, iconPath: sampleMyIconPath, shareNumber: shareNumber)
+        try await fireStoreUserManager.resetUser(userId: myUserId, userName: myUserName, iconPath: sampleMyIconPath, shareNumber: shareNumber)
 
         // Userdefaultsに保存
         userDefaultsManager.clearUser()
-        userDefaultsManager.clearPartner()
-        let user = User(id: myUserId, name: myUserName, shareNumber: shareNumber, iconPath: sampleMyIconPath, iconData: sampleMyIconData, createdAt: Date())
-        let partner = Partner(userName: partnerUserName, iconPath: samplePartnerIconPath, iconData: samplePartnerIconData)
-        userDefaultsManager.createUser(user: user)
-        userDefaultsManager.createPartner(partner: partner)
+
+        let user = User(
+            id: myUserId,
+            name: myUserName,
+            shareNumber: shareNumber,
+            iconPath: sampleMyIconPath,
+            iconData: sampleMyIconData,
+            partnerUserId: nil,
+            partnerName: partnerUserName,
+            partnerShareNumber: nil
+        )
+        userDefaultsManager.setUser(user: user)
+        userDefaultsManager.setPartnerIcon(path: samplePartnerIconPath, imageData: samplePartnerIconData)
     }
 
 
