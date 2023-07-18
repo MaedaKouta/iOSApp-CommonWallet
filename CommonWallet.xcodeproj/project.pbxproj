@@ -56,7 +56,6 @@
 		87534ACF2981F359009671C3 /* FireStorePayInfoManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87534ACE2981F359009671C3 /* FireStorePayInfoManagerTests.swift */; };
 		8753D7302A06175B0074E04A /* EditTransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753D72F2A06175B0074E04A /* EditTransactionViewModel.swift */; };
 		8753D7322A06201E0074E04A /* EditTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753D7312A06201E0074E04A /* EditTransactionView.swift */; };
-		876821102A3683C3003EC091 /* Partner.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8768210F2A3683C3003EC091 /* Partner.swift */; };
 		876831C52A667441007F00A5 /* ImageProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876831C42A667441007F00A5 /* ImageProperty.swift */; };
 		876EE23E2A26AF310073F1C3 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876EE23C2A26AF310073F1C3 /* WebViewController.swift */; };
 		876EE23F2A26AF310073F1C3 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 876EE23D2A26AF310073F1C3 /* WebViewController.xib */; };
@@ -184,7 +183,6 @@
 		87534ACE2981F359009671C3 /* FireStorePayInfoManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FireStorePayInfoManagerTests.swift; sourceTree = "<group>"; };
 		8753D72F2A06175B0074E04A /* EditTransactionViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTransactionViewModel.swift; sourceTree = "<group>"; };
 		8753D7312A06201E0074E04A /* EditTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTransactionView.swift; sourceTree = "<group>"; };
-		8768210F2A3683C3003EC091 /* Partner.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Partner.swift; sourceTree = "<group>"; };
 		876831C42A667441007F00A5 /* ImageProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProperty.swift; sourceTree = "<group>"; };
 		876EE23C2A26AF310073F1C3 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		876EE23D2A26AF310073F1C3 /* WebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
@@ -594,7 +592,6 @@
 			children = (
 				87F53FDD297E919F00293176 /* Transaction.swift */,
 				874EF940297D08B100C94233 /* User.swift */,
-				8768210F2A3683C3003EC091 /* Partner.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -856,7 +853,6 @@
 				87391E4C298A15B600897A96 /* SettingViewModel.swift in Sources */,
 				87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */,
 				87CDAAB8297E608400F52887 /* SettingView.swift in Sources */,
-				876821102A3683C3003EC091 /* Partner.swift in Sources */,
 				871073B42990B7A600A0518C /* AllLogView.swift in Sources */,
 				87F53FE3297EA70B00293176 /* AddTransactionViewModel.swift in Sources */,
 				8702F3ED2A4BA1C7002925A0 /* LogListsView.swift in Sources */,
