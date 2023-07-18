@@ -22,7 +22,7 @@ class MyNameEditViewModel: ObservableObject {
      - Returns: 成功したかのBool値
      */
     internal func changeMyName(newName: String) async -> Bool {
-        guard let myUserId = userDefaultsManager.getMyUserId() else {
+        guard let myUserId = Auth.auth().currentUser?.uid else {
             return false
         }
         do {

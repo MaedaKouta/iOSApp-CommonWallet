@@ -40,7 +40,6 @@ struct StorageManager: StorageManaging {
         let uploadTask = imageRef.putData(imageData, metadata: metadata)
 
         uploadTask.observe(.success) { snapshot in
-            print("StorageManager: image upload success!")
             completion(path, nil)
         }
 
@@ -76,7 +75,6 @@ struct StorageManager: StorageManaging {
                 completion(nil, error)
             } else {
                 completion(data, nil)
-                print("StorageManager: image download success!")
             }
         }
     }
@@ -90,7 +88,6 @@ struct StorageManager: StorageManaging {
                 }
                 if let data = data {
                     continuation.resume(returning: data)
-                    print("StorageManager: image download success!")
                 } else {
                     continuation.resume(throwing: InvalidValueError.unexpectedNullValue)
                 }
@@ -115,9 +112,7 @@ struct StorageManager: StorageManaging {
         let imageRef = reference.child(path)
         imageRef.delete { error in
             if error != nil {
-                print("StorageManager: delete error occurred!")
-            } else {
-                print("StorageManager: delete Success!")
+                print("StorageManager: delete error occurred!", error)
             }
         }
     }

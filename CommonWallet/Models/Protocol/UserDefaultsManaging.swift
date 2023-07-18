@@ -9,19 +9,7 @@ protocol UserDefaultsManaging {
 
     var userDefaultsKey: UserDefaultsKey { get }
 
-    func createUser(user: User)
-
-    /**
-     全てのユーザー情報をセットする（nilがここに入るとuserDefaultsにnilが入るから使用注意）
-     */
     func setUser(user: User)
-
-    /**
-     パートナー作成時に必要
-     */
-    func createPartner(partner: Partner)
-
-    func setPartner(partner: Partner)
 
     func setMyUserName(userName: String)
 
@@ -34,6 +22,8 @@ protocol UserDefaultsManaging {
     func setMyIcon(path: String, imageData: Data)
 
     func setLaunchedVersion(version: String)
+
+    func setPartnerInfo(partnerUserId: String?, partnerName: String, partnerShareNumber: String?, partnerIconPath: String, partnerIconData: Data)
 
     // MARK: - Getter
     //func getUser() -> User?
@@ -53,11 +43,9 @@ protocol UserDefaultsManaging {
     func getOldestResolvedDate() -> Date?
 
     func getMyIconData() -> Data?
-    func getMyIconPath() -> String? 
+    func getMyIconPath() -> String?
 
     // MARK: Delete
     func clearUser()
-    func clearPartner()
-
 
 }

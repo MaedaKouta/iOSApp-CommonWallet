@@ -16,13 +16,10 @@ struct User: Codable, Identifiable {
     var shareNumber: String // 共有番号
     var iconPath: String // アイコンのパス情報
     var iconData: Data? // アイコンのパス情報
-    var createdAt: Date? // アカウント作成日時
+
+    // パートナー情報
     var partnerUserId: String?
     var partnerName: String?
-
-    // userDefaults専用
-    var oldestResolvedDate: Date? // 精算の最も古い日時
     var partnerShareNumber: String?
-
     
 }

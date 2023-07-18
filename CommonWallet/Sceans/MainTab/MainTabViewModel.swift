@@ -4,23 +4,24 @@
 //
 
 import Foundation
+import FirebaseAuth
 import SwiftUI
 
 class MainTabViewModel: ObservableObject {
+
     private var fireStoreUserManager = FireStoreUserManager()
     private var fireStorePartnerManager = FireStorePartnerManager()
     private var userDefaultsManager = UserDefaultsManager()
     private var storageManager = StorageManager()
+    private var imageProperty = ImageProperty()
 
-
-    @AppStorage(UserDefaultsKey().userId) private var myUserId: String?
     @AppStorage(UserDefaultsKey().partnerUserId) private var partnerUserId: String?
 
     /**
      FireStorageから自分の情報をリアルタイム取得
      */
     func realtimeFetchUserInfo() async {
-        guard let myUserId = myUserId else { return }
+        guard let myUserId = Auth.auth().currentUser?.uid else { return }
         self.fireStoreUserManager.realtimeFetchInfo(userId: myUserId, completion: { user, error in
 
             if let error = error {
@@ -39,26 +40,37 @@ class MainTabViewModel: ObservableObject {
     func realtimeFetchPartnerInfo() async {
         guard let partnerUserId = partnerUserId else { return }
         if !partnerUserId.isEmpty {
-            fireStorePartnerManager.realtimeFetchPartnerInfo(partnerUserId: partnerUserId, completion: { partner, error in
+            fireStorePartnerManager.realtimeFetchPartnerInfo(partnerUserId: partnerUserId, completion: { partnerUser, error in
 
                 if let error = error {
                     print(error)
                     return
                 }
 
-                guard let partner = partner else { return }
-                print(partner)
+                guard let partnerUser = partnerUser else { return }
                 // もしパートナー側のpartnerShareNumberがなければ、連携解除されたってことだからこっちのUserDefaultsも連携解除する
-                if (partner.partnerShareNumber ?? "").isEmpty {
+                if (partnerUser.partnerShareNumber ?? "").isEmpty {
                     // パートナー情報が無ければ、初期化
                     let partnerUserName = "パートナー"
                     let samplePartnerIconPath = "icon-sample-images/initial-partner-icon.jpeg"
-                    let samplePartnerIconData = UIImage(named: "icon-initial-partner")?.jpegData(compressionQuality: 0.1)
-                    let initPartner = Partner(userName: partnerUserName, iconPath: samplePartnerIconPath, iconData: samplePartnerIconData)
-                    self.userDefaultsManager.createPartner(partner: initPartner)
+                    let samplePartnerIconData = self.imageProperty.getIconInitialPartnerData()
+
+                    self.userDefaultsManager.setPartnerInfo(
+                        partnerUserId: nil,
+                        partnerName: partnerUserName,
+                        partnerShareNumber: nil,
+                        partnerIconPath: samplePartnerIconPath,
+                        partnerIconData: samplePartnerIconData
+                    )
                     return
                 }
-                self.userDefaultsManager.setPartner(partner: partner)
+                self.userDefaultsManager.setPartnerInfo(
+                    partnerUserId: partnerUser.id,
+                    partnerName: partnerUser.name,
+                    partnerShareNumber: partnerUser.shareNumber,
+                    partnerIconPath: partnerUser.iconPath,
+                    partnerIconData: partnerUser.iconData ?? self.imageProperty.getIconNotFoundData()
+                )
             })
         }
     }
