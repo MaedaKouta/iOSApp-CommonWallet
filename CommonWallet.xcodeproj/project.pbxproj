@@ -61,7 +61,6 @@
 		8773B4A42A56EDB1003E6306 /* SelectedEditTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8773B4A32A56EDB1003E6306 /* SelectedEditTransaction.swift */; };
 		877CB906297BEB2F0005CBD1 /* SignInViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 877CB905297BEB2F0005CBD1 /* SignInViewModelTests.swift */; };
 		87830E6C297A1A8300184A7C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6B297A1A8300184A7C /* AuthManager.swift */; };
-		87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6B297A1A8300184A7C /* AuthManager.swift */; };
 		87830E70297A1AB900184A7C /* SignInTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E6E297A1AB900184A7C /* SignInTests.swift */; };
 		87830E73297A1ACB00184A7C /* CreateUserTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87830E71297A1ACB00184A7C /* CreateUserTests.swift */; };
 		87830E74297A1B9E00184A7C /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87EE8D7C297A1790005CCB6F /* AppDelegate.swift */; };
@@ -298,7 +297,6 @@
 		87402F3F29F377210007320D /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				87402F4829F37B960007320D /* AuthManaging.swift */,
 				87402F4229F377D70007320D /* FireStoreUserManaging.swift */,
 				87402F4029F377C40007320D /* FireStoreTransactionManaging.swift */,
 				87402F4629F37B040007320D /* FireStorePartnerManaging.swift */,
@@ -322,7 +320,6 @@
 		874EF943297D0F3700C94233 /* Firebase */ = {
 			isa = PBXGroup;
 			children = (
-				87830E6B297A1A8300184A7C /* AuthManager.swift */,
 				874EF939297CC8B200C94233 /* FireStoreUserManager.swift */,
 				87F53FDF297EA44E00293176 /* FireStoreTransactionManager.swift */,
 				879379E3298B53E600D3A47B /* FireStorePartnerManager.swift */,
@@ -338,6 +335,15 @@
 				87391E482987A8AF00897A96 /* ShareNumberManager.swift */,
 			);
 			path = ShareNumber;
+			sourceTree = "<group>";
+		};
+		876831CB2A675877007F00A5 /* FirebaseAuth */ = {
+			isa = PBXGroup;
+			children = (
+				87830E6B297A1A8300184A7C /* AuthManager.swift */,
+				87402F4829F37B960007320D /* AuthManaging.swift */,
+			);
+			path = FirebaseAuth;
 			sourceTree = "<group>";
 		};
 		876EE23B2A26AEFC0073F1C3 /* WebView */ = {
@@ -373,6 +379,7 @@
 		87830E6A297A1A6000184A7C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				876831CB2A675877007F00A5 /* FirebaseAuth */,
 				876831C62A67571E007F00A5 /* ShareNumber */,
 				870A533B2A5A67530082FC22 /* Image */,
 				87402F3F29F377210007320D /* Protocol */,
@@ -898,7 +905,6 @@
 				87830E74297A1B9E00184A7C /* AppDelegate.swift in Sources */,
 				87534ACD2981F160009671C3 /* AddPayInfoViewModelTests.swift in Sources */,
 				8737FCEC297E0BEA0064E40D /* User.swift in Sources */,
-				87830E6D297A1A8300184A7C /* AuthManager.swift in Sources */,
 				87CA8FB9297BF76A00248187 /* CreateUserViewModelTests.swift in Sources */,
 				87CDAAB9297E608400F52887 /* SettingView.swift in Sources */,
 				877CB906297BEB2F0005CBD1 /* SignInViewModelTests.swift in Sources */,
