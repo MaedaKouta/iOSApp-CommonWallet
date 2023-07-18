@@ -7,7 +7,6 @@ import SwiftUI
 
 struct SettingView: View {
 
-    @StateObject var viewModel: SettingViewModel
     @Binding var isShowSettingView: Bool
 
     // Userdefaults
@@ -271,6 +270,6 @@ struct SettingView: View {
 
 struct SettingView_Previews: PreviewProvider {
     static var previews: some View {
-        SettingView(viewModel: SettingViewModel(userDefaultsManager: UserDefaultsManager()), isShowSettingView: .constant(true))
+        SettingView(isShowSettingView: .constant(true))
     }
 }
