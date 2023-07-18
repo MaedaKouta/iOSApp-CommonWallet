@@ -55,6 +55,7 @@
 		8753D7302A06175B0074E04A /* EditTransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753D72F2A06175B0074E04A /* EditTransactionViewModel.swift */; };
 		8753D7322A06201E0074E04A /* EditTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8753D7312A06201E0074E04A /* EditTransactionView.swift */; };
 		876831C52A667441007F00A5 /* ImageProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876831C42A667441007F00A5 /* ImageProperty.swift */; };
+		876831C72A67573A007F00A5 /* ShareNumberManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F09EB2A11945000F96394 /* ShareNumberManaging.swift */; };
 		876EE23E2A26AF310073F1C3 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876EE23C2A26AF310073F1C3 /* WebViewController.swift */; };
 		876EE23F2A26AF310073F1C3 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 876EE23D2A26AF310073F1C3 /* WebViewController.xib */; };
 		8773B4A42A56EDB1003E6306 /* SelectedEditTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8773B4A32A56EDB1003E6306 /* SelectedEditTransaction.swift */; };
@@ -302,7 +303,6 @@
 				87402F4029F377C40007320D /* FireStoreTransactionManaging.swift */,
 				87402F4629F37B040007320D /* FireStorePartnerManaging.swift */,
 				87402F4429F378330007320D /* UserDefaultsManaging.swift */,
-				871F09EB2A11945000F96394 /* ShareNumberManaging.swift */,
 				874DBA072A2C1FF8000E1FD1 /* StorageManaging.swift */,
 			);
 			path = Protocol;
@@ -327,10 +327,18 @@
 				874EF939297CC8B200C94233 /* FireStoreUserManager.swift */,
 				87F53FDF297EA44E00293176 /* FireStoreTransactionManager.swift */,
 				879379E3298B53E600D3A47B /* FireStorePartnerManager.swift */,
-				87391E482987A8AF00897A96 /* ShareNumberManager.swift */,
 				87C162CA2A2AB93A00382061 /* StorageManager.swift */,
 			);
 			path = Firebase;
+			sourceTree = "<group>";
+		};
+		876831C62A67571E007F00A5 /* ShareNumber */ = {
+			isa = PBXGroup;
+			children = (
+				871F09EB2A11945000F96394 /* ShareNumberManaging.swift */,
+				87391E482987A8AF00897A96 /* ShareNumberManager.swift */,
+			);
+			path = ShareNumber;
 			sourceTree = "<group>";
 		};
 		876EE23B2A26AEFC0073F1C3 /* WebView */ = {
@@ -366,6 +374,7 @@
 		87830E6A297A1A6000184A7C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				876831C62A67571E007F00A5 /* ShareNumber */,
 				870A533B2A5A67530082FC22 /* Image */,
 				87402F3F29F377210007320D /* Protocol */,
 				87D1A05329E770E30058A98F /* Error */,
@@ -883,6 +892,7 @@
 				87C162DC2A2ACEA300382061 /* Transaction.swift in Sources */,
 				87CDAAC0297E8CF900F52887 /* AddTransactionView.swift in Sources */,
 				87CDAAB6297E5C8000F52887 /* CommonWalletViewModel.swift in Sources */,
+				876831C72A67573A007F00A5 /* ShareNumberManaging.swift in Sources */,
 				87830E73297A1ACB00184A7C /* CreateUserTests.swift in Sources */,
 				87830E75297A1BA100184A7C /* CommonWalletApp.swift in Sources */,
 				87830E74297A1B9E00184A7C /* AppDelegate.swift in Sources */,
