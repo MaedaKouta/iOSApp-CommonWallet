@@ -300,7 +300,6 @@
 				87402F4229F377D70007320D /* FireStoreUserManaging.swift */,
 				87402F4029F377C40007320D /* FireStoreTransactionManaging.swift */,
 				87402F4629F37B040007320D /* FireStorePartnerManaging.swift */,
-				874DBA072A2C1FF8000E1FD1 /* StorageManaging.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -323,7 +322,6 @@
 				874EF939297CC8B200C94233 /* FireStoreUserManager.swift */,
 				87F53FDF297EA44E00293176 /* FireStoreTransactionManager.swift */,
 				879379E3298B53E600D3A47B /* FireStorePartnerManager.swift */,
-				87C162CA2A2AB93A00382061 /* StorageManager.swift */,
 			);
 			path = Firebase;
 			sourceTree = "<group>";
@@ -344,6 +342,15 @@
 				87402F4829F37B960007320D /* AuthManaging.swift */,
 			);
 			path = FirebaseAuth;
+			sourceTree = "<group>";
+		};
+		876831CC2A6758AA007F00A5 /* FireStorage */ = {
+			isa = PBXGroup;
+			children = (
+				874DBA072A2C1FF8000E1FD1 /* StorageManaging.swift */,
+				87C162CA2A2AB93A00382061 /* StorageManager.swift */,
+			);
+			path = FireStorage;
 			sourceTree = "<group>";
 		};
 		876EE23B2A26AEFC0073F1C3 /* WebView */ = {
@@ -379,6 +386,7 @@
 		87830E6A297A1A6000184A7C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				876831CC2A6758AA007F00A5 /* FireStorage */,
 				876831CB2A675877007F00A5 /* FirebaseAuth */,
 				876831C62A67571E007F00A5 /* ShareNumber */,
 				870A533B2A5A67530082FC22 /* Image */,
