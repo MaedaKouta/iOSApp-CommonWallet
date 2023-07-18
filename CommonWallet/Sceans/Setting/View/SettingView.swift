@@ -142,7 +142,7 @@ struct SettingView: View {
 
             } else {
 
-                NavigationLink(destination: PartnerNameEditView(viewModel: PartnerNameEditViewModel())) {
+                NavigationLink(destination: PartnerNameEditView()) {
                     HStack {
                         Text("表示名")
                         Text(partnerName)

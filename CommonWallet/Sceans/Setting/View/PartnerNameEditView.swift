@@ -9,7 +9,6 @@ struct PartnerNameEditView: View {
 
     // presentationMode.wrappedValue.dismiss() で画面戻れる
     @Environment(\.presentationMode) var presentationMode
-    @StateObject var viewModel: PartnerNameEditViewModel
 
     @State private var afterPartnerName: String = ""
     // キーボード
@@ -89,6 +88,6 @@ struct PartnerNameEditView: View {
 
 struct ChangePartnerNameView_Previews: PreviewProvider {
     static var previews: some View {
-        PartnerNameEditView(viewModel: PartnerNameEditViewModel())
+        PartnerNameEditView()
     }
 }

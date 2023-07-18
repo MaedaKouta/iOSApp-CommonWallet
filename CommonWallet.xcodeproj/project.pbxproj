@@ -75,7 +75,6 @@
 		879379E9298B85E300D3A47B /* AccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E8298B85E300D3A47B /* AccountViewModel.swift */; };
 		879379EB298B999700D3A47B /* PartnerInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EA298B999700D3A47B /* PartnerInfoView.swift */; };
 		879379ED298B99C700D3A47B /* PartnerInfoViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EC298B99C700D3A47B /* PartnerInfoViewModel.swift */; };
-		879379EF298BBDB800D3A47B /* PartnerNameEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379EE298BBDB800D3A47B /* PartnerNameEditViewModel.swift */; };
 		87ABC58129908B17003E94F3 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87ABC58029908B17003E94F3 /* MainTabView.swift */; };
 		87ABC58B29909BF5003E94F3 /* Parchment in Frameworks */ = {isa = PBXBuildFile; productRef = 87ABC58A29909BF5003E94F3 /* Parchment */; };
 		87C0BADD2A03C52400A02978 /* Flip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87C0BADC2A03C52400A02978 /* Flip.swift */; };
@@ -188,7 +187,6 @@
 		879379E8298B85E300D3A47B /* AccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountViewModel.swift; sourceTree = "<group>"; };
 		879379EA298B999700D3A47B /* PartnerInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerInfoView.swift; sourceTree = "<group>"; };
 		879379EC298B99C700D3A47B /* PartnerInfoViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerInfoViewModel.swift; sourceTree = "<group>"; };
-		879379EE298BBDB800D3A47B /* PartnerNameEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerNameEditViewModel.swift; sourceTree = "<group>"; };
 		87ABC58029908B17003E94F3 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
 		87C0BADC2A03C52400A02978 /* Flip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Flip.swift; sourceTree = "<group>"; };
 		87C162CA2A2AB93A00382061 /* StorageManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageManager.swift; sourceTree = "<group>"; };
@@ -454,7 +452,6 @@
 				879379E8298B85E300D3A47B /* AccountViewModel.swift */,
 				879379E6298B5B4E00D3A47B /* ConnectPartnerViewModel.swift */,
 				879379EC298B99C700D3A47B /* PartnerInfoViewModel.swift */,
-				879379EE298BBDB800D3A47B /* PartnerNameEditViewModel.swift */,
 				87E5E9352A2E9880002CF7B2 /* MyNameEditViewModel.swift */,
 			);
 			path = ViewModels;
@@ -844,7 +841,6 @@
 				87EE8D4C297A1369005CCB6F /* ContentView.swift in Sources */,
 				87CDAABC297E6ADB00F52887 /* AccountView.swift in Sources */,
 				879379E0298B444500D3A47B /* ConnectPartnerView.swift in Sources */,
-				879379EF298BBDB800D3A47B /* PartnerNameEditViewModel.swift in Sources */,
 				879379ED298B99C700D3A47B /* PartnerInfoViewModel.swift in Sources */,
 				87F53FDE297E919F00293176 /* Transaction.swift in Sources */,
 				874EF936297CBD1C00C94233 /* LaunchStatus.swift in Sources */,
