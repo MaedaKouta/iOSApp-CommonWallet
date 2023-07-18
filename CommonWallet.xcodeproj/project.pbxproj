@@ -103,8 +103,6 @@
 		87CDAABF297E895400F52887 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAABE297E895400F52887 /* AddTransactionView.swift */; };
 		87CDAAC0297E8CF900F52887 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAABE297E895400F52887 /* AddTransactionView.swift */; };
 		87CDAAC1297E8CFC00F52887 /* CommonWalletView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CDAAB1297E529F00F52887 /* CommonWalletView.swift */; };
-		87CE0D332A5AA23800A9791B /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE0D322A5AA23800A9791B /* UserData.swift */; };
-		87CE0D352A5AA27000A9791B /* PartnerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87CE0D342A5AA27000A9791B /* PartnerData.swift */; };
 		87D1A05529E770F20058A98F /* FetchTransactionsError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D1A05429E770F20058A98F /* FetchTransactionsError.swift */; };
 		87D831EE2A59703A004ECB4C /* MainTabViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D831ED2A59703A004ECB4C /* MainTabViewModel.swift */; };
 		87D9CFCA2A3D1E74002BAF8E /* OSLog.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87D9CFC92A3D1E74002BAF8E /* OSLog.swift */; };
@@ -216,8 +214,6 @@
 		87CDAAB7297E608400F52887 /* SettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingView.swift; sourceTree = "<group>"; };
 		87CDAABB297E6ADB00F52887 /* AccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AccountView.swift; sourceTree = "<group>"; };
 		87CDAABE297E895400F52887 /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
-		87CE0D322A5AA23800A9791B /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
-		87CE0D342A5AA27000A9791B /* PartnerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerData.swift; sourceTree = "<group>"; };
 		87D1A05429E770F20058A98F /* FetchTransactionsError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FetchTransactionsError.swift; sourceTree = "<group>"; };
 		87D831ED2A59703A004ECB4C /* MainTabViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabViewModel.swift; sourceTree = "<group>"; };
 		87D9CFC92A3D1E74002BAF8E /* OSLog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OSLog.swift; sourceTree = "<group>"; };
@@ -280,8 +276,6 @@
 			children = (
 				8773B4A32A56EDB1003E6306 /* SelectedEditTransaction.swift */,
 				8702F3F32A5106FF002925A0 /* TransactionData.swift */,
-				87CE0D322A5AA23800A9791B /* UserData.swift */,
-				87CE0D342A5AA27000A9791B /* PartnerData.swift */,
 			);
 			path = CoreData;
 			sourceTree = "<group>";
@@ -839,7 +833,6 @@
 				87402F4329F377D70007320D /* FireStoreUserManaging.swift in Sources */,
 				879310242A2FF28200FDD061 /* ImageNameProperty.swift in Sources */,
 				874EF93F297D04DF00C94233 /* UserDefaultsKey.swift in Sources */,
-				87CE0D332A5AA23800A9791B /* UserData.swift in Sources */,
 				87E5E9342A2E9857002CF7B2 /* MyNameEditView.swift in Sources */,
 				87EE8D7D297A1790005CCB6F /* AppDelegate.swift in Sources */,
 				872B9FDB2A42F9B100D15A84 /* FetchPartnerError.swift in Sources */,
@@ -882,7 +875,6 @@
 				879379EF298BBDB800D3A47B /* PartnerNameEditViewModel.swift in Sources */,
 				879379ED298B99C700D3A47B /* PartnerInfoViewModel.swift in Sources */,
 				87F53FDE297E919F00293176 /* Transaction.swift in Sources */,
-				87CE0D352A5AA27000A9791B /* PartnerData.swift in Sources */,
 				874EF936297CBD1C00C94233 /* LaunchStatus.swift in Sources */,
 				874A988529F206DB007CFB74 /* UserDefaultsError.swift in Sources */,
 				87DDCDCC2A18373200F51DC8 /* PKHUDView.swift in Sources */,
