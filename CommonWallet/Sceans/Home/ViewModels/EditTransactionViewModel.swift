@@ -25,7 +25,7 @@ class EditTransactionViewModel: ObservableObject {
         self.beforeTransaction = transaction
 
         // 立て替えた人 == 自分なら、selectedIndexを0にする
-        if transaction.creditorId == self.userDefaultsManager.getUser()?.id {
+        if transaction.creditorId == self.userDefaultsManager.getMyUserId() {
             self.selectedIndex = 0
         } else {
             self.selectedIndex = 1

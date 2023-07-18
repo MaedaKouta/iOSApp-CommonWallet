@@ -62,6 +62,7 @@ struct LaunchScreen: View {
                     // アカウント作成
                     Task {
                         do {
+                            // ユーザーとパートナーの名前初期値はとりあえずここで定義
                             try await viewModel.createUser(myUserName: "ユーザー", partnerUserName: "パートナー")
                             print("アカウント作成しました！")
                         } catch {

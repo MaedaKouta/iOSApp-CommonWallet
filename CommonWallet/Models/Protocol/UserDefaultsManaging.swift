@@ -9,40 +9,55 @@ protocol UserDefaultsManaging {
 
     var userDefaultsKey: UserDefaultsKey { get }
 
-    // MARK: - Setter
     func createUser(user: User)
-    func createPartner(partner: Partner)
+
+    /**
+     全てのユーザー情報をセットする（nilがここに入るとuserDefaultsにnilが入るから使用注意）
+     */
     func setUser(user: User)
+
+    /**
+     パートナー作成時に必要
+     */
+    func createPartner(partner: Partner)
+
     func setPartner(partner: Partner)
+
     func setMyUserName(userName: String)
-    func setPartner(userId: String, name: String, modifiedName: String, shareNumber: String)
-    func setPartnerUserId(userId: String)
+
     func setPartnerName(name: String)
+
     func setPartnerShareNumber(shareNumber: String)
-    func setPartnerModifiedName(name: String)
+
     func setOldestResolvedDate(date: Date?)
+
     func setMyIcon(path: String, imageData: Data)
-    func setPartnerIcon(path: String, imageData: Data)
-    func setIsSignedIn(isSignedIn: Bool)
+
     func setLaunchedVersion(version: String)
 
     // MARK: - Getter
-    func getUser() -> User?
-    func getShareNumber() -> String?
+    //func getUser() -> User?
+
+    func getMyUserId() -> String?
+
+    func getMyUserName() -> String?
+
+    func getMyShareNumber() -> String?
+
     func getPartnerUserId() -> String?
+
     func getPartnerName() -> String?
-    func getPartnerModifiedName() -> String?
+
     func getPartnerShareNumber() -> String?
+
     func getOldestResolvedDate() -> Date?
-    func getMyIconImageData() -> Data?
-    func getMyIconImagePath() -> String?
-    func getPartnerIconImageData() -> Data?
-    func getPartnerIconImagePath() -> String?
-    func getIsSignedIn() -> Bool?
-    func getLaunchedVersion() -> String?
+
+    func getMyIconData() -> Data?
+    func getMyIconPath() -> String? 
 
     // MARK: Delete
     func clearUser()
     func clearPartner()
+
 
 }

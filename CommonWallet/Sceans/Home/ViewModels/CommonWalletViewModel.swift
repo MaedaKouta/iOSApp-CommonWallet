@@ -14,7 +14,6 @@ final class CommonWalletViewModel: ObservableObject {
 
     @AppStorage(UserDefaultsKey().userId) private var myUserId = String()
     @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
-    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
 
     init(fireStoreTransactionManager: FireStoreTransactionManager, fireStoreUserManager: FireStoreUserManager) {
         self.fireStoreTransactionManager = fireStoreTransactionManager

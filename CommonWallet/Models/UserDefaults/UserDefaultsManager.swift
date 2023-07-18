@@ -9,9 +9,11 @@ import SwiftUI
 struct UserDefaultsManager: UserDefaultsManaging {
 
     internal let userDefaultsKey = UserDefaultsKey()
-    
 
     // MARK: - Setter
+    /**
+     user作成時に必要
+     */
     func createUser(user: User) {
         UserDefaults.standard.set(user.id, forKey: userDefaultsKey.userId)
         UserDefaults.standard.set(user.name, forKey: userDefaultsKey.userName)
@@ -19,8 +21,12 @@ struct UserDefaultsManager: UserDefaultsManaging {
         UserDefaults.standard.set(user.iconData, forKey: userDefaultsKey.myIconData)
         UserDefaults.standard.set(user.shareNumber, forKey: userDefaultsKey.shareNumber)
         UserDefaults.standard.set(user.createdAt, forKey: userDefaultsKey.createdAt)
+        UserDefaults.standard.set("パートナー", forKey: userDefaultsKey.partnerName)
     }
 
+    /**
+     全てのユーザー情報をセットする（nilがここに入るとuserDefaultsにnilが入るから使用注意）
+     */
     func setUser(user: User) {
         UserDefaults.standard.set(user.id, forKey: userDefaultsKey.userId)
         UserDefaults.standard.set(user.name, forKey: userDefaultsKey.userName)
@@ -33,45 +39,26 @@ struct UserDefaultsManager: UserDefaultsManaging {
         UserDefaults.standard.set(user.partnerShareNumber, forKey: userDefaultsKey.partnerShareNumber)
     }
 
+    /**
+     パートナー初期作成時に必要
+     Name, iconPath, iconDataだけセットする
+     */
     func createPartner(partner: Partner) {
-        UserDefaults.standard.set(partner.userId, forKey: userDefaultsKey.partnerUserId)
-        UserDefaults.standard.set(partner.userName, forKey: userDefaultsKey.partnerModifiedName)
+        UserDefaults.standard.set(partner.userName, forKey: userDefaultsKey.partnerName)
         UserDefaults.standard.set(partner.iconPath, forKey: userDefaultsKey.partnerIconPath)
         UserDefaults.standard.set(partner.iconData, forKey: userDefaultsKey.partnerIconData)
-        UserDefaults.standard.set(partner.shareNumber, forKey: userDefaultsKey.partnerShareNumber)
-    }
-
-    func setMyUserName(userName: String) {
-        UserDefaults.standard.set(userName, forKey: userDefaultsKey.userName)
     }
 
     func setPartner(partner: Partner) {
         UserDefaults.standard.set(partner.userId, forKey: userDefaultsKey.partnerUserId)
         UserDefaults.standard.set(partner.userName, forKey: userDefaultsKey.partnerName)
-        UserDefaults.standard.set(partner.modifiedName, forKey: userDefaultsKey.partnerModifiedName)
         UserDefaults.standard.set(partner.shareNumber, forKey: userDefaultsKey.partnerShareNumber)
         UserDefaults.standard.set(partner.iconPath, forKey: userDefaultsKey.partnerIconPath)
         UserDefaults.standard.set(partner.iconData, forKey: userDefaultsKey.partnerIconData)
     }
 
-//    func setPartner(userId: String, name: String, modifiedName: String, iconPath: String, iconData: Data, shareNumber: String) {
-//        UserDefaults.standard.set(userId, forKey: userDefaultsKey.partnerUserId)
-//        UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)
-//        UserDefaults.standard.set(modifiedName, forKey: userDefaultsKey.partnerModifiedName)
-//        UserDefaults.standard.set(iconPath, forKey: userDefaultsKey.partnerIconPath)
-//        UserDefaults.standard.set(iconData, forKey: userDefaultsKey.partnerIconData)
-//        UserDefaults.standard.set(shareNumber, forKey: userDefaultsKey.partnerShareNumber)
-//    }
-
-    func setPartner(userId: String, name: String, modifiedName: String, shareNumber: String) {
-        UserDefaults.standard.set(userId, forKey: userDefaultsKey.partnerUserId)
-        UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerName)
-        UserDefaults.standard.set(modifiedName, forKey: userDefaultsKey.partnerModifiedName)
-        UserDefaults.standard.set(shareNumber, forKey: userDefaultsKey.partnerShareNumber)
-    }
-
-    func setPartnerUserId(userId: String) {
-        UserDefaults.standard.set(userId, forKey: userDefaultsKey.partnerUserId)
+    func setMyUserName(userName: String) {
+        UserDefaults.standard.set(userName, forKey: userDefaultsKey.userName)
     }
 
     func setPartnerName(name: String) {
@@ -80,10 +67,6 @@ struct UserDefaultsManager: UserDefaultsManaging {
 
     func setPartnerShareNumber(shareNumber: String) {
         UserDefaults.standard.set(shareNumber, forKey: userDefaultsKey.partnerShareNumber)
-    }
-
-    func setPartnerModifiedName(name: String) {
-        UserDefaults.standard.set(name, forKey: userDefaultsKey.partnerModifiedName)
     }
 
     func setOldestResolvedDate(date: Date?) {
@@ -95,42 +78,20 @@ struct UserDefaultsManager: UserDefaultsManaging {
         UserDefaults.standard.set(imageData, forKey: userDefaultsKey.myIconData)
     }
 
-    func setPartnerIcon(path: String, imageData: Data) {
-        UserDefaults.standard.set(path, forKey: userDefaultsKey.partnerIconPath)
-        UserDefaults.standard.set(imageData, forKey: userDefaultsKey.partnerIconData)
-    }
-
-    func setIsSignedIn(isSignedIn: Bool) {
-        UserDefaults.standard.set(isSignedIn, forKey: userDefaultsKey.isSignedIn)
-    }
-
     func setLaunchedVersion(version: String) {
         UserDefaults.standard.set(version, forKey: userDefaultsKey.launchedVersion)
     }
 
     // MARK: - Getter
-    func getUser() -> User? {
-        guard let userName = UserDefaults.standard.string(forKey: userDefaultsKey.userName),
-              let userId = UserDefaults.standard.string(forKey: userDefaultsKey.userId),
-              let myIconPath = UserDefaults.standard.string(forKey: userDefaultsKey.myIconPath),
-              let shareNumber = UserDefaults.standard.string(forKey: userDefaultsKey.shareNumber)
-        else {
-            return nil
-        }
-
-        let partnerUserId = UserDefaults.standard.string(forKey: userDefaultsKey.partnerUserId)
-        let partnerName = UserDefaults.standard.string(forKey: userDefaultsKey.partnerName)
-        let createdAt = UserDefaults.standard.object(forKey: userDefaultsKey.createdAt) as? Date
-
-        let user = User(id: userId, name: userName, shareNumber: shareNumber, iconPath: myIconPath, createdAt: createdAt, partnerUserId: partnerUserId, partnerName: partnerName)
-        return user
+    func getMyUserId() -> String? {
+        return UserDefaults.standard.string(forKey: userDefaultsKey.userId)
     }
 
-    func getShareNumber() -> String? {
-        return UserDefaults.standard.string(forKey: userDefaultsKey.shareNumber)
+    func getMyUserName() -> String? {
+        return UserDefaults.standard.string(forKey: userDefaultsKey.userName)
     }
 
-    func getShareNumber2() -> String? {
+    func getMyShareNumber() -> String? {
         return UserDefaults.standard.string(forKey: userDefaultsKey.shareNumber)
     }
 
@@ -142,10 +103,6 @@ struct UserDefaultsManager: UserDefaultsManaging {
         return UserDefaults.standard.string(forKey: userDefaultsKey.partnerName)
     }
 
-    func getPartnerModifiedName() -> String? {
-        return UserDefaults.standard.string(forKey: userDefaultsKey.partnerModifiedName)
-    }
-
     func getPartnerShareNumber() -> String? {
         return UserDefaults.standard.string(forKey: userDefaultsKey.partnerShareNumber)
     }
@@ -154,28 +111,12 @@ struct UserDefaultsManager: UserDefaultsManaging {
         return UserDefaults.standard.object(forKey: userDefaultsKey.oldestResolvedDate) as? Date
     }
 
-    func getMyIconImageData() -> Data? {
+    func getMyIconData() -> Data? {
         return UserDefaults.standard.data(forKey: userDefaultsKey.myIconData)
     }
 
-    func getMyIconImagePath() -> String? {
+    func getMyIconPath() -> String? {
         return UserDefaults.standard.string(forKey: userDefaultsKey.myIconPath)
-    }
-
-    func getPartnerIconImageData() -> Data? {
-        return UserDefaults.standard.data(forKey: userDefaultsKey.partnerIconData)
-    }
-
-    func getPartnerIconImagePath() -> String? {
-        return UserDefaults.standard.string(forKey: userDefaultsKey.partnerIconPath)
-    }
-
-    func getIsSignedIn() -> Bool? {
-        return UserDefaults.standard.bool(forKey: userDefaultsKey.isSignedIn)
-    }
-
-    func getLaunchedVersion() -> String? {
-        return UserDefaults.standard.string(forKey: userDefaultsKey.launchedVersion)
     }
 
     // MARK: Delete
@@ -192,10 +133,9 @@ struct UserDefaultsManager: UserDefaultsManaging {
 
     func clearPartner() {
         UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerUserId)
-        UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerName)
+        UserDefaults.standard.set("パートナー", forKey: userDefaultsKey.partnerName)
         UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerIconPath)
-        UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerIconPath)
-        UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerModifiedName)
+        UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerIconData)
         UserDefaults.standard.set(nil, forKey: userDefaultsKey.partnerShareNumber)
     }
 

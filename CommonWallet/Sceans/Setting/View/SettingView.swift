@@ -14,7 +14,7 @@ struct SettingView: View {
     @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
     @AppStorage(UserDefaultsKey().shareNumber) private var myShareNumber = String()
     @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
-    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
+    @AppStorage(UserDefaultsKey().partnerName) private var partnerName = String()
     @AppStorage(UserDefaultsKey().partnerShareNumber) private var partnerShareNumber: String?
     @State private var imageNameProperty = ImageNameProperty()
 
@@ -115,18 +115,20 @@ struct SettingView: View {
     private func partnerSection() -> some View {
         Section {
 
-            // After tapping: PartnerNameEditViewへNavigation遷移
-            NavigationLink(destination: PartnerNameEditView(viewModel: PartnerNameEditViewModel())) {
-                HStack {
-                    Text("表示名")
-                    Text(partnerModifiedName)
-                        .foregroundColor(.gray)
-                        .frame(maxWidth: .infinity, alignment: .trailing)
-                }
-            }
-
             // 条件分岐: パートナーと連携済みorパートナーと未連携
             if partnerShareNumber != nil {
+
+                HStack {
+                    Text("表示名")
+                        .foregroundColor(.black)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                    Text(partnerName)
+                        .textSelection(.enabled)
+                        .lineLimit(0)
+                        .minimumScaleFactor(0.5)
+                        .foregroundColor(.gray)
+                }
+
                 // After tapping: PartnerInfoViewへNavigation遷移
                 NavigationLink(destination: PartnerInfoView(viewModel: PartnerInfoViewModel())) {
                     HStack {
@@ -137,7 +139,18 @@ struct SettingView: View {
                             .frame(maxWidth: .infinity, alignment: .trailing)
                     }
                 }
+
             } else {
+
+                NavigationLink(destination: PartnerNameEditView(viewModel: PartnerNameEditViewModel())) {
+                    HStack {
+                        Text("表示名")
+                        Text(partnerName)
+                            .foregroundColor(.gray)
+                            .frame(maxWidth: .infinity, alignment: .trailing)
+                    }
+                }
+
                 // After tapping: ConnectPartnerViewへNavigation遷移
                 NavigationLink(destination: ConnectPartnerView(viewModel: ConnectPartnerViewModel(fireStorePartnerManager: FireStorePartnerManager(), userDefaultsManager: UserDefaultsManager()))) {
                     HStack {
@@ -148,6 +161,7 @@ struct SettingView: View {
                             .frame(maxWidth: .infinity, alignment: .trailing)
                     }
                 }
+
             }
         } header: {
             Text("パートナー")

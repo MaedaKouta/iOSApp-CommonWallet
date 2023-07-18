@@ -77,9 +77,8 @@ struct FireStoreUserManager: FireStoreUserManaging {
                   let createdAt = data["createdAt"] as? Timestamp else { return }
 
              let partnerUserId = data["partnerUserId"] as? String
-             let partnerName = data["partnerName"] as? String
              let partnerShareNumber = data["partnerShareNumber"] as? String
-             let iconData = userDefaultsManager.getMyIconImageData()
+             let iconData = userDefaultsManager.getMyIconData()
 
             let user = User(
                 id: userId,
@@ -89,7 +88,6 @@ struct FireStoreUserManager: FireStoreUserManaging {
                 iconData: iconData,
                 createdAt: createdAt.dateValue(),
                 partnerUserId: partnerUserId,
-                partnerName: partnerName,
                 partnerShareNumber: partnerShareNumber
             )
             completion(user, nil)

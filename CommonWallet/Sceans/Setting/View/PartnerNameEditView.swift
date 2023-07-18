@@ -15,7 +15,7 @@ struct PartnerNameEditView: View {
     // キーボード
     @FocusState private var isKeyboardActive: Bool
     // Userdefaults
-    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
+    @AppStorage(UserDefaultsKey().partnerName) private var partnerName = String()
     // Alert
     @State private var isEnableComplete: Bool = false
     // PKHUD
@@ -28,7 +28,7 @@ struct PartnerNameEditView: View {
                 editPartnerNameSection()
             }
         }
-        .navigationTitle("パートナーのニックネーム")
+        .navigationTitle("パートナーの表示名")
         .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
         .toolbar {
             /// ナビゲーションバー右
@@ -36,7 +36,7 @@ struct PartnerNameEditView: View {
                 Button(action: {
                     isKeyboardActive = false  //  フォーカスを外す
                     let fixedAfterPartnerName = afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines)
-                    partnerModifiedName = fixedAfterPartnerName
+                    partnerName = fixedAfterPartnerName
                     isPKHUDSuccess = true
                     // PKHUD Suceesのアニメーションが1秒経過してから元の画面に戻る
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -67,20 +67,20 @@ struct PartnerNameEditView: View {
     private func editPartnerNameSection() -> some View {
         Section {
             HStack {
-                Text("名前")
-                TextField(partnerModifiedName, text: $afterPartnerName)
+                Text("表示名")
+                TextField(partnerName, text: $afterPartnerName)
                     .focused(self.$isKeyboardActive)
                     .onChange(of: afterPartnerName, perform: { newValue in
                         if afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                             isEnableComplete = false
-                        } else if partnerModifiedName == newValue {
+                        } else if partnerName == newValue {
                             isEnableComplete = false
                         } else {
                             isEnableComplete = true
                         }
                     })
                     .onAppear{
-                        afterPartnerName = partnerModifiedName
+                        afterPartnerName = partnerName
                     }
             }
         }

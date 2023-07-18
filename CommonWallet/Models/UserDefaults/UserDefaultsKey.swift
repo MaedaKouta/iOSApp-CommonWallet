@@ -45,7 +45,6 @@ struct UserDefaultsKey {
     let partnerName = "partnerName"
     let partnerIconPath = "partnerIconPath"
     let partnerIconData = "partnerIconData"
-    let partnerModifiedName = "partnerModifiedName"
     let partnerShareNumber = "partnerShareNumber"
 
     // サインイン情報

@@ -40,8 +40,9 @@ struct CommonWalletView: View {
     @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
     @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
     @AppStorage(UserDefaultsKey().partnerUserId) private var partnerUserId = String()
-    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
     @AppStorage(UserDefaultsKey().partnerIconData) private var partnerIconData = Data()
+    @AppStorage(UserDefaultsKey().partnerName) private var partnerName = String()
+    @AppStorage(UserDefaultsKey().partnerShareNumber) private var partnerShareNumber: String?
     // 画像のSystemImage
     private let imageNameProperty = ImageNameProperty()
 
@@ -157,13 +158,13 @@ struct CommonWalletView: View {
                             .foregroundColor(.black)
                         Text("から")
                             .foregroundColor(.gray)
-                        Text("\(partnerModifiedName)")
+                        Text("\(partnerName)")
                             .foregroundColor(.black)
                         Text("へ")
                             .foregroundColor(.gray)
                         Spacer()
                     } else {
-                        Text("\(partnerModifiedName)")
+                        Text("\(partnerName)")
                             .foregroundColor(.black)
                         Text("から")
                             .foregroundColor(.gray)
@@ -229,7 +230,7 @@ struct CommonWalletView: View {
 
                 VStack() {
                     Text("\(myUserName) ¥\(transactionData.unResolvedMyAmounts)")
-                    Text("\(partnerModifiedName) ¥\(transactionData.unResolvedPartnerAmounts)")
+                    Text("\(partnerName) ¥\(transactionData.unResolvedPartnerAmounts)")
                 }
                 .foregroundColor(.black)
                 .padding([.leading, .trailing])
@@ -425,7 +426,7 @@ struct CommonWalletView: View {
                 let amount = transactionData.unResolvedTransactions[self.selectedTransactionIndex].amount
                 let description = transactionData.unResolvedTransactions[self.selectedTransactionIndex].description
                 let createdAt = self.dateToDetailString(date: transactionData.unResolvedTransactions[self.selectedTransactionIndex].createdAt)
-                let debtor = transactionData.unResolvedTransactions[self.selectedTransactionIndex].debtorId == myUserId ? myUserName : partnerModifiedName
+                let debtor = transactionData.unResolvedTransactions[self.selectedTransactionIndex].debtorId == myUserId ? myUserName : partnerName
 
                 if description.isEmpty {
                     Text("""

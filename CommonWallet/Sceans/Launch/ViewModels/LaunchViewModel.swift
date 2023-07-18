@@ -23,16 +23,17 @@ class LaunchViewModel: ObservableObject {
         // 自分の情報定義
         let myUserId = authResult.user.uid
         let sampleMyIconPath = "icon-sample-images/sample\(Int.random(in: 1...20)).jpeg"
-        let samplePartnerIconPath = "icon-sample-images/initial-partner-icon.jpeg"
         let sampleMyIconData = try await storageManager.download(path: sampleMyIconPath)
+        let myShareNumber = try await shareNumberManager.createShareNumber()
+
+        let samplePartnerIconPath = "icon-sample-images/initial-partner-icon.jpeg"
         let samplePartnerIconData = try await storageManager.download(path: samplePartnerIconPath)
-        let shareNumber = try await shareNumberManager.createShareNumber()
 
         // トランザクションにアカウント登録
-        try await fireStoreUserManager.createUser(userId: myUserId, userName: myUserName, iconPath: sampleMyIconPath, shareNumber: shareNumber)
+        try await fireStoreUserManager.createUser(userId: myUserId, userName: myUserName, iconPath: sampleMyIconPath, shareNumber: myShareNumber)
 
         // Userdefaultsに保存
-        let user = User(id: myUserId, name: myUserName, shareNumber: shareNumber, iconPath: sampleMyIconPath, iconData: sampleMyIconData, createdAt: Date())
+        let user = User(id: myUserId, name: myUserName, shareNumber: myShareNumber, iconPath: sampleMyIconPath, iconData: sampleMyIconData, createdAt: Date())
         let partner = Partner(userName: partnerUserName, iconPath: samplePartnerIconPath, iconData: samplePartnerIconData)
         userDefaultsManager.createUser(user: user)
         userDefaultsManager.createPartner(partner: partner)
