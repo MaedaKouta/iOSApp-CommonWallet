@@ -377,13 +377,13 @@
 		87830E6A297A1A6000184A7C /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				87ABC57B29907C54003E94F3 /* UserDefaults */,
+				870A533B2A5A67530082FC22 /* Image */,
+				876831CB2A675877007F00A5 /* FirebaseAuth */,
 				876831CD2A6758D6007F00A5 /* FireStore */,
 				876831CC2A6758AA007F00A5 /* FireStorage */,
-				876831CB2A675877007F00A5 /* FirebaseAuth */,
 				876831C62A67571E007F00A5 /* ShareNumber */,
-				870A533B2A5A67530082FC22 /* Image */,
 				87D1A05329E770E30058A98F /* Error */,
-				87ABC57B29907C54003E94F3 /* UserDefaults */,
 			);
 			path = Models;
 			sourceTree = "<group>";
