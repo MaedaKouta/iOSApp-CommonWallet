@@ -25,7 +25,6 @@
 		872B9FDD2A442EA600D15A84 /* Array.swift in Sources */ = {isa = PBXBuildFile; fileRef = 872B9FDC2A442EA600D15A84 /* Array.swift */; };
 		873655602A10E30B00E92EEE /* InvalidValueError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8736555F2A10E30B00E92EEE /* InvalidValueError.swift */; };
 		8737FCEA297E0BDF0064E40D /* LaunchScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF933297CBB5700C94233 /* LaunchScreen.swift */; };
-		8737FCEB297E0BE60064E40D /* FireStoreUserManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF939297CC8B200C94233 /* FireStoreUserManager.swift */; };
 		8737FCEC297E0BEA0064E40D /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF940297D08B100C94233 /* User.swift */; };
 		8737FCED297E0BEC0064E40D /* UserDefaultsKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF93E297D04DF00C94233 /* UserDefaultsKey.swift */; };
 		8737FCEE297E0BEE0064E40D /* UserDefaultsManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 874EF93B297CFC3900C94233 /* UserDefaultsManager.swift */; };
@@ -114,7 +113,6 @@
 		87EE8D80297A1920005CCB6F /* ViewInspector in Frameworks */ = {isa = PBXBuildFile; productRef = 87EE8D7F297A1920005CCB6F /* ViewInspector */; };
 		87F53FDE297E919F00293176 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F53FDD297E919F00293176 /* Transaction.swift */; };
 		87F53FE0297EA44E00293176 /* FireStoreTransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F53FDF297EA44E00293176 /* FireStoreTransactionManager.swift */; };
-		87F53FE1297EA44E00293176 /* FireStoreTransactionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F53FDF297EA44E00293176 /* FireStoreTransactionManager.swift */; };
 		87F53FE3297EA70B00293176 /* AddTransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F53FE2297EA70B00293176 /* AddTransactionViewModel.swift */; };
 		87F53FE4297EA70B00293176 /* AddTransactionViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 87F53FE2297EA70B00293176 /* AddTransactionViewModel.swift */; };
 /* End PBXBuildFile section */
@@ -306,16 +304,6 @@
 			path = Extentions;
 			sourceTree = "<group>";
 		};
-		874EF943297D0F3700C94233 /* Firebase */ = {
-			isa = PBXGroup;
-			children = (
-				874EF939297CC8B200C94233 /* FireStoreUserManager.swift */,
-				87F53FDF297EA44E00293176 /* FireStoreTransactionManager.swift */,
-				879379E3298B53E600D3A47B /* FireStorePartnerManager.swift */,
-			);
-			path = Firebase;
-			sourceTree = "<group>";
-		};
 		876831C62A67571E007F00A5 /* ShareNumber */ = {
 			isa = PBXGroup;
 			children = (
@@ -349,6 +337,9 @@
 				87402F4229F377D70007320D /* FireStoreUserManaging.swift */,
 				87402F4029F377C40007320D /* FireStoreTransactionManaging.swift */,
 				87402F4629F37B040007320D /* FireStorePartnerManaging.swift */,
+				874EF939297CC8B200C94233 /* FireStoreUserManager.swift */,
+				87F53FDF297EA44E00293176 /* FireStoreTransactionManager.swift */,
+				879379E3298B53E600D3A47B /* FireStorePartnerManager.swift */,
 			);
 			path = FireStore;
 			sourceTree = "<group>";
@@ -392,7 +383,6 @@
 				876831C62A67571E007F00A5 /* ShareNumber */,
 				870A533B2A5A67530082FC22 /* Image */,
 				87D1A05329E770E30058A98F /* Error */,
-				874EF943297D0F3700C94233 /* Firebase */,
 				87ABC57B29907C54003E94F3 /* UserDefaults */,
 			);
 			path = Models;
@@ -896,13 +886,11 @@
 				87F53FE4297EA70B00293176 /* AddTransactionViewModel.swift in Sources */,
 				8737FCEF297E0BF00064E40D /* LaunchStatus.swift in Sources */,
 				8737FCED297E0BEC0064E40D /* UserDefaultsKey.swift in Sources */,
-				8737FCEB297E0BE60064E40D /* FireStoreUserManager.swift in Sources */,
 				87CDAABD297E6ADB00F52887 /* AccountView.swift in Sources */,
 				8737FCEE297E0BEE0064E40D /* UserDefaultsManager.swift in Sources */,
 				87CDAAC1297E8CFC00F52887 /* CommonWalletView.swift in Sources */,
 				8737FCEA297E0BDF0064E40D /* LaunchScreen.swift in Sources */,
 				87830E70297A1AB900184A7C /* SignInTests.swift in Sources */,
-				87F53FE1297EA44E00293176 /* FireStoreTransactionManager.swift in Sources */,
 				87830E7B297A1C6A00184A7C /* ContentView.swift in Sources */,
 				87C162DC2A2ACEA300382061 /* Transaction.swift in Sources */,
 				87CDAAC0297E8CF900F52887 /* AddTransactionView.swift in Sources */,
