@@ -302,7 +302,6 @@
 				87402F4229F377D70007320D /* FireStoreUserManaging.swift */,
 				87402F4029F377C40007320D /* FireStoreTransactionManaging.swift */,
 				87402F4629F37B040007320D /* FireStorePartnerManaging.swift */,
-				87402F4429F378330007320D /* UserDefaultsManaging.swift */,
 				874DBA072A2C1FF8000E1FD1 /* StorageManaging.swift */,
 			);
 			path = Protocol;
@@ -485,6 +484,7 @@
 		87ABC57B29907C54003E94F3 /* UserDefaults */ = {
 			isa = PBXGroup;
 			children = (
+				87402F4429F378330007320D /* UserDefaultsManaging.swift */,
 				874EF93B297CFC3900C94233 /* UserDefaultsManager.swift */,
 				874EF93E297D04DF00C94233 /* UserDefaultsKey.swift */,
 			);
