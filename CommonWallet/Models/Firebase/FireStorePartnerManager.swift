@@ -24,7 +24,7 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
      - Returns: FireStoreで取得したPartner
      */
     func connectPartner(myUserId: String, partnerShareNumber: String) async throws -> Partner {
-        guard let myShareNumber = userDefaultManager.getUser()?.shareNumber else {
+        guard let myShareNumber = userDefaultManager.getMyShareNumber() else {
             throw UserDefaultsError.emptySomeValue
         }
         // partnerShareNumberからpartner情報を取得
@@ -60,7 +60,6 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
         let partner = try await Partner(
             userId: partnerUserId,
             userName: partnerName,
-            modifiedName: partnerName,
             shareNumber: partnerShareNumber,
             iconPath: partnerIconPath,
             iconData: partnerIconData
@@ -116,6 +115,8 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
                     return
                 }
 
+                let myShareNumber = data["partnerShareNumber"] as? String
+
                 // パートナーのIconDataを取得する
                 self.storageManager.download(path: partnerIconPath, completion: { data, error in
 
@@ -127,15 +128,15 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
                         completion(nil, NSError())
                         return
                     }
-                    let modifiedName = userDefaultManager.getPartnerModifiedName()
+                    print(partnerShareNumber)
                     // return処理
                     let partner = Partner(
                         userId: partnerUserId,
                         userName: partnerUserName,
-                        modifiedName: modifiedName,
                         shareNumber: partnerShareNumber,
                         iconPath: partnerIconPath,
-                        iconData: data
+                        iconData: data,
+                        partnerShareNumber: myShareNumber
                     )
                     completion(partner, nil)
                 })

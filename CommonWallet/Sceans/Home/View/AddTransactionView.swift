@@ -28,7 +28,7 @@ struct AddTransactionView: View {
     @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
     @AppStorage(UserDefaultsKey().shareNumber) private var myShareNumber = String()
     @AppStorage(UserDefaultsKey().partnerUserId) private var partnerUserId = String()
-    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
+    @AppStorage(UserDefaultsKey().partnerName) private var partnerName = String()
 
     var body: some View {
         NavigationView {
@@ -98,7 +98,7 @@ struct AddTransactionView: View {
             Picker("", selection: $selectedIndex) {
                 Text(myUserName)
                     .tag(0)
-                Text(partnerModifiedName)
+                Text(partnerName)
                     .tag(1)
             }
             .padding(.horizontal)

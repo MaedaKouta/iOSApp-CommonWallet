@@ -23,7 +23,7 @@ struct EditTransactionView: View {
     @AppStorage(UserDefaultsKey().userId) private var myUserId = String()
     @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
     @AppStorage(UserDefaultsKey().partnerUserId) private var partnerUserId = String()
-    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
+    @AppStorage(UserDefaultsKey().partnerName) private var partnerName = String()
 
     var body: some View {
 
@@ -89,7 +89,7 @@ struct EditTransactionView: View {
             Picker("", selection: $viewModel.selectedIndex) {
                 Text(myUserName)
                     .tag(0)
-                Text(partnerModifiedName)
+                Text(partnerName)
                     .tag(1)
             }
             .padding(.horizontal)

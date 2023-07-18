@@ -14,7 +14,6 @@ struct SettingView: View {
     @AppStorage(UserDefaultsKey().userName) private var myUserName = String()
     @AppStorage(UserDefaultsKey().shareNumber) private var myShareNumber = String()
     @AppStorage(UserDefaultsKey().myIconData) private var myIconData = Data()
-    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
     @AppStorage(UserDefaultsKey().partnerName) private var partnerName = String()
     @AppStorage(UserDefaultsKey().partnerShareNumber) private var partnerShareNumber: String?
     @State private var imageNameProperty = ImageNameProperty()
@@ -146,7 +145,7 @@ struct SettingView: View {
                 NavigationLink(destination: PartnerNameEditView(viewModel: PartnerNameEditViewModel())) {
                     HStack {
                         Text("表示名")
-                        Text(partnerModifiedName)
+                        Text(partnerName)
                             .foregroundColor(.gray)
                             .frame(maxWidth: .infinity, alignment: .trailing)
                     }

@@ -97,7 +97,7 @@ class AccountViewModel: ObservableObject {
         async let _ = fireStoreTransactionManager.updateDebtorNullOnTransactionIds(transactionIds: myDebtorTransactionIds)
 
         // IconImageの削除
-        if let myIconPath = userDefaultsManager.getMyIconImagePath() {
+        if let myIconPath = userDefaultsManager.getMyIconPath() {
             storageManager.deleteImage(path: myIconPath)
         }
 

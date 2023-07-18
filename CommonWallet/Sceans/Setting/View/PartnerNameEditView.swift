@@ -15,7 +15,7 @@ struct PartnerNameEditView: View {
     // キーボード
     @FocusState private var isKeyboardActive: Bool
     // Userdefaults
-    @AppStorage(UserDefaultsKey().partnerModifiedName) private var partnerModifiedName = String()
+    @AppStorage(UserDefaultsKey().partnerName) private var partnerName = String()
     // Alert
     @State private var isEnableComplete: Bool = false
     // PKHUD
@@ -36,7 +36,7 @@ struct PartnerNameEditView: View {
                 Button(action: {
                     isKeyboardActive = false  //  フォーカスを外す
                     let fixedAfterPartnerName = afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines)
-                    partnerModifiedName = fixedAfterPartnerName
+                    partnerName = fixedAfterPartnerName
                     isPKHUDSuccess = true
                     // PKHUD Suceesのアニメーションが1秒経過してから元の画面に戻る
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -68,19 +68,19 @@ struct PartnerNameEditView: View {
         Section {
             HStack {
                 Text("表示名")
-                TextField(partnerModifiedName, text: $afterPartnerName)
+                TextField(partnerName, text: $afterPartnerName)
                     .focused(self.$isKeyboardActive)
                     .onChange(of: afterPartnerName, perform: { newValue in
                         if afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                             isEnableComplete = false
-                        } else if partnerModifiedName == newValue {
+                        } else if partnerName == newValue {
                             isEnableComplete = false
                         } else {
                             isEnableComplete = true
                         }
                     })
                     .onAppear{
-                        afterPartnerName = partnerModifiedName
+                        afterPartnerName = partnerName
                     }
             }
         }

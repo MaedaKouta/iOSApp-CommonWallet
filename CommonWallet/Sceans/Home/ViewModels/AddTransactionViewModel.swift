@@ -23,8 +23,8 @@ class AddTransactionViewModel: ObservableObject {
         self.fireStoreTransactionManager = fireStoreTransactionManager
         self.userDefaultsManager = userDefaultsManager
 
-        myUserId = self.userDefaultsManager.getUser()?.id ?? ""
-        myName = self.userDefaultsManager.getUser()?.name ?? ""
+        myUserId = self.userDefaultsManager.getMyUserId() ?? ""
+        myName = self.userDefaultsManager.getMyUserName() ?? ""
         partnerName = self.userDefaultsManager.getPartnerName() ?? ""
         partnerUserId = self.userDefaultsManager.getPartnerUserId() ?? ""
     }

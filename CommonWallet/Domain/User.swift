@@ -24,4 +24,5 @@ struct User: Codable, Identifiable {
     var oldestResolvedDate: Date? // 精算の最も古い日時
     var partnerShareNumber: String?
 
+    
 }

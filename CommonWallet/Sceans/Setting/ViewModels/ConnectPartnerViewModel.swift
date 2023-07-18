@@ -22,7 +22,7 @@ class ConnectPartnerViewModel: ObservableObject {
      - Parameters partnerShareNumber: 連携させるパートナーの共有番号
          */
     func connectPartner(partnerShareNumber: String) async throws {
-        guard let myUserId = userDefaultsManager.getUser()?.id else {throw NSError()}
+        guard let myUserId = userDefaultsManager.getMyUserId() else {throw NSError()}
         let partner = try await fireStorePartnerManager.connectPartner(myUserId: myUserId, partnerShareNumber: partnerShareNumber)
         userDefaultsManager.setPartner(partner: partner)
     }
