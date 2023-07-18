@@ -68,7 +68,7 @@ struct AllLogView: View {
                             .foregroundColor(Color.black)
                     }
                     .sheet(isPresented: self.$isSettingView) {
-                        SettingView(viewModel: SettingViewModel(userDefaultsManager: UserDefaultsManager()), isShowSettingView: $isSettingView)
+                        SettingView(isShowSettingView: $isSettingView)
                     }
                 }
             )
