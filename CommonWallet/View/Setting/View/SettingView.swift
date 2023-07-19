@@ -47,7 +47,7 @@ struct SettingView: View {
                     }
                 }
             }
-        }
+        }.animation(.default)
     }
 
 
