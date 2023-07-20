@@ -23,6 +23,7 @@ class LaunchViewModel: ObservableObject {
         // 自分の情報定義
         let myUserId = authResult.user.uid
         let createdAt = Date()
+        let partnerName = "パートナー"
         let sampleMyIconPath = "icon-sample-images/sample\(Int.random(in: 1...20)).jpeg"
         let sampleMyIconData = try await storageManager.download(path: sampleMyIconPath)
         let myShareNumber = try await shareNumberManager.createShareNumber()
@@ -31,7 +32,7 @@ class LaunchViewModel: ObservableObject {
         let samplePartnerIconData = try await storageManager.download(path: samplePartnerIconPath)
 
         // FireStoreにアカウント登録
-        try await fireStoreUserManager.createUser(userId: myUserId, userName: myUserName, iconPath: sampleMyIconPath, shareNumber: myShareNumber, createdAt: createdAt)
+        try await fireStoreUserManager.createUser(userId: myUserId, userName: myUserName, iconPath: sampleMyIconPath, shareNumber: myShareNumber, createdAt: createdAt, partnerName: partnerName)
 
         // Userdefaultsに保存
         let user = User(

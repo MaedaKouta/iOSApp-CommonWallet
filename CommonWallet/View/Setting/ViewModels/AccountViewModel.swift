@@ -111,7 +111,7 @@ class AccountViewModel: ObservableObject {
         let shareNumber = try await shareNumberManager.createShareNumber()
 
         // トランザクションにアカウント登録
-        try await fireStoreUserManager.resetUser(userId: myUserId, userName: myUserName, iconPath: sampleMyIconPath, shareNumber: shareNumber)
+        try await fireStoreUserManager.resetUser(userId: myUserId, userName: myUserName, iconPath: sampleMyIconPath, shareNumber: shareNumber, partnerName: partnerUserName)
 
         // Userdefaultsに保存
         userDefaultsManager.clearUser()
