@@ -71,12 +71,6 @@ struct FireStoreUserManager: FireStoreUserManaging {
         try await db.collection("Users").document(userId).setData(iconPath, merge: true)
     }
 
-    func putPartnerName(userId: String, name: String) async throws {
-        let partnerName: Dictionary<String, Any> = ["partnerName": name]
-        try await db.collection("Users").document(userId).setData(partnerName, merge: true)
-    }
-
-
     // MARK: Fetch
     /**
      リアルタイムに自分のUser情報を取得する

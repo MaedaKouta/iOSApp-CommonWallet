@@ -141,7 +141,7 @@ struct SettingView: View {
 
             } else {
 
-                NavigationLink(destination: PartnerNameEditView()) {
+                NavigationLink(destination: PartnerNameEditView(viewModel: PartnerNameEditViewModel(userDefaultsManager: UserDefaultsManager(), fireStorePartnerManager: FireStorePartnerManager()))) {
                     HStack {
                         Text("表示名")
                         Text(partnerName)

@@ -9,6 +9,7 @@ struct PartnerNameEditView: View {
 
     // presentationMode.wrappedValue.dismiss() で画面戻れる
     @Environment(\.presentationMode) var presentationMode
+    @StateObject var viewModel: PartnerNameEditViewModel
 
     @State private var afterPartnerName: String = ""
     // キーボード
@@ -19,6 +20,8 @@ struct PartnerNameEditView: View {
     @State private var isEnableComplete: Bool = false
     // PKHUD
     @State private var isPKHUDSuccess = false
+    @State private var isPKHUDError = false
+    @State private var isPKHUDProgress = false
 
     var body: some View {
 
@@ -29,18 +32,25 @@ struct PartnerNameEditView: View {
         }
         .navigationTitle("パートナーの表示名")
         .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
+        .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: 1.0)
+        .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
         .toolbar {
             /// ナビゲーションバー右
             ToolbarItem(placement: .navigationBarTrailing){
                 Button(action: {
-                    isKeyboardActive = false  //  フォーカスを外す
-                    let fixedAfterPartnerName = afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines)
-                    partnerName = fixedAfterPartnerName
-                    isPKHUDSuccess = true
-                    // PKHUD Suceesのアニメーションが1秒経過してから元の画面に戻る
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                        presentationMode.wrappedValue.dismiss()
+                    Task {
+                        isKeyboardActive = false  //  フォーカスを外す
+                        let fixedAfterPartnerName = afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines)
+                        await updatePartnerName(newName: fixedAfterPartnerName)
                     }
+
+//                    let fixedAfterPartnerName = afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines)
+//                    partnerName = fixedAfterPartnerName
+//                    isPKHUDSuccess = true
+//                    // PKHUD Suceesのアニメーションが1秒経過してから元の画面に戻る
+//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//                        presentationMode.wrappedValue.dismiss()
+//                    }
                 }) {
                     Text("完了")
                 }
@@ -84,10 +94,32 @@ struct PartnerNameEditView: View {
             }
         }
     }
+
+    // MARK: - Logics
+    /**
+     自身のUserNameを更新する.
+     処理中はインジケータを出す.  失敗時エラー表示, 成功時は成功表示後元の画面へ戻る.
+     - Returns: View(Section)
+     */
+    private func updatePartnerName(newName: String) async {
+        isPKHUDProgress = true
+        let isSuccess = await viewModel.changePartnerName(newName: newName)
+        if isSuccess {
+            isPKHUDProgress = false
+            isPKHUDSuccess = true
+            // PKHUD Suceesのアニメーションが1秒経過してから元の画面に戻る
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                presentationMode.wrappedValue.dismiss()
+            }
+        } else {
+            isPKHUDProgress = false
+            isPKHUDError = true
+        }
+    }
 }
 
 struct ChangePartnerNameView_Previews: PreviewProvider {
     static var previews: some View {
-        PartnerNameEditView()
+        PartnerNameEditView(viewModel: PartnerNameEditViewModel(userDefaultsManager: UserDefaultsManager(), fireStorePartnerManager: FireStorePartnerManager()))
     }
 }

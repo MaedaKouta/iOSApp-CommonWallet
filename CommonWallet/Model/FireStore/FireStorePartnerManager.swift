@@ -74,6 +74,14 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
     }
 
     /**
+     パートナーの名前を送信
+     */
+    func putPartnerName(userId: String, name: String) async throws {
+        let partnerName: Dictionary<String, Any> = ["partnerName": name]
+        try await db.collection("Users").document(userId).setData(partnerName, merge: true)
+    }
+
+    /**
      FireStorageからパートナーを削除
      - Description
      - FireStoreのUsersコレクションにて自分とパートナーの "partnerUserId" を空にする
