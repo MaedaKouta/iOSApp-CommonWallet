@@ -43,14 +43,6 @@ struct PartnerNameEditView: View {
                         let fixedAfterPartnerName = afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines)
                         await updatePartnerName(newName: fixedAfterPartnerName)
                     }
-
-//                    let fixedAfterPartnerName = afterPartnerName.trimmingCharacters(in: .whitespacesAndNewlines)
-//                    partnerName = fixedAfterPartnerName
-//                    isPKHUDSuccess = true
-//                    // PKHUD Suceesのアニメーションが1秒経過してから元の画面に戻る
-//                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-//                        presentationMode.wrappedValue.dismiss()
-//                    }
                 }) {
                     Text("完了")
                 }

@@ -11,6 +11,9 @@ struct PartnerInfoView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject var viewModel: PartnerInfoViewModel
 
+    // UserDefaults
+    @AppStorage(UserDefaultsKey().partnerShareNumber) private var partnerShareNumber = String()
+    @AppStorage(UserDefaultsKey().partnerName) private var partnerName = String()
     // Alert
     @State private var isDisconnectAlert = false
     // PKHUD
@@ -18,20 +21,43 @@ struct PartnerInfoView: View {
     @State private var isPKHUDSuccess = false
     @State private var isPKHUDError = false
 
+    @State private var isShareNumberCopyDoneAlert: Bool = false
+
     var body: some View {
         VStack {
 
             List {
                 Section {
-                    HStack {
-                        Text("連携番号")
-                        Spacer()
-                        Text(viewModel.partnerShareNumber)
-                    }
+                    // After tapping: 共有番号のクリップボードコピー, アラート表示
+                    Button(action: {
+                        UIPasteboard.general.string = partnerShareNumber
+                        isShareNumberCopyDoneAlert = true
+                    }, label: {
+                        HStack {
+                            Text("連携番号")
+                                .foregroundColor(.black)
+                                .frame(maxWidth: .infinity, alignment: .leading)
+                            Text(partnerShareNumber.splitBy4Digits(betweenText: " "))
+                                .textSelection(.enabled)
+                                .lineLimit(0)
+                                .minimumScaleFactor(0.5)
+                                .foregroundColor(.gray)
+                            Image(systemName: "square.on.square")
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 16, height: 16)
+                                .foregroundColor(.gray)
+                        }
+                    })
                     HStack {
                         Text("ユーザー名")
-                        Spacer()
-                        Text(viewModel.partnerName)
+                            .foregroundColor(.black)
+                            .frame(maxWidth: .infinity, alignment: .leading)
+                        Text(partnerName)
+                            .textSelection(.enabled)
+                            .lineLimit(0)
+                            .minimumScaleFactor(0.5)
+                            .foregroundColor(.gray)
                     }
                 } header: {
                     Text("パートナー情報")
@@ -57,6 +83,11 @@ struct PartnerInfoView: View {
         .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
         .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
         .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
+        .alert("完了", isPresented: $isShareNumberCopyDoneAlert){
+            Button("OK"){}
+        } message: {
+            Text("クリップボードにコピーしました")
+        }
         .alert("連携解除", isPresented: $isDisconnectAlert){
             Button("キャンセル"){
             }
