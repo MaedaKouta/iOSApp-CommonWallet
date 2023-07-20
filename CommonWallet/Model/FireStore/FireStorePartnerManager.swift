@@ -24,7 +24,8 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
      - Returns: FireStoreで取得したPartner
      */
     func connectPartner(myUserId: String, partnerShareNumber: String) async throws -> User {
-        guard let myShareNumber = userDefaultManager.getMyShareNumber() else {
+        guard let myShareNumber = userDefaultManager.getMyShareNumber(),
+              let myUserName = userDefaultManager.getMyUserName() else {
             throw UserDefaultsError.emptySomeValue
         }
         // partnerShareNumberからpartner情報を取得
@@ -43,6 +44,7 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
             .document(myUserId)
             .setData([
                 "partnerUserId": id,
+                "partnerName": name,
                 "partnerShareNumber": partnerShareNumber,
             ], merge: true)
 
@@ -51,6 +53,7 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
             .document(id)
             .setData([
                 "partnerUserId": myUserId,
+                "partnerName": myUserName,
                 "partnerShareNumber": myShareNumber,
             ], merge: true)
 
@@ -64,10 +67,18 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
             iconPath: iconPath,
             iconData: partnerIconData,
             partnerUserId: myUserId,
-            partnerName: userDefaultManager.getMyUserName(),
+            partnerName: myUserName,
             partnerShareNumber: myShareNumber
         )
         return partnerUser
+    }
+
+    /**
+     パートナーの名前を送信
+     */
+    func putPartnerName(userId: String, name: String) async throws {
+        let partnerName: Dictionary<String, Any> = ["partnerName": name]
+        try await db.collection("Users").document(userId).setData(partnerName, merge: true)
     }
 
     /**
@@ -84,6 +95,7 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
             .document(myUserId)
             .setData([
                 "partnerUserId": FieldValue.delete(),
+                "partnerName": "パートナー",
                 "partnerShareNumber": FieldValue.delete(),
             ], merge: true)
 
@@ -91,6 +103,7 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
             .document(partnerUserId)
             .setData([
                 "partnerUserId": FieldValue.delete(),
+                "partnerName": "パートナー",
                 "partnerShareNumber": FieldValue.delete(),
             ], merge: true)
     }
@@ -115,7 +128,8 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
                       let id = data["id"] as? String,
                       let name = data["name"] as? String,
                       let iconPath = data["iconPath"] as? String,
-                      let shareNumber = data["shareNumber"] as? String else {
+                      let shareNumber = data["shareNumber"] as? String,
+                      let partnerName = data["partnerName"] as? String else {
                     completion(nil, InvalidValueError.unexpectedNullValue)
                     return
                 }
@@ -143,7 +157,7 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
                         iconPath: iconPath,
                         iconData: iconData,
                         partnerUserId: partnerUserId,
-                        partnerName: userDefaultManager.getMyUserName(),
+                        partnerName: partnerName,
                         partnerShareNumber: partnerShareNumber
                     )
                     completion(partnerUser, nil)

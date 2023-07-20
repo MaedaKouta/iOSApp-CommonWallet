@@ -21,5 +21,15 @@ struct User: Codable, Identifiable {
     var partnerUserId: String?
     var partnerName: String?
     var partnerShareNumber: String?
-    
+
+    enum CodingKeys: String, CodingKey {
+        case id
+        case name
+        case shareNumber
+        case iconPath
+        case iconData
+        case partnerUserId
+        case partnerName
+        case partnerShareNumber
+    }
 }

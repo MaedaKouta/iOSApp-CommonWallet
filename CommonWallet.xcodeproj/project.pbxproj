@@ -55,6 +55,7 @@
 		876831C52A667441007F00A5 /* ImageProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876831C42A667441007F00A5 /* ImageProperty.swift */; };
 		876831C72A67573A007F00A5 /* ShareNumberManaging.swift in Sources */ = {isa = PBXBuildFile; fileRef = 871F09EB2A11945000F96394 /* ShareNumberManaging.swift */; };
 		876831D12A675C32007F00A5 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 876831D02A675C32007F00A5 /* Colors.xcassets */; };
+		876831D32A68D51C007F00A5 /* PartnerNameEditViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876831D22A68D51C007F00A5 /* PartnerNameEditViewModel.swift */; };
 		876EE23E2A26AF310073F1C3 /* WebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 876EE23C2A26AF310073F1C3 /* WebViewController.swift */; };
 		876EE23F2A26AF310073F1C3 /* WebViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 876EE23D2A26AF310073F1C3 /* WebViewController.xib */; };
 		8773B4A42A56EDB1003E6306 /* SelectedEditTransaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8773B4A32A56EDB1003E6306 /* SelectedEditTransaction.swift */; };
@@ -168,6 +169,7 @@
 		8753D7312A06201E0074E04A /* EditTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTransactionView.swift; sourceTree = "<group>"; };
 		876831C42A667441007F00A5 /* ImageProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageProperty.swift; sourceTree = "<group>"; };
 		876831D02A675C32007F00A5 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
+		876831D22A68D51C007F00A5 /* PartnerNameEditViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerNameEditViewModel.swift; sourceTree = "<group>"; };
 		876EE23C2A26AF310073F1C3 /* WebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebViewController.swift; sourceTree = "<group>"; };
 		876EE23D2A26AF310073F1C3 /* WebViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = WebViewController.xib; sourceTree = "<group>"; };
 		8773B4A32A56EDB1003E6306 /* SelectedEditTransaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedEditTransaction.swift; sourceTree = "<group>"; };
@@ -469,6 +471,7 @@
 				879379E8298B85E300D3A47B /* AccountViewModel.swift */,
 				879379E6298B5B4E00D3A47B /* ConnectPartnerViewModel.swift */,
 				879379EC298B99C700D3A47B /* PartnerInfoViewModel.swift */,
+				876831D22A68D51C007F00A5 /* PartnerNameEditViewModel.swift */,
 				87E5E9352A2E9880002CF7B2 /* MyNameEditViewModel.swift */,
 			);
 			path = ViewModels;
@@ -866,6 +869,7 @@
 				87C0BADD2A03C52400A02978 /* Flip.swift in Sources */,
 				87EE8D4A297A1369005CCB6F /* CommonWalletApp.swift in Sources */,
 				87C162CB2A2AB93A00382061 /* StorageManager.swift in Sources */,
+				876831D32A68D51C007F00A5 /* PartnerNameEditViewModel.swift in Sources */,
 				87DDCDC72A18342200F51DC8 /* LicenseView.swift in Sources */,
 				87ABC58129908B17003E94F3 /* MainTabView.swift in Sources */,
 				87402F4129F377C40007320D /* FireStoreTransactionManaging.swift in Sources */,

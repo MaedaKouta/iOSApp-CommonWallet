@@ -22,12 +22,13 @@ struct FireStoreUserManager: FireStoreUserManaging {
      - parameter iconPath: アイコンのパス
      - parameter shareNumber: 共有番号
      */
-    func createUser(userId: String, userName: String, iconPath: String, shareNumber: String, createdAt: Date) async throws {
+    func createUser(userId: String, userName: String, iconPath: String, shareNumber: String, createdAt: Date, partnerName: String) async throws {
         let user: Dictionary<String, Any> = ["id": userId,
                                              "name": userName,
                                              "iconPath": iconPath,
                                              "shareNumber": shareNumber,
                                              "createdAt": createdAt,
+                                             "partnerName": partnerName
                                              ]
         try await db.collection("Users").document(userId).setData(user)
     }
@@ -39,11 +40,12 @@ struct FireStoreUserManager: FireStoreUserManaging {
      - parameter iconPath: アイコンのパス
      - parameter shareNumber: 共有番号
      */
-    func resetUser(userId: String, userName: String, iconPath: String, shareNumber: String) async throws {
+    func resetUser(userId: String, userName: String, iconPath: String, shareNumber: String, partnerName: String) async throws {
         let user: Dictionary<String, Any> = ["id": userId,
                                              "name": userName,
                                              "iconPath": iconPath,
                                              "shareNumber": shareNumber,
+                                             "partnerName": partnerName
                                              ]
         try await db.collection("Users").document(userId).setData(user)
     }
@@ -69,7 +71,6 @@ struct FireStoreUserManager: FireStoreUserManaging {
         try await db.collection("Users").document(userId).setData(iconPath, merge: true)
     }
 
-
     // MARK: Fetch
     /**
      リアルタイムに自分のUser情報を取得する
@@ -89,12 +90,14 @@ struct FireStoreUserManager: FireStoreUserManaging {
                   let id = data["id"] as? String,
                   let name = data["name"] as? String,
                   let iconPath = data["iconPath"] as? String,
-                  let shareNumber = data["shareNumber"] as? String else { return }
+                  let shareNumber = data["shareNumber"] as? String,
+                  let partnerName = data["partnerName"] as? String else { return }
 
              let partnerUserId = data["partnerUserId"] as? String
              let partnerShareNumber = data["partnerShareNumber"] as? String
              let iconData = userDefaultsManager.getMyIconData()
 
+            // ここのpartnerNameが古いユーザーネームで更新される
             let user = User(
                 id: id,
                 name: name,
@@ -102,6 +105,7 @@ struct FireStoreUserManager: FireStoreUserManaging {
                 iconPath: iconPath,
                 iconData: iconData,
                 partnerUserId: partnerUserId,
+                partnerName: partnerName,
                 partnerShareNumber: partnerShareNumber
             )
             completion(user, nil)
