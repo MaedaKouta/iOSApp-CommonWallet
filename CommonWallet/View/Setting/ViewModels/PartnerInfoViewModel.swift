@@ -8,18 +8,9 @@ import FirebaseAuth
 
 class PartnerInfoViewModel: ObservableObject {
 
-    private(set) var partnerShareNumber: String = ""
-    private(set) var partnerName: String = ""
-
     private let fireStorePartnerManager = FireStorePartnerManager()
     private var userDefaultsManager = UserDefaultsManager()
     private var storageManager = StorageManager()
-
-
-    init() {
-        partnerShareNumber = userDefaultsManager.getPartnerShareNumber()?.splitBy4Digits(betweenText: " - ") ?? ""
-        partnerName = userDefaultsManager.getPartnerName() ?? ""
-    }
 
     func deletePartner() async throws {
         // パートナー情報の削除
