@@ -24,6 +24,8 @@ struct MyNameEditView: View {
     @State private var isPKHUDError = false
     @State private var isPKHUDProgress = false
 
+    private let maxNamedLength = 8
+
     var body: some View {
 
         VStack {
@@ -75,6 +77,12 @@ struct MyNameEditView: View {
                 TextField(myUserName, text: $newName)
                     .focused(self.$isKeyboardActive)
                     .onChange(of: newName, perform: { newValue in
+
+                        // 8文字以上は入力させない
+                        if newValue.count > maxNamedLength {
+                            newName = String(newName.prefix(maxNamedLength))
+                        }
+
                         if newName.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty {
                             isEnableComplete = false
                         } else if myUserName == newValue {
@@ -87,6 +95,8 @@ struct MyNameEditView: View {
                         newName = myUserName
                     }
             }
+        } footer: {
+            Text("8文字以下で入力してください。")
         }
     }
 
