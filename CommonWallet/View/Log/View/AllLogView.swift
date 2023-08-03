@@ -24,7 +24,6 @@ struct AllLogView: View {
 
         NavigationView {
             VStack {
-
                 ZStack {
 
                     Rectangle()
@@ -34,15 +33,30 @@ struct AllLogView: View {
                         .cornerRadius(20)
 
                     HStack {
-                        Text("合計 \(transactionData.resolvedTransactionsAmountByMonth[transactionData.selectedResolvedPagingIndex])円")
-                            .animation(.default)
-                            .padding()
+                        /*
+                         resolvedTransactionsAmountByMonthが生成される前に
+                         transactionData.resolvedTransactionsAmountByMonth[transactionData.selectedResolvedPagingIndex]
+                         を呼び出すと、index out of range してしまうので、苦肉の策で下記の書き方。
+                        */
+                        if transactionData.selectedResolvedPagingIndex <= transactionData.resolvedTransactionsAmountByMonth.count - 1 {
+                            Text("合計 \(transactionData.resolvedTransactionsAmountByMonth[transactionData.selectedResolvedPagingIndex])円")
+                                .animation(.default)
+                                .padding()
+                        }
                     }
 
                 }.padding()
 
-                PageView(options: pagingOptions, items: transactionData.resolvedPagingIndexItems, selectedIndex: $transactionData.selectedResolvedPagingIndex) { item in
-                    LogListView(viewModel: LogListsViewModel(fireStoreTransactionManager: FireStoreTransactionManager()), itemIndex: item.index)
+
+                /*
+                 resolvedTransactionsAmountByMonthが生成される前に
+                 transactionData.resolvedTransactionsAmountByMonth[transactionData.selectedResolvedPagingIndex]
+                 を呼び出すと、index out of range してしまうので、苦肉の策で下記の書き方。
+                */
+                if transactionData.selectedResolvedPagingIndex <= transactionData.resolvedTransactionsAmountByMonth.count - 1 {
+                    PageView(options: pagingOptions, items: transactionData.resolvedPagingIndexItems, selectedIndex: $transactionData.selectedResolvedPagingIndex) { item in
+                        LogListView(viewModel: LogListsViewModel(fireStoreTransactionManager: FireStoreTransactionManager()), itemIndex: item.index)
+                    }
                 }
             }
             .navigationBarTitle("", displayMode: .inline)
