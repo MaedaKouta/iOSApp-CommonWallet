@@ -60,8 +60,8 @@ struct AccountView: View {
                 await self.uploadIconImage()
             }
         }
-        .alert("リセット", isPresented: $isAccountDeleteAlert){
-            Button("リセット", role: .destructive){
+        .alert("リセット", isPresented: $isAccountDeleteAlert) {
+            Button("リセット", role: .destructive) {
                 Task {
                     await self.clearAccount()
                 }
@@ -89,6 +89,7 @@ struct AccountView: View {
                         .frame(width: 100, height: 100)
                         .cornerRadius(75)
                         .overlay(RoundedRectangle(cornerRadius: 75).stroke(Color.gray, lineWidth: 1))
+                        // TODO: withAnimationに変えよう
                         .animation(.default)
                 })
                 Spacer()
@@ -136,9 +137,7 @@ struct AccountView: View {
         }
     }
 
-
     // MARK: - Logic
-
     /**
      アイコンをアップロードする非同期処理.
      処理中はインジケータを出し, 結果によって成功/失敗PKHUDを表示.
@@ -182,6 +181,8 @@ struct AccountView: View {
 
 struct AccountView_Previews: PreviewProvider {
     static var previews: some View {
-        AccountView(viewModel: AccountViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), fireStoreUserManager: FireStoreUserManager(), userDefaultsManager: UserDefaultsManager(), storageManager: StorageManager(), authManager: AuthManager()))
+        AccountView(
+            viewModel: AccountViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), fireStoreUserManager: FireStoreUserManager(), userDefaultsManager: UserDefaultsManager(), storageManager: StorageManager(), authManager: AuthManager())
+        )
     }
 }

@@ -88,7 +88,7 @@ struct ConnectPartnerView: View {
                         }
                     })
                     // numberrLimit(12文字)入力があった際に完了ボタンを押せる
-                    .onChange(of: inputNumber, perform: { newValue in
+                    .onChange(of: inputNumber, perform: { _ in
                         if inputNumber.trimmingCharacters(in: .whitespacesAndNewlines).count == numberLimit {
                             isEnableComplete = true
                         } else {

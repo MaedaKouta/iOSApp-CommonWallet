@@ -8,7 +8,7 @@ import Foundation
 protocol FireStoreTransactionManaging {
 
     // POST
-    func createTransaction(transactionId: String, creditorId: String?, debtorId: String?,  title: String, description: String, amount: Int) async throws
+    func createTransaction(transactionId: String, creditorId: String?, debtorId: String?, title: String, description: String, amount: Int) async throws
 
     // PUT
     func updateResolvedAt(transactionIds: [String], resolvedAt: Date) async throws

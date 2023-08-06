@@ -9,7 +9,6 @@
  　端末の情報も必要なので、実際のアカウント登録のテストは出来ない？
  */
 
-
 import XCTest
 import FirebaseCore
 @testable import CommonWallet
@@ -41,7 +40,6 @@ final class CreateUserTests: XCTestCase {
         } catch {
             isSuccess = false
         }
-
 
         XCTAssertEqual(isSuccess, false)
     }

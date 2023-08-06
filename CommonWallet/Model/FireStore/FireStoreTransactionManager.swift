@@ -22,8 +22,7 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
      - parameter description: 詳細
      - parameter amount: 金額
      */
-    func createTransaction(transactionId: String, creditorId: String?, debtorId: String?,  title: String, description: String, amount: Int) async throws {
-
+    func createTransaction(transactionId: String, creditorId: String?, debtorId: String?, title: String, description: String, amount: Int) async throws {
         // Firestoreに書き込むデータの作成
         let transaction: Dictionary<String, Any> = ["id": transactionId,
                                                     "creditorId": creditorId ?? "",
@@ -35,7 +34,6 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
                                                     "resolvedAt": NSNull()]
         try await db.collection("Transactions").document(transactionId).setData(transaction)
     }
-
 
     // MARK: - PUT
     /**
@@ -77,7 +75,6 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
         let transaction: Dictionary<String, Any> = ["resolvedAt": NSNull()]
         try await db.collection("Transactions").document(transactionId).setData(transaction, merge: true)
     }
-
 
     /**
      FireStorageのトランザクションを上書きする
@@ -159,7 +156,6 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
         }
     }
 
-
     // MARK: - Delete
     /**
      単一のFireStorageのトランザクションを削除する
@@ -187,7 +183,6 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
         }
     }
 
-
     // MARK: - GET
     /**
      精算済のトランザクションを取得する
@@ -201,7 +196,7 @@ struct FireStoreTransactionManager: FireStoreTransactionManaging {
             .whereFilter(
                 Filter.orFilter([
                     Filter.whereField("creditorId", isEqualTo: myUserId),
-                    Filter.whereField("debtorId", isEqualTo: myUserId),
+                    Filter.whereField("debtorId", isEqualTo: myUserId)
             ]))
             .addSnapshotListener { snapShots, error in
 

@@ -47,7 +47,6 @@ struct AllLogView: View {
 
                 }.padding()
 
-
                 /*
                  resolvedTransactionsAmountByMonthが生成される前に
                  transactionData.resolvedTransactionsAmountByMonth[transactionData.selectedResolvedPagingIndex]

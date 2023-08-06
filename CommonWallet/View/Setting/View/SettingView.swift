@@ -32,8 +32,8 @@ struct SettingView: View {
                 partnerSection()
                 infoSection()
             }
-            .alert("完了", isPresented: $isShareNumberCopyDoneAlert){
-                Button("OK"){}
+            .alert("完了", isPresented: $isShareNumberCopyDoneAlert) {
+                Button("OK") { }
             } message: {
                 Text("クリップボードにコピーしました")
             }
@@ -41,15 +41,16 @@ struct SettingView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 /// ナビゲーションバー左
-                ToolbarItem(placement: .navigationBarTrailing){
+                ToolbarItem(placement: .navigationBarTrailing) {
                     Button(action: {isShowSettingView = false}) {
                         Text("完了")
                     }
                 }
             }
-        }.animation(.default)
+        }
+        // TODO: withAnimationに変えよう
+        .animation(.default)
     }
-
 
     // MARK: - Section
     /**
@@ -63,7 +64,11 @@ struct SettingView: View {
         Section {
 
             // タップ後: AccountViewへNavigation遷移
-            NavigationLink(destination:AccountView(viewModel: AccountViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), fireStoreUserManager: FireStoreUserManager(), userDefaultsManager: UserDefaultsManager(), storageManager: StorageManager(), authManager: AuthManager()))) {
+            NavigationLink(
+                destination: AccountView(
+                    viewModel: AccountViewModel(fireStoreTransactionManager: FireStoreTransactionManager(), fireStoreUserManager: FireStoreUserManager(), userDefaultsManager: UserDefaultsManager(), storageManager: StorageManager(), authManager: AuthManager())
+                )
+            ) {
                 HStack {
                     Image(uiImage: UIImage(data: myIconData) ?? UIImage(named: imageNameProperty.iconNotFound)!)
                         .resizable()
@@ -214,7 +219,6 @@ struct SettingView: View {
         }
     }
 
-
     // MARK: - Cell
     /**
      クリック後, 外部のデフォルトブラウザでリンクを開く
@@ -225,7 +229,7 @@ struct SettingView: View {
      */
     private func openWebOutsideCell(url: URL, text: String) -> some View {
         return Link(destination: url, label: {
-            HStack{
+            HStack {
                 Text(text)
                     .foregroundColor(.black)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -252,7 +256,6 @@ struct SettingView: View {
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
     }
-
 
     /**
      クリック後, NavigationLinkで画面遷移してライセンスを開く

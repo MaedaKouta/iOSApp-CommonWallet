@@ -50,7 +50,6 @@ struct FireStoreUserManager: FireStoreUserManaging {
         try await db.collection("Users").document(userId).setData(user)
     }
 
-
     // MARK: PUT
     /**
      自分のUserNameを更新

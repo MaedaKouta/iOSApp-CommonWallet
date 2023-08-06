@@ -75,7 +75,7 @@ struct LogListView: View {
      精算リストのView
      */
     private func resolvedListView() -> some View {
-        ForEach((0 ..< transactionData.resolvedTransactionsByMonth[itemIndex].count).reversed(),  id: \.self) { index in
+        ForEach((0 ..< transactionData.resolvedTransactionsByMonth[itemIndex].count).reversed(), id: \.self) { index in
 
             HStack {
                 // もし自分が立替者だったら、自分のアイコンを表示
@@ -116,21 +116,21 @@ struct LogListView: View {
                 self.isTransactionDescriptionAlert = true
             }
             .contextMenu {
-                Button() {
+                Button {
                     self.selectedCancelTransactionIndex = index
                     self.isCancelResolvedAlert = true
                 } label: {
                     Label("未清算に戻す", systemImage: imageNameProperty.arrowUturnBackwardCircleSystemImage)
                 }
 
-                Button() {
+                Button {
                     self.selectedDeleteTransactionIndex = index
                     self.isDeleteTransactionAlert = true
                 } label: {
                     Label("削除", systemImage: imageNameProperty.trashFillSystemImage)
                 }
             }
-            .alert("注意", isPresented: $isDeleteTransactionAlert){
+            .alert("注意", isPresented: $isDeleteTransactionAlert) {
                 Button("キャンセル") {
                 }
                 Button("OK") {
@@ -139,7 +139,7 @@ struct LogListView: View {
             } message: {
                 Text("「\(transactionData.resolvedTransactionsByMonth[itemIndex][self.selectedDeleteTransactionIndex].title)」を本当に削除してもよろしいですか？")
             } // alertここまで
-            .alert("戻す", isPresented: $isCancelResolvedAlert){
+            .alert("戻す", isPresented: $isCancelResolvedAlert) {
                 Button("キャンセル") {
                 }
                 Button("OK") {
@@ -162,7 +162,7 @@ struct LogListView: View {
      - parameter transactionId: 削除するトランザクションのID
      */
     private func deleteTransaction(transactionId: String) {
-        Task{
+        Task {
             do {
                 isPKHUDProgress = true
                 // ここでindexを0にしないと、out of range になる
@@ -184,7 +184,7 @@ struct LogListView: View {
      - parameter transactionId: 未清算に戻すトランザクションのID
      */
     private func cancelResolvedTransaction(transactionId: String) {
-        Task{
+        Task {
             do {
                 isPKHUDProgress = true
                 // ここでindexを0にしないと、out of range になる
@@ -221,9 +221,8 @@ struct LogListView: View {
     }
 }
 
-
-//struct LogListsView_Previews: PreviewProvider {
+// struct LogListsView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        LogListView(viewModel: <#T##AllLogViewModel#>, itemIndex: <#T##Int#>)
 //    }
-//}
+// }

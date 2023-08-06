@@ -28,14 +28,12 @@ struct Flip<Front: View, Back: View>: View {
         ZStack {
             if self.canShowFrontView {
                 front()
-            }
-            else {
+            } else {
                 back()
                     .rotation3DEffect(Angle(degrees: 180), axis: (x: 1, y: 0, z: 0))
             }
         }
-        .onChange(of: isFront, perform: {
-            value in
+        .onChange(of: isFront, perform: { value in
             DispatchQueue.main.asyncAfter(deadline: .now() + duration/2.0) {
                 self.canShowFrontView = value
             }

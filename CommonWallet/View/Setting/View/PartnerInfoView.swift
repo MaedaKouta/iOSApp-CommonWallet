@@ -83,15 +83,15 @@ struct PartnerInfoView: View {
         .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
         .PKHUD(isPresented: $isPKHUDSuccess, HUDContent: .success, delay: 1.0)
         .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
-        .alert("完了", isPresented: $isShareNumberCopyDoneAlert){
-            Button("OK"){}
+        .alert("完了", isPresented: $isShareNumberCopyDoneAlert) {
+            Button("OK") { }
         } message: {
             Text("クリップボードにコピーしました")
         }
-        .alert("連携解除", isPresented: $isDisconnectAlert){
-            Button("キャンセル"){
+        .alert("連携解除", isPresented: $isDisconnectAlert) {
+            Button("キャンセル") {
             }
-            Button("OK"){
+            Button("OK") {
                 isPKHUDProgress = true
                 Task {
                     do {

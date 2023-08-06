@@ -29,7 +29,7 @@ final class SignInViewModelTests: XCTestCase {
         let mailAdress = "test@testmail.com"
         let password = "000000"
 
-        await signInViewModel.signIn(email: mailAdress, password: password, complition: { isSuccess, message in
+        await signInViewModel.signIn(email: mailAdress, password: password, complition: { isSuccess, _ in
             XCTAssertEqual(isSuccess, true)
         })
     }

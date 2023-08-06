@@ -26,7 +26,7 @@ protocol UserDefaultsManaging {
     func setPartnerInfo(partnerUserId: String?, partnerName: String, partnerShareNumber: String?, partnerIconPath: String, partnerIconData: Data)
 
     // MARK: - Getter
-    //func getUser() -> User?
+    // func getUser() -> User?
 
     func getMyUserId() -> String?
 
