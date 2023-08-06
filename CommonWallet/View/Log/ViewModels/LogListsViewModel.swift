@@ -30,5 +30,4 @@ class LogListsViewModel: ObservableObject {
         try await fireStoreTransactionManager.deleteTransaction(transactionId: transactionId)
     }
 
-
 }

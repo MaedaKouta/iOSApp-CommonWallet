@@ -8,8 +8,6 @@ import SwiftUI
 
 struct UserDefaultsManager: UserDefaultsManaging {
 
-
-
     internal let userDefaultsKey = UserDefaultsKey()
 
     // MARK: - Setter

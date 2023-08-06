@@ -126,7 +126,9 @@ struct CommonWalletView: View {
                     }
                 }
             )
+
         }
+        // TODO: withAnimationに変えよう
         .animation(.default)
         // フォアグラウンド直前に毎回呼び出される処理
         .onChange(of: scenePhase) { phase in
@@ -153,7 +155,7 @@ struct CommonWalletView: View {
             VStack {
                 Spacer()
                 HStack(spacing: 5) {
-                    if (transactionData.unResolvedAmounts < 0) {
+                    if transactionData.unResolvedAmounts < 0 {
                         Text("\(myUserName)")
                             .foregroundColor(.black)
                         Text("から")
@@ -203,6 +205,7 @@ struct CommonWalletView: View {
                 Spacer()
             }
         }
+        // TODO: withAnimationに変えよう
         .animation(.default)
     }
 
@@ -219,7 +222,7 @@ struct CommonWalletView: View {
                 .foregroundColor(.white)
                 .cornerRadius(30)
 
-            VStack() {
+            VStack {
                 Spacer()
                 HStack {
                     Text("未精算の立て替え総額")
@@ -228,7 +231,7 @@ struct CommonWalletView: View {
                 .foregroundColor(.gray)
                 .padding()
 
-                VStack() {
+                VStack {
                     Text("\(myUserName) ¥\(transactionData.unResolvedMyAmounts)")
                     Text("\(partnerName) ¥\(transactionData.unResolvedPartnerAmounts)")
                 }
@@ -250,6 +253,7 @@ struct CommonWalletView: View {
                 Spacer()
             }
         }
+        // TODO: withAnimationに変えよう
         .animation(.default)
     }
 
@@ -338,10 +342,10 @@ struct CommonWalletView: View {
             .shadow(color: Color.gray, radius: 3, x: 0, y: 0)
         })
         .disabled(!isEnableResolveButton)
-        .alert("精算", isPresented: $isAllResolveAlert){
-            Button("キャンセル"){
+        .alert("精算", isPresented: $isAllResolveAlert) {
+            Button("キャンセル") {
             }
-            Button("OK"){
+            Button("OK") {
                 Task {
                     self.pushResolvedTransaction()
                 }
@@ -355,7 +359,7 @@ struct CommonWalletView: View {
      未精算リストのView
      */
     private func unResolvedListView() -> some View {
-        ForEach(0 ..< transactionData.unResolvedTransactions.count,  id: \.self) { index in
+        ForEach(0 ..< transactionData.unResolvedTransactions.count, id: \.self) { index in
             HStack {
                 // もし自分が立替者だったら、自分のアイコンを表示
                 if transactionData.unResolvedTransactions[index].creditorId == myUserId {
@@ -399,19 +403,19 @@ struct CommonWalletView: View {
                 self.isTransactionDescriptionAlert = true
             }
             .contextMenu {
-                Button() {
+                Button {
                     self.selectedResolveTransactionIndex = index
                     self.isOnlyResolveAlert = true
                 } label: {
                     Label("精算", systemImage: imageNameProperty.checkmarkCircleSystemImage)
                 }
-                Button() {
+                Button {
                     self.selectedEditTransaction.index = index
                     self.isEditTransactionView = true
                 } label: {
                     Label("編集", systemImage: imageNameProperty.pencilSystemImage)
                 }
-                Button() {
+                Button {
                     self.selectedDeleteTransactionIndex = index
                     self.isDeleteTransactionAlert = true
                 } label: {
@@ -419,7 +423,7 @@ struct CommonWalletView: View {
                 }
             }
             // セルをタップで、詳細アラートを表示
-            .alert("\(transactionData.unResolvedTransactions[self.selectedTransactionIndex].title)", isPresented: $isTransactionDescriptionAlert){
+            .alert("\(transactionData.unResolvedTransactions[self.selectedTransactionIndex].title)", isPresented: $isTransactionDescriptionAlert) {
                 Button("OK") {
                 }
             } message: {
@@ -443,7 +447,7 @@ struct CommonWalletView: View {
                         """)
                 }
             } // alertここまで
-            .alert("注意", isPresented: $isDeleteTransactionAlert){
+            .alert("注意", isPresented: $isDeleteTransactionAlert) {
                 Button("キャンセル") {
                 }
                 Button("OK") {
@@ -452,7 +456,7 @@ struct CommonWalletView: View {
             } message: {
                 Text("「\(transactionData.unResolvedTransactions[self.selectedDeleteTransactionIndex].title)」を本当に削除してもよろしいですか？")
             } // alertここまで
-            .alert("精算", isPresented: $isOnlyResolveAlert){
+            .alert("精算", isPresented: $isOnlyResolveAlert) {
                 Button("キャンセル") {
                 }
                 Button("OK") {
@@ -461,7 +465,7 @@ struct CommonWalletView: View {
             } message: {
                 Text("「\(transactionData.unResolvedTransactions[self.selectedResolveTransactionIndex].title)」を精算済にしてもよろしいですか？")
             } // alertここまで
-            .swipeActions(edge: .trailing, allowsFullSwipe: false)  {
+            .swipeActions(edge: .trailing, allowsFullSwipe: false) {
                 Button(role: .none) {
                     self.selectedDeleteTransactionIndex = index
                     self.isDeleteTransactionAlert = true
@@ -514,7 +518,7 @@ struct CommonWalletView: View {
      未精算のトランザクションを精算する
      */
     private func pushResolvedTransaction() {
-        Task{
+        Task {
             do {
                 isPKHUDProgress = true
                 let ids = transactionData.unResolvedTransactions.map { $0.id }
@@ -534,7 +538,7 @@ struct CommonWalletView: View {
      - parameter transactionId: 削除するトランザクションのID
      */
     private func deleteTransaction(transactionId: String) {
-        Task{
+        Task {
             do {
                 isPKHUDProgress = true
                 // ここでindexを0にしないと、out of range になる
@@ -556,7 +560,7 @@ struct CommonWalletView: View {
      - parameter transactionId: 精算するトランザクションのID
      */
     private func updateResolvedTransaction(transactionId: String) {
-        Task{
+        Task {
             do {
                 isPKHUDProgress = true
                 // ここでindexを0にしないと、out of range になる

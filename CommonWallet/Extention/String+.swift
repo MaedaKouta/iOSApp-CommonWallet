@@ -21,7 +21,7 @@ extension String {
      */
     func splitBy4Digits(betweenText: String) -> String {
         let textArray = self.splitInto(4)
-        let splitText = textArray.joined(separator : betweenText)
+        let splitText = textArray.joined(separator: betweenText)
         return splitText
     }
 

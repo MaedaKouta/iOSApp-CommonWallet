@@ -6,9 +6,6 @@
 import Foundation
 import SwiftUI
 
-import UIKit
-import SwiftUI
-
 struct ImagePicker: UIViewControllerRepresentable {
 
     var sourceType: UIImagePickerController.SourceType = .photoLibrary
@@ -40,7 +37,7 @@ struct ImagePicker: UIViewControllerRepresentable {
             self.parent = parent
         }
 
-        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
 
             if let image = info[.editedImage] as? UIImage {
                 parent.selectedImage = image

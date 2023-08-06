@@ -8,15 +8,15 @@ import Firebase
 import FirebaseFirestore
 
 enum FirebaseErrorType: Error {
-    case FireStore(NSError)
-    case FireStorage(NSError)
-    case Auth(NSError)
+    case fireStore(NSError)
+    case fireStorage(NSError)
+    case auth(NSError)
     case other(String)
 }
 
 class FirebaseErrorManager {
 
-    func getAuthErrorMessage(_ error:Error?) -> String {
+    func getAuthErrorMessage(_ error: Error?) -> String {
         if let error = error as NSError? {
             if let errorCode = AuthErrorCode.Code(rawValue: error.code) {
                 switch errorCode {
@@ -40,7 +40,7 @@ class FirebaseErrorManager {
         return "不明なエラー"
     }
 
-    func getFireStoreErrorMessage(_ error:Error?) -> String {
+    func getFireStoreErrorMessage(_ error: Error?) -> String {
         if let error = error as NSError? {
             if let errorCode = FirestoreErrorCode.Code(rawValue: error.code) {
                 switch errorCode {

@@ -36,7 +36,7 @@ struct PartnerNameEditView: View {
         .PKHUD(isPresented: $isPKHUDError, HUDContent: .error, delay: 1.0)
         .toolbar {
             /// ナビゲーションバー右
-            ToolbarItem(placement: .navigationBarTrailing){
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     Task {
                         isKeyboardActive = false  //  フォーカスを外す
@@ -80,7 +80,7 @@ struct PartnerNameEditView: View {
                             isEnableComplete = true
                         }
                     })
-                    .onAppear{
+                    .onAppear {
                         afterPartnerName = partnerName
                     }
             }

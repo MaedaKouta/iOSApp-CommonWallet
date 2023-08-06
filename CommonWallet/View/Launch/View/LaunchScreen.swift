@@ -27,7 +27,7 @@ struct LaunchScreen: View {
     var body: some View {
 
         // 既に匿名ログインが済んでいる場合
-        if let _ = Auth.auth().currentUser?.uid {
+        if Auth.auth().currentUser?.uid != nil {
             if isMainTabViewLoading {
                 ZStack {
                     Color(.white)

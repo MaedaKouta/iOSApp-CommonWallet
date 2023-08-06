@@ -21,7 +21,7 @@ struct PKHUDView: UIViewRepresentable {
     func updateUIView(_ uiView: UIView, context: UIViewRepresentableContext<PKHUDView>) {
         if isPresented {
             HUD.hide()
-            HUD.flash(HUDContent, delay: delay) { finished in
+            HUD.flash(HUDContent, delay: delay) { _ in
                 isPresented = false
             }
         } else {

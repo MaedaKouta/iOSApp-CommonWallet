@@ -13,7 +13,6 @@ class ConnectPartnerViewModel: ObservableObject {
     private let userDefaultsManager: UserDefaultsManaging
     private let imageProperty = ImageProperty()
 
-
     init(fireStorePartnerManager: FireStorePartnerManaging, userDefaultsManager: UserDefaultsManaging) {
         self.fireStorePartnerManager = fireStorePartnerManager
         self.userDefaultsManager = userDefaultsManager

@@ -39,20 +39,18 @@ struct StorageManager: StorageManaging {
 
         let uploadTask = imageRef.putData(imageData, metadata: metadata)
 
-        uploadTask.observe(.success) { snapshot in
+        uploadTask.observe(.success) { _ in
             completion(path, nil)
         }
 
         uploadTask.observe(.failure) { snapshot in
             print("StorageManager: image upload failure!")
             if let error = snapshot.error as? NSError {
-                switch (StorageErrorCode(rawValue: error.code)!) {
+                switch StorageErrorCode(rawValue: error.code)! {
                 case .objectNotFound:
                     completion(nil, StorageError.objectNotFound("画像が見つかりません。"))
-                    break
                 default:
-                    completion(nil,  StorageError.unknown("予期せぬエラーが発生しました。"))
-                    break
+                    completion(nil, StorageError.unknown("予期せぬエラーが発生しました。"))
                 }
             } else {
                 completion(nil, StorageError.unknown("予期せぬエラーが発生しました。"))
@@ -112,7 +110,7 @@ struct StorageManager: StorageManaging {
         let imageRef = reference.child(path)
         imageRef.delete { error in
             if error != nil {
-                print("StorageManager: delete error occurred!", error)
+                print("StorageManager: delete error occurred!")
             }
         }
     }

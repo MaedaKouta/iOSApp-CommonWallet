@@ -52,13 +52,13 @@ struct AddTransactionView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     // ナビゲーションバー左
-                    ToolbarItem(placement: .navigationBarLeading){
+                    ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {isAddTransactionView = false}) {
                             Text("キャンセル")
                         }
                     }
                     // ナビゲーションバー右
-                    ToolbarItem(placement: .navigationBarTrailing){
+                    ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
                             isKeyboardActive = false  //  フォーカスを外す
                             let submitTitle = title.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -90,7 +90,6 @@ struct AddTransactionView: View {
         .PKHUD(isPresented: $isPKHUDError, HUDContent: .labeledError(title: nil, subtitle: "エラー"), delay: 0.7)
     }
 
-
     // MARK: - Views
     private func creditorInputView() -> some View {
         VStack(alignment: .leading, spacing: 3) {
@@ -115,7 +114,7 @@ struct AddTransactionView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
                 .focused($isKeyboardActive)
-                .onChange(of: title, perform: { newValue in
+                .onChange(of: title, perform: { _ in
                     self.checkEnableComplete()
                 })
         }
@@ -131,7 +130,7 @@ struct AddTransactionView: View {
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
                 .focused($isKeyboardActive)
-                .onChange(of: amount, perform: { newValue in
+                .onChange(of: amount, perform: { _ in
                     self.checkEnableComplete()
                 })
         }
@@ -157,13 +156,12 @@ struct AddTransactionView: View {
         }
     }
 
-
-    // MARK: -Logics
+    // MARK: Logics
     private func checkEnableComplete() {
         let submitTitle = title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty
         let submitAmount = amount
 
-        if (submitTitle.description.isEmpty == true || submitAmount == nil) {
+        if submitTitle.description.isEmpty == true || submitAmount == nil {
             isEnableComplete = false
         } else {
             isEnableComplete = true
@@ -171,7 +169,7 @@ struct AddTransactionView: View {
     }
 
     private func addTransaction(creditorId: String?, debtorId: String?, title: String, description: String, amount: Int) {
-        Task{
+        Task {
             isPKHUDProgress = true
             let result = try await addTransactionViewModel.addTransaction(myShareNumber: myShareNumber, creditorId: creditorId, debtorId: debtorId, title: title, description: description, amount: amount)
 
@@ -180,20 +178,18 @@ struct AddTransactionView: View {
                 isPKHUDProgress = false
                 isPKHUDSuccess = true
                 self.isAddTransactionView = false
-                break
             case .failure(let error):
                 print(#function, error)
                 isPKHUDProgress = false
                 isPKHUDError = true
-                break
             }
         }
     }
 
 }
 
-//struct AddPaymentView_Previews: PreviewProvider {
+// struct AddPaymentView_Previews: PreviewProvider {
 //    static var previews: some View {
 //        AddPaymentView(isAddPaymentView: Binding<true>)
 //    }
-//}
+// }

@@ -77,18 +77,18 @@ class AccountViewModel: ObservableObject {
         // トランザクションの削除
         // パートナーが空の場合、そのトランザションは削除
         let userNullTransactionIds = transactions
-            .filter{
+            .filter {
                 ($0.debtorId == myUserId && $0.creditorId == "") ||
                 ($0.debtorId == "" && $0.creditorId == myUserId)
             }
             .map { $0.id }
         // creditorIdに自分のIdが含まれていて、パートナーが存在する場合は、そこをnullにしてアップデート
         let myCreditorTransactionIds = transactions
-            .filter{ ($0.creditorId == myUserId && $0.debtorId != "") }
+            .filter { ($0.creditorId == myUserId && $0.debtorId != "") }
             .map { $0.id }
         // debtorIdに自分のIdが含まれていて、パートナーが存在する場合は、そこをnullにしてアップデート
         let myDebtorTransactionIds = transactions
-            .filter{ ($0.debtorId == myUserId && $0.creditorId != "") }
+            .filter { ($0.debtorId == myUserId && $0.creditorId != "") }
             .map { $0.id }
 
         // ここは非同期で並列処理。関数を抜けるまでには必ず処理される。
@@ -129,7 +129,6 @@ class AccountViewModel: ObservableObject {
         userDefaultsManager.setUser(user: user)
         userDefaultsManager.setPartnerIcon(path: samplePartnerIconPath, imageData: samplePartnerIconData)
     }
-
 
     // async
     private func uploadIconAsync(imageData: Data) async throws -> String {

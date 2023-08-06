@@ -11,7 +11,7 @@ struct User: Codable, Identifiable {
 
     // TODO: @DocumentID付けときたい
     // @DocumentID var id : String? = UUID().uuidString
-    var id : String
+    var id: String
     var name: String
     var shareNumber: String // 共有番号
     var iconPath: String // アイコンのパス情報

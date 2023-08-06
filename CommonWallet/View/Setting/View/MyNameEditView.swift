@@ -39,7 +39,7 @@ struct MyNameEditView: View {
         .PKHUD(isPresented: $isPKHUDProgress, HUDContent: .progress, delay: .infinity)
         .toolbar {
             /// ナビゲーションバー右
-            ToolbarItem(placement: .navigationBarTrailing){
+            ToolbarItem(placement: .navigationBarTrailing) {
                 Button(action: {
                     Task {
                         isKeyboardActive = false  //  フォーカスを外す
@@ -61,7 +61,6 @@ struct MyNameEditView: View {
 
         }
     }
-
 
     // MARK: - Sections
     /**
@@ -100,7 +99,6 @@ struct MyNameEditView: View {
         }
     }
 
-
     // MARK: - Logics
     /**
      自身のUserNameを更新する.
@@ -129,4 +127,3 @@ struct MyNameEditView_Previews: PreviewProvider {
         MyNameEditView(viewModel: MyNameEditViewModel(userDefaultsManager: UserDefaultsManager(), fireStoreUserManager: FireStoreUserManager()))
     }
 }
-

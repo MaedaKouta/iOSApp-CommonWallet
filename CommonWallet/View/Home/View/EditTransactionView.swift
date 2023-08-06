@@ -49,14 +49,14 @@ struct EditTransactionView: View {
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     /// ナビゲーションバー左
-                    ToolbarItem(placement: .navigationBarLeading){
+                    ToolbarItem(placement: .navigationBarLeading) {
                         Button(action: {isEditTransactionView = false}) {
                             Text("キャンセル")
                         }
                     }
 
                     // ナビゲーションバー右
-                    ToolbarItem(placement: .navigationBarTrailing){
+                    ToolbarItem(placement: .navigationBarTrailing) {
                         Button(action: {
                             isKeyboardActive = false  //  フォーカスを外す
                             updateTransaction()
@@ -81,7 +81,6 @@ struct EditTransactionView: View {
         .PKHUD(isPresented: $isPKHUDError, HUDContent: .labeledError(title: nil, subtitle: "エラー"), delay: 0.7)
     }
 
-
     // MARK: - Views
     private func creditorInputView() -> some View {
         VStack(alignment: .leading, spacing: 3) {
@@ -94,7 +93,7 @@ struct EditTransactionView: View {
             }
             .padding(.horizontal)
             .pickerStyle(SegmentedPickerStyle())
-            .onChange(of: viewModel.selectedIndex, perform: { newValue in
+            .onChange(of: viewModel.selectedIndex, perform: { _ in
                 if viewModel.selectedIndex == 0 {
                     viewModel.newTransaction.creditorId = myUserId
                     viewModel.newTransaction.debtorId = partnerUserId
@@ -115,7 +114,7 @@ struct EditTransactionView: View {
                 .focused(self.$isKeyboardActive)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
-                .onChange(of: viewModel.newTransaction.title, perform: { newValue in
+                .onChange(of: viewModel.newTransaction.title, perform: { _ in
                     self.checkEnableComplete()
                 })
         }
@@ -130,7 +129,7 @@ struct EditTransactionView: View {
                 .keyboardType(.numberPad)
                 .textFieldStyle(RoundedBorderTextFieldStyle())
                 .padding(.horizontal)
-                .onChange(of: viewModel.newTransaction.amount, perform: { newValue in
+                .onChange(of: viewModel.newTransaction.amount, perform: { _ in
                     self.checkEnableComplete()
                 })
         }
@@ -146,7 +145,7 @@ struct EditTransactionView: View {
                     .focused(self.$isKeyboardActive)
                     .frame(height: 100)
                     .overlay(RoundedRectangle(cornerRadius: 5).stroke(Color(uiColor: .systemGray5), lineWidth: 1))
-                    .onChange(of: viewModel.newTransaction.description, perform: { newValue in
+                    .onChange(of: viewModel.newTransaction.description, perform: { _ in
                         self.checkEnableComplete()
                     })
                 if viewModel.newTransaction.description.isEmpty {
@@ -159,8 +158,7 @@ struct EditTransactionView: View {
         }
     }
 
-
-    // MARK: -Logics
+    // MARK: - Logics
     private func checkEnableComplete() {
         let submitCreditorId = viewModel.newTransaction.creditorId
         let submitTitle = viewModel.newTransaction.title.trimmingCharacters(in: .whitespacesAndNewlines)
@@ -168,11 +166,11 @@ struct EditTransactionView: View {
         let submitAmount = viewModel.newTransaction.amount
 
         // タイトルと金額が空ではない&&タイトルと金額と詳細のいずれかが前の値と違う
-        if (submitTitle.description.isEmpty != true && submitAmount.description.isEmpty != true) {
-            if (submitCreditorId != viewModel.beforeTransaction.creditorId ||
-                submitTitle != viewModel.beforeTransaction.title ||
-                submitDescription != viewModel.beforeTransaction.description ||
-                submitAmount != viewModel.beforeTransaction.amount) {
+        if submitTitle.description.isEmpty != true && submitAmount.description.isEmpty != true {
+            if submitCreditorId != viewModel.beforeTransaction.creditorId ||
+               submitTitle != viewModel.beforeTransaction.title ||
+               submitDescription != viewModel.beforeTransaction.description ||
+               submitAmount != viewModel.beforeTransaction.amount {
                 isEnableComplete = true
             } else {
                 isEnableComplete = false
@@ -192,14 +190,11 @@ struct EditTransactionView: View {
                 isPKHUDProgress = false
                 isPKHUDSuccess = true
                 self.isEditTransactionView = false
-                break
             case .failure(let error):
                 print(#function, error)
                 isPKHUDProgress = false
                 isPKHUDError = true
-                break
             }
         }
     }
-
 }

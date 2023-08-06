@@ -45,7 +45,7 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
             .setData([
                 "partnerUserId": id,
                 "partnerName": name,
-                "partnerShareNumber": partnerShareNumber,
+                "partnerShareNumber": partnerShareNumber
             ], merge: true)
 
         // 非同期2: 相手のPartnerIdに自分のUserIdを入れる
@@ -54,7 +54,7 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
             .setData([
                 "partnerUserId": myUserId,
                 "partnerName": myUserName,
-                "partnerShareNumber": myShareNumber,
+                "partnerShareNumber": myShareNumber
             ], merge: true)
 
         // 非同期3: PartnerIconDataを取得
@@ -96,7 +96,7 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
             .setData([
                 "partnerUserId": FieldValue.delete(),
                 "partnerName": "パートナー",
-                "partnerShareNumber": FieldValue.delete(),
+                "partnerShareNumber": FieldValue.delete()
             ], merge: true)
 
         async let _ = db.collection("Users")
@@ -104,7 +104,7 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
             .setData([
                 "partnerUserId": FieldValue.delete(),
                 "partnerName": "パートナー",
-                "partnerShareNumber": FieldValue.delete(),
+                "partnerShareNumber": FieldValue.delete()
             ], merge: true)
     }
 
@@ -165,4 +165,3 @@ struct FireStorePartnerManager: FireStorePartnerManaging {
             }
     }
 }
-
