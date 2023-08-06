@@ -69,6 +69,7 @@
 		878CEE012A7FB9370019971E /* FirebaseCrashlytics in Frameworks */ = {isa = PBXBuildFile; productRef = 878CEE002A7FB9370019971E /* FirebaseCrashlytics */; };
 		878CEE032A7FB9370019971E /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = 878CEE022A7FB9370019971E /* FirebaseFirestore */; };
 		878CEE052A7FB9370019971E /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 878CEE042A7FB9370019971E /* FirebaseStorage */; };
+		878CEE082A7FBFEC0019971E /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 878CEE072A7FBFEC0019971E /* Settings.bundle */; };
 		879310242A2FF28200FDD061 /* ImageNameProperty.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879310232A2FF28200FDD061 /* ImageNameProperty.swift */; };
 		879379E0298B444500D3A47B /* ConnectPartnerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379DF298B444500D3A47B /* ConnectPartnerView.swift */; };
 		879379E2298B4C8D00D3A47B /* PartnerNameEditView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 879379E1298B4C8D00D3A47B /* PartnerNameEditView.swift */; };
@@ -182,6 +183,7 @@
 		878C9A942991CB2C003D4816 /* DateCompare.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCompare.swift; sourceTree = "<group>"; };
 		878C9A962991D3E6003D4816 /* DateFormatter+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "DateFormatter+.swift"; sourceTree = "<group>"; };
 		878CEDF52A7F716F0019971E /* .swiftlint.yml */ = {isa = PBXFileReference; lastKnownFileType = text.yaml; path = .swiftlint.yml; sourceTree = "<group>"; };
+		878CEE072A7FBFEC0019971E /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		879310232A2FF28200FDD061 /* ImageNameProperty.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageNameProperty.swift; sourceTree = "<group>"; };
 		879379DF298B444500D3A47B /* ConnectPartnerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectPartnerView.swift; sourceTree = "<group>"; };
 		879379E1298B4C8D00D3A47B /* PartnerNameEditView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PartnerNameEditView.swift; sourceTree = "<group>"; };
@@ -597,6 +599,7 @@
 		87EE8D3D297A1369005CCB6F = {
 			isa = PBXGroup;
 			children = (
+				878CEE072A7FBFEC0019971E /* Settings.bundle */,
 				878CEDF52A7F716F0019971E /* .swiftlint.yml */,
 				87EE8D7C297A1790005CCB6F /* AppDelegate.swift */,
 				87EE8D48297A1369005CCB6F /* CommonWallet */,
@@ -673,7 +676,10 @@
 				87EE8D44297A1369005CCB6F /* Resources */,
 				878CEDEE2A7F69730019971E /* SwiftLint */,
 				878CEDF82A7FB31E0019971E /* Mockolo */,
-				878CEE062A7FB97A0019971E /* ShellScript */,
+				878CEE062A7FB97A0019971E /* Crashlytics
+ 
+ */,
+				8718805F2A7FDB7C0006F9AE /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -793,6 +799,7 @@
 				87EE8D4E297A136A005CCB6F /* Images.xcassets in Resources */,
 				874EF932297CB4C600C94233 /* GoogleService-Info.plist in Resources */,
 				876EE23F2A26AF310073F1C3 /* WebViewController.xib in Resources */,
+				878CEE082A7FBFEC0019971E /* Settings.bundle in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -814,6 +821,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		8718805F2A7FDB7C0006F9AE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if [ $CONFIGURATION = \"Debug\" ]; then\ncd $SRCROOT\n/usr/local/bin/license-plist --output-path $PRODUCT_NAME/Settings.bundle\nfi\n";
+		};
 		878CEDEE2A7F69730019971E /* SwiftLint */ = {
 			isa = PBXShellScriptBuildPhase;
 			alwaysOutOfDate = 1;
@@ -852,7 +876,9 @@
 			shellPath = /bin/sh;
 			shellScript = "if which mockolo >/dev/null; then\n  rm -f $SRCROOT/MockResults.swift\n  mockolo --sourcedirs $SRCROOT/CommonWallet --destination $SRCROOT/MockResults.swift\nelse\n  echo \"warning: Mockolo not installed, download from https://github.com/uber/mockolo\"\nfi\n";
 		};
-		878CEE062A7FB97A0019971E /* ShellScript */ = {
+		878CEE062A7FB97A0019971E /* Crashlytics
+ 
+ */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -863,6 +889,7 @@
 				"${DWARF_DSYM_FOLDER_PATH}/${DWARF_DSYM_FILE_NAME}/Contents/Resources/DWARF/${TARGET_NAME}",
 				"$(SRCROOT)/$(BUILT_PRODUCTS_DIR)/$(INFOPLIST_PATH)",
 			);
+			name = "Crashlytics\n \n";
 			outputFileListPaths = (
 			);
 			outputPaths = (

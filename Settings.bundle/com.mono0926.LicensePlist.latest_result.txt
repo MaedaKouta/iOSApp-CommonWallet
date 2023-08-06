@@ -1,0 +1,31 @@
+name: abseil-cpp-binary, nameSpecified: abseil, owner: google, version: 1.2022062300.0, source: https://github.com/google/abseil-cpp-binary
+
+name: firebase-ios-sdk, nameSpecified: Firebase, owner: firebase, version: 10.11.0, source: https://github.com/firebase/firebase-ios-sdk
+
+name: GoogleAppMeasurement, nameSpecified: GoogleAppMeasurement, owner: google, version: 10.11.0, source: https://github.com/google/GoogleAppMeasurement
+
+name: GoogleDataTransport, nameSpecified: GoogleDataTransport, owner: google, version: 9.2.0, source: https://github.com/google/GoogleDataTransport
+
+name: GoogleUtilities, nameSpecified: GoogleUtilities, owner: google, version: 7.11.0, source: https://github.com/google/GoogleUtilities
+
+name: grpc-binary, nameSpecified: gRPC, owner: google, version: 1.50.1, source: https://github.com/google/grpc-binary
+
+name: gtm-session-fetcher, nameSpecified: gtm-session-fetcher, owner: google, version: 3.1.0, source: https://github.com/google/gtm-session-fetcher
+
+name: leveldb, nameSpecified: leveldb, owner: firebase, version: 1.22.2, source: https://github.com/firebase/leveldb
+
+name: nanopb, nameSpecified: nanopb, owner: firebase, version: 2.30909.0, source: https://github.com/firebase/nanopb
+
+name: Parchment, nameSpecified: Parchment, owner: rechsteiner, version: , source: https://github.com/rechsteiner/Parchment
+
+name: PKHUD, nameSpecified: PKHUD, owner: pkluz, version: 5.4.0, source: https://github.com/pkluz/PKHUD
+
+name: promises, nameSpecified: Promises, owner: google, version: 2.1.1, source: https://github.com/google/promises
+
+name: swift-protobuf, nameSpecified: SwiftProtobuf, owner: apple, version: 1.20.3, source: https://github.com/apple/swift-protobuf
+
+name: ViewInspector, nameSpecified: ViewInspector, owner: nalexn, version: , source: https://github.com/nalexn/ViewInspector
+
+add-version-numbers: false
+
+LicensePlist Version: 3.24.10
