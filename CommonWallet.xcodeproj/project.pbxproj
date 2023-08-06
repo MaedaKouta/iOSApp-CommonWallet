@@ -671,7 +671,8 @@
 				87EE8D42297A1369005CCB6F /* Sources */,
 				87EE8D43297A1369005CCB6F /* Frameworks */,
 				87EE8D44297A1369005CCB6F /* Resources */,
-				878CEDEE2A7F69730019971E /* ShellScript */,
+				878CEDEE2A7F69730019971E /* SwiftLint */,
+				878CEDF82A7FB31E0019971E /* Mockolo */,
 			);
 			buildRules = (
 			);
@@ -812,7 +813,26 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		878CEDEE2A7F69730019971E /* ShellScript */ = {
+		878CEDEE2A7F69730019971E /* SwiftLint */ = {
+			isa = PBXShellScriptBuildPhase;
+			alwaysOutOfDate = 1;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			name = SwiftLint;
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if test -d /opt/homebrew/bin; then\n    PATH=/opt/homebrew/bin/:$PATH\nfi\n\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+		};
+		878CEDF82A7FB31E0019971E /* Mockolo */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -821,13 +841,15 @@
 			);
 			inputPaths = (
 			);
+			name = Mockolo;
 			outputFileListPaths = (
 			);
 			outputPaths = (
+				$SRCROOT/MockResults.swift,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "if test -d /opt/homebrew/bin; then\n    PATH=/opt/homebrew/bin/:$PATH\nfi\n\nif which swiftlint >/dev/null; then\n    swiftlint\nelse\n    echo \"warning: SwiftLint not installed, download from https://github.com/realm/SwiftLint\"\nfi\n";
+			shellScript = "if which mockolo >/dev/null; then\n  rm -f $SRCROOT/MockResults.swift\n  mockolo --sourcedirs $SRCROOT/CommonWallet --destination $SRCROOT/MockResults.swift\nelse\n  echo \"warning: Mockolo not installed, download from https://github.com/uber/mockolo\"\nfi\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
