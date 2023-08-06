@@ -203,8 +203,6 @@ struct SettingView: View {
                 openWebInsideCell(url: url, text: "プライバシーポリシー")
             }
 
-            openLicenseCell()
-
             if let version = Bundle.main.object(forInfoDictionaryKey: "CFBundleShortVersionString") as? String {
                 HStack {
                     Text("バージョン")
@@ -252,18 +250,6 @@ struct SettingView: View {
     private func openWebInsideCell(url: URL, text: String) -> some View {
         NavigationLink(destination: WebView(url: url)) {
             Text(text)
-                .foregroundColor(.black)
-                .frame(maxWidth: .infinity, alignment: .leading)
-        }
-    }
-
-    /**
-     クリック後, NavigationLinkで画面遷移してライセンスを開く
-     - Returns: View(Cell)
-     */
-    private func openLicenseCell() -> some View {
-        NavigationLink(destination: LicenseView() ) {
-            Text("ライセンス")
                 .foregroundColor(.black)
                 .frame(maxWidth: .infinity, alignment: .leading)
         }
